@@ -115,10 +115,19 @@ class HDSHealthKitBridge {
       case "F":
         return HKBiologicalSex.Female
       case "UN":
-        return HKBiologicalSex.Other
+        if #available(iOS 8.2, *) {
+            return HKBiologicalSex.Other
+        } else {
+            // Fallback on earlier versions
+          print("Gender for code: \(genderCode) not supported on this version of iOS")
+        }
       default:
         print("Indeterminate biological gender for code: \(genderCode)")
-        return HKBiologicalSex.Other
+        if #available(iOS 8.2, *) {
+            return HKBiologicalSex.Other
+        } else {
+            // Fallback on earlier versions
+        }
       }
     }
     return HKBiologicalSex.NotSet
@@ -484,8 +493,20 @@ class HDSHKRecord: CustomStringConvertible {
     
     for sample in healthKitSamples {
       
+      
+      if #available(iOS 9.0, *) {
       switch sample.sampleType.identifier {
-      case HKQuantityTypeIdentifierBodyMassIndex, HKQuantityTypeIdentifierBodyFatPercentage, HKQuantityTypeIdentifierHeight, HKQuantityTypeIdentifierBodyMass, HKQuantityTypeIdentifierLeanBodyMass, HKQuantityTypeIdentifierHeartRate, HKQuantityTypeIdentifierBodyTemperature, HKQuantityTypeIdentifierBasalBodyTemperature, HKQuantityTypeIdentifierBloodPressureSystolic, HKQuantityTypeIdentifierBloodPressureDiastolic, HKQuantityTypeIdentifierRespiratoryRate
+        case HKQuantityTypeIdentifierBasalBodyTemperature:
+        let entry = HDSVitalSign()
+        setHDSDataFromSample(sample, forEntry: entry)
+        aRecord.vital_signs.append(entry)
+      default:
+        break
+        }
+      }
+    
+      switch sample.sampleType.identifier {
+      case HKQuantityTypeIdentifierBodyMassIndex, HKQuantityTypeIdentifierBodyFatPercentage, HKQuantityTypeIdentifierHeight, HKQuantityTypeIdentifierBodyMass, HKQuantityTypeIdentifierLeanBodyMass, HKQuantityTypeIdentifierHeartRate, HKQuantityTypeIdentifierBodyTemperature, HKQuantityTypeIdentifierBloodPressureSystolic, HKQuantityTypeIdentifierBloodPressureDiastolic, HKQuantityTypeIdentifierRespiratoryRate
 :
         let entry = HDSVitalSign()
         setHDSDataFromSample(sample, forEntry: entry)
