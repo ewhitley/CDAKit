@@ -10,15 +10,15 @@ import Foundation
 import Mustache
 
 
-class HDSExport {
+public class HDSExport {
   
-  enum HDSExportFormat: String {
+  public enum HDSExportFormat: String {
     case ccda  = "ccda"
     case c32 = "c32"
   }
   
 
-  class func export(patientRecord record: HDSRecord, inFormat format: HDSExportFormat) -> String {
+  public class func export(patientRecord record: HDSRecord, inFormat format: HDSExportFormat) -> String {
     
     var rendering = ""
     

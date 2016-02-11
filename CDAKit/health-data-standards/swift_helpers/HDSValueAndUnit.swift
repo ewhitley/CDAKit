@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct HDSValueAndUnit {
+public struct HDSValueAndUnit {
   var value: Double?
   var unit: String?
 }

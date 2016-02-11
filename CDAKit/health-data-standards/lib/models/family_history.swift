@@ -8,12 +8,12 @@
 
 import Foundation
 
-class HDSFamilyHistory: HDSEntry {
+public class HDSFamilyHistory: HDSEntry {
   
   //field :relationshipToPatient, as: :relationship_to_patient, type: Hash
-  var relationshipToPatient = [String:String]()
+  public var relationshipToPatient = [String:String]()
   
   //field :onsetAge, as: :onset_age, type: Hash
-  var onsetAge = [String:String]()
+  public var onsetAge = [String:String]()
     
 }

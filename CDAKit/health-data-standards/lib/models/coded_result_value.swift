@@ -8,12 +8,12 @@
 
 import Foundation
 
-class HDSCodedResultValue: HDSResultValue, HDSThingWithCodes {
-  var item_description: String?
-  var codes: HDSCodedEntries = HDSCodedEntries()
+public class HDSCodedResultValue: HDSResultValue, HDSThingWithCodes {
+  public var item_description: String?
+  public var codes: HDSCodedEntries = HDSCodedEntries()
 //  var codes: [String:Any] = [String:Any]()
   
-  override var description: String {
+  override public var description: String {
     return "\(self.dynamicType) => attributes: \(attributes), time: \(time), start_time: \(start_time), end_time: \(end_time), item_description: \(item_description), codes: \(codes)"
   }
 

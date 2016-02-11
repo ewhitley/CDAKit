@@ -9,15 +9,15 @@
 import Foundation
 import Mustache
 
-class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatable, CustomStringConvertible {
+public class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatable, CustomStringConvertible {
   
   //  include HDSPersonable
-  var title: String?
-  var given_name: String?
-  var family_name: String?
+  public var title: String?
+  public var given_name: String?
+  public var family_name: String?
   
-  var addresses: [HDSAddress] = [HDSAddress]()
-  var telecoms: [HDSTelecom] = [HDSTelecom]()
+  public var addresses: [HDSAddress] = [HDSAddress]()
+  public var telecoms: [HDSTelecom] = [HDSTelecom]()
 
   //  include Mongoid::Tree
   //  include Mongoid::Attributes::Dynamic
@@ -29,18 +29,18 @@ class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatable, Cust
 
   static let TAX_ID_OID = "2.16.840.1.113883.4.2"
   
-  var specialty: String?
-  var phone: String?
+  public var specialty: String?
+  public var phone: String?
   
-  var organization: HDSOrganization?
+  public var organization: HDSOrganization?
   
-  var cda_identifiers: [HDSCDAIdentifier] = [HDSCDAIdentifier]()
+  public var cda_identifiers: [HDSCDAIdentifier] = [HDSCDAIdentifier]()
   
-  init() {
+  public init() {
     HDSProviders.append(self) //INSTANCE WORK-AROUND
   }
   
-  required init(event: [String:Any?]) {
+  required public init(event: [String:Any?]) {
     initFromEventList(event)
     HDSProviders.append(self) //INSTANCE WORK-AROUND
   }
@@ -73,7 +73,7 @@ class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatable, Cust
   // Update the CDA identifier references for NPI
   // NOTE there are actually two ways to refer to NPI (two OIDs)
   // please refer to the provider importer and tests for examples where this occurs
-  var npi : String? {
+  public var npi : String? {
     get {
       let cda_id_npi = cda_identifiers.filter({ $0.root == HDSProvider.NPI_OID }).first
       return cda_id_npi != nil ? cda_id_npi?.extension_id : nil
@@ -93,7 +93,7 @@ class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatable, Cust
     }
   }
   
-  var tin: String? {
+  public var tin: String? {
     get {
       let cda_id_tin = cda_identifiers.filter({ $0.root == HDSProvider.TAX_ID_OID }).first
       return cda_id_tin != nil ? cda_id_tin?.extension_id : nil
@@ -112,7 +112,7 @@ class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatable, Cust
   //# validate the NPI, should be 10 or 15 digits total with the final digit being a
   //# checksum using the Luhn algorithm with additional special handling as described in
   //# https://www.cms.gov/NationalProvIdentStand/Downloads/NPIcheckdigit.pdf
-  class func valid_npi(npi: String?) -> Bool {
+  public class func valid_npi(npi: String?) -> Bool {
     guard var npi = npi else {
       return false
     }
@@ -181,7 +181,7 @@ class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatable, Cust
     }
   }
   
-  var description: String {
+  public var description: String {
     return "Provider => title: \(title), given_name: \(given_name), family_name: \(family_name), npi: \(npi), specialty: \(specialty), phone: \(phone), organization: \(organization), cda_identifiers: \(cda_identifiers), addresses: \(addresses), telecoms: \(telecoms)"
   }
 
@@ -206,7 +206,7 @@ extension HDSProvider {
 
 extension HDSProvider {
   //MARK: FIXME - not using the hash - just using native properties
-  var hashValue: Int {
+  public var hashValue: Int {
     
     var hv: Int
     
@@ -229,7 +229,7 @@ extension HDSProvider {
   }
 }
 
-func == (lhs: HDSProvider, rhs: HDSProvider) -> Bool {
+public func == (lhs: HDSProvider, rhs: HDSProvider) -> Bool {
   return lhs.hashValue == rhs.hashValue && HDSCommonUtility.classNameAsString(lhs) == HDSCommonUtility.classNameAsString(rhs)
 }
 
@@ -249,7 +249,7 @@ extension HDSProvider: MustacheBoxable {
     ]
   }
   
-  var mustacheBox: MustacheBox {
+  public var mustacheBox: MustacheBox {
     return Box(boxedValues)
   }
 }

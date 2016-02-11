@@ -8,17 +8,17 @@
 
 import Foundation
 
-class HDSResultValue: NSObject, HDSThingWithTimes {
+public class HDSResultValue: NSObject, HDSThingWithTimes {
   //embedded_in :entry
-  var attributes: [String:String] = [String:String]()
+  public var attributes: [String:String] = [String:String]()
   
   //this is not originally in the model, but found instances where dynamic properties
   // were being referfenced for this - see protocol ThingWithTimes
-  var time: Double?
-  var start_time: Double?
-  var end_time: Double?
+  public var time: Double?
+  public var start_time: Double?
+  public var end_time: Double?
   
-  override var description: String {
+  override public var description: String {
     return "\(self.dynamicType) => attributes: \(attributes), time: \(time), start_time: \(start_time), end_time: \(end_time)"
   }
   

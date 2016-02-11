@@ -9,20 +9,20 @@
 import Foundation
 import Mustache
 
-class HDSOrganization: HDSJSONInstantiable, CustomStringConvertible, Equatable, Hashable {
+public class HDSOrganization: HDSJSONInstantiable, CustomStringConvertible, Equatable, Hashable {
   
-  var name: String?
+  public var name: String?
   
-  var addresses: [HDSAddress] = [HDSAddress]()
-  var telecoms: [HDSTelecom] = [HDSTelecom]()
+  public var addresses: [HDSAddress] = [HDSAddress]()
+  public var telecoms: [HDSTelecom] = [HDSTelecom]()
 
   //embeds_many :addresses, as: :locatable
   //embeds_many :telecoms, as: :contactable
   
-  init() {
+  public init() {
   }
   
-  required init(event: [String:Any?]) {
+  required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
   
@@ -32,14 +32,14 @@ class HDSOrganization: HDSJSONInstantiable, CustomStringConvertible, Equatable, 
     }
   }
   
-  var description: String {
+  public var description: String {
     return "HDSOrganization => name: \(name), addresses: \(addresses), telecoms: \(telecoms)"
   }
   
 }
 
 extension HDSOrganization {
-  var hashValue: Int {
+  public var hashValue: Int {
     
     var hv: Int
     
@@ -56,7 +56,7 @@ extension HDSOrganization {
   }
 }
 
-func == (lhs: HDSOrganization, rhs: HDSOrganization) -> Bool {
+public func == (lhs: HDSOrganization, rhs: HDSOrganization) -> Bool {
   return lhs.hashValue == rhs.hashValue && HDSCommonUtility.classNameAsString(lhs) == HDSCommonUtility.classNameAsString(rhs)
 }
 
@@ -70,7 +70,7 @@ extension HDSOrganization: MustacheBoxable {
     ]
   }
   
-  var mustacheBox: MustacheBox {
+  public var mustacheBox: MustacheBox {
     return Box(boxedValues)
   }
 }

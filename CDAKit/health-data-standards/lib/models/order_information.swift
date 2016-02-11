@@ -9,20 +9,20 @@
 import Foundation
 
 //NOTE: Changing class to HDSEntry
-class HDSOrderInformation: HDSEntry {
+public class HDSOrderInformation: HDSEntry {
   
   //include Mongoid::Attributes::Dynamic
   
-  var order_number: String? //, as: :order_number, type: String
-  var fills: Int? //, type: Integer
+  public var order_number: String? //, as: :order_number, type: String
+  public var fills: Int? //, type: Integer
 //  var quantityOrdered = [String:String]() //, as: :quantity_ordered, type: Hash
-  var quantity_ordered = HDSValueAndUnit()
-  var order_expiration_date_time: Double? //, as: :order_expiration_date_time, type: Integer
-  var order_date_time: Double? //, as: :order_date_time, type: Integer
+  public var quantity_ordered = HDSValueAndUnit()
+  public var order_expiration_date_time: Double? //, as: :order_expiration_date_time, type: Integer
+  public var order_date_time: Double? //, as: :order_date_time, type: Integer
   
   //MARK: FIXME - handle getting order_information by HDSProvider
   //belongs_to :provider
-  var provider: HDSProvider?
+  public var provider: HDSProvider?
   
 //  var order_number: String? {
 //    get {return orderNumber }

@@ -9,5 +9,5 @@
 import Foundation
 
 //this is in here so we can type this as something more explicit - so we can govern the preferred code sets ,etc.
-class HDSSocialHistory: HDSEntry {
+public class HDSSocialHistory: HDSEntry {
 }

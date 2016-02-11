@@ -11,11 +11,11 @@ import Foundation
 //NOTE: This is NOT en "HDSEntry" type in the original Ruby
 // however... it is treated like an entry type in various parts of the code and repeats certain variables and methods
 // found in the HDSEntry class.  I am electing to make this an HDSEntry subclass (probably not a good idea, either...)
-class HDSFacility: HDSEntry {
+public class HDSFacility: HDSEntry {
   
   //include Mongoid::Attributes::Dynamic
   
-  var name: String?
+  public var name: String?
   
   //var code: HDSCodedEntries = HDSCodedEntries()
   // originally (before making this an HDSEntry), this was "code"
@@ -25,10 +25,10 @@ class HDSFacility: HDSEntry {
 //  var start_time: Int?
 //  var end_time: Int?
   
-  var addresses = [HDSAddress]() //, as: :locatable
-  var telecoms = [HDSTelecom]() //, as: :contactable
+  public var addresses = [HDSAddress]() //, as: :locatable
+  public var telecoms = [HDSTelecom]() //, as: :contactable
   
-  override var description: String {
+  override public var description: String {
     return super.description + " name: \(name), addresss: \(addresses), telecoms: \(telecoms)"
   }
   

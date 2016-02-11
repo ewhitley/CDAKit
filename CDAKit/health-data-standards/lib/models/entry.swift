@@ -10,7 +10,7 @@ import Foundation
 import Mustache
 
 
-class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONInstantiable, HDSThingWithTimes {
+public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONInstantiable, HDSThingWithTimes {
   
   //Equatable, Hashable,
   
@@ -20,36 +20,36 @@ class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONIns
   // adding a weak reference here since the record actually contains the entry (self)
   
   //ThingWithCodes
-  var codes: HDSCodedEntries = HDSCodedEntries()
+  public var codes: HDSCodedEntries = HDSCodedEntries()
   
-  var cda_identifier: HDSCDAIdentifier? //, class_name: "HDSCDAIdentifier", as: :cda_identifiable
+  public var cda_identifier: HDSCDAIdentifier? //, class_name: "HDSCDAIdentifier", as: :cda_identifiable
   //MARK: FIXME - I changed the class to PhysicalQuantityResultValue here
   // the test cases all made it appear we're using that and not ResultValue
-  var values = [HDSResultValue]() //, class_name: "ResultValue"... and yet... it wants PhysicalQuantityResultValue - but in other places... ResultValue (PhysicalQuantityResultValue is a subclass of ResultValue)
-  var references = [HDSReference]() //
-  var provider_preference = [HDSEntry]() //, class_name: "HDSEntry"
-  var patient_preference = [HDSEntry]() //, class_name: "HDSEntry"
+  public var values = [HDSResultValue]() //, class_name: "ResultValue"... and yet... it wants PhysicalQuantityResultValue - but in other places... ResultValue (PhysicalQuantityResultValue is a subclass of ResultValue)
+  public var references = [HDSReference]() //
+  public var provider_preference = [HDSEntry]() //, class_name: "HDSEntry"
+  public var patient_preference = [HDSEntry]() //, class_name: "HDSEntry"
   
-  var item_description: String?
-  var specifics: String?
-  var time: Double?
-  var start_time: Double?
-  var end_time: Double?
+  public var item_description: String?
+  public var specifics: String?
+  public var time: Double?
+  public var start_time: Double?
+  public var end_time: Double?
   
-  var status_code : HDSCodedEntries = HDSCodedEntries() //, type: Hash
-  var mood_code: String = "EVN" //, type: String, default: "EVN"
-  var negation_ind: Bool? = false //, as: :negation_ind, type: Boolean
-  var negation_reason : HDSCodedEntries = HDSCodedEntries()//, as: :negation_reason, type: Hash
-  var oid: String? //, type: String
-  var reason: HDSReason?//, type: Hash
+  public var status_code : HDSCodedEntries = HDSCodedEntries() //, type: Hash
+  public var mood_code: String = "EVN" //, type: String, default: "EVN"
+  public var negation_ind: Bool? = false //, as: :negation_ind, type: Boolean
+  public var negation_reason : HDSCodedEntries = HDSCodedEntries()//, as: :negation_reason, type: Hash
+  public var oid: String? //, type: String
+  public var reason: HDSReason?//, type: Hash
   
   
-  var comment: String? // not in original model, but found in some other HDSEntry items like pregnancies
+  public var comment: String? // not in original model, but found in some other HDSEntry items like pregnancies
   
-  var version: Int = 1
-  var id: String?
-  var created_at = NSDate()
-  var updated_at = NSDate()
+  public var version: Int = 1
+  public var id: String?
+  public var created_at = NSDate()
+  public var updated_at = NSDate()
 
   
   //Condition
@@ -128,7 +128,7 @@ class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONIns
   //http://stackoverflow.com/questions/5398919/what-does-the-equal-symbol-do-when-put-after-the-method-name-in-a-method-d
   // I realize this is ugly - I'm trying to retain the initial code as much as possible, even where not "Swifty"
   
-  var status: String? {
+  public var status: String? {
   
     get { return status_legacy() }
     
@@ -162,7 +162,7 @@ class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONIns
   //# Sets the value for the entry
   //# @param [String] scalar the value
   //# @param [String] units the units of the scalar value
-  func set_value(scalar: Any?, units: String?) {
+  public func set_value(scalar: Any?, units: String?) {
 
     var a_scalar: String?
     if let val = scalar {
@@ -175,11 +175,11 @@ class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONIns
   }
 
   
-  override required init() {
+  public override required init() {
     super.init()
   }
   
-  required init(event: [String:Any?]) {
+  public required init(event: [String:Any?]) {
     super.init()
     initFromEventList(event)
   }
@@ -216,16 +216,16 @@ class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONIns
     }
   }
   
-  init(record: HDSRecord) {
+  public init(record: HDSRecord) {
     self.record = record
   }
   
-  init(cda_identifier: HDSCDAIdentifier) {
+  public init(cda_identifier: HDSCDAIdentifier) {
     self.cda_identifier = cda_identifier
   }
   
   //MARK: FIXME - changed values from ResultValue to PhysicalQuantityResultValue
-  init(cda_identifier: HDSCDAIdentifier, codes: HDSCodedEntries, values: [HDSPhysicalQuantityResultValue]) {
+  public init(cda_identifier: HDSCDAIdentifier, codes: HDSCodedEntries, values: [HDSPhysicalQuantityResultValue]) {
     self.cda_identifier = cda_identifier
     self.codes = codes
     self.values = values
@@ -321,7 +321,7 @@ class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONIns
   }
   
   //MARK: FIXME - not using the hash - just using native properties
-  override var hashValue: Int {
+  override public var hashValue: Int {
     
     var hv: Int
     
@@ -394,7 +394,7 @@ class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONIns
   
   
   //MARK: FIXME - not sure this whole "identifier" business is right here
-  var identifier: AnyObject? {
+  public var identifier: AnyObject? {
     if let cda_identifier = cda_identifier {
       return cda_identifier
     } else {
@@ -403,7 +403,7 @@ class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONIns
   }
 
   //MARK: FIXME: this is a bad placeholder to deal with typing - I just need an "identifier" I can use as a key
-  var identifier_as_string: String {
+  public var identifier_as_string: String {
     if let cda_identifier = cda_identifier {
       return cda_identifier.as_string
     }
@@ -414,7 +414,7 @@ class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONIns
   }
 
 
-  override var description : String {
+  override public var description : String {
     return "\(self.dynamicType) => codes: \(codes), cda_identifier: \(identifier_as_string), values: \(values), references: \(references), provider_preference: \(provider_preference), patient_preference: \(patient_preference), item_description: \(item_description), specifics: \(specifics), time: \(time), start_time: \(start_time), end_time: \(end_time), status_code: \(status_code), mood_code: \(mood_code), negation_ind: \(negation_ind), negation_reason: \(negation_reason), oid: \(oid), reason: \(reason), version: \(version), id: \(id), created_at: \(created_at), updated_at: \(updated_at)"
   }
   
@@ -433,7 +433,7 @@ extension HDSEntry {
 //new in Swift 2.x with NSObject
 // http://mgrebenets.github.io/swift/2015/06/21/equatable-nsobject-with-swift-2/
 extension HDSEntry {
-  override func isEqual(object: AnyObject?) -> Bool {
+  override public func isEqual(object: AnyObject?) -> Bool {
     if let rhs = object as? HDSEntry {
       return hashValue == rhs.hashValue && HDSCommonUtility.classNameAsString(self) == HDSCommonUtility.classNameAsString(rhs)
     }
@@ -570,7 +570,7 @@ extension HDSEntry {
     ]
   }
   
-  override var mustacheBox: MustacheBox {
+  override public var mustacheBox: MustacheBox {
     return Box(boxedValues)
   }
 }

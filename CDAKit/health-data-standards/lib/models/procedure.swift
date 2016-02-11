@@ -8,23 +8,23 @@
 
 import Foundation
 
-class HDSProcedure: HDSEntry {
+public class HDSProcedure: HDSEntry {
   
-  var incisionTime : Double? //,        type: Integer,      as: :incision_time
-  var ordinality: HDSCodedEntries = HDSCodedEntries() //,          type: Hash
-  var source: HDSCodedEntries = HDSCodedEntries() //,              type: Hash
-  var anatomical_approach: HDSCodedEntries = HDSCodedEntries() //
-  var anatomical_target: HDSCodedEntries = HDSCodedEntries() //
-  var method: HDSCodedEntries = HDSCodedEntries() //
-  var reaction: HDSCodedEntries = HDSCodedEntries() //
+  public var incisionTime : Double? //,        type: Integer,      as: :incision_time
+  public var ordinality: HDSCodedEntries = HDSCodedEntries() //,          type: Hash
+  public var source: HDSCodedEntries = HDSCodedEntries() //,              type: Hash
+  public var anatomical_approach: HDSCodedEntries = HDSCodedEntries() //
+  public var anatomical_target: HDSCodedEntries = HDSCodedEntries() //
+  public var method: HDSCodedEntries = HDSCodedEntries() //
+  public var reaction: HDSCodedEntries = HDSCodedEntries() //
   
-  var radiation_dose: HDSCodedEntries = HDSCodedEntries() //
-  var radiation_duration: HDSCodedEntries = HDSCodedEntries() //
+  public var radiation_dose: HDSCodedEntries = HDSCodedEntries() //
+  public var radiation_duration: HDSCodedEntries = HDSCodedEntries() //
   
-  var facility: HDSFacility?
+  public var facility: HDSFacility?
   
   //belongs_to :performer, class_name: "HDSProvider"
-  var performer: HDSProvider?
+  public var performer: HDSProvider?
   
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
@@ -34,7 +34,7 @@ class HDSProcedure: HDSEntry {
     }
   }
   
-  var incision_time: Double? {
+  public var incision_time: Double? {
     get {return incisionTime }
     set {incisionTime = newValue}
   }

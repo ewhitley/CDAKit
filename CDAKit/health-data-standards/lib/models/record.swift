@@ -9,47 +9,47 @@
 import Foundation
 import Mustache
 
-struct code_and_name {
+public struct code_and_name {
   var code: String
   var name: String
 }
 
-class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
+public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   
   //include Mongoid::Attributes::Dynamic
   //extend Memoist
 
-  var title: String?
-  var first: String?
-  var last: String?
-  var gender: String?
-  var birthdate: Double?
-  var deathdate: Double?
-  var religious_affiliation: HDSCodedEntries = HDSCodedEntries()
-  var effective_time: Double?
+  public var title: String?
+  public var first: String?
+  public var last: String?
+  public var gender: String?
+  public var birthdate: Double?
+  public var deathdate: Double?
+  public var religious_affiliation: HDSCodedEntries = HDSCodedEntries()
+  public var effective_time: Double?
   
-  var _id: String = NSUUID().UUIDString
+  public var _id: String = NSUUID().UUIDString
 
   //MARK: FIXME - apparently the JSON has "pregnancies" as its own item
   // that's not on the dx or problem list (which makes sense - sort of)
   // but this isn't relfected in the base model
   // figure out where this is coming from and how to handle
   // for now, making it an "entry"
-  var pregnancies: [HDSEntry] = []
+  public var pregnancies: [HDSEntry] = []
   
   //MARK: FIXME - race / ethnicity really should be a multi-value fields
   // MU2 allows for multiple
-  var race: HDSCodedEntries = HDSCodedEntries()
-  var ethnicity: HDSCodedEntries = HDSCodedEntries()
+  public var race: HDSCodedEntries = HDSCodedEntries()
+  public var ethnicity: HDSCodedEntries = HDSCodedEntries()
   
-  var languages: [HDSCodedEntries] = [] //Array, default: []
+  public var languages: [HDSCodedEntries] = [] //Array, default: []
 
   //MARK: FIXME - not sure this is used
   //var test_id: BSON::ObjectId
-  var marital_status: HDSCodedEntries = HDSCodedEntries()
-  var medical_record_number: String?
-  var medical_record_assigner: String?
-  var expired: Bool?
+  public var marital_status: HDSCodedEntries = HDSCodedEntries()
+  public var medical_record_number: String?
+  public var medical_record_assigner: String?
+  public var expired: Bool?
   
   //NOT IN MODEL
   var clinicalTrialParticipant: Bool? //NOT in model, but in Mongo JSON (probably for QRDA)
@@ -60,7 +60,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   //index test_id: 1
   //index bundle_id: 1
   private var _allergies = [HDSAllergy]()
-  var allergies: [HDSAllergy] {
+  public var allergies: [HDSAllergy] {
     get {return _allergies}
     set {
       for c in newValue {
@@ -71,7 +71,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
 
   private var _care_goals = [HDSEntry]() // , class_name: "HDSEntry" # This can be any number of different entry types
-  var care_goals: [HDSEntry] {
+  public var care_goals: [HDSEntry] {
     get {return _care_goals}
     set {
       for c in newValue {
@@ -82,7 +82,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
 
   private var _conditions = [HDSCondition]()
-  var conditions: [HDSCondition] {
+  public var conditions: [HDSCondition] {
     get {return _conditions}
     set {
       for c in newValue {
@@ -93,7 +93,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _encounters = [HDSEncounter]()
-  var encounters: [HDSEncounter] {
+  public var encounters: [HDSEncounter] {
     get {return _encounters}
     set {
       for c in newValue {
@@ -104,7 +104,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _communications = [HDSCommunication]()
-  var communications: [HDSCommunication] {
+  public var communications: [HDSCommunication] {
     get {return _communications}
     set {
       for c in newValue {
@@ -115,7 +115,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
 
   private var _family_history = [HDSFamilyHistory]()
-  var family_history: [HDSFamilyHistory] {
+  public var family_history: [HDSFamilyHistory] {
     get {return _family_history}
     set {
       for c in newValue {
@@ -126,7 +126,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _immunizations = [HDSImmunization]()
-  var immunizations: [HDSImmunization] {
+  public var immunizations: [HDSImmunization] {
     get {return _immunizations}
     set {
       for c in newValue {
@@ -137,7 +137,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _medical_equipment = [HDSMedicalEquipment]()
-  var medical_equipment: [HDSMedicalEquipment] {
+  public var medical_equipment: [HDSMedicalEquipment] {
     get {return _medical_equipment}
     set {
       for c in newValue {
@@ -149,7 +149,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
 
   
   private var _medications = [HDSMedication]()
-  var medications: [HDSMedication] {
+  public var medications: [HDSMedication] {
     get {return _medications}
     set {
       for c in newValue {
@@ -160,7 +160,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _procedures = [HDSProcedure]()
-  var procedures: [HDSProcedure] {
+  public var procedures: [HDSProcedure] {
     get {return _procedures}
     set {
       for c in newValue {
@@ -171,7 +171,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _results = [HDSLabResult]()//, class_name: "HDSLabResult"
-  var results: [HDSLabResult] {
+  public var results: [HDSLabResult] {
     get {return _results}
     set {
       for c in newValue {
@@ -182,7 +182,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _socialhistories = [HDSSocialHistory]() //, class_name: "HDSEntry"
-  var social_history: [HDSSocialHistory] {
+  public var social_history: [HDSSocialHistory] {
     get { return socialhistories }
     set { socialhistories = newValue }
   }
@@ -197,7 +197,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
 
   private var _vital_signs = [HDSVitalSign]()
-  var vital_signs: [HDSVitalSign] {
+  public var vital_signs: [HDSVitalSign] {
     get {return _vital_signs}
     set {
       for c in newValue {
@@ -208,7 +208,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _support = [HDSSupport]()
-  var support: [HDSSupport] {
+  public var support: [HDSSupport] {
     get {return _support}
     set {
       for c in newValue {
@@ -219,7 +219,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
 
   private var _advance_directives = [HDSEntry]() //, class_name: "HDSEntry"
-  var advance_directives: [HDSEntry] {
+  public var advance_directives: [HDSEntry] {
     get {return _advance_directives}
     set {
       for c in newValue {
@@ -230,7 +230,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _insurance_providers = [HDSInsuranceProvider]()
-  var insurance_providers: [HDSInsuranceProvider] {
+  public var insurance_providers: [HDSInsuranceProvider] {
     get {return _insurance_providers}
     set {
       for c in newValue {
@@ -241,7 +241,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _functional_statuses = [HDSFunctionalStatus]()
-  var functional_statuses: [HDSFunctionalStatus] {
+  public var functional_statuses: [HDSFunctionalStatus] {
     get {return _functional_statuses}
     set {
       for c in newValue {
@@ -253,7 +253,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   
   //MARK: FIXME - I think "provider_performances" shoud be handled differently here
   private var _provider_performances = [HDSProviderPerformance]()
-  var provider_performances: [HDSProviderPerformance] {
+  public var provider_performances: [HDSProviderPerformance] {
     get {return _provider_performances}
     set {
       for c in newValue {
@@ -264,7 +264,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _addresses = [HDSAddress]() //, as: :locatable
-  var addresses: [HDSAddress] {
+  public var addresses: [HDSAddress] {
     get {return _addresses}
     set {
       for c in newValue {
@@ -275,7 +275,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   private var _telecoms = [HDSTelecom]() //, as: :contactable
-  var telecoms: [HDSTelecom] {
+  public var telecoms: [HDSTelecom] {
     get {return _telecoms}
     set {
       for c in newValue {
@@ -286,7 +286,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
 
   
-  var Sections = ["allergies", "care_goals", "conditions", "encounters", "immunizations", "medical_equipment",
+  public var Sections = ["allergies", "care_goals", "conditions", "encounters", "immunizations", "medical_equipment",
     "medications", "procedures", "results", "communications", "family_history", "social_history", "vital_signs", "support", "advance_directives",
     "insurance_providers", "functional_statuses"]
   
@@ -351,11 +351,11 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  func providers() -> [HDSProvider] {
+  public func providers() -> [HDSProvider] {
     return provider_performances.filter({pp in pp.provider != nil}).map({pp in pp.provider!})
   }
 
-  var over_18: Bool {
+  public var over_18: Bool {
     //Time.at(birthdate) < Time.now.years_ago(18)
     guard let birthdate = birthdate else {
       return false
@@ -424,7 +424,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
       }
   }
   
-  func entries_for_oid(oid: String) -> [HDSEntry] {
+  public func entries_for_oid(oid: String) -> [HDSEntry] {
     //OK, so this appears to be sort of reflecting on the Ruby attributes by "section"
     // EX: section string "allergies" -> looks at object property "allergies"
     // I don't want to start doing wonky things to work around reflection challenges, so I'm just going to 
@@ -453,7 +453,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   
-  var entries: [HDSEntry] {
+  public var entries: [HDSEntry] {
     var all_entries = [HDSEntry]()
     for section in Sections {
 //      if let property_name = self.propertyNames().filter({$0 == section}).first {
@@ -682,7 +682,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   
   //MARK: Shady
   // this is so hacky it hurts
-  required override init() { // <== Need "required" because we need to call dynamicType() below
+  required override public init() { // <== Need "required" because we need to call dynamicType() below
     super.init()
     HDSRecords.append(self)
   }
@@ -697,7 +697,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   
-  required init(event: [String:Any?]) {
+  required public init(event: [String:Any?]) {
     
     super.init()
     
@@ -742,7 +742,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   
   //MARK: Copying
   //http://stackoverflow.com/questions/25808972/how-to-implement-copy-constructor-in-swift-subclass
-  func copyWithZone(zone: NSZone) -> AnyObject { // <== NSCopying
+  public func copyWithZone(zone: NSZone) -> AnyObject { // <== NSCopying
     // *** Construct "one of my current class". This is why init() is a required initializer
     let theCopy = self.dynamicType.init()
     
@@ -786,7 +786,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   
-  override var description : String {
+  override public var description : String {
     return "HDSRecord => title: \(title), first: \(first), last: \(last), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), religious_affiliation: \(religious_affiliation), effective_time: \(effective_time), race: \(race), ethnicity: \(ethnicity), languages = \(languages), marital_status: \(marital_status), medical_record_number: \(medical_record_number), medical_record_assigner: \(medical_record_assigner), expired: \(expired), clinicalTrialParticipant: \(clinicalTrialParticipant), allergies: \(allergies), care_goals: \(care_goals), conditions: \(conditions), encounters: \(encounters), communications: \(communications), family_history: \(family_history), immunizations: \(immunizations), medical_equipment: \(medical_equipment), medications: \(medications), procedures: \(procedures), results: \(results), social_history: \(social_history), vital_signs: \(vital_signs), advance_directives: \(advance_directives), insurance_providers: \(insurance_providers), functional_statuses: \(functional_statuses), provider_performances: \(provider_performances), addresses: \(addresses), telecoms: \(telecoms)"
   }
   
@@ -794,7 +794,7 @@ class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
 
 
 extension HDSRecord {
-  override var mustacheBox: MustacheBox {
+  override public var mustacheBox: MustacheBox {
     /*
     var boxValues : [String:MustacheBox] = [:]
     var boxValues = [
@@ -951,11 +951,11 @@ extension HDSRecord {
 
 extension HDSRecord {
   
-  func export(inFormat format: HDSExport.HDSExportFormat) -> String {
+  public func export(inFormat format: HDSExport.HDSExportFormat) -> String {
     return HDSExport.export(patientRecord: self, inFormat: format)
   }
   
-  convenience init(copyFrom record: HDSRecord) {
+  public convenience init(copyFrom record: HDSRecord) {
     self.init()
     self.title = record.title
     self.first = record.first
@@ -994,7 +994,7 @@ extension HDSRecord {
     self.telecoms = record.telecoms
   }
   
-  convenience init?(fromXML doc: String) {
+  public convenience init?(fromXML doc: String) {
     if let record = HDSImport_BulkRecordImporter.importRecord(doc) {
       self.init(copyFrom: record)
     } else {

@@ -26,7 +26,9 @@ class HDSTemplateHelper {
   
   let use_paths = false
   
-  let frameworkBundle = NSBundle(identifier: "ericwhitley.org.CDAKit")//should fix bundle ID to follow org.x.app
+//  let frameworkBundle = NSBundle(identifier: "ericwhitley.org.CDAKit")//should fix bundle ID to follow org.x.app
+  
+
   
   class TemplateCacheEntry {
     var mtime: NSDate        //  1450359800
@@ -85,8 +87,9 @@ class HDSTemplateHelper {
     let entry = template_cache[template_name]// ?? TemplateCacheEntry(mtime: -1, filename: nil, erb: nil)
 
     let fileName = "\(template_format)_\(template_name).\(template_format)"
-//    guard let filePath = NSBundle.mainBundle().pathForResource(fileName, ofType: HDSTemplateHelper.TEMPLATE_EXTENSION, inDirectory: template_root) else {
-    guard let filePath = frameworkBundle!.pathForResource(fileName, ofType: HDSTemplateHelper.TEMPLATE_EXTENSION) else {
+    
+    
+    guard let filePath = HDSCommonUtility.bundle.pathForResource(fileName, ofType: HDSTemplateHelper.TEMPLATE_EXTENSION) else {
       fatalError("Failed to find template '\(fileName).\(HDSTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)' ")
     }
     

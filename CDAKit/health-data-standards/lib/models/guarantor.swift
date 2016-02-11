@@ -9,14 +9,14 @@
 import Foundation
 
 //NOTE: making this an HDSEntry subclass - This is a change to the Ruby code
-class HDSGuarantor: HDSEntry {
+public class HDSGuarantor: HDSEntry {
   
   //include Mongoid::Attributes::Dynamic
   
-  var organization: HDSOrganization?
-  var person: HDSPerson?
+  public var organization: HDSOrganization?
+  public var person: HDSPerson?
   
-  override var description: String {
+  override public var description: String {
     return super.description + " person: \(person), organization: \(organization)"
   }
 

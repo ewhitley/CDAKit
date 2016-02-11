@@ -627,36 +627,6 @@ class HDSUtility {
     return [:]
   }
   
-  //yeeeeesh this is bad
-  // I should probably just bite the bullet and rip through the set of entries,
-  // then make this clasas NSObject and use valueForKey()
-  //  problem is the Swift types don't let us handle valueForKey() or setValue(value, forKey: key) that way (for now?)
-//  let times = [
-//    "end_time",
-//    "start_time",
-//    "time"
-//  ]
-//  
-//  for time_key in times {
-//  if event.keys.contains(time_key) {
-//  var a_new_time: Int?
-//  if let time = event[time_key] as? Int {
-//  a_new_time = time
-//  }
-//  if let time = event[time_key] as? String {
-//  if let time = Int(time) {
-//  a_new_time = time
-//  }
-//  }
-//  switch time_key {
-//  case "end_time": self.end_time = a_new_time
-//  case "start_time": self.start_time = a_new_time
-//  case "time": self.time = a_new_time
-//  default: print("HDSEntry.init() undefined value setter for key \(time_key)")
-//  }
-//  }
-//  }
-  
 }
 
 

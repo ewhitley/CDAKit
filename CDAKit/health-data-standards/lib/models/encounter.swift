@@ -9,56 +9,56 @@
 import Foundation
 import Mustache
 
-class HDSEncounter: HDSEntry {
+public class HDSEncounter: HDSEntry {
   
-  var admitType: HDSCodedEntries = HDSCodedEntries() // :admit_type, type: Hash
-  var dischargeDisposition: HDSCodedEntries = HDSCodedEntries() // :discharge_disposition, type: Hash
-  var admitTime: Double? // , as: :admit_time, type: Integer
-  var dischargeTime: Double? // :discharge_time, type: Integer
-  var principalDiagnosis: HDSCodedEntries = HDSCodedEntries() //:principal_diagnosis, type: Hash
-  var diagnosis: HDSCodedEntries = HDSCodedEntries()
+  public var admitType: HDSCodedEntries = HDSCodedEntries() // :admit_type, type: Hash
+  public var dischargeDisposition: HDSCodedEntries = HDSCodedEntries() // :discharge_disposition, type: Hash
+  public var admitTime: Double? // , as: :admit_time, type: Integer
+  public var dischargeTime: Double? // :discharge_time, type: Integer
+  public var principalDiagnosis: HDSCodedEntries = HDSCodedEntries() //:principal_diagnosis, type: Hash
+  public var diagnosis: HDSCodedEntries = HDSCodedEntries()
   
-  var transferTo: HDSTransfer?//, class_name: "HDSTransfer"
-  var transferFrom: HDSTransfer?//, class_name: "HDSTransfer"
+  public var transferTo: HDSTransfer?//, class_name: "HDSTransfer"
+  public var transferFrom: HDSTransfer?//, class_name: "HDSTransfer"
   
-  var facility: HDSFacility?
+  public var facility: HDSFacility?
   
   //belongs_to :performer, class_name: "Provider"
-  var performer: HDSProvider?
+  public var performer: HDSProvider?
 
-  var admit_type: HDSCodedEntries {
+  public var admit_type: HDSCodedEntries {
     get { return admitType }
     set(value) { admitType = value }
   }
 
-  var discharge_disposition: HDSCodedEntries {
+  public var discharge_disposition: HDSCodedEntries {
     get { return dischargeDisposition }
     set(value) { dischargeDisposition = value }
   }
 
-  var admit_time: Double? {
+  public var admit_time: Double? {
     get { return admitTime }
     set(value) { admitTime = value }
   }
 
-  var discharge_time: Double? {
+  public var discharge_time: Double? {
     get { return dischargeTime }
     set(value) { dischargeTime = value }
   }
 
-  var principal_diagnosis: HDSCodedEntries {
+  public var principal_diagnosis: HDSCodedEntries {
     get { return principalDiagnosis }
     set(value) { principalDiagnosis = value }
   }
 
 //  alias :transfer_to :transferTo
-  var transfer_to: HDSTransfer? {
+  public var transfer_to: HDSTransfer? {
     get { return transferTo }
     set(value) { transferTo = value }
   }
 
   //  alias :transfer_from :transferFrom
-  var transfer_from: HDSTransfer? {
+  public var transfer_from: HDSTransfer? {
     get { return transferFrom }
     set(value) { transferFrom = value }
   }
@@ -78,7 +78,7 @@ class HDSEncounter: HDSEntry {
     }
   }
   
-  override var description: String {
+  override public var description: String {
     return super.description + " , admit_type: \(admit_type), discharge_disposition: \(discharge_disposition), admit_time: \(admit_time), discharge_time: \(discharge_time), principal_diagnosis: \(principal_diagnosis), transfer_to: \(transfer_to), transfer_from: \(transfer_from), facility: \(facility), performer: \(performer)"
   }
   

@@ -9,12 +9,12 @@
 import Foundation
 import Mustache
 
-class HDSCDAIdentifier: Equatable, Hashable, HDSJSONInstantiable, CustomStringConvertible {
+public class HDSCDAIdentifier: Equatable, Hashable, HDSJSONInstantiable, CustomStringConvertible {
 
-  var root: String?
+  public var root: String?
   var extension_id: String?
   
-  var hashValue: Int {
+  public var hashValue: Int {
     return "\(root)\(extension_id)".hashValue
   }
   
@@ -22,11 +22,11 @@ class HDSCDAIdentifier: Equatable, Hashable, HDSJSONInstantiable, CustomStringCo
     
   }
   
-  var description: String {
+  public var description: String {
     return "HDSCDAIdentifier => root: \(root), extension_id: \(extension_id)"
   }
   
-  required init(event: [String:Any?]) {
+  required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
   
@@ -37,12 +37,12 @@ class HDSCDAIdentifier: Equatable, Hashable, HDSJSONInstantiable, CustomStringCo
   }
 
   
-  init(root: String?, extension_id: String? = nil) {
+  public init(root: String?, extension_id: String? = nil) {
     self.root = root
     self.extension_id = extension_id
   }
   
-  var as_string: String {
+  public var as_string: String {
     get {
       var r = ""
       var e = ""
@@ -58,14 +58,14 @@ class HDSCDAIdentifier: Equatable, Hashable, HDSJSONInstantiable, CustomStringCo
   
 }
 
-func == (lhs: HDSCDAIdentifier, rhs: HDSCDAIdentifier) -> Bool {
+public func == (lhs: HDSCDAIdentifier, rhs: HDSCDAIdentifier) -> Bool {
   return lhs.hashValue == rhs.hashValue
   //self.root == comparison_object.root && self.extension == comparison_object.extension
 }
 
 
 extension HDSCDAIdentifier: MustacheBoxable {
-  var mustacheBox: MustacheBox {
+  public var mustacheBox: MustacheBox {
       return Box([
         "root": self.root,
         "extension_id": self.root,

@@ -9,9 +9,9 @@
 import Foundation
 import Fuzi
 
-class HDSImport_BulkRecordImporter {
+public class HDSImport_BulkRecordImporter {
   
-  class func importRecord(XMLString: String, providier_map:[String:HDSProvider] = [:]) -> HDSRecord? {
+  public class func importRecord(XMLString: String, providier_map:[String:HDSProvider] = [:]) -> HDSRecord? {
     
     do {
       let doc = try XMLDocument(string: XMLString, encoding: NSUTF8StringEncoding)

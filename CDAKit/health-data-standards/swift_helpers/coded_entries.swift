@@ -26,13 +26,13 @@ public func == (lhs: HDSCodedTerm, rhs: HDSCodedTerm) -> Bool {
 
 
 public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionType, Equatable, Hashable {
-  var codeSystem: String
-  var codeSystemOid: String?
-  var displayName: String?
+  public var codeSystem: String
+  public var codeSystemOid: String?
+  public var displayName: String?
   
 //  private var _codes = Set<String>()
   private var _codes: [HDSCodedTerm] = []
-  var codes: [String] {
+  public var codes: [String] {
     get { return _codes.map({$0.code}) }
     set {
       let terms = newValue.map({HDSCodedTerm(code: $0, displayName: nil)})
@@ -70,12 +70,12 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
     return uniqueTerms(forTerms: mergedTerms)
   }
   
-  var codedTerms: [HDSCodedTerm] {
+  public var codedTerms: [HDSCodedTerm] {
     get { return _codes }
     set { _codes = newValue }
   }
   
-  var code: String? {
+  public var code: String? {
     get {
       return codes.first
     }
@@ -101,7 +101,7 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
   public var count: Int { get {return codes.count} }
 
   
-  init(codeSystem: String, codes: String?, codeSystemOid: String? = nil, displayName: String? = nil) {
+  public init(codeSystem: String, codes: String?, codeSystemOid: String? = nil, displayName: String? = nil) {
     self.codeSystem = codeSystem
     if let code = codes {
       self.codes.append(code)
@@ -112,7 +112,7 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
     self.displayName = displayName
     HDSCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
   }
-  init(codeSystem: String, codes: [String?]?, codeSystemOid: String? = nil, displayName: String? = nil) {
+  public init(codeSystem: String, codes: [String?]?, codeSystemOid: String? = nil, displayName: String? = nil) {
     self.codeSystem = codeSystem
     if let codes = codes {
       self.codes = codes.filter({$0 != nil}).map({$0!})
@@ -123,7 +123,7 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
     self.displayName = displayName
     HDSCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
   }
-  init(codeSystem: String, codes: [String?], codeSystemOid: String? = nil, displayName: String? = nil) {
+  public init(codeSystem: String, codes: [String?], codeSystemOid: String? = nil, displayName: String? = nil) {
     self.codeSystem = codeSystem
     self.codes = codes.filter({$0 != nil}).map({$0!})
     if let codeSystemOid = codeSystemOid {
@@ -132,7 +132,7 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
     self.displayName = displayName
     HDSCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
   }
-  init(codeSystem: String, codes: [String], codeSystemOid: String? = nil, displayName: String? = nil) {
+  public init(codeSystem: String, codes: [String], codeSystemOid: String? = nil, displayName: String? = nil) {
     self.codeSystem = codeSystem
     self.codes = codes
     if let codeSystemOid = codeSystemOid {
@@ -154,7 +154,7 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
     return "\(codeSystem)\(codes)".hashValue
   }
 
-  func containsCode(codeSystem: String, withCode code: String) -> Bool {
+  public func containsCode(codeSystem: String, withCode code: String) -> Bool {
     return (self.codeSystem == codeSystem && self.codes.filter({$0 == code}).count > 0) ? true : false
   }
 
@@ -194,18 +194,18 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
   public subscript(_i: Index) -> _Element {get { return entries[_i] }}
   public var first: _Element? { get {return entries.first} }
   public var count: Int { get {return entries.count} }
-  var keys: [String] { return codeSystems }
+  public var keys: [String] { return codeSystems }
 
   
   private var _codeSystems: Set<String> = Set<String>()
   private var entries: [String:HDSCodedEntry] = [:]
 
-  var codeSystems: [String] {
+  public var codeSystems: [String] {
     get { return Array(_codeSystems) }
     set { _codeSystems = Set(newValue) }
   }
   
-  var codes: [HDSCodedEntry] {
+  public var codes: [HDSCodedEntry] {
     get { return entries.map({$0.1}) }
   }
 
@@ -214,7 +214,7 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
   // and those titles are absolutely going to be different across vocabularies and individual coded values
   // so this is "just pick one"
   // we're just going to say "pick the most frequently used name"...
-  var mostFrequentDisplayName: String? {
+  public var mostFrequentDisplayName: String? {
 
     var displayName_Counts:[String:Int] = [:]
     for (_, v) in entries {
@@ -227,32 +227,32 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
   }
   
   
-  init(){}
-  init(codeSystem:String, code: String?, codeSystemOid: String? = nil){
+  public init(){}
+  public init(codeSystem:String, code: String?, codeSystemOid: String? = nil){
     addCodes(codeSystem, codes: code, codeSystemOid: codeSystemOid)
   }
-  init(entries:[String:[String]]?){
+  public init(entries:[String:[String]]?){
     if let entries = entries {
       addCodes(entries)
     }
   }
-  init(entries:[String:String?]?){
+  public init(entries:[String:String?]?){
     addCodes(entries)
   }
-  init(entries: [HDSCodedEntry]?) {
+  public init(entries: [HDSCodedEntry]?) {
     if let entries = entries {
       for entry in entries {
         addCodes(entry.codeSystem, codes: entry.codes, codeSystemOid: entry.codeSystemOid, displayName: entry.displayName)
       }
     }
   }
-  init(entries: HDSCodedEntry?) {
+  public init(entries: HDSCodedEntry?) {
     if let entry = entries {
       addCodes(entry.codeSystem, codes: entry.codes, codeSystemOid: entry.codeSystemOid, displayName: entry.displayName)
     }
   }
   
-  subscript(codeSystem: String) -> HDSCodedEntry? {
+  public subscript(codeSystem: String) -> HDSCodedEntry? {
     get {
       return self.entries[codeSystem]
     }
@@ -289,56 +289,56 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
   }
 
   
-  mutating func addCodes(entries: [HDSCodedEntry]) {
+  public mutating func addCodes(entries: [HDSCodedEntry]) {
     for entry in entries {
       addCodes(entry.codeSystem, codes: entry.codes, codeSystemOid: entry.codeSystemOid, displayName: entry.displayName)
     }
   }
-  mutating func addCodes(entry: HDSCodedEntry) {
+  public mutating func addCodes(entry: HDSCodedEntry) {
     addCodes(entry.codeSystem, codes: entry.codes, codeSystemOid: entry.codeSystemOid, displayName: entry.displayName)
   }
-  mutating func addCodes(codedSet:[String:String?]?) {
+  public mutating func addCodes(codedSet:[String:String?]?) {
     if let codedSet = codedSet {
       for (key, value) in codedSet {
         addCodes(key, codes: value)
       }
     }
   }
-  mutating func addCodes(codedSet:[String:[String?]]?) {
+  public mutating func addCodes(codedSet:[String:[String?]]?) {
     if let codedSet = codedSet {
       for (key, value) in codedSet {
         addCodes(key, codes: value)
       }
     }
   }
-  mutating func addCodes(codedSet:[String:[String]]?) {
+  public mutating func addCodes(codedSet:[String:[String]]?) {
     if let codedSet = codedSet {
       for (key, value) in codedSet {
         addCodes(key, codes: value)
       }
     }
   }
-  mutating func addCodes(codedSet:[String:[String]]) {
+  public mutating func addCodes(codedSet:[String:[String]]) {
     for (key, value) in codedSet {
       addCodes(key, codes: value)
     }
   }
   
-  mutating func addCodes(codeSystem: String, codes: String?, codeSystemOid: String? = nil, displayName: String? = nil) {
+  public mutating func addCodes(codeSystem: String, codes: String?, codeSystemOid: String? = nil, displayName: String? = nil) {
     if let code = codes {
       self.addCodes(codeSystem, codes: [code], codeSystemOid: codeSystemOid)
     }
   }
-  mutating func addCodes(codeSystem: String, codes: [String?]?, codeSystemOid: String? = nil, displayName: String? = nil) {
+  public mutating func addCodes(codeSystem: String, codes: [String?]?, codeSystemOid: String? = nil, displayName: String? = nil) {
     if let codes = codes {
       addCodes(codeSystem, codes: codes, codeSystemOid: codeSystemOid)
     }
   }
-  mutating func addCodes(codeSystem: String, codes: [String?], codeSystemOid: String? = nil, displayName: String? = nil) {
+  public mutating func addCodes(codeSystem: String, codes: [String?], codeSystemOid: String? = nil, displayName: String? = nil) {
     addCodes(codeSystem, codes: codes.filter({$0 != nil}).map({$0!}), codeSystemOid: codeSystemOid, displayName: displayName)
   }
   
-  mutating func addCodes(codeSystem: String, codes: [String], codeSystemOid: String? = nil, displayName: String? = nil) {
+  public mutating func addCodes(codeSystem: String, codes: [String], codeSystemOid: String? = nil, displayName: String? = nil) {
     self.codeSystems.append(codeSystem)
     if self.entries[codeSystem] != nil {
       self.entries[codeSystem]!.codes.appendContentsOf(codes)
@@ -380,7 +380,7 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
     return result
   }
   
-  var arrayOfFlattenedCodedEntry: [HDSCodedEntry] {
+  public var arrayOfFlattenedCodedEntry: [HDSCodedEntry] {
     var result: [HDSCodedEntry] = []
     for (key, ce) in entries {
       for code in ce.codes {
@@ -390,7 +390,7 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
     return result
   }
   
-  var arrayOfFlattenedStringPairs: [[String:String]] {
+  public var arrayOfFlattenedStringPairs: [[String:String]] {
     var result: [[String:String]] = []
     for (key, ce) in entries {
       for code in ce.codes {
@@ -400,7 +400,7 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
     return result
   }
 
-  var numberOfDistinctCodes: Int {
+  public var numberOfDistinctCodes: Int {
     return entries.flatMap({$0.1.codes}).count
   }
   

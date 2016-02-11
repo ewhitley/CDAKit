@@ -9,17 +9,17 @@
 import Foundation
 
 //NOTE: was not originally: HDSEntry - changing type
-class HDSFulfillmentHistory: HDSEntry {
+public class HDSFulfillmentHistory: HDSEntry {
   
   //include Mongoid::Attributes::Dynamic
   
-  var prescription_number: String? //, as: :prescription_number, type: String
-  var dispense_date: Double? //, as: :dispense_date, type: Integer
+  public var prescription_number: String? //, as: :prescription_number, type: String
+  public var dispense_date: Double? //, as: :dispense_date, type: Integer
 //  var quantityDispensed = [String:String]() //, as: :quantity_dispensed, type: Hash
-  var quantity_dispensed = HDSValueAndUnit() //, as: :quantity_dispensed, type: Hash
+  public var quantity_dispensed = HDSValueAndUnit() //, as: :quantity_dispensed, type: Hash
   
-  var fill_number: Int? //, as: :fill_number, type: Integer
-  var fill_status: String? //, as: :fill_status, type: String
+  public var fill_number: Int? //, as: :fill_number, type: Integer
+  public var fill_status: String? //, as: :fill_status, type: String
   
 //  var prescription_number: String? {
 //    get {return prescriptionNumber}
@@ -48,7 +48,7 @@ class HDSFulfillmentHistory: HDSEntry {
 
   
   //belongs_to :provider, class_name: "HDSProvider"
-  var provider: HDSProvider?
+  public var provider: HDSProvider?
   
   override func shift_dates(date_diff: Double) {
     
@@ -59,7 +59,7 @@ class HDSFulfillmentHistory: HDSEntry {
     }
   }
   
-  override var description: String {
+  override public var description: String {
     return super.description + " , prescription_number: \(prescription_number), dispense_date: \(dispense_date), fill_number: \(fill_number), fill_status: \(fill_status), quantity_dispensed: \(quantity_dispensed)"
   }
 

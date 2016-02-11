@@ -9,19 +9,19 @@
 import Foundation
 import Mustache
 
-class HDSPerson: HDSPersonable, HDSJSONInstantiable {
+public class HDSPerson: HDSPersonable, HDSJSONInstantiable {
   
-  var title: String?
-  var given_name: String?
-  var family_name: String?
+  public var title: String?
+  public var given_name: String?
+  public var family_name: String?
   
-  var addresses: [HDSAddress] = [HDSAddress]()
-  var telecoms: [HDSTelecom] = [HDSTelecom]()
+  public var addresses: [HDSAddress] = [HDSAddress]()
+  public var telecoms: [HDSTelecom] = [HDSTelecom]()
 
-  init() {
+  public init() {
   }
   
-  required init(event: [String:Any?]) {
+  required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
   
@@ -38,7 +38,7 @@ extension HDSPerson: MustacheBoxable {
     ]
   }
   
-  var mustacheBox: MustacheBox {
+  public var mustacheBox: MustacheBox {
     return Box(boxedValues)
   }
 }

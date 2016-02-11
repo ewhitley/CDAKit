@@ -8,6 +8,6 @@
 
 import Foundation
 
-class HDSCommunication: HDSEntry {
-  var direction: String?
+public class HDSCommunication: HDSEntry {
+  public var direction: String?
 }

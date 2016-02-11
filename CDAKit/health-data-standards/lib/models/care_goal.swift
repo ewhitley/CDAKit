@@ -9,12 +9,12 @@
 import Foundation
 import Mustache
 
-class HDSCareGoal: HDSEntry {
+public class HDSCareGoal: HDSEntry {
 
   var relatedTo: [String:String] = [String:String]()
   var targetOutcome: [String:String] = [String:String]()
 
-  var related_to: [String:String] {
+  public var related_to: [String:String] {
     get {
       return relatedTo
     }
@@ -23,7 +23,7 @@ class HDSCareGoal: HDSEntry {
     }
   }
 
-  var target_outcome: [String:String] {
+  public var target_outcome: [String:String] {
     get {
       return targetOutcome
     }

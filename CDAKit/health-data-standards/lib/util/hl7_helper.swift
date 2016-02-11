@@ -8,12 +8,12 @@
 
 import Foundation
 
-class HL7Helper {
+public class HL7Helper {
   
   //  # Converts an HL7 timestamp into an Integer
   //  # @param [String] timestamp the HL7 timestamp. Expects YYYYMMDD format
   //  # @return [Integer] Date in seconds since the epoch
-  class func timestamp_to_integer(timestamp: String?) -> Double? {
+  public class func timestamp_to_integer(timestamp: String?) -> Double? {
     
     if let timestamp = timestamp {
       if timestamp.characters.count >= 4 {

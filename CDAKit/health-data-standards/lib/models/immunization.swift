@@ -8,27 +8,27 @@
 
 import Foundation
 
-class HDSImmunization: HDSEntry {
+public class HDSImmunization: HDSEntry {
   
-  var seriesNumber: Int? //, type: Integer
-  var reaction: HDSCodedEntries = HDSCodedEntries() //, type: Hash
+  public var seriesNumber: Int? //, type: Integer
+  public var reaction: HDSCodedEntries = HDSCodedEntries() //, type: Hash
   
   //belongs_to :performer, class_name: "HDSProvider"
-  var performer: HDSProvider?
+  public var performer: HDSProvider?
   
-  var medication_product: HDSMedication?
+  public var medication_product: HDSMedication?
 
-  var refusal_ind: Bool? {
+  public var refusal_ind: Bool? {
     get { return negation_ind }
     set (value) { negation_ind = value }
   }
   
-  var refusal_reason: HDSCodedEntries {
+  public var refusal_reason: HDSCodedEntries {
     get {return negation_reason }
     set (value) {negation_reason = value}
   }
 
-  var series_number: Int? {
+  public var series_number: Int? {
     get {return seriesNumber }
     set (value) {seriesNumber = value}
   }

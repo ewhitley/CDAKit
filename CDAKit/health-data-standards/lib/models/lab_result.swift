@@ -8,15 +8,15 @@
 
 import Foundation
 
-class HDSLabResult: HDSEntry {
-  var reference_range: String? //as reference_range
-  var reference_range_high: String? //as reference_range_high
-  var reference_range_low: String? //as reference_range_low
-  var interpretation: HDSCodedEntries = HDSCodedEntries()
-  var reaction: HDSCodedEntries = HDSCodedEntries()
-  var method: HDSCodedEntries = HDSCodedEntries()
+public class HDSLabResult: HDSEntry {
+  public var reference_range: String? //as reference_range
+  public var reference_range_high: String? //as reference_range_high
+  public var reference_range_low: String? //as reference_range_low
+  public var interpretation: HDSCodedEntries = HDSCodedEntries()
+  public var reaction: HDSCodedEntries = HDSCodedEntries()
+  public var method: HDSCodedEntries = HDSCodedEntries()
   
-  override var description: String {
+  override public var description: String {
     return super.description + " reference_range: \(reference_range), reference_range_high: \(reference_range_high), reference_range_low: \(reference_range_low), interpretation: \(interpretation), reaction: \(reaction), method: \(method)"
   }
 

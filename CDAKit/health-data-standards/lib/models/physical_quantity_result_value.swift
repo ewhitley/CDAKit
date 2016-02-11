@@ -13,12 +13,12 @@ import Mustache
 // I get that this should be its own class, but the way ResultValue is used in the HDSRecord makes this cumbersome to use
 //  because you have to cast ResultValue to PhysicalResultValue to access the scalars
 
-class HDSPhysicalQuantityResultValue: HDSResultValue {
+public class HDSPhysicalQuantityResultValue: HDSResultValue {
   //, Equatable, Hashable
-  var scalar: String? //no clue what this type should be, so sticking with String for now
-  var units: String?
+  public var scalar: String? //no clue what this type should be, so sticking with String for now
+  public var units: String?
   
-  init(scalar: Any?, units: String? = nil) {
+  public init(scalar: Any?, units: String? = nil) {
     super.init()
     if let scalar = scalar as? Int {
       self.scalar = String(scalar)
@@ -46,18 +46,18 @@ class HDSPhysicalQuantityResultValue: HDSResultValue {
 //    self.units = units
 //  }
 
-  override var hashValue: Int {
+  override public var hashValue: Int {
     return "\(scalar)\(units)".hashValue
   }
   
-  override var description: String {
+  override public var description: String {
     return "\(self.dynamicType) => attributes: \(attributes), time: \(time), start_time: \(start_time), end_time: \(end_time), scalar: \(scalar), units: \(units)"
   }
 
   
 }
 
-func == (lhs: HDSPhysicalQuantityResultValue, rhs: HDSPhysicalQuantityResultValue) -> Bool {
+public func == (lhs: HDSPhysicalQuantityResultValue, rhs: HDSPhysicalQuantityResultValue) -> Bool {
   return lhs.hashValue == rhs.hashValue
 }
 
@@ -72,7 +72,7 @@ extension HDSPhysicalQuantityResultValue {
     ]
   }
   
-  override var mustacheBox: MustacheBox {
+  override public var mustacheBox: MustacheBox {
     return Box(boxedValues)
   }
   

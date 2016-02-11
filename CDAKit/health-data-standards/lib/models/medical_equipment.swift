@@ -8,13 +8,13 @@
 
 import Foundation
 
-class HDSMedicalEquipment: HDSEntry {
+public class HDSMedicalEquipment: HDSEntry {
   
-  var manufacturer: String?
-  var anatomical_structure: HDSCodedEntries = HDSCodedEntries() //, as: :anatomical_structure, type: Hash
-  var removal_time: Double? //, as: :removal_time, type: Integer
-  var anatomical_approach: HDSCodedEntries = HDSCodedEntries()
-  var reaction: HDSCodedEntries = HDSCodedEntries()
+  public var manufacturer: String?
+  public var anatomical_structure: HDSCodedEntries = HDSCodedEntries() //, as: :anatomical_structure, type: Hash
+  public var removal_time: Double? //, as: :removal_time, type: Integer
+  public var anatomical_approach: HDSCodedEntries = HDSCodedEntries()
+  public var reaction: HDSCodedEntries = HDSCodedEntries()
   
 //  var removal_time : Double? {
 //    get { return removalTime }

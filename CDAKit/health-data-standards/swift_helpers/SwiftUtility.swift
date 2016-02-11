@@ -11,6 +11,22 @@ import Foundation
 //http://stackoverflow.com/questions/24494784/get-class-name-of-object-as-string-in-swift
 class HDSCommonUtility {
 
+  //I need to find out how to make this work both in a project and in a pod
+  static let podName = "CDAKit"
+  static var bundle: NSBundle {
+    let frameworkBundle = NSBundle(forClass: HDSTemplateHelper.self)
+    //if we're in a pod, look for our own bundle in the parent project
+    if let bundlePath = frameworkBundle.pathForResource(podName, ofType: "bundle") {
+      if let myBundle = NSBundle.init(path: bundlePath) {
+        return myBundle
+      }
+    }
+    //otherwise, try to just return ourselves like this
+    //local project
+    return frameworkBundle
+  }
+
+  
   class func classNameAsString(obj: Any, removeOptional: Bool = true) -> String {
     //    //prints more readable results for dictionaries, arrays, Int, etc
     var class_name = String(obj.dynamicType).componentsSeparatedByString(".").last!

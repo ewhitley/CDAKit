@@ -30,12 +30,12 @@ import Foundation
 # can be stored here, but it will be a lossy transformation.
 */
 
-class HDSFunctionalStatus: HDSEntry {
+public class HDSFunctionalStatus: HDSEntry {
   
   //# Either "condition" or "result"
-  var type: String?
+  public var type: String?
   
   //# A coded value. Like a code for patient supplied.
-  var source = [String:String]() //, type: Hash
+  public var source = [String:String]() //, type: Hash
   
 }

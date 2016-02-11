@@ -30,6 +30,53 @@ class HealthKitRecordTest: XCTestCase {
 
   }
 
+  func testRoundTrip() {
+    let aRecord = HDSRecord()
+    aRecord.title = "Mr."
+    aRecord.first = "Jimbo"
+    aRecord.last = "Jones"
+    
+    let anAllergy = HDSAllergy()
+    anAllergy.codes.addCodes("LOINC", codes: ["abc123"])
+    
+    let aVital = HDSVitalSign()
+    aVital.codes.addCodes("LOINC", codes: ["3141-9"]) //weight
+    aVital.values.append(HDSPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
+    aVital.start_time = NSDate().timeIntervalSince1970
+    aVital.end_time = NSDate().timeIntervalSince1970
+    
+    //let xmlString = aRecord.export(inFormat: .ccda)
+    //print(xmlString)
+    
+    let hkRecord = HDSHKRecord(fromHDSRecord: aRecord)
+    
+    XCTAssertEqual(hkRecord.healthKitSamples.count, aRecord.vital_signs.count)
+    
+    //HKQuantityTypeIdentifierHeight
+    let aUnit = HKUnit(fromString: "in")
+    let aQty = HKQuantity(unit: aUnit, doubleValue: 72 )
+    let aQtyType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)
+    let hkHeight = HKQuantitySample(type: aQtyType!, quantity: aQty, startDate: NSDate(), endDate: NSDate())
+    hkRecord.healthKitSamples.append(hkHeight)
+    //print(hkRecord)
+    
+    let aSecondRecord = hkRecord.exportAsHDSRecord()
+    //print(aSecondRecord.export(inFormat: .c32))
+    
+    XCTAssertEqual(hkRecord.healthKitSamples.count, aSecondRecord.vital_signs.count)
+  }
+  
+  //trying our failable HKUnit constructor for weird CDA string variants
+  func testBogusHKUnit() {
+    
+    let badUnitString = "bogusUnit"
+    let aBadUnit = HDSHealthKitBridge.unitForCDAString(badUnitString)
+    
+    let goodUnitString = "%"
+    let aGoodUnit = HDSHealthKitBridge.unitForCDAString(badUnitString)
+    
+  }
+  
   func testSampleTypes() {
     let bmi: Double = 24.1
     let bmiType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMassIndex)

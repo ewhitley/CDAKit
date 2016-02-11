@@ -8,17 +8,17 @@
 
 import Foundation
 
-class HDSInsuranceProvider: HDSEntry {
+public class HDSInsuranceProvider: HDSEntry {
 
-  var payer: HDSOrganization? //, class_name: "HDSOrganization"
-  var guarantors = [HDSGuarantor]()//, class_name: "HDSGuarantor"
-  var subscriber: HDSPerson? //, class_name: "HDSPerson"
+  public var payer: HDSOrganization? //, class_name: "HDSOrganization"
+  public var guarantors = [HDSGuarantor]()//, class_name: "HDSGuarantor"
+  public var subscriber: HDSPerson? //, class_name: "HDSPerson"
   
-  var type: String?
-  var member_id: String?
-  var relationship : HDSCodedEntries = HDSCodedEntries() //, type: Hash
-  var financial_responsibility_type : HDSCodedEntries = HDSCodedEntries() //, type: Hash
-  var name: String?
+  public var type: String?
+  public var member_id: String?
+  public var relationship : HDSCodedEntries = HDSCodedEntries() //, type: Hash
+  public var financial_responsibility_type : HDSCodedEntries = HDSCodedEntries() //, type: Hash
+  public var name: String?
   
   override func shift_dates(date_diff: Double) {
     //super.shift_dates(date_diff)
@@ -38,7 +38,7 @@ class HDSInsuranceProvider: HDSEntry {
     }
   }
   
-  override var description: String {
+  override public var description: String {
     return super.description + ", name: \(name), type: \(type), member_id: \(member_id), relationship: \(relationship), financial_responsibility_type: \(financial_responsibility_type), financial_responsibility_type: \(financial_responsibility_type), payer: \(payer), guarantors: \(guarantors), subscriber: \(subscriber)"
   }
 

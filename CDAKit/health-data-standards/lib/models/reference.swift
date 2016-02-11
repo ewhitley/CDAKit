@@ -8,23 +8,23 @@
 
 import Foundation
 
-class HDSReference: HDSJSONInstantiable {
+public class HDSReference: HDSJSONInstantiable {
   
-  var type: String?
-  var referenced_type: String = ""
-  var referenced_id: String = ""
+  public var type: String?
+  public var referenced_type: String = ""
+  public var referenced_id: String = ""
   
-  var entry: HDSEntry?
+  public var entry: HDSEntry?
   
   //MARK: FIXME: Can't resolve any of this since it's using Mongo
   
   //embedded_in :entry
   
-  init(entry: HDSEntry) {
+  public init(entry: HDSEntry) {
     self.entry = entry
   }
   
-  init(type: String?, referenced_type: String, referenced_id: String?, entry: HDSEntry? = nil ) {
+  public init(type: String?, referenced_type: String, referenced_id: String?, entry: HDSEntry? = nil ) {
     self.type = type
     self.referenced_type = referenced_type
     if let referenced_id = referenced_id {
@@ -35,7 +35,7 @@ class HDSReference: HDSJSONInstantiable {
     self.entry = entry
   }
 
-  required init(event: [String:Any?]) {
+  required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
   

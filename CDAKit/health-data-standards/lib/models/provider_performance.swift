@@ -9,18 +9,18 @@
 import Foundation
 
 //NOTE: changing type to HDSEntry
-class HDSProviderPerformance: HDSEntry {
+public class HDSProviderPerformance: HDSEntry {
   //include Mongoid::Attributes::Dynamic
   
 //  var record: HDSRecord?
   
-  var start_date: Double?
-  var end_date: Double?
+  public var start_date: Double?
+  public var end_date: Double?
   
   //MARK: FIXME - model relationship issues here
   //belongs_to :provider
   //embedded_in :record
-  var provider: HDSProvider?
+  public var provider: HDSProvider?
   
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)

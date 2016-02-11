@@ -10,7 +10,7 @@ import Foundation
 
 //# General helpers for working with codes and code system
 
-class HDSCodeSystemHelper {
+public class HDSCodeSystemHelper {
   
   static let CODE_SYSTEMS: [String:String] = [
     "2.16.840.1.113883.6.1" :    "LOINC",
@@ -52,7 +52,7 @@ class HDSCodeSystemHelper {
     // https://www.hl7.org/fhir/terminologies-v3.html
   ]
   
-  static let CODE_SYSTEM_ALIASES: [String:String] = [
+  public static let CODE_SYSTEM_ALIASES: [String:String] = [
     "FDA SPL" : "NCI Thesaurus",
     "HSLOC" : "HL7 Healthcare Service Location",
     "SOP" : "Source of Payment Typology"
@@ -60,7 +60,7 @@ class HDSCodeSystemHelper {
   
   //# Some old OID are still around in data, this hash maps retired OID values to
   //# the new value
-  static let OID_ALIASES: [String:String] = [
+  public static let OID_ALIASES: [String:String] = [
     "2.16.840.1.113883.6.59" : "2.16.840.1.113883.12.292" //# CVX
   ]
   
@@ -68,7 +68,7 @@ class HDSCodeSystemHelper {
   //# Returns the name of a code system given an oid
   //# @param [String] oid of a code system
   //# @return [String] the name of the code system as described in the measure definition JSON
-  class func code_system_for(var oid: String) -> String {
+  public class func code_system_for(var oid: String) -> String {
     if let an_alias = OID_ALIASES[oid] {
       oid = an_alias
     }
@@ -83,7 +83,7 @@ class HDSCodeSystemHelper {
   //# Returns the oid for a code system given a codesystem name
   //# @param [String] the name of the code system
   //# @return [String] the oid of the code system
-  class func oid_for_code_system(var code_system: String) -> String {
+  public class func oid_for_code_system(var code_system: String) -> String {
   
     if let an_alias = CODE_SYSTEM_ALIASES[code_system] {
       code_system = an_alias
@@ -100,12 +100,12 @@ class HDSCodeSystemHelper {
   
   //# Returns the whole map of OIDs to code systems
   //# @terurn [Hash] oids as keys, code system names as values
-  class func code_systems() -> [String:String] {
+  public class func code_systems() -> [String:String] {
     return HDS_EXTENDED_CODE_SYSTEMS
   }
   
   
-  class func addCodeSystem(code_system: String, oid: String? = "UNK") {
+  public class func addCodeSystem(code_system: String, oid: String? = "UNK") {
     if let oid = oid {
       if let  _ = HDS_EXTENDED_CODE_SYSTEMS[oid] {
       //we already have this code system

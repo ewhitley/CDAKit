@@ -8,19 +8,19 @@
 
 import Foundation
 
-class HDSSupport: HDSEntry {
+public class HDSSupport: HDSEntry {
   
-  static let Types = ["Guardian", "Next of Kin", "Caregiver", "Emergency Contact"]
+  public static let Types = ["Guardian", "Next of Kin", "Caregiver", "Emergency Contact"]
   
-  var address: HDSAddress?
-  var telecom: HDSTelecom?
+  public var address: HDSAddress?
+  public var telecom: HDSTelecom?
   
-  var title: String?
-  var given_name: String?
-  var family_name: String?
-  var mothers_maiden_name: String?
-  var type: String?
-  var relationship: String?
+  public var title: String?
+  public var given_name: String?
+  public var family_name: String?
+  public var mothers_maiden_name: String?
+  public var type: String?
+  public var relationship: String?
   
   //# validates_inclusion_of :type, :in => Types
   

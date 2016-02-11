@@ -8,23 +8,23 @@
 
 import Foundation
 
-class HDSAddress: NSObject, HDSJSONInstantiable {
+public class HDSAddress: NSObject, HDSJSONInstantiable {
   
   var record: HDSRecord?
   
-  var street: [String] = [String]()
-  var city: String?
-  var state: String?
-  var zip: String?
-  var country: String?
-  var use: String?
+  public var street: [String] = [String]()
+  public var city: String?
+  public var state: String?
+  public var zip: String?
+  public var country: String?
+  public var use: String?
   
   
-  override init(){
+  public override init(){
     super.init()
   }
   
-  init(street:[String] = [], city: String?, state: String?, zip: String?, country: String?, use: String?) {
+  public init(street:[String] = [], city: String?, state: String?, zip: String?, country: String?, use: String?) {
     super.init()
     self.street = street
     self.city = city
@@ -34,7 +34,7 @@ class HDSAddress: NSObject, HDSJSONInstantiable {
     self.use = use
   }
   
-  required init(event: [String:Any?]) {
+  required public init(event: [String:Any?]) {
     super.init()
     initFromEventList(event)
   }
@@ -45,7 +45,7 @@ class HDSAddress: NSObject, HDSJSONInstantiable {
     }
   }
 
-  override var description: String {
+  override public var description: String {
     return "HDSAddress => street: \(street), city: \(city), state: \(state), zip: \(zip), country: \(country), use: \(use)"
   }
   

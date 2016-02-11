@@ -9,28 +9,28 @@
 import Foundation
 import Mustache
 
-class HDSTelecom: NSObject, HDSJSONInstantiable {
+public class HDSTelecom: NSObject, HDSJSONInstantiable {
   
   var record: HDSRecord?
 
-  var use: String?
-  var value: String?
-  var preferred: Bool?
+  public var use: String?
+  public var value: String?
+  public var preferred: Bool?
   
   //embedded_in :contactable, polymorphic: true
   
-  override init(){
+  public override init(){
     super.init()
   }
   
-  init(use: String?, value: String, preferred: Bool? = false) {
+  public init(use: String?, value: String, preferred: Bool? = false) {
     super.init()
     self.use = use
     self.value = value
     self.preferred = preferred
   }
   
-  required init(event: [String:Any?]) {
+  public required init(event: [String:Any?]) {
     super.init()
     initFromEventList(event)
   }
@@ -41,7 +41,7 @@ class HDSTelecom: NSObject, HDSJSONInstantiable {
     }
   }
 
-  override var description: String {
+  public override var description: String {
     return "HDSTelecom => use: \(use), value: \(value), preferred: \(preferred)"
   }
 
@@ -49,7 +49,7 @@ class HDSTelecom: NSObject, HDSJSONInstantiable {
 }
 
 extension HDSTelecom {
-  override var mustacheBox: MustacheBox {
+  override public var mustacheBox: MustacheBox {
     return Box([
       "use": use,
       "value": value,

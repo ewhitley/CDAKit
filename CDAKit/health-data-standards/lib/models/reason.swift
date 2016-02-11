@@ -14,7 +14,7 @@ import Mustache
 // it was treating everything like an entry because it had similar-ish fields
 //HDSJSONInstantiable, CustomStringConvertible
 
-class HDSReason: HDSEntry {
+public class HDSReason: HDSEntry {
 //  var item_description: String?
 //  var codes: HDSCodedEntries = HDSCodedEntries()
   
@@ -25,7 +25,7 @@ class HDSReason: HDSEntry {
 //    initFromEventList(event)
 //  }
   
-  override var description: String {
+  override public var description: String {
     return "HDSReason => description: \(item_description), codes: \(codes)"
   }
   

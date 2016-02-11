@@ -12,21 +12,21 @@ import Mustache
 
 
 
-class HDSCondition: HDSEntry {
+public class HDSCondition: HDSEntry {
   
-  var type          : String?
-  var cause_of_death  : Bool? = false
-  var time_of_death : Double?
-  var priority      : Int?
-  var name          : String?
-  var ordinality    : HDSCodedEntries = HDSCodedEntries()
-  var severity      : HDSCodedEntries = HDSCodedEntries() //# Currently unsupported by any importers
-  var laterality    : HDSCodedEntries = HDSCodedEntries()
-  var anatomical_target : HDSCodedEntries = HDSCodedEntries()
-  var anatomical_location : HDSCodedEntries = HDSCodedEntries()
-  var age_at_onset: Int? //an actual age - like "20"
+  public var type          : String?
+  public var cause_of_death  : Bool? = false
+  public var time_of_death : Double?
+  public var priority      : Int?
+  public var name          : String?
+  public var ordinality    : HDSCodedEntries = HDSCodedEntries()
+  public var severity      : HDSCodedEntries = HDSCodedEntries() //# Currently unsupported by any importers
+  public var laterality    : HDSCodedEntries = HDSCodedEntries()
+  public var anatomical_target : HDSCodedEntries = HDSCodedEntries()
+  public var anatomical_location : HDSCodedEntries = HDSCodedEntries()
+  public var age_at_onset: Int? //an actual age - like "20"
   
-  var treating_provider: [HDSProvider] = [HDSProvider]()
+  public var treating_provider: [HDSProvider] = [HDSProvider]()
   
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
@@ -35,7 +35,7 @@ class HDSCondition: HDSEntry {
     }
   }
   
-  override var description: String {
+  override public var description: String {
     return super.description + " name: \(name), type: \(type), cause_of_death: \(cause_of_death), time_of_death: \(time_of_death), priority: \(priority), ordinality: \(ordinality), severity: \(severity), laterality: \(laterality), anatomical_target: \(anatomical_target), anatomical_location: \(anatomical_location)"
   }
   
@@ -43,11 +43,11 @@ class HDSCondition: HDSEntry {
 
 extension HDSCondition {
   
-  override var code_display : String {
+  override public var code_display : String {
     return ViewHelper.code_display(self, options: ["preferred_code_sets":self.preferred_code_sets, "tag_name": "value", "extra_content": "xsi:type=\"CD\""])
   }
   
-  override var boxedValues: [String:MustacheBox] {
+  override public var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
     
     vals["type"] = Box(self.type)

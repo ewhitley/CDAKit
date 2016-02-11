@@ -8,9 +8,9 @@
 
 import Foundation
 
-class HDSVitalSign: HDSLabResult {
+public class HDSVitalSign: HDSLabResult {
   
-  override var description: String {
+  override public var description: String {
     return super.description
   }
 

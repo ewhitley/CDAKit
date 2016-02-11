@@ -9,14 +9,14 @@
 import Foundation
 import Mustache
 
-class HDSTransfer: HDSThingWithCodes, CustomStringConvertible {
+public class HDSTransfer: HDSThingWithCodes, CustomStringConvertible {
   
-  var time: Double?
-  var codes = HDSCodedEntries()
+  public var time: Double?
+  public var codes = HDSCodedEntries()
 //  var codes = [String:Any]()
   
   //embedded_in :encounter, class_name: "HDSEncounter"
-  var description : String {
+  public var description : String {
     return "HDSTransfer => time: \(time), codes: \(codes)"
   }
 }
@@ -29,7 +29,7 @@ extension HDSTransfer: MustacheBoxable {
     ]
   }
   
-  var mustacheBox: MustacheBox {
+  public var mustacheBox: MustacheBox {
     return Box(boxedValues)
   }
 }

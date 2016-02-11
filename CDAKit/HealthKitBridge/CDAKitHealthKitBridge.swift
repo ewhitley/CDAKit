@@ -12,14 +12,14 @@
 
 import Foundation
 import HealthKit
-import SwiftTryCatch
+//import SwiftTryCatch
+import Try
 
-
-class HDSHealthKitBridge {
+public class HDSHealthKitBridge {
   
   let kUnknownString = "Unknown"
 
-  enum HDSHKQuantityIdentifiers: String {
+  public enum HDSHKQuantityIdentifiers: String {
     
     //  enum BodyMeasurements : String {
     case HKQuantityTypeIdentifierBodyMassIndex
@@ -62,7 +62,7 @@ class HDSHealthKitBridge {
     //  }
     
     //this is not my preferred approach, but for prototypeing it's fine for the moment
-    static let allValues = [HKQuantityTypeIdentifierBodyMassIndex, HKQuantityTypeIdentifierBodyFatPercentage, HKQuantityTypeIdentifierHeight, HKQuantityTypeIdentifierBodyMass, HKQuantityTypeIdentifierLeanBodyMass, HKQuantityTypeIdentifierStepCount, HKQuantityTypeIdentifierDistanceWalkingRunning, HKQuantityTypeIdentifierDistanceCycling, HKQuantityTypeIdentifierBasalEnergyBurned, HKQuantityTypeIdentifierActiveEnergyBurned, HKQuantityTypeIdentifierFlightsClimbed, HKQuantityTypeIdentifierNikeFuel, HKQuantityTypeIdentifierHeartRate, HKQuantityTypeIdentifierBodyTemperature, HKQuantityTypeIdentifierBasalBodyTemperature, HKQuantityTypeIdentifierBloodPressureSystolic, HKQuantityTypeIdentifierBloodPressureDiastolic, HKQuantityTypeIdentifierRespiratoryRate  , HKQuantityTypeIdentifierOxygenSaturation, HKQuantityTypeIdentifierPeripheralPerfusionIndex, HKQuantityTypeIdentifierBloodGlucose, HKQuantityTypeIdentifierNumberOfTimesFallen, HKQuantityTypeIdentifierElectrodermalActivity, HKQuantityTypeIdentifierInhalerUsage, HKQuantityTypeIdentifierBloodAlcoholContent, HKQuantityTypeIdentifierForcedVitalCapacity, HKQuantityTypeIdentifierForcedExpiratoryVolume1, HKQuantityTypeIdentifierPeakExpiratoryFlowRate]
+    public static let allValues = [HKQuantityTypeIdentifierBodyMassIndex, HKQuantityTypeIdentifierBodyFatPercentage, HKQuantityTypeIdentifierHeight, HKQuantityTypeIdentifierBodyMass, HKQuantityTypeIdentifierLeanBodyMass, HKQuantityTypeIdentifierStepCount, HKQuantityTypeIdentifierDistanceWalkingRunning, HKQuantityTypeIdentifierDistanceCycling, HKQuantityTypeIdentifierBasalEnergyBurned, HKQuantityTypeIdentifierActiveEnergyBurned, HKQuantityTypeIdentifierFlightsClimbed, HKQuantityTypeIdentifierNikeFuel, HKQuantityTypeIdentifierHeartRate, HKQuantityTypeIdentifierBodyTemperature, HKQuantityTypeIdentifierBasalBodyTemperature, HKQuantityTypeIdentifierBloodPressureSystolic, HKQuantityTypeIdentifierBloodPressureDiastolic, HKQuantityTypeIdentifierRespiratoryRate  , HKQuantityTypeIdentifierOxygenSaturation, HKQuantityTypeIdentifierPeripheralPerfusionIndex, HKQuantityTypeIdentifierBloodGlucose, HKQuantityTypeIdentifierNumberOfTimesFallen, HKQuantityTypeIdentifierElectrodermalActivity, HKQuantityTypeIdentifierInhalerUsage, HKQuantityTypeIdentifierBloodAlcoholContent, HKQuantityTypeIdentifierForcedVitalCapacity, HKQuantityTypeIdentifierForcedExpiratoryVolume1, HKQuantityTypeIdentifierPeakExpiratoryFlowRate]
     
   }
   
@@ -265,12 +265,22 @@ class HDSHealthKitBridge {
       }
       //because we can't do a try for the HKUnit initializer, we're going to just say "give it a shot"
       // and use SwiftyTryCatch here to let us just ... try.
-      SwiftTryCatch.tryBlock({
-        a_unit = HKUnit(fromString: a_unit_string)
-        }, catchBlock: { (error) in
-          print("unitForCDAString failure for unit '\(unit_string)' - \(error.description) ")
-        }, finallyBlock: {
-      })
+      do {
+        try trap {
+          a_unit = HKUnit(fromString: a_unit_string)
+        }
+      } catch let error as NSError {
+        print("unitForCDAString failure for unit '\(unit_string)' - \(error.description) ")
+        return nil
+      }
+      
+      
+//      SwiftTryCatch.tryBlock({
+//        a_unit = HKUnit(fromString: a_unit_string)
+//        }, catchBlock: { (error) in
+//          print("unitForCDAString failure for unit '\(unit_string)' - \(error.description) ")
+//        }, finallyBlock: {
+//      })
     }
 
     return a_unit
@@ -291,9 +301,9 @@ class HDSHealthKitBridge {
 //    Per the HL7 OID registry, Epic uses 1.2.840.114350 as its base OID, then each site / deployment
 //    gets its own unique OID to allow for custom variations - which are _incredibly_ common
 // Some handy references to gut-check - http://cdatools.org/infocenter/index.jsp?topic=%2Forg.openhealthtools.mdht.uml.cda.consol.doc%2Fterminology%2FHITSPVitalSignResultType.html
-class HDSHealthKitCodeReference {
+public class HDSHealthKitCodeReference {
   
-  static let sharedInstance = HDSHealthKitCodeReference()
+  public static let sharedInstance = HDSHealthKitCodeReference()
   private init() {
     loadHealthKitTermMap()
   }
@@ -406,7 +416,7 @@ class HDSHealthKitCodeReference {
   */
   
   func loadHealthKitTermMap() {
-    if let filePath = NSBundle.mainBundle().pathForResource("HDSDefaultHealthKitTermMap", ofType: "plist"), plistData = NSDictionary(contentsOfFile:filePath) {
+    if let filePath = HDSCommonUtility.bundle.pathForResource("CDAKitDefaultHealthKitTermMap", ofType: "plist"), plistData = NSDictionary(contentsOfFile:filePath) {
       for (identifierKey, entryData) in plistData {
         //"identifierKey" will be something like  "HKQuantityTypeIdentifierBloodGlucose"
         if let identifierKey = identifierKey as? String, entryData = entryData as? NSDictionary {
@@ -414,6 +424,8 @@ class HDSHealthKitCodeReference {
           HDSHKTypeConceptsExport[identifierKey] = restoreHDSCodedEntriesFromPList(entryData, forType: ["export", "both"])
         }
       }
+    } else {
+      print("Failed to find term map file (CDAKitDefaultHealthKitTermMap).  This will make it impossible to import or generate CDA using HealthKit ")
     }
   }
   
@@ -462,21 +474,21 @@ class HDSHealthKitCodeReference {
 //example of writing to health store
 //http://stackoverflow.com/questions/27268665/ios-healthkit-how-to-save-heart-rate-bpm-values-swift
 
-class HDSHKRecord: CustomStringConvertible {
+public class HDSHKRecord: CustomStringConvertible {
   
-  var title: String?
-  var first: String?
-  var last: String?
-  var gender: HKBiologicalSex?
+  public var title: String?
+  public var first: String?
+  public var last: String?
+  public var gender: HKBiologicalSex?
 
-  var birthdate: NSDate?
-  var deathdate: NSDate? //probably not interested in this one...
+  public var birthdate: NSDate?
+  public var deathdate: NSDate? //probably not interested in this one...
   
-  var effective_time: NSDate?
-  var healthKitSamples: [HKQuantitySample] = []
+  public var effective_time: NSDate?
+  public var healthKitSamples: [HKQuantitySample] = []
 
   
-  func exportAsHDSRecord() -> HDSRecord {
+  public func exportAsHDSRecord() -> HDSRecord {
     
     let aRecord = HDSRecord()
     aRecord.title = title
@@ -555,7 +567,7 @@ class HDSHKRecord: CustomStringConvertible {
     return nil
   }
   
-  init(fromHDSRecord patient: HDSRecord) {
+  public init(fromHDSRecord patient: HDSRecord) {
     
     
     first = patient.first
@@ -579,11 +591,11 @@ class HDSHKRecord: CustomStringConvertible {
     
   }
   
-  var healthKitSamplesDescription : String {
+  public var healthKitSamplesDescription : String {
     return healthKitSamples.map({"\($0.sampleType) \($0.description)"}).joinWithSeparator(", ")
   }
   
-  var description: String {
+  public var description: String {
     return "HDSHKRecord => title: \(title), first: \(first), last: \(last), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), healthKitSamples: \(healthKitSamplesDescription) "
   }
   

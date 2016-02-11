@@ -10,23 +10,23 @@ import Foundation
 import Mustache
 
 
-class HDSAllergy: HDSEntry {
-  var type: HDSCodedEntries = HDSCodedEntries()
-  var reaction: HDSCodedEntries = HDSCodedEntries() //flat code list
-  var severity: HDSCodedEntries = HDSCodedEntries() //flat code list
+public class HDSAllergy: HDSEntry {
+  public var type: HDSCodedEntries = HDSCodedEntries()
+  public var reaction: HDSCodedEntries = HDSCodedEntries() //flat code list
+  public var severity: HDSCodedEntries = HDSCodedEntries() //flat code list
   
-  init(type:HDSCodedEntries, reaction: HDSCodedEntries = HDSCodedEntries(), severity: HDSCodedEntries = HDSCodedEntries()) {
+  public init(type:HDSCodedEntries, reaction: HDSCodedEntries = HDSCodedEntries(), severity: HDSCodedEntries = HDSCodedEntries()) {
     super.init()
     self.type = type
     self.reaction = reaction
     self.severity = severity
   }
 
-  required init(){
+  public required init(){
     super.init()
   }
   
-  required init(event: [String : Any?]) {
+  public required init(event: [String : Any?]) {
      super.init(event: event)
   }
   
