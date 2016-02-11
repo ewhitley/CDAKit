@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="WebViewLayout_CDA.xsl"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:sdtc="urn:hl7-org:sdtc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cda="urn:hl7-org:v3" xsi:schemaLocation="urn:hl7-org:v3 http://xreg2.nist.gov:8080/hitspValidation/schema/cdar2c32/infrastructure/cda/C32_CDA.xsd">
+  <realmCode code="US"/>
+  <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+  <templateId root="2.16.840.1.113883.3.27.1776" assigningAuthorityName="CDA/R2"/>
+  <templateId root="2.16.840.1.113883.10.20.3" assigningAuthorityName="HL7/CDT Header"/>
+  <templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.1" assigningAuthorityName="IHE/PCC"/>
+  <templateId root="2.16.840.1.113883.3.88.10.20.3" assigningAuthorityName="HITSP/C32"/>
+ 
+  <templateId root="2.16.840.1.113883.3.88.11.32.1" assigningAuthorityName="HITSP/C32"/>
+  <id root="2.16.840.1.113883.19.5" extension="{{ patient.id }}" assigningAuthorityName="Cypress Project"/>
+  <code code="34133-9" displayName="Summarization of episode note" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+  <title>Cypress C32 Patient Test Record: {{ patient.first }} {{ patient.last }}</title>
+  <effectiveTime value="{{ date_as_number(nil) }}"/>
+  <confidentialityCode code="N"/>
+  <languageCode code="nn-CC"/>
+  <recordTarget>
+    <patientRole>
+      <id root="Cypress" extension="{{ patient.id }}"/>
+      {{#patient.addresses }}
+      <addr {{#use }}use="{{use}}"{{/use}}>
+        {{#street }}
+        <streetAddressLine>{{ . }}</streetAddressLine>
+        {{/street }}
+        <city>{{ city }}</city>
+        <state>{{ state }}</state>
+        <postalCode>{{ zip }}</postalCode>
+        <country>{{ country }}</country>
+      </addr>
+      {{/patient.addresses }}
+      {{# patient.telecoms }}
+      <telecom value="{{ value }}" {{#use }}use="{{use}}"{{/use}}/>
+      {{/patient.telecoms }}
+      <patient>
+        <name>
+          <given>{{ patient.first }}</given>
+          <family>{{ patient.last }}</family>
+        </name>
+        <administrativeGenderCode code="{{ patient.gender }}" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
+        <birthTime value="{{ date_as_number(patient.birthdate) }}"/>
+        {{#patient.race}}{{#.CDC}}
+          <raceCode code="{{ . }}" {{#name}}displayName="{{ name }}"{{/name }} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>{{/.CDC}}{{/patient.race}}
+        {{#patient.ethnicity}}{{#.CDC}}
+          <ethnicGroupCode code="{{ . }}" {{#name}}displayName="{{ name }}"{{/name }} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>{{/.CDC}}{{/patient.ethnicity}}
+        {{#patient.languages}}
+          <languageCommunication>
+            <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
+            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.1" assigningAuthorityName="IHE/PCC"/>
+            <languageCode code="{{ .IETF }}"/>
+          </languageCommunication>
+        {{/patient.languages}}
+        {{^patient.languages}}
+          <languageCommunication>
+            <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
+            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.1" assigningAuthorityName="IHE/PCC"/>
+            <languageCode code="en-us"/>
+          </languageCommunication>
+        {{/patient.languages}}
+      </patient>
+    </patientRole>
+  </recordTarget>
+  <author>
+    <time value="{{ date_as_number(nil) }}"/>
+    <assignedAuthor>
+      <id/>
+      <addr/>
+      <telecom value="tel:+1-781-271-3000"/>
+      <assignedPerson>
+        <name>Auto Generated</name>
+      </assignedPerson>
+    </assignedAuthor>
+  </author>
+  <custodian>
+    <assignedCustodian>
+      <representedCustodianOrganization>
+        <id root="2.16.840.1.113883.3.72"/>
+        <name>Cypress</name>
+        <telecom value="tel:+1-781-271-3000"/>
+        <addr>
+          <streetAddressLine>202 Burlington Rd.</streetAddressLine>
+          <city>Bedford</city>
+          <state>MA</state>
+          <postalCode>01730</postalCode>
+        </addr>
+      </representedCustodianOrganization>
+    </assignedCustodian>
+  </custodian>
+  <component>
+    <structuredBody>
+
+    {{#patient.allergies}}
+      {{>c32_allergies.c32}}
+    {{/patient.allergies}}
+    {{^patient.allergies}}
+      {{>c32_allergies_no_current.c32 }}
+    {{/patient.allergies}}
+
+    {{#patient.medications}}
+      {{>c32_medications.c32 }}
+    {{/patient.medications}}
+    {{^patient.medications}}
+      {{>c32_medications_no_current.c32 }}
+    {{/patient.medications}}
+
+    {{#patient.encounters}}
+      {{>c32_encounters.c32 }}
+    {{/patient.encounters}}
+    
+    {{#patient.conditions}}
+      {{>c32_conditions.c32 }}
+    {{/patient.conditions}}
+    {{^patient.conditions}}
+      {{>c32_conditions_no_current.c32 }}
+    {{/patient.conditions}}
+    
+    {{#patient.vital_signs}}
+      {{>c32_vital_signs.c32 }}
+    {{/patient.vital_signs}}
+    
+    {{#patient.procedures}}
+      {{>c32_procedures.c32 }}
+    {{/patient.procedures}}
+    
+    {{#patient.results}}
+      {{>c32_results.c32 }}
+    {{/patient.results}}
+    
+    {{#patient.immunizations}}
+      {{>c32_immunizations.c32 }}
+    {{/patient.immunizations}}
+    
+    {{#patient.care_goals}}
+      {{>c32_care_goals.c32 }}
+    {{/patient.care_goals}}
+    
+    {{#patient.social_history}}
+      {{>c32_social_history.c32 }}
+    {{/patient.social_history}}
+    
+    {{#patient.medical_equipment}}
+      {{>c32_medical_equipment.c32 }}
+    {{/patient.medical_equipment}}
+    </structuredBody>
+  </component>
+</ClinicalDocument>

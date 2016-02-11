@@ -1,0 +1,495 @@
+{
+  "_id": "506afdf87042f9e32c000001",
+  "addresses": [
+    {
+      "city": "Boston",
+      "state": "MA",
+      "street": [
+        "15 Credibility Street"
+      ],
+      "zip": "01803"
+    }
+  ],
+  "allergies": [
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "39579001"
+        ]
+      },
+      "comment": "Carries Epipen",
+      "description": "Anaphalactic reaction to peanuts",
+      "end_time": 1269762693,
+      "reaction": {
+        "code": "414285001",
+        "codeSystem": "SNOMED-CT"
+      },
+      "severity": {
+        "code": "371924009",
+        "codeSystem": "SNOMED-CT"
+      },
+      "start_time": 1269762691,
+      "time": 1269762692
+    }
+  ],
+  "birthPlace": {
+    "city": "Washington",
+    "state": "DC"
+  },
+  "birthdate": -223262033,
+  "clinicalTrialParticipant": false,
+  "conditions": [
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "105539002"
+        ]
+      },
+      "description": "Tobacco Non-user",
+      "time": 1269762692
+    },
+    {
+      "ageAtOnset": 20,
+      "codes": {
+        "SNOMED-CT": [
+          "109838007"
+        ]
+      },
+      "description": "Colorectal Cancer",
+      "ordinality": "principal",
+      "ordinality_code": {
+        "code": "8319008",
+        "codeSystem": "SNOMED-CT"
+      },
+      "priority": 1,
+      "problemStatus": {
+        "code": "55561003",
+        "codeSystem": "SNOMED-CT"
+      },
+      "severity": {
+        "code": "371924009",
+        "codeSystem": "SNOMED-CT"
+      },
+      "time": 1263167138
+    }
+  ],
+  "confidentiality": {
+    "code": "N",
+    "codeSystem": "HL7"
+  },
+  "custodian": {
+    "name": "General Hospital"
+  },
+  "deathdate": 1125956803,
+  "encounters": [
+    {
+      "_id": "OP12345",
+      "admitType": {
+        "code": "04",
+        "codeSystem": "regular"
+      },
+      "codes": {
+        "CPT": [
+          "99201"
+        ]
+      },
+      "description": "Outpatient encounter",
+      "dischargeDisp": "Home",
+      "facility": {
+        "addresses": [
+          {
+            "city": "Gaithersburg",
+            "country": null,
+            "state": "MD",
+            "street": [
+              "100 Bureau Drive"
+            ],
+            "zip": "20899"
+          }
+        ],
+        "code": {
+          "code": "1155-1",
+          "codeSystem": "HL7 Healthcare Service Location"
+        },
+        "end_time": 1124957003,
+        "name": "General Hospital",
+        "start_time": 1124956803,
+        "telecoms": [
+          {
+            "use": "HP",
+            "value": "tel:1-301-555-5555"
+          }
+        ]
+      },
+      "hi": 1314259203,
+      "low": 1124956803,
+      "performer": {
+        "organization": {
+          "name": "General Hospital"
+        }
+      },
+      "reason": {
+        "codes": {
+          "CPT": [
+            "99201"
+          ]
+        },
+        "description": "PCP referred"
+      },
+      "time": 1268042997
+    },
+    {
+      "codes": {
+        "CPT": [
+          "99201"
+        ]
+      },
+      "description": "Outpatient encounter",
+      "time": 1281484083
+    }
+  ],
+  "ethnicity": {
+    "code": "2186-5",
+    "codeSystem": "CDC"
+  },
+  "expired": true,
+  "first": "Barry",
+  "functional_statuses": [
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "273447005"
+        ]
+      },
+      "end_time": 1269762693,
+      "source": {
+        "code": "patient reported",
+        "codeSystem": "SNOMED-CT"
+      },
+      "start_time": 1269762691,
+      "type": "result"
+    }
+  ],
+  "gender": "M",
+  "immunizations": [
+    {
+      "codes": {
+        "CVX": [
+          "03"
+        ]
+      },
+      "comment": "vaccine",
+      "description": "MMR",
+      "medicationSeriesNumber": {
+        "unit": "",
+        "value": 2
+      },
+      "time": 1263168508
+    },
+    {
+      "codes": {
+        "CVX": [
+          "04"
+        ]
+      },
+      "comment": "patient invincible",
+      "description": "Something",
+      "negationInd": true,
+      "negationReason": {
+        "code": "IMMUNE",
+        "codeSystem": "HL7 No Immunization Reason"
+      },
+      "performer": {
+        "person": {
+          "addresses": [
+            {
+              "city": "Gaithersburg",
+              "country": null,
+              "state": "MD",
+              "street": [
+                "100 Bureau Drive"
+              ],
+              "zip": "20899"
+            }
+          ],
+          "first": "FirstName",
+          "last": "LastName",
+          "name": "\n    FirstName\n    LastName\n    ",
+          "telecoms": [
+            {
+              "use": "HP",
+              "value": "tel:1-301-555-5555"
+            }
+          ]
+        }
+      },
+      "time": 1263168508
+    },
+    {
+      "codes": {
+        "CVX": [
+          "04"
+        ]
+      },
+      "comment": "patient invincible",
+      "description": "Something",
+      "performer": {
+        "person": {
+          "addresses": [
+            {
+              "city": "Gaithersburg",
+              "country": null,
+              "state": "MD",
+              "street": [
+                "100 Bureau Drive"
+              ],
+              "zip": "20899"
+            }
+          ],
+          "first": "FirstName",
+          "last": "LastName",
+          "name": "\n    FirstName\n    LastName\n    ",
+          "telecoms": [
+            {
+              "use": "HP",
+              "value": "tel:1-301-555-5555"
+            }
+          ]
+        }
+      },
+      "time": 1263168508
+    }
+  ],
+  "insurance_providers": [
+    {
+      "codes": {
+        "Source of Payment Typology": [
+          "6"
+        ]
+      },
+      "name": "Blue Cross/Blue Shield"
+    }
+  ],
+  "languages": [
+    {
+      "codes": {
+        "IETF": [
+          "en"
+        ]
+      }
+    }
+  ],
+  "last": "Berry",
+  "maritalStatus": {
+    "code": "M",
+    "codeSystem": "HL7"
+  },
+  "medical_equipment": [
+    {
+      "anatomicalStructure": {
+        "code": "13648007",
+        "codeSystem": "SNOMED-CT"
+      },
+      "codes": {
+        "SNOMED-CT": [
+          "273447005"
+        ]
+      },
+      "end_time": 1269762693,
+      "start_time": 1269762691
+    }
+  ],
+  "medical_record_assigner": "BarryBerrysBasement",
+  "medical_record_number": 56789,
+  "medications": [
+    {
+      "administrationTiming": {
+        "institutionSpecified": true,
+        "period": {
+          "unit": "h",
+          "value": 24
+        }
+      },
+      "brandName": "Centrum Silver",
+      "codes": {
+        "RxNorm": [
+          "89905"
+        ]
+      },
+      "cumulativeMedicationDuration": {
+        "scalar": 3,
+        "unit": "d"
+      },
+      "description": "Multivitamin",
+      "dose": {
+        "unit": "tablet",
+        "value": 1
+      },
+      "freeTextSig": "Take your vitamins!",
+      "fulfillmentHistory": [
+        {
+          "dispenseDate": 1073238725,
+          "fillNumber": 5,
+          "provider": {
+            "person": {
+              "first": "Bobby",
+              "last": "Tables"
+            }
+          },
+          "quantityDispensed": {
+            "unit": "tablet",
+            "value": 30
+          }
+        }
+      ],
+      "oid": "2.16.840.1.113883.3.560.1.8",
+      "orderInformation": [
+        {
+          "fills": 20,
+          "orderDateTime": 1073238725,
+          "quantityOrdered": {
+            "unit": "tablet",
+            "value": 30
+          }
+        }
+      ],
+      "route": {
+        "code": "C38288",
+        "codeSystem": "NCI Thesaurus"
+      },
+      "statusOfMedication": {
+        "code": "55561003",
+        "codeSystem": "SNOMED-CT"
+      },
+      "time": 1286382415,
+      "typeOfMedication": {
+        "code": "329505003",
+        "codeSystem": "SNOMED-CT"
+      }
+    }
+  ],
+  "name": "Barry B. Berry",
+  "pregnancies": [
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "77386006"
+        ]
+      },
+      "description": "patient currently pregnant",
+      "time": 1269762692
+    }
+  ],
+  "procedures": [
+    {
+      "codes": {
+        "CPT": [
+          "44388"
+        ]
+      },
+      "description": "Colonscopy",
+      "incisionDateTime": 1073238725,
+      "performer": {
+        "person": {
+          "first": "Bobby",
+          "last": "Tables"
+        }
+      },
+      "site": {
+        "code": "71854001",
+        "codeSystem": "SNOMED-CT"
+      },
+      "time": 1073238725
+    }
+  ],
+  "provider": {
+    "careProvisionDateRange": {
+      "hi": 1124956803,
+      "low": 1124956803
+    },
+    "providerEntity": {
+      "first": "Mary",
+      "last": "Care"
+    }
+  },
+  "race": {
+    "code": "2131-1",
+    "codeSystem": "CDC"
+  },
+  "religiousAffiliation": {
+    "code": "1013",
+    "codeSystem": "HL7"
+  },
+  "results": [
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "104150001"
+        ]
+      },
+      "comment": "Negative",
+      "description": "Sucralose hemolysis test",
+      "status_code": {
+        "HL7 ActStatus": [
+          "completed"
+        ]
+      },
+      "time": 1263168508
+    }
+  ],
+  "socialhistories": [
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "229819007"
+        ]
+      },
+      "description": "Tobacco use and exposure",
+      "time": 1269762692,
+      "value": "1 pack per day"
+    }
+  ],
+  "supports": {
+    "supportDate": {
+      "hi": 1124956803,
+      "low": 1124956803
+    }
+  },
+  "vital_signs": [
+    {
+      "codes": {
+        "SNOMED-CT": [
+          "105539002"
+        ]
+      },
+      "description": "Tobacco Non-user",
+      "status_code": {
+        "HL7 ActStatus": [
+          "completed"
+        ]
+      },
+      "time": 1263168508
+    },
+    {
+      "codes": {
+        "LOINC": [
+          "8480-6"
+        ]
+      },
+      "comment": "BP taken sitting",
+      "description": "Systolic BP",
+      "status_code": {
+        "HL7 ActStatus": [
+          "completed"
+        ]
+      },
+      "time": 1263168508,
+      "values": [
+        {
+          "scalar": 132,
+          "units": "mm[Hg]"
+        }
+      ]
+    }
+  ]
+}

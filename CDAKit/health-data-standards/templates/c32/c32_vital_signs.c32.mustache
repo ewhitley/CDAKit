@@ -1,0 +1,64 @@
+<component>
+  <!--Vital Signs-->
+  <section>
+    <templateId root="2.16.840.1.113883.10.20.1.16" assigningAuthorityName="HL7 CCD"/>
+    <templateId root="2.16.840.1.113883.3.88.11.83.119" assigningAuthorityName="HITSP/C83"/>
+    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.1.5.3.2" assigningAuthorityName="IHE PCC"/>
+    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.25" assigningAuthorityName="IHE PCC"/>
+    <!--Vital Signs section template-->
+    <code code="8716-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Vital signs"/>
+    <title>Vital Signs</title>
+    {{> c32_narrative_block.c32 }}
+    <entry typeCode="DRIV">
+      <organizer classCode="CLUSTER" moodCode="EVN">
+        <templateId root="2.16.840.1.113883.10.20.1.32" assigningAuthorityName="CCD"/>
+        <templateId root="2.16.840.1.113883.10.20.1.35" assigningAuthorityName="CCD"/>
+        <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.1" assigningAuthorityName="IHE PCC"/>
+        <!-- Vital signs organizer template -->
+        <id root="{{ UUID_generate(nil) }}"/>
+        <code code="46680005" codeSystem="2.16.840.1.113883.6.96" displayName="Vital signs" codeSystemName="SNOMED CT"/>
+        <statusCode code="completed"/>
+        <effectiveTime value="19991114"/>
+        {{#each(entries)}}
+        <component>
+          <observation classCode="OBS" moodCode="EVN">
+            <templateId root="2.16.840.1.113883.3.88.11.83.14" assigningAuthorityName="HITSP C83"/>
+            <templateId root="2.16.840.1.113883.10.20.1.31" assigningAuthorityName="CCD"/>
+            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13.2" assigningAuthorityName="IHE PCC"/>
+            <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.13" assigningAuthorityName="IHE PCC"/>
+            <!-- Result observation template -->
+            <id root="{{ UUID_generate(nil) }}"/>
+            {{{ code_display }}}
+            <text>
+              <reference value="vitals-desc-{{ @index }}"/>
+            </text>
+            <statusCode code="completed"/>
+            <effectiveTime {{{ value_or_null_flavor(as_point_in_time) }}}/>
+            {{#each(values) }}
+              {{#@first}}
+              {{#scalar}}
+                {{#is_numeric(.)}}
+                  <value xsi:type="PQ" value="{{ . }}" {{#units}}unit="{{ . }}"{{/units}}/>
+                {{/}}
+                {{#is_bool(.)}}
+                  <value xsi:type="BL" value="{{ . }}" />
+                {{/}}
+                {{^is_numeric(.)}}{{^is_bool(.)}}
+                  <value xsi:type="ST" >{{ . }}</value>
+                {{/}}{{/}}
+              {{/scalar}}
+              {{^scalar}}
+                  <value xsi:type="PQ" nullFlavor="UNK"/>
+              {{/scalar}}
+              {{/}}
+            {{/}}
+          {{^values}}
+          <value xsi:type="PQ" nullFlavor="UNK"/>
+          {{/values}}
+          </observation>
+        </component>
+        {{/ }}
+      </organizer>
+    </entry>
+  </section>
+</component>

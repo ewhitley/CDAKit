@@ -1,0 +1,376 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="CDA.xsl"?>
+<ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 ../../../CDA%20R2/cda-schemas-and-samples/infrastructure/cda/CDA.xsd" xmlns="urn:hl7-org:v3" xmlns:cda="urn:hl7-org:v3" xmlns:sdtc="urn:l7-org:sdtc" xmlns:fhir="http://hl7.org/fhir/v3">
+
+<!-- force HealthKit CDA to load - otherwise, it's missing the CDA header we need to say this is a valid doc -->
+<realmCode code="US" />
+<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040" />
+<templateId root="2.16.840.1.113883.10.20.22.1.1" assigningAuthorityName="US Realm Clinical Document Header" />
+<templateId root="2.16.840.1.113883.10.20.22.1.2" assigningAuthorityName="Consolidated CDA - CCD Document" />
+<id root="2.16.840.1.113883.3.140.1.0.6.1.13092597.12456139" />
+<code code="34133-9" displayName="Summarization of Episode Note" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" />
+<title>Let's Get HealthKit to Load</title>
+<effectiveTime value="20130925132736-0400" />
+<confidentialityCode code="N" displayName="Normal" codeSystem="2.16.840.1.113883.5.25" codeSystemName="Confidentiality Code" />
+<languageCode code="eng" />
+
+<component>
+  <section>
+   <templateId root="2.16.840.1.113883.10.20.22.2.3.1"/>
+   <templateId root="2.16.840.1.113883.10.20.22.1.2" assigningAuthorityName="Consolidated CDA - CCD Document" />
+   <code codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" code="30954-2" displayName="RESULTS"/>
+   <title>Results</title>
+   <text/>
+   <entry typeCode="DRIV">
+    <organizer classCode="BATTERY" moodCode="EVN">
+     <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+     <id root="7d5a02b0-67a4-11db-bd13-0800200c9a66"/>
+     <code xsi:type="CE" code="386053000" displayName="Result" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+     <statusCode code="completed"/>
+     <component>
+      <observation classCode="OBS" moodCode="EVN">
+       <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
+       <id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+       <code code="365812005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Blood glucose level"/>
+       <text>
+        <sourceName>Health</sourceName>
+        <sourceVersion>9.2.1</sourceVersion>
+        <value>87</value>
+        <type>HKQuantityTypeIdentifierBloodGlucose</type>
+        <unit>mg/dL</unit>
+        <metadataEntry>
+         <key>HKWasUserEntered</key>
+         <value>1</value>
+        </metadataEntry>
+       </text>
+       <statusCode code="completed"/>
+       <effectiveTime>
+        <low value="20140125161700-0600"/>
+        <high value="20140125161700-0600"/>
+       </effectiveTime>
+       <value xsi:type="PQ" value="87" unit="mg/dL"/>
+       <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/>
+      </observation>
+     </component>
+    </organizer>
+   </entry>
+   <realmCode code="US"/>
+   <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+   <templateId root="2.16.840.1.113883.10.20.22.1.2"/>
+   <id extension="Health Export CDA" root="1.1.1.1.1.1.1.1.1"/>
+   <code codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" code="34109-9" displayName="Note"/>
+   <title>Health Data Export</title>
+   <effectiveTime value="20160126161837-0600"/>
+   <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+   <recordTarget>
+    <patientRole>
+     <id root="2.16.840.1.113883.4.6" nullFlavor="NA"/>
+     <patient>
+      <name use="CL">Eric Whitley</name>
+      <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" displayName="Male"/>
+      <birthTime value="19741231"/>
+     </patient>
+    </patientRole>
+   </recordTarget>
+  </section>
+ </component>
+ <component>
+  <section>
+   <templateId root="2.16.840.1.113883.10.20.22.2.4.1"/>
+   <code codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" code="8716-3" displayName="VITAL SIGNS"/>
+   <title>Vital Signs</title>
+   <text/>
+   <entry typeCode="DRIV">
+    <organizer classCode="CLUSTER" moodCode="EVN">
+     <templateId root="2.16.840.1.113883.10.20.22.4.26"/>
+     <id root="c6f88320-67ad-11db-bd13-0800200c9a66"/>
+     <code code="46680005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Vital signs"/>
+     <statusCode code="completed"/>
+     <effectiveTime>
+      <low value="20160126161800-0600"/>
+      <high value="20160126161800-0600"/>
+     </effectiveTime>
+     <component>
+      <observation classCode="OBS" moodCode="EVN">
+       <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
+       <id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+       <code code="8867-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Heart rate"/>
+       <text>
+        <sourceName>Health</sourceName>
+        <sourceVersion>9.2.1</sourceVersion>
+        <value>86</value>
+        <type>HKQuantityTypeIdentifierHeartRate</type>
+        <unit>count/min</unit>
+        <metadataEntry>
+         <key>HKWasUserEntered</key>
+         <value>1</value>
+        </metadataEntry>
+       </text>
+       <statusCode code="completed"/>
+       <effectiveTime>
+        <low value="20160126161800-0600"/>
+        <high value="20160126161800-0600"/>
+       </effectiveTime>
+       <value xsi:type="PQ" value="86" unit="count/min"/>
+       <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/>
+      </observation>
+     </component>
+    </organizer>
+   </entry>
+   <entry typeCode="DRIV">
+    <organizer classCode="CLUSTER" moodCode="EVN">
+     <templateId root="2.16.840.1.113883.10.20.22.4.26"/>
+     <id root="c6f88320-67ad-11db-bd13-0800200c9a66"/>
+     <code code="46680005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Vital signs"/>
+     <statusCode code="completed"/>
+     <effectiveTime>
+      <low value="20160126161500-0600"/>
+      <high value="20160126161500-0600"/>
+     </effectiveTime>
+     <component>
+      <observation classCode="OBS" moodCode="EVN">
+       <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
+       <id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+       <code code="8480-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Systolic blood pressure"/>
+       <text>
+        <sourceName>Health</sourceName>
+        <sourceVersion>9.2.1</sourceVersion>
+        <value>140</value>
+        <type>HKQuantityTypeIdentifierBloodPressureSystolic</type>
+        <unit>mmHg</unit>
+        <metadataEntry>
+         <key>HKWasUserEntered</key>
+         <value>1</value>
+        </metadataEntry>
+       </text>
+       <statusCode code="completed"/>
+       <effectiveTime>
+        <low value="20160126161500-0600"/>
+        <high value="20160126161500-0600"/>
+       </effectiveTime>
+       <value xsi:type="PQ" value="140" unit="mmHg"/>
+       <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/>
+      </observation>
+     </component>
+    </organizer>
+   </entry>
+   <entry typeCode="DRIV">
+    <organizer classCode="CLUSTER" moodCode="EVN">
+     <templateId root="2.16.840.1.113883.10.20.22.4.26"/>
+     <id root="c6f88320-67ad-11db-bd13-0800200c9a66"/>
+     <code code="46680005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Vital signs"/>
+     <statusCode code="completed"/>
+     <effectiveTime>
+      <low value="20160126161500-0600"/>
+      <high value="20160126161500-0600"/>
+     </effectiveTime>
+     <component>
+      <observation classCode="OBS" moodCode="EVN">
+       <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
+       <id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+       <code code="8462-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Diastolic blood pressure"/>
+       <text>
+        <sourceName>Health</sourceName>
+        <sourceVersion>9.2.1</sourceVersion>
+        <value>70</value>
+        <type>HKQuantityTypeIdentifierBloodPressureDiastolic</type>
+        <unit>mmHg</unit>
+        <metadataEntry>
+         <key>HKWasUserEntered</key>
+         <value>1</value>
+        </metadataEntry>
+       </text>
+       <statusCode code="completed"/>
+       <effectiveTime>
+        <low value="20160126161500-0600"/>
+        <high value="20160126161500-0600"/>
+       </effectiveTime>
+       <value xsi:type="PQ" value="70" unit="mmHg"/>
+       <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/>
+      </observation>
+     </component>
+    </organizer>
+   </entry>
+   <entry typeCode="DRIV">
+    <organizer classCode="CLUSTER" moodCode="EVN">
+     <templateId root="2.16.840.1.113883.10.20.22.4.26"/>
+     <id root="c6f88320-67ad-11db-bd13-0800200c9a66"/>
+     <code code="46680005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Vital signs"/>
+     <statusCode code="completed"/>
+     <effectiveTime>
+      <low value="20160126161700-0600"/>
+      <high value="20160126161700-0600"/>
+     </effectiveTime>
+     <component>
+      <observation classCode="OBS" moodCode="EVN">
+       <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
+       <id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+       <code code="8310-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Body Temperature"/>
+       <text>
+        <sourceName>Health</sourceName>
+        <sourceVersion>9.2.1</sourceVersion>
+        <value>98.6</value>
+        <type>HKQuantityTypeIdentifierBodyTemperature</type>
+        <unit>degF</unit>
+        <metadataEntry>
+         <key>HKWasUserEntered</key>
+         <value>1</value>
+        </metadataEntry>
+       </text>
+       <statusCode code="completed"/>
+       <effectiveTime>
+        <low value="20160126161700-0600"/>
+        <high value="20160126161700-0600"/>
+       </effectiveTime>
+       <value xsi:type="PQ" value="98.6" unit="degF"/>
+       <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/>
+      </observation>
+     </component>
+    </organizer>
+   </entry>
+
+   <entry typeCode="DRIV">
+    <organizer classCode="BATTERY" moodCode="EVN">
+     <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+     <id root="7d5a02b0-67a4-11db-bd13-0800200c9a66"/>
+     <code xsi:type="CE" code="386053000" displayName="Result" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+     <statusCode code="completed"/>
+     <component>
+      <observation classCode="OBS" moodCode="EVN">
+       <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
+       <id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+       <code code="106048009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Respiratory finding"/>
+       <text>
+        <sourceName>Health</sourceName>
+        <sourceVersion>9.2.1</sourceVersion>
+        <value>86</value>
+        <type>HKQuantityTypeIdentifierForcedVitalCapacity</type>
+        <unit>L</unit>
+        <metadataEntry>
+         <key>HKWasUserEntered</key>
+         <value>1</value>
+        </metadataEntry>
+       </text>
+       <statusCode code="completed"/>
+       <effectiveTime>
+        <low value="20160208084900-0600"/>
+        <high value="20160208084900-0600"/>
+       </effectiveTime>
+       <value xsi:type="PQ" value="86" unit="L"/>
+       <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/>
+      </observation>
+     </component>
+    </organizer>
+   </entry>
+   <entry typeCode="DRIV">
+    <organizer classCode="BATTERY" moodCode="EVN">
+     <templateId root="2.16.840.1.113883.10.20.22.4.1"/>
+     <id root="7d5a02b0-67a4-11db-bd13-0800200c9a66"/>
+     <code xsi:type="CE" code="386053000" displayName="Result" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+     <statusCode code="completed"/>
+     <component>
+      <observation classCode="OBS" moodCode="EVN">
+       <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
+       <id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+       <code code="106048009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Respiratory finding"/>
+       <text>
+        <sourceName>Health</sourceName>
+        <sourceVersion>9.2.1</sourceVersion>
+        <value>4.2</value>
+        <type>HKQuantityTypeIdentifierForcedExpiratoryVolume1</type>
+        <unit>L</unit>
+        <metadataEntry>
+         <key>HKWasUserEntered</key>
+         <value>1</value>
+        </metadataEntry>
+       </text>
+       <statusCode code="completed"/>
+       <effectiveTime>
+        <low value="20160127080100-0600"/>
+        <high value="20160127080100-0600"/>
+       </effectiveTime>
+       <value xsi:type="PQ" value="4.2" unit="L"/>
+       <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/>
+      </observation>
+     </component>
+    </organizer>
+   </entry>
+   <entry typeCode="DRIV">
+    <organizer classCode="CLUSTER" moodCode="EVN">
+     <templateId root="2.16.840.1.113883.10.20.22.4.26"/>
+     <id root="c6f88320-67ad-11db-bd13-0800200c9a66"/>
+     <code code="46680005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Vital signs"/>
+     <statusCode code="completed"/>
+     <effectiveTime>
+      <low value="20160208085000-0600"/>
+      <high value="20160208085000-0600"/>
+     </effectiveTime>
+     <component>
+      <observation classCode="OBS" moodCode="EVN">
+       <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
+       <id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+       <code code="2710-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Oxygen saturation"/>
+       <text>
+        <sourceName>Health</sourceName>
+        <sourceVersion>9.2.1</sourceVersion>
+        <value>0.98</value>
+        <type>HKQuantityTypeIdentifierOxygenSaturation</type>
+        <unit>%</unit>
+        <metadataEntry>
+         <key>HKWasUserEntered</key>
+         <value>1</value>
+        </metadataEntry>
+       </text>
+       <statusCode code="completed"/>
+       <effectiveTime>
+        <low value="20160208085000-0600"/>
+        <high value="20160208085000-0600"/>
+       </effectiveTime>
+       <value xsi:type="PQ" value="0.98" unit="%"/>
+       <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/>
+      </observation>
+     </component>
+    </organizer>
+   </entry>   
+
+   <entry typeCode="DRIV">
+    <organizer classCode="CLUSTER" moodCode="EVN">
+     <templateId root="2.16.840.1.113883.10.20.22.4.26"/>
+     <id root="c6f88320-67ad-11db-bd13-0800200c9a66"/>
+     <code code="46680005" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Vital signs"/>
+     <statusCode code="completed"/>
+     <effectiveTime>
+      <low value="20160208085100-0600"/>
+      <high value="20160208085100-0600"/>
+     </effectiveTime>
+     <component>
+      <observation classCode="OBS" moodCode="EVN">
+       <templateId root="2.16.840.1.113883.10.20.22.4.27"/>
+       <id root="c6f88321-67ad-11db-bd13-0800200c9a66"/>
+       <code code="3141-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Body weight Measured"/>
+       <text>
+        <sourceName>Health</sourceName>
+        <sourceVersion>9.2.1</sourceVersion>
+        <value>160</value>
+        <type>HKQuantityTypeIdentifierBodyMass</type>
+        <unit>lb</unit>
+        <metadataEntry>
+         <key>HKWasUserEntered</key>
+         <value>1</value>
+        </metadataEntry>
+       </text>
+       <statusCode code="completed"/>
+       <effectiveTime>
+        <low value="20160208085100-0600"/>
+        <high value="20160208085100-0600"/>
+       </effectiveTime>
+       <value xsi:type="PQ" value="160" unit="lb"/>
+       <interpretationCode code="N" codeSystem="2.16.840.1.113883.5.83"/>
+      </observation>
+     </component>
+    </organizer>
+   </entry>
+
+  </section>
+ </component>
+</ClinicalDocument>

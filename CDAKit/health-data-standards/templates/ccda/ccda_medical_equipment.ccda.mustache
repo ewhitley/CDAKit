@@ -1,0 +1,38 @@
+<component>
+  <!--Medical Equipment - Not C32-->
+  <section>
+    <templateId root="2.16.840.1.113883.10.20.22.2.23" />
+    <!-- Medical equipment section template -->
+    <code code="46264-8" codeSystem="2.16.840.1.113883.6.1"/>
+    <title>Medical Equipment</title>
+    {{> ccda_narrative_block.ccda }}
+    {{#each(entries)}}
+    <entry typeCode="DRIV">
+      <supply classCode="SPLY" moodCode="EVN">
+        <templateId root="2.16.840.1.113883.10.20.22.4.50"/>
+        <!-- Supply activity template -->
+        <id root="{{ UUID_generate(nil) }}"/>
+        <statusCode code="completed"/>
+        <effectiveTime {{{ value_or_null_flavor(as_point_in_time) }}}/>
+        <participant typeCode="DEV">
+          <participantRole classCode="MANU">
+            <templateId root="2.16.840.1.113883.10.20.22.4.37"/>
+            <!-- Product instance template -->
+            <addr/>
+            <telecom/>
+            <playingDevice>
+              {{{code_display}}}
+            </playingDevice>
+            {{#manufacturer }}
+            <scopingEntity>
+              <id root="{{ UUID_generate(nil) }}"/>
+              <desc>{{ . }}</desc>
+            </scopingEntity>
+            {{/manufacturer }}
+          </participantRole>
+        </participant>
+      </supply>
+    </entry>
+    {{/}}
+  </section>
+</component>

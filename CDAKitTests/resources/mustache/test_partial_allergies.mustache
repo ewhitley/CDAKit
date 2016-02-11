@@ -1,0 +1,24 @@
+===============
+ALLERGY LIST
+===============
+
+{{#patient.allergies}}
+Allergy HDSEntry ->
+-------------
+    myType: {{myType}}
+
+    time: {{time}}
+    date: {{ date_as_number(time) }}
+    codes:{{#each(codes)}}
+        ID: {{UUID_generate(nil)}}
+        Vocabulary:{{@key}} codes=[{{#each(.)}}{{.}},{{/}}]
+    {{/}}
+
+    code_display  = {{{code_display}}}
+
+
+    narrative: {{narrative}}
+    narrative.value: {{narrative.value}}
+    narrative.section: {{narrative.section}}
+{{/patient.allergies}}
+

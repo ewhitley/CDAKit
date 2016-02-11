@@ -1,0 +1,27 @@
+<text>
+  <table border="1" width="100%">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Codes</th>
+        <th>Time</th>
+        {{#status }}<th>Status</th>{{/status }}
+        {{#value }}<th>Value</th>{{/value }}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each(entries)}}<tr>
+          <td ID="{{ section }}-desc-{{ @index }}">{{ description }}</td>
+          <td ID="{{ section }}-code-{{ @index }}">{{ codes_to_s }}<br/>{{ specifics }}</td>
+          <td>{{ times_to_s }}</td>
+          {{#status }}<td>{{ .status }}</td>{{/status }}
+          {{#value }}<td>{{#values }}
+          {{#scalar }}{{{.}}}<br/>{{/scalar}}
+          {{^scalar}}{{#each(codes)}}{{@key }}: {{# each(.)}}{{.}}{{^ @last }},{{/}}{{/}}<br/>{{/}}{{/scalar}}
+          {{#units }}{{{.}}}<br/>{{/units}}
+          {{^scalar}}{{^codes}}UNKNOWN VALUE{{/codes}}{{/scalar}}
+          {{/values }}</td>{{/value }}
+      </tr>{{/}}
+    </tbody>
+  </table>
+</text>

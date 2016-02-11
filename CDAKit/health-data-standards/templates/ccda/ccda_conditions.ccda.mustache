@@ -1,0 +1,54 @@
+<component>
+  <!--Problems-->
+  <section>
+    <templateId root="2.16.840.1.113883.10.20.22.2.5.1"/>
+    <!--Problems section template-->
+    <code code="11450-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Problem list"/>
+    <title>Problems</title>
+    {{> ccda_narrative_block.ccda }}
+    {{#each(entries)}}
+    <entry typeCode="DRIV">
+      <act classCode="ACT" moodCode="EVN">
+        <templateId root="2.16.840.1.113883.10.20.22.4.3"/>
+        <!-- Problem act template -->
+        <id root="{{ UUID_generate(nil) }}"/>
+        <code nullFlavor="NA"/>
+        <statusCode code="{{statusCode_code}}"/>
+        <effectiveTime>
+        <low {{{ value_or_null_flavor(as_point_in_time) }}}/>
+        </effectiveTime>
+        <entryRelationship typeCode="SUBJ" inversionInd="false">
+          <observation classCode="OBS" moodCode="EVN">
+            <templateId root="2.16.840.1.113883.10.20.22.4.4"/>            
+            <!--Problem observation template - NOT episode template-->
+            <id root="{{ UUID_generate(nil) }}"/>
+            <code code="64572001" displayName="Condition" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED-CT"/>
+            <text>
+              <reference value="#conditions-desc-{{ @index }}"/>
+            </text>
+            <statusCode code="completed"/>
+            <effectiveTime>
+            <low {{{ value_or_null_flavor(as_point_in_time) }}}/>
+            </effectiveTime>
+            {{#ordinality.count}}
+              <priorityCode code="8319008" codeSystem="2.16.840.1.113883.6.96" displayName="Principal diagnosis" />
+            {{/ }}
+            {{{ code_display }}}
+            {{#.status}}
+            <entryRelationship typeCode="REFR">
+              <observation classCode="OBS" moodCode="EVN">
+                <templateId root="2.16.840.1.113883.10.20.22.4.6"/>
+                <!-- Problem status observation template -->
+                <code code="33999-4" codeSystem="2.16.840.1.113883.6.1" displayName="Status"/>
+                <statusCode code="completed"/>
+                <value xsi:type="CE" code="{{ status_code_for }}" codeSystem="2.16.840.1.113883.6.96"/>
+              </observation>
+            </entryRelationship>
+            {{/.status}}
+          </observation>
+        </entryRelationship>
+      </act>
+    </entry>
+    {{/ }}
+  </section>
+</component>

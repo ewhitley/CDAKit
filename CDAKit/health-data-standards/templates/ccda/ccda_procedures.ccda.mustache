@@ -1,0 +1,25 @@
+<component>
+  <!--Surgeries-->
+  <section>
+    <templateId root="2.16.840.1.113883.10.20.22.2.7"/>
+    <!--Surgeries section template-->
+    <code code="47519-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="List of surgeries"/>
+    <title>Surgeries</title>
+    {{> ccda_narrative_block.ccda }}
+    {{#each(entries)}}
+    <entry typeCode="DRIV">
+      <procedure classCode="PROC" moodCode="EVN">
+        <templateId root="2.16.840.1.113883.10.20.22.4.14"/>
+        <!-- Procedure activity template -->
+        <id root="{{ UUID_generate(nil) }}"/>
+        {{>ccda_code_with_reference.ccda}}
+        <text>
+          <reference value="#procedures-desc-{{ @index }}"/>
+        </text>
+        <statusCode code="completed"/>
+        <effectiveTime {{{ value_or_null_flavor(as_point_in_time) }}}/>
+      </procedure>
+    </entry>
+    {{/}}
+  </section>
+</component>

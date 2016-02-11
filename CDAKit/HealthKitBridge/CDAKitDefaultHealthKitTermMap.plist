@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+		<key>HKQuantityTypeIdentifierLeanBodyMass</key>
+		<dict/>
+		<key>HKQuantityTypeIdentifierBodyFatPercentage</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+				<dict>
+					<key>code</key>
+					<string>41982-0</string>
+					<key>displayName</key>
+					<string>Percentage of body fat Measured</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+		<key>HKQuantityTypeIdentifierBodyMass</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+				<dict>
+					<key>code</key>
+					<string>3141-9</string>
+					<key>displayName</key>
+					<string>Body weight Measured</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+		<key>HKQuantityTypeIdentifierHeight</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>8302-2</string>
+					<key>displayName</key>
+					<string>Body height</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+		<key>HKQuantityTypeIdentifierBodyMassIndex</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>39156-5</string>
+					<key>displayName</key>
+					<string>Body mass index (BMI) [Ratio]</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+			<key>SNOMED-CT</key>
+			<array>
+					<dict>
+					<key>code</key>
+					<string>225171007</string>
+					<key>displayName</key>
+					<string>Weight and body mass assessment procedure (procedure)</string>
+					<key>mapRestriction</key>
+					<string>import</string>
+				</dict>
+			</array>
+		</dict>
+
+		<key>HKQuantityTypeIdentifierStepCount</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>66334-4</string>
+					<key>displayName</key>
+					<string>Steps taken [#] [PhenX]</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+		<key>HKQuantityTypeIdentifierDistanceWalkingRunning</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>55412-1</string>
+					<key>displayName</key>
+					<string>Exercise distance</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+		<key>HKQuantityTypeIdentifierDistanceCycling</key>
+		<dict/>
+		<key>HKQuantityTypeIdentifierBasalEnergyBurned</key>
+		<dict/>
+
+		<key>HKQuantityTypeIdentifierActiveEnergyBurned</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>55421-2</string>
+					<key>displayName</key>
+					<string>Calories burned Machine estimate</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+		<key>HKQuantityTypeIdentifierFlightsClimbed</key>
+		<dict/>
+		<key>HKQuantityTypeIdentifierNikeFuel</key>
+		<dict/>
+
+
+		<key>HKQuantityTypeIdentifierHeartRate</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>8867-4</string>
+					<key>displayName</key>
+					<string>Heart rate</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+		<key>HKQuantityTypeIdentifierBodyTemperature</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>8310-5</string>
+					<key>displayName</key>
+					<string>Body temperature</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+		<key>HKQuantityTypeIdentifierBasalBodyTemperature</key>
+		<dict>
+			<key>SNOMED-CT</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>300076005</string>
+					<key>displayName</key>
+					<string>Basal Body Temperature</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+		<key>HKQuantityTypeIdentifierBloodPressureSystolic</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>8480-6</string>
+					<key>displayName</key>
+					<string>Systolic blood pressure</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+		<key>HKQuantityTypeIdentifierBloodPressureDiastolic</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>8462-4</string>
+					<key>displayName</key>
+					<string>Diastolic blood pressure</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+		<key>HKQuantityTypeIdentifierRespiratoryRate</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>9279-1</string>
+					<key>displayName</key>
+					<string>Respiratory rate</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+		<key>HKQuantityTypeIdentifierOxygenSaturation</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>2710-2</string>
+					<key>displayName</key>
+					<string>Deprecated Oxygen saturation in Capillary blood by Oximetry</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+								<dict>
+					<key>code</key>
+					<string>2713-6</string>
+					<key>displayName</key>
+					<string>Oxygen saturation Calculated from oxygen partial pressure in Blood</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+		<key>HKQuantityTypeIdentifierPeripheralPerfusionIndex</key>
+		<dict/>
+
+		<key>HKQuantityTypeIdentifierBloodGlucose</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>2345-7</string>
+					<key>displayName</key>
+					<string>Glucose [Mass/​volume] in Serum or Plasma</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+								<dict>
+					<key>code</key>
+					<string>2339-0</string>
+					<key>displayName</key>
+					<string>Glucose [Mass/​volume] in Blood</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+								<dict>
+					<key>code</key>
+					<string>6777-7</string>
+					<key>displayName</key>
+					<string>Deprecated Glucose [Mass/​volume] in Serum or Plasma</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+			<key>SNOMED-CT</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>434912009</string>
+					<key>displayName</key>
+					<string>Blood glucose concentration (observable entity)</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+  		<key>HKQuantityTypeIdentifierNumberOfTimesFallen</key>
+		<dict>
+			<key>SNOMED-CT</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>298348009</string>
+					<key>displayName</key>
+					<string>Number of falls (observable entity)</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+  		<key>HKQuantityTypeIdentifierElectrodermalActivity</key>
+		<dict/>
+  		<key>HKQuantityTypeIdentifierInhalerUsage</key>
+		<dict/>
+
+  		<key>HKQuantityTypeIdentifierBloodAlcoholContent</key>
+		<dict>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>74859-0</string>
+					<key>displayName</key>
+					<string>Ethanol [Mass/​volume] blood equivalent in Blood by Estimated from serum level</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+  		<key>HKQuantityTypeIdentifierForcedVitalCapacity</key>
+		<dict>
+			<key>SNOMED-CT</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>50834005</string>
+					<key>displayName</key>
+					<string>Forced vital capacity (observable entity)</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>19870-5</string>
+					<key>displayName</key>
+					<string>Forced vital capacity [Volume] Respiratory system</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+  		<key>HKQuantityTypeIdentifierForcedExpiratoryVolume1</key>
+		<dict>
+			<key>SNOMED-CT</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>59328004</string>
+					<key>displayName</key>
+					<string>Forced expired volume in 1 second (observable entity)</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>20150-9</string>
+					<key>displayName</key>
+					<string>FEV1</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+  		<key>HKQuantityTypeIdentifierPeakExpiratoryFlowRate</key>
+		<dict>
+			<key>SNOMED-CT</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>313193002</string>
+					<key>displayName</key>
+					<string>Peak flow rate (respiratory) (observable entity)</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+			<key>LOINC</key>
+			<array>
+								<dict>
+					<key>code</key>
+					<string>19935-6</string>
+					<key>displayName</key>
+					<string>Maximum expiratory gas flow Respiratory system airway by Peak flow meter</string>
+					<key>mapRestriction</key>
+					<string>both</string>
+				</dict>
+			</array>
+		</dict>
+
+
+</dict>
+</plist>
