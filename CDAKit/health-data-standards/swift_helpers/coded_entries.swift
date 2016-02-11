@@ -1,6 +1,6 @@
 //
 //  coded_entries.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/14/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.
@@ -10,10 +10,20 @@ import Foundation
 import Mustache
 
 
-public struct HDSCodedTerm {
+public struct HDSCodedTerm: Equatable, Hashable {
   var code: String
   var displayName: String?
+
+  public var hashValue: Int {
+    return "\(code)\(displayName)".hashValue
+  }
+
 }
+
+public func == (lhs: HDSCodedTerm, rhs: HDSCodedTerm) -> Bool {
+  return lhs.hashValue == rhs.hashValue
+}
+
 
 public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionType, Equatable, Hashable {
   var codeSystem: String
@@ -24,9 +34,42 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
   private var _codes: [HDSCodedTerm] = []
   var codes: [String] {
     get { return _codes.map({$0.code}) }
-    set { _codes = newValue.map({HDSCodedTerm(code: $0, displayName: nil)}) }
+    set {
+      let terms = newValue.map({HDSCodedTerm(code: $0, displayName: nil)})
+      _codes = mergeTermDisplayNames(terms)
+    }
   }
 
+  private func uniqueTerms(forTerms terms: [HDSCodedTerm]) -> [HDSCodedTerm] {
+    var uniqueTerms: [HDSCodedTerm] = []
+    for term in terms {
+      if !uniqueTerms.contains(term) {
+        uniqueTerms.append(term)
+      }
+    }
+    return uniqueTerms
+  }
+  
+  private func mergeTermDisplayNames(inTerms: [HDSCodedTerm]) -> [HDSCodedTerm] {
+    //this is slow, but I want to be explicit about what we're doing for the moment
+    var mergedTerms: [HDSCodedTerm] = inTerms
+    
+    //we already have terms, so some may have descriptions where our existing may not
+    // in this case (while not necessarily "right,") we want to retain descriptions wherever we can
+    // this is slow and cumbersome
+    if _codes.count > 0 {
+      for c in _codes {
+        for (i, t) in mergedTerms.enumerate() {
+          if c.displayName != nil && t.displayName == nil {
+            mergedTerms[i].displayName = c.displayName
+          }
+        }
+      }
+    }
+    
+    return uniqueTerms(forTerms: mergedTerms)
+  }
+  
   var codedTerms: [HDSCodedTerm] {
     get { return _codes }
     set { _codes = newValue }
@@ -103,7 +146,12 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
   }
   
   public var hashValue: Int {
-    return "\(codeSystem)\(codeSystemOid)\(codes)".hashValue
+    // Removing the code system OID portion of the comparison
+    // There are situations where HDS equates these as "the same," but we might
+    //   have an OID in one, but not another
+    // The original Ruby HDS would see these as "the same" so we're following that
+    //return "\(codeSystem)\(codeSystemOid)\(codes)".hashValue
+    return "\(codeSystem)\(codes)".hashValue
   }
 
   func containsCode(codeSystem: String, withCode code: String) -> Bool {

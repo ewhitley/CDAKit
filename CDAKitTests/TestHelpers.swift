@@ -1,12 +1,14 @@
 //
 //  TestHelpers.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/25/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.
 //
 
 import Foundation
+@testable import CDAKit
+
 
 //TestHelpers.collections.providers.load_providers()
 //TestHelpers.fileHelpers.load_xml_string_from_file()

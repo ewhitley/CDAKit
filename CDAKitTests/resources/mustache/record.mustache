@@ -1,0 +1,26 @@
+Patient Name {{patient.first}} {{patient.last}}
+
+<id root="Cypress" extension="{{ patient.id }}"/>
+
+{{#patient.addresses }}
+<addr {{#use }}use='{{use}}'{{/use}}>
+  {{#street }}<streetAddressLine>{{ . }}</streetAddressLine>{{/street }}
+  <city>{{ city }}</city>
+  <state>{{ state }}</state>
+  <postalCode>{{ zip }}</postalCode>
+  <country>{{ country }}</country>
+</addr>
+{{/patient.addresses }}
+
+{{#patient.allergies}}
+   {{>_allergies.c32}}
+{{/patient.allergies}}
+{{^patient.allergies}}
+   {{>_allergies_no_current.c32 }}
+{{/patient.allergies}}
+{{#patient.results}}
+   {{>_results.c32 }}
+{{/patient.results}}
+
+
+

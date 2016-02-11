@@ -1,12 +1,14 @@
 //
 //  BasicXPathTest.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/11/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.
 //
 
 import XCTest
+@testable import CDAKit
+
 import Mustache
 
 class BasicXPathTest: XCTestCase {
@@ -47,14 +49,6 @@ class BasicXPathTest: XCTestCase {
     }
   }
 
-  func testImportWithExternalRecord() {
-    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("DOC0001")
-    if let record = HDSImport_BulkRecordImporter.importRecord(doc) {
-      //print(record)
-      //print(HDS_EXTENDED_CODE_SYSTEMS)
-    }
-  }
-
   func testImportWithExternalRecord_GithubCCD() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Vitera_CCDA_SMART_Sample")
     if let record = HDSImport_BulkRecordImporter.importRecord(doc) {
@@ -76,7 +70,7 @@ class BasicXPathTest: XCTestCase {
   
   func testRecordXMLInitializer_VALID() {
     
-    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("DOC0001")
+    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Vitera_CCDA_SMART_Sample")
     if let record = HDSRecord.init(fromXML: doc) {
       //print(record)
       //print(HDS_EXTENDED_CODE_SYSTEMS)
@@ -98,7 +92,7 @@ class BasicXPathTest: XCTestCase {
   
   func testExport() {
 
-    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("DOC0001")
+    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Vitera_CCDA_SMART_Sample")
     let record = HDSImport_BulkRecordImporter.importRecord(doc)!
 
     let myOut = record.export(inFormat: .ccda)

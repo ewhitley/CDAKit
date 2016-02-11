@@ -1,12 +1,14 @@
 //
 //  HDSRecordTestElements.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 12/7/15.
 //  Copyright © 2015 Eric Whitley. All rights reserved.
 //
 
 import Foundation
+@testable import CDAKit
+
 
 //var test_record_sequence:[String:Int] = [String:Int]()
 

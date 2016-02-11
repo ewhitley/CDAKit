@@ -1,6 +1,6 @@
 //
 //  narrative_reference_handler.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/11/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.

@@ -1,12 +1,14 @@
 //
 //  HealthKitRecordTest.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/27/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.
 //
 
 import XCTest
+@testable import CDAKit
+
 import HealthKit
 import Fuzi
 
@@ -63,19 +65,6 @@ class HealthKitRecordTest: XCTestCase {
     }
   }
 
-
-  func testImportingFromCCD_3() {
-    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("DOC0001")
-    if let record = HDSImport_BulkRecordImporter.importRecord(doc) {
-      //print(record)
-      let hkRecord = HDSHKRecord(fromHDSRecord: record)
-      print(hkRecord.healthKitSamplesDescription)
-      
-      let hdsRecord = hkRecord.exportAsHDSRecord()
-      print(hdsRecord)
-
-    }
-  }
 
   func testImportingFromCCD_4() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Rosa.ccda")

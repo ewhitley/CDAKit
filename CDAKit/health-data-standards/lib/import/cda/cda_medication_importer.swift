@@ -1,6 +1,6 @@
 //
 //  allergy_importer.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/13/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.

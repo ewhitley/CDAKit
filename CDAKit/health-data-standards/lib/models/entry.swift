@@ -1,6 +1,6 @@
  //
 //  entry.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 11/30/15.
 //  Copyright © 2015 Eric Whitley. All rights reserved.

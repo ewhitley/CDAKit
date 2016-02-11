@@ -1,12 +1,14 @@
 //
 //  C32InsuranceProviderImporterTest.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/25/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.
 //
 
 import XCTest
+@testable import CDAKit
+
 import Fuzi
 
 class C32InsuranceProviderImporterTest: XCTestCase {

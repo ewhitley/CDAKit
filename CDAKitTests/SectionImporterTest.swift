@@ -1,12 +1,14 @@
 //
 //  SectionImporterTest.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/19/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.
 //
 
 import XCTest
+@testable import CDAKit
+
 import Fuzi
 
 //https://github.com/projectcypress/health-data-standards/blob/master/test/unit/import/cda/section_importer_test.rb

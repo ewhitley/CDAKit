@@ -160,7 +160,6 @@
 		389171F01C6CEC3E00A31299 /* C32ResultImporterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891717F1C6CEC3D00A31299 /* C32ResultImporterTest.swift */; };
 		389171F41C6CEC3E00A31299 /* Cat1EncounterTransferImporterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171831C6CEC3D00A31299 /* Cat1EncounterTransferImporterTest.swift */; };
 		389171F51C6CEC3E00A31299 /* CCDA_PatientImporterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171841C6CEC3D00A31299 /* CCDA_PatientImporterTest.swift */; };
-		389171F61C6CEC3E00A31299 /* CCDAccessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171851C6CEC3D00A31299 /* CCDAccessTests.swift */; };
 		389171F71C6CEC3E00A31299 /* CDAIdentifierTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171861C6CEC3D00A31299 /* CDAIdentifierTest.swift */; };
 		389171F81C6CEC3E00A31299 /* CDAProcedureImporterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171871C6CEC3D00A31299 /* CDAProcedureImporterTest.swift */; };
 		389171F91C6CEC3E00A31299 /* CDAProviderImporterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171881C6CEC3D00A31299 /* CDAProviderImporterTest.swift */; };
@@ -212,6 +211,52 @@
 		3891729A1C6CF1F200A31299 /* Cancer_Adult_Male_A.qrda1.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172931C6CF1F200A31299 /* Cancer_Adult_Male_A.qrda1.xml */; };
 		3891729B1C6CF1F200A31299 /* Rosa.c32.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172941C6CF1F200A31299 /* Rosa.c32.xml */; };
 		3891729C1C6CF1F200A31299 /* Rosa.ccda.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172951C6CF1F200A31299 /* Rosa.ccda.xml */; };
+		3891729F1C6CF68E00A31299 /* Vitera_CCDA_SMART_Sample.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3891729E1C6CF68E00A31299 /* Vitera_CCDA_SMART_Sample.xml */; };
+		389172A21C6CF6C200A31299 /* Patient-673.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172A11C6CF6C200A31299 /* Patient-673.xml */; };
+		389172A41C6CFC4100A31299 /* document.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 389172A31C6CFC4100A31299 /* document.mustache */; };
+		389172A61C6CFC6E00A31299 /* record.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 389172A51C6CFC6E00A31299 /* record.mustache */; };
+		389172D21C6CFD9000A31299 /* care_goal_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172A81C6CFD9000A31299 /* care_goal_fragment.xml */; };
+		389172D31C6CFD9000A31299 /* clinical_trial_participant_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172A91C6CFD9000A31299 /* clinical_trial_participant_fragment.xml */; };
+		389172D41C6CFD9000A31299 /* comm_patient_to_provider_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172AA1C6CFD9000A31299 /* comm_patient_to_provider_fragment.xml */; };
+		389172D51C6CFD9000A31299 /* comm_prov_to_patient_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172AB1C6CFD9000A31299 /* comm_prov_to_patient_fragment.xml */; };
+		389172D61C6CFD9000A31299 /* comm_provider_to_provider_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172AC1C6CFD9000A31299 /* comm_provider_to_provider_fragment.xml */; };
+		389172D71C6CFD9000A31299 /* condition_expired_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172AD1C6CFD9000A31299 /* condition_expired_fragment.xml */; };
+		389172D81C6CFD9000A31299 /* device_applied_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172AE1C6CFD9000A31299 /* device_applied_fragment.xml */; };
+		389172D91C6CFD9000A31299 /* diagnosis_active_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172AF1C6CFD9000A31299 /* diagnosis_active_fragment.xml */; };
+		389172DA1C6CFD9000A31299 /* diagnosis_inactive_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172B01C6CFD9000A31299 /* diagnosis_inactive_fragment.xml */; };
+		389172DB1C6CFD9000A31299 /* diagnosis_resolved_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172B11C6CFD9000A31299 /* diagnosis_resolved_fragment.xml */; };
+		389172DC1C6CFD9000A31299 /* diagnostic_study_order_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172B21C6CFD9000A31299 /* diagnostic_study_order_fragment.xml */; };
+		389172DD1C6CFD9100A31299 /* diagnostic_study_performed_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172B31C6CFD9000A31299 /* diagnostic_study_performed_fragment.xml */; };
+		389172DE1C6CFD9100A31299 /* diagnostic_study_result_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172B41C6CFD9000A31299 /* diagnostic_study_result_fragment.xml */; };
+		389172DF1C6CFD9100A31299 /* discharge_medication_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172B51C6CFD9000A31299 /* discharge_medication_fragment.xml */; };
+		389172E01C6CFD9100A31299 /* ecog_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172B61C6CFD9000A31299 /* ecog_fragment.xml */; };
+		389172E11C6CFD9100A31299 /* encounter_order_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172B71C6CFD9000A31299 /* encounter_order_fragment.xml */; };
+		389172E21C6CFD9100A31299 /* encounter_performed_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172B81C6CFD9000A31299 /* encounter_performed_fragment.xml */; };
+		389172E31C6CFD9100A31299 /* functional_status_result_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172B91C6CFD9000A31299 /* functional_status_result_fragment.xml */; };
+		389172E41C6CFD9100A31299 /* gestational_age_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172BA1C6CFD9000A31299 /* gestational_age_fragment.xml */; };
+		389172E51C6CFD9100A31299 /* insurance_provider_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172BB1C6CFD9000A31299 /* insurance_provider_fragment.xml */; };
+		389172E61C6CFD9100A31299 /* intervention_order_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172BC1C6CFD9000A31299 /* intervention_order_fragment.xml */; };
+		389172E71C6CFD9100A31299 /* intervention_performed_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172BD1C6CFD9000A31299 /* intervention_performed_fragment.xml */; };
+		389172E81C6CFD9100A31299 /* intervention_result_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172BE1C6CFD9000A31299 /* intervention_result_fragment.xml */; };
+		389172E91C6CFD9100A31299 /* lab_order_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172BF1C6CFD9000A31299 /* lab_order_fragment.xml */; };
+		389172EA1C6CFD9100A31299 /* lab_performed_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172C01C6CFD9000A31299 /* lab_performed_fragment.xml */; };
+		389172EB1C6CFD9100A31299 /* lab_result_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172C11C6CFD9000A31299 /* lab_result_fragment.xml */; };
+		389172EC1C6CFD9100A31299 /* medication_active_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172C21C6CFD9000A31299 /* medication_active_fragment.xml */; };
+		389172ED1C6CFD9100A31299 /* medication_admin_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172C31C6CFD9000A31299 /* medication_admin_fragment.xml */; };
+		389172EE1C6CFD9100A31299 /* medication_adverse_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172C41C6CFD9000A31299 /* medication_adverse_fragment.xml */; };
+		389172EF1C6CFD9100A31299 /* medication_allergy_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172C51C6CFD9000A31299 /* medication_allergy_fragment.xml */; };
+		389172F01C6CFD9100A31299 /* medication_dispensed_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172C61C6CFD9000A31299 /* medication_dispensed_fragment.xml */; };
+		389172F11C6CFD9100A31299 /* medication_intolerance_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172C71C6CFD9000A31299 /* medication_intolerance_fragment.xml */; };
+		389172F21C6CFD9100A31299 /* medication_order_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172C81C6CFD9000A31299 /* medication_order_fragment.xml */; };
+		389172F31C6CFD9100A31299 /* physical_exam_finding_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172C91C6CFD9000A31299 /* physical_exam_finding_fragment.xml */; };
+		389172F41C6CFD9100A31299 /* physical_exam_performed_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172CA1C6CFD9000A31299 /* physical_exam_performed_fragment.xml */; };
+		389172F51C6CFD9100A31299 /* procedure_intolerance_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172CB1C6CFD9000A31299 /* procedure_intolerance_fragment.xml */; };
+		389172F61C6CFD9100A31299 /* procedure_order_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172CC1C6CFD9000A31299 /* procedure_order_fragment.xml */; };
+		389172F71C6CFD9100A31299 /* procedure_performed_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172CD1C6CFD9000A31299 /* procedure_performed_fragment.xml */; };
+		389172F81C6CFD9100A31299 /* procedure_result_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172CE1C6CFD9000A31299 /* procedure_result_fragment.xml */; };
+		389172F91C6CFD9100A31299 /* risk_category_assessment_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172CF1C6CFD9000A31299 /* risk_category_assessment_fragment.xml */; };
+		389172FA1C6CFD9100A31299 /* symptom_active_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172D01C6CFD9000A31299 /* symptom_active_fragment.xml */; };
+		389172FB1C6CFD9100A31299 /* tobacco_use_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */; };
 		902E92565FF505C545AB58D8 /* Pods_CDAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FDAC72237DF962DB8F4084C /* Pods_CDAKit.framework */; };
 		B648D91DC0D0A5DA1C8A7861 /* Pods_CDAKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2659CE5B586D31D29E7610E8 /* Pods_CDAKitTests.framework */; };
 /* End PBXBuildFile section */
@@ -387,7 +432,6 @@
 		3891717F1C6CEC3D00A31299 /* C32ResultImporterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = C32ResultImporterTest.swift; sourceTree = "<group>"; };
 		389171831C6CEC3D00A31299 /* Cat1EncounterTransferImporterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cat1EncounterTransferImporterTest.swift; sourceTree = "<group>"; };
 		389171841C6CEC3D00A31299 /* CCDA_PatientImporterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCDA_PatientImporterTest.swift; sourceTree = "<group>"; };
-		389171851C6CEC3D00A31299 /* CCDAccessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCDAccessTests.swift; sourceTree = "<group>"; };
 		389171861C6CEC3D00A31299 /* CDAIdentifierTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAIdentifierTest.swift; sourceTree = "<group>"; };
 		389171871C6CEC3D00A31299 /* CDAProcedureImporterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAProcedureImporterTest.swift; sourceTree = "<group>"; };
 		389171881C6CEC3D00A31299 /* CDAProviderImporterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAProviderImporterTest.swift; sourceTree = "<group>"; };
@@ -439,6 +483,52 @@
 		389172931C6CF1F200A31299 /* Cancer_Adult_Male_A.qrda1.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Cancer_Adult_Male_A.qrda1.xml; sourceTree = "<group>"; };
 		389172941C6CF1F200A31299 /* Rosa.c32.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Rosa.c32.xml; sourceTree = "<group>"; };
 		389172951C6CF1F200A31299 /* Rosa.ccda.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Rosa.ccda.xml; sourceTree = "<group>"; };
+		3891729E1C6CF68E00A31299 /* Vitera_CCDA_SMART_Sample.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Vitera_CCDA_SMART_Sample.xml; sourceTree = "<group>"; };
+		389172A11C6CF6C200A31299 /* Patient-673.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Patient-673.xml"; sourceTree = "<group>"; };
+		389172A31C6CFC4100A31299 /* document.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = document.mustache; sourceTree = "<group>"; };
+		389172A51C6CFC6E00A31299 /* record.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = record.mustache; sourceTree = "<group>"; };
+		389172A81C6CFD9000A31299 /* care_goal_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = care_goal_fragment.xml; sourceTree = "<group>"; };
+		389172A91C6CFD9000A31299 /* clinical_trial_participant_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = clinical_trial_participant_fragment.xml; sourceTree = "<group>"; };
+		389172AA1C6CFD9000A31299 /* comm_patient_to_provider_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = comm_patient_to_provider_fragment.xml; sourceTree = "<group>"; };
+		389172AB1C6CFD9000A31299 /* comm_prov_to_patient_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = comm_prov_to_patient_fragment.xml; sourceTree = "<group>"; };
+		389172AC1C6CFD9000A31299 /* comm_provider_to_provider_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = comm_provider_to_provider_fragment.xml; sourceTree = "<group>"; };
+		389172AD1C6CFD9000A31299 /* condition_expired_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = condition_expired_fragment.xml; sourceTree = "<group>"; };
+		389172AE1C6CFD9000A31299 /* device_applied_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = device_applied_fragment.xml; sourceTree = "<group>"; };
+		389172AF1C6CFD9000A31299 /* diagnosis_active_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = diagnosis_active_fragment.xml; sourceTree = "<group>"; };
+		389172B01C6CFD9000A31299 /* diagnosis_inactive_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = diagnosis_inactive_fragment.xml; sourceTree = "<group>"; };
+		389172B11C6CFD9000A31299 /* diagnosis_resolved_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = diagnosis_resolved_fragment.xml; sourceTree = "<group>"; };
+		389172B21C6CFD9000A31299 /* diagnostic_study_order_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = diagnostic_study_order_fragment.xml; sourceTree = "<group>"; };
+		389172B31C6CFD9000A31299 /* diagnostic_study_performed_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = diagnostic_study_performed_fragment.xml; sourceTree = "<group>"; };
+		389172B41C6CFD9000A31299 /* diagnostic_study_result_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = diagnostic_study_result_fragment.xml; sourceTree = "<group>"; };
+		389172B51C6CFD9000A31299 /* discharge_medication_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = discharge_medication_fragment.xml; sourceTree = "<group>"; };
+		389172B61C6CFD9000A31299 /* ecog_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ecog_fragment.xml; sourceTree = "<group>"; };
+		389172B71C6CFD9000A31299 /* encounter_order_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = encounter_order_fragment.xml; sourceTree = "<group>"; };
+		389172B81C6CFD9000A31299 /* encounter_performed_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = encounter_performed_fragment.xml; sourceTree = "<group>"; };
+		389172B91C6CFD9000A31299 /* functional_status_result_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = functional_status_result_fragment.xml; sourceTree = "<group>"; };
+		389172BA1C6CFD9000A31299 /* gestational_age_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = gestational_age_fragment.xml; sourceTree = "<group>"; };
+		389172BB1C6CFD9000A31299 /* insurance_provider_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = insurance_provider_fragment.xml; sourceTree = "<group>"; };
+		389172BC1C6CFD9000A31299 /* intervention_order_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = intervention_order_fragment.xml; sourceTree = "<group>"; };
+		389172BD1C6CFD9000A31299 /* intervention_performed_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = intervention_performed_fragment.xml; sourceTree = "<group>"; };
+		389172BE1C6CFD9000A31299 /* intervention_result_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = intervention_result_fragment.xml; sourceTree = "<group>"; };
+		389172BF1C6CFD9000A31299 /* lab_order_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = lab_order_fragment.xml; sourceTree = "<group>"; };
+		389172C01C6CFD9000A31299 /* lab_performed_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = lab_performed_fragment.xml; sourceTree = "<group>"; };
+		389172C11C6CFD9000A31299 /* lab_result_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = lab_result_fragment.xml; sourceTree = "<group>"; };
+		389172C21C6CFD9000A31299 /* medication_active_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = medication_active_fragment.xml; sourceTree = "<group>"; };
+		389172C31C6CFD9000A31299 /* medication_admin_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = medication_admin_fragment.xml; sourceTree = "<group>"; };
+		389172C41C6CFD9000A31299 /* medication_adverse_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = medication_adverse_fragment.xml; sourceTree = "<group>"; };
+		389172C51C6CFD9000A31299 /* medication_allergy_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = medication_allergy_fragment.xml; sourceTree = "<group>"; };
+		389172C61C6CFD9000A31299 /* medication_dispensed_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = medication_dispensed_fragment.xml; sourceTree = "<group>"; };
+		389172C71C6CFD9000A31299 /* medication_intolerance_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = medication_intolerance_fragment.xml; sourceTree = "<group>"; };
+		389172C81C6CFD9000A31299 /* medication_order_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = medication_order_fragment.xml; sourceTree = "<group>"; };
+		389172C91C6CFD9000A31299 /* physical_exam_finding_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = physical_exam_finding_fragment.xml; sourceTree = "<group>"; };
+		389172CA1C6CFD9000A31299 /* physical_exam_performed_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = physical_exam_performed_fragment.xml; sourceTree = "<group>"; };
+		389172CB1C6CFD9000A31299 /* procedure_intolerance_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = procedure_intolerance_fragment.xml; sourceTree = "<group>"; };
+		389172CC1C6CFD9000A31299 /* procedure_order_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = procedure_order_fragment.xml; sourceTree = "<group>"; };
+		389172CD1C6CFD9000A31299 /* procedure_performed_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = procedure_performed_fragment.xml; sourceTree = "<group>"; };
+		389172CE1C6CFD9000A31299 /* procedure_result_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = procedure_result_fragment.xml; sourceTree = "<group>"; };
+		389172CF1C6CFD9000A31299 /* risk_category_assessment_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = risk_category_assessment_fragment.xml; sourceTree = "<group>"; };
+		389172D01C6CFD9000A31299 /* symptom_active_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = symptom_active_fragment.xml; sourceTree = "<group>"; };
+		389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tobacco_use_fragment.xml; sourceTree = "<group>"; };
 		5440B6F09B325B25FC518484 /* Pods-CDAKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDAKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-CDAKit/Pods-CDAKit.release.xcconfig"; sourceTree = "<group>"; };
 		7FDAC72237DF962DB8F4084C /* Pods_CDAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CDAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3721CB6B043AD64FC0ED757 /* Pods-CDAKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDAKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CDAKitTests/Pods-CDAKitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -519,7 +609,6 @@
 				3891717F1C6CEC3D00A31299 /* C32ResultImporterTest.swift */,
 				389171831C6CEC3D00A31299 /* Cat1EncounterTransferImporterTest.swift */,
 				389171841C6CEC3D00A31299 /* CCDA_PatientImporterTest.swift */,
-				389171851C6CEC3D00A31299 /* CCDAccessTests.swift */,
 				389171861C6CEC3D00A31299 /* CDAIdentifierTest.swift */,
 				389171871C6CEC3D00A31299 /* CDAProcedureImporterTest.swift */,
 				389171881C6CEC3D00A31299 /* CDAProviderImporterTest.swift */,
@@ -810,6 +899,8 @@
 		389172501C6CEE1E00A31299 /* mustache */ = {
 			isa = PBXGroup;
 			children = (
+				389172A51C6CFC6E00A31299 /* record.mustache */,
+				389172A31C6CFC4100A31299 /* document.mustache */,
 				389172591C6CEEEF00A31299 /* _allergies_no_current.c32.mustache */,
 				3891725A1C6CEEEF00A31299 /* _allergies.c32.mustache */,
 				3891725B1C6CEEEF00A31299 /* _narrative_block.c32.mustache */,
@@ -850,6 +941,7 @@
 		389172541C6CEE7E00A31299 /* import */ = {
 			isa = PBXGroup;
 			children = (
+				389172A71C6CFD6500A31299 /* cat1_fragments */,
 				389172771C6CF0F600A31299 /* section_importer.xml */,
 				389172731C6CF0A500A31299 /* NISTExampleC32.xml */,
 				389172741C6CF0A500A31299 /* provider_importer_sample.xml */,
@@ -881,6 +973,8 @@
 		389172571C6CEEB300A31299 /* BCS_github */ = {
 			isa = PBXGroup;
 			children = (
+				389172A01C6CF6A000A31299 /* EMERGE */,
+				3891729D1C6CF67E00A31299 /* Vitera */,
 			);
 			name = BCS_github;
 			sourceTree = "<group>";
@@ -922,6 +1016,73 @@
 				389172951C6CF1F200A31299 /* Rosa.ccda.xml */,
 			);
 			path = hds_generated;
+			sourceTree = "<group>";
+		};
+		3891729D1C6CF67E00A31299 /* Vitera */ = {
+			isa = PBXGroup;
+			children = (
+				3891729E1C6CF68E00A31299 /* Vitera_CCDA_SMART_Sample.xml */,
+			);
+			name = Vitera;
+			path = BCS_github/Vitera;
+			sourceTree = "<group>";
+		};
+		389172A01C6CF6A000A31299 /* EMERGE */ = {
+			isa = PBXGroup;
+			children = (
+				389172A11C6CF6C200A31299 /* Patient-673.xml */,
+			);
+			name = EMERGE;
+			path = BCS_github/EMERGE;
+			sourceTree = "<group>";
+		};
+		389172A71C6CFD6500A31299 /* cat1_fragments */ = {
+			isa = PBXGroup;
+			children = (
+				389172A81C6CFD9000A31299 /* care_goal_fragment.xml */,
+				389172A91C6CFD9000A31299 /* clinical_trial_participant_fragment.xml */,
+				389172AA1C6CFD9000A31299 /* comm_patient_to_provider_fragment.xml */,
+				389172AB1C6CFD9000A31299 /* comm_prov_to_patient_fragment.xml */,
+				389172AC1C6CFD9000A31299 /* comm_provider_to_provider_fragment.xml */,
+				389172AD1C6CFD9000A31299 /* condition_expired_fragment.xml */,
+				389172AE1C6CFD9000A31299 /* device_applied_fragment.xml */,
+				389172AF1C6CFD9000A31299 /* diagnosis_active_fragment.xml */,
+				389172B01C6CFD9000A31299 /* diagnosis_inactive_fragment.xml */,
+				389172B11C6CFD9000A31299 /* diagnosis_resolved_fragment.xml */,
+				389172B21C6CFD9000A31299 /* diagnostic_study_order_fragment.xml */,
+				389172B31C6CFD9000A31299 /* diagnostic_study_performed_fragment.xml */,
+				389172B41C6CFD9000A31299 /* diagnostic_study_result_fragment.xml */,
+				389172B51C6CFD9000A31299 /* discharge_medication_fragment.xml */,
+				389172B61C6CFD9000A31299 /* ecog_fragment.xml */,
+				389172B71C6CFD9000A31299 /* encounter_order_fragment.xml */,
+				389172B81C6CFD9000A31299 /* encounter_performed_fragment.xml */,
+				389172B91C6CFD9000A31299 /* functional_status_result_fragment.xml */,
+				389172BA1C6CFD9000A31299 /* gestational_age_fragment.xml */,
+				389172BB1C6CFD9000A31299 /* insurance_provider_fragment.xml */,
+				389172BC1C6CFD9000A31299 /* intervention_order_fragment.xml */,
+				389172BD1C6CFD9000A31299 /* intervention_performed_fragment.xml */,
+				389172BE1C6CFD9000A31299 /* intervention_result_fragment.xml */,
+				389172BF1C6CFD9000A31299 /* lab_order_fragment.xml */,
+				389172C01C6CFD9000A31299 /* lab_performed_fragment.xml */,
+				389172C11C6CFD9000A31299 /* lab_result_fragment.xml */,
+				389172C21C6CFD9000A31299 /* medication_active_fragment.xml */,
+				389172C31C6CFD9000A31299 /* medication_admin_fragment.xml */,
+				389172C41C6CFD9000A31299 /* medication_adverse_fragment.xml */,
+				389172C51C6CFD9000A31299 /* medication_allergy_fragment.xml */,
+				389172C61C6CFD9000A31299 /* medication_dispensed_fragment.xml */,
+				389172C71C6CFD9000A31299 /* medication_intolerance_fragment.xml */,
+				389172C81C6CFD9000A31299 /* medication_order_fragment.xml */,
+				389172C91C6CFD9000A31299 /* physical_exam_finding_fragment.xml */,
+				389172CA1C6CFD9000A31299 /* physical_exam_performed_fragment.xml */,
+				389172CB1C6CFD9000A31299 /* procedure_intolerance_fragment.xml */,
+				389172CC1C6CFD9000A31299 /* procedure_order_fragment.xml */,
+				389172CD1C6CFD9000A31299 /* procedure_performed_fragment.xml */,
+				389172CE1C6CFD9000A31299 /* procedure_result_fragment.xml */,
+				389172CF1C6CFD9000A31299 /* risk_category_assessment_fragment.xml */,
+				389172D01C6CFD9000A31299 /* symptom_active_fragment.xml */,
+				389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */,
+			);
+			path = cat1_fragments;
 			sourceTree = "<group>";
 		};
 		5B9FC1A9C8B5AF523A31543C /* Frameworks */ = {
@@ -1085,39 +1246,85 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				389172F51C6CFD9100A31299 /* procedure_intolerance_fragment.xml in Resources */,
+				389172A21C6CF6C200A31299 /* Patient-673.xml in Resources */,
+				389172E01C6CFD9100A31299 /* ecog_fragment.xml in Resources */,
 				3891726F1C6CF03800A31299 /* expired_person.xml in Resources */,
 				3891726A1C6CEFF300A31299 /* sample_ccda.xml in Resources */,
 				389172631C6CEEEF00A31299 /* _results.c32.mustache in Resources */,
+				389172E11C6CFD9100A31299 /* encounter_order_fragment.xml in Resources */,
+				3891729F1C6CF68E00A31299 /* Vitera_CCDA_SMART_Sample.xml in Resources */,
+				389172E91C6CFD9100A31299 /* lab_order_fragment.xml in Resources */,
+				389172EC1C6CFD9100A31299 /* medication_active_fragment.xml in Resources */,
+				389172EA1C6CFD9100A31299 /* lab_performed_fragment.xml in Resources */,
 				389172971C6CF1F200A31299 /* 506afdf87042f9e32c000001.json in Resources */,
 				389172891C6CF16600A31299 /* pseudo-1.json in Resources */,
+				389172F31C6CFD9100A31299 /* physical_exam_finding_fragment.xml in Resources */,
+				389172D91C6CFD9000A31299 /* diagnosis_active_fragment.xml in Resources */,
+				389172D81C6CFD9000A31299 /* device_applied_fragment.xml in Resources */,
 				389172721C6CF08200A31299 /* numerator.xml in Resources */,
+				389172E21C6CFD9100A31299 /* encounter_performed_fragment.xml in Resources */,
 				389172611C6CEEEF00A31299 /* _allergies.c32.mustache in Resources */,
+				389172FB1C6CFD9100A31299 /* tobacco_use_fragment.xml in Resources */,
 				3891728A1C6CF16600A31299 /* pseudo-2.json in Resources */,
+				389172DD1C6CFD9100A31299 /* diagnostic_study_performed_fragment.xml in Resources */,
+				389172D61C6CFD9000A31299 /* comm_provider_to_provider_fragment.xml in Resources */,
 				389172841C6CF16600A31299 /* fname.json in Resources */,
+				389172EE1C6CFD9100A31299 /* medication_adverse_fragment.xml in Resources */,
+				389172F11C6CFD9100A31299 /* medication_intolerance_fragment.xml in Resources */,
+				389172E81C6CFD9100A31299 /* intervention_result_fragment.xml in Resources */,
+				389172D41C6CFD9000A31299 /* comm_patient_to_provider_fragment.xml in Resources */,
+				389172E61C6CFD9100A31299 /* intervention_order_fragment.xml in Resources */,
 				389172861C6CF16600A31299 /* one_provider_cda_ident.xml in Resources */,
 				3891728C1C6CF16600A31299 /* two_providers.xml in Resources */,
+				389172D51C6CFD9000A31299 /* comm_prov_to_patient_fragment.xml in Resources */,
 				3891726E1C6CF03800A31299 /* demographics.xml in Resources */,
 				389172651C6CEEEF00A31299 /* test_code_with_reference.mustache in Resources */,
+				389172F91C6CFD9100A31299 /* risk_category_assessment_fragment.xml in Resources */,
 				389172601C6CEEEF00A31299 /* _allergies_no_current.c32.mustache in Resources */,
 				389172621C6CEEEF00A31299 /* _narrative_block.c32.mustache in Resources */,
+				389172D31C6CFD9000A31299 /* clinical_trial_participant_fragment.xml in Resources */,
+				389172E71C6CFD9100A31299 /* intervention_performed_fragment.xml in Resources */,
+				389172D21C6CFD9000A31299 /* care_goal_fragment.xml in Resources */,
 				3891728B1C6CF16600A31299 /* pseudo-3.json in Resources */,
+				389172E41C6CFD9100A31299 /* gestational_age_fragment.xml in Resources */,
 				3891728D1C6CF16600A31299 /* watson.json in Resources */,
+				389172E51C6CFD9100A31299 /* insurance_provider_fragment.xml in Resources */,
 				389172781C6CF0F600A31299 /* section_importer.xml in Resources */,
+				389172F21C6CFD9100A31299 /* medication_order_fragment.xml in Resources */,
 				389172871C6CF16600A31299 /* one_provider_no_npi.xml in Resources */,
 				389172701C6CF03800A31299 /* plan_of_care.xml in Resources */,
+				389172F61C6CFD9100A31299 /* procedure_order_fragment.xml in Resources */,
 				389172881C6CF16600A31299 /* one_provider_with_npi.xml in Resources */,
+				389172DB1C6CFD9000A31299 /* diagnosis_resolved_fragment.xml in Resources */,
 				3891729C1C6CF1F200A31299 /* Rosa.ccda.xml in Resources */,
+				389172F41C6CFD9100A31299 /* physical_exam_performed_fragment.xml in Resources */,
+				389172A41C6CFC4100A31299 /* document.mustache in Resources */,
+				389172EB1C6CFD9100A31299 /* lab_result_fragment.xml in Resources */,
 				389172761C6CF0A500A31299 /* provider_importer_sample.xml in Resources */,
+				389172D71C6CFD9000A31299 /* condition_expired_fragment.xml in Resources */,
+				389172A61C6CFC6E00A31299 /* record.mustache in Resources */,
+				389172FA1C6CFD9100A31299 /* symptom_active_fragment.xml in Resources */,
+				389172DE1C6CFD9100A31299 /* diagnostic_study_result_fragment.xml in Resources */,
+				389172ED1C6CFD9100A31299 /* medication_admin_fragment.xml in Resources */,
+				389172F81C6CFD9100A31299 /* procedure_result_fragment.xml in Resources */,
+				389172DF1C6CFD9100A31299 /* discharge_medication_fragment.xml in Resources */,
 				3891729B1C6CF1F200A31299 /* Rosa.c32.xml in Resources */,
+				389172DC1C6CFD9000A31299 /* diagnostic_study_order_fragment.xml in Resources */,
 				389172991C6CF1F200A31299 /* Cancer_Adult_Female_B.qrda1.xml in Resources */,
+				389172E31C6CFD9100A31299 /* functional_status_result_fragment.xml in Resources */,
 				389172641C6CEEEF00A31299 /* article.mustache in Resources */,
 				389172981C6CF1F200A31299 /* 506afdf87042f9e32c000069.json in Resources */,
 				389172851C6CF16600A31299 /* kildare.json in Resources */,
 				389172751C6CF0A500A31299 /* NISTExampleC32.xml in Resources */,
 				389172681C6CEFC000A31299 /* export_cda.xml in Resources */,
+				389172DA1C6CFD9000A31299 /* diagnosis_inactive_fragment.xml in Resources */,
+				389172EF1C6CFD9100A31299 /* medication_allergy_fragment.xml in Resources */,
 				389172661C6CEEEF00A31299 /* test_partial_allergies.mustache in Resources */,
 				3891729A1C6CF1F200A31299 /* Cancer_Adult_Male_A.qrda1.xml in Resources */,
+				389172F01C6CFD9100A31299 /* medication_dispensed_fragment.xml in Resources */,
 				389172961C6CF1F200A31299 /* 4dcbecdb431a5f5878000004.json in Resources */,
+				389172F71C6CFD9100A31299 /* procedure_performed_fragment.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1336,7 +1543,6 @@
 				389171E41C6CEC3E00A31299 /* C32AllergyImporterTest.swift in Sources */,
 				389171EC1C6CEC3E00A31299 /* C32MedicationImporterTest.swift in Sources */,
 				389171F51C6CEC3E00A31299 /* CCDA_PatientImporterTest.swift in Sources */,
-				389171F61C6CEC3E00A31299 /* CCDAccessTests.swift in Sources */,
 				389171F01C6CEC3E00A31299 /* C32ResultImporterTest.swift in Sources */,
 				389171E71C6CEC3E00A31299 /* C32EncounterImporterTest.swift in Sources */,
 				389172431C6CEC3E00A31299 /* SectionImporterTest.swift in Sources */,

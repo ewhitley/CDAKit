@@ -1,6 +1,6 @@
 //
 //  physical_quantity_result_value.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 12/2/15.
 //  Copyright © 2015 Eric Whitley. All rights reserved.

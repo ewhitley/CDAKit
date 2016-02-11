@@ -1,12 +1,14 @@
 //
 //  HDSCDAIdentifierTest.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 12/9/15.
 //  Copyright © 2015 Eric Whitley. All rights reserved.
 //
 
 import XCTest
+@testable import CDAKit
+
 
 class HDSCDAIdentifierTest: XCTestCase {
     

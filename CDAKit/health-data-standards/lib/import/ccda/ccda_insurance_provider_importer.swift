@@ -1,6 +1,6 @@
 //
 //  ccda_insurance_provider_importer.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/25/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.

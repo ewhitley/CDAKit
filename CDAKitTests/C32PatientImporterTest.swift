@@ -1,12 +1,14 @@
 //
 //  C32PatientImporterTest.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/25/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.
 //
 
 import XCTest
+@testable import CDAKit
+
 import Fuzi
 
 class C32PatientImporterTest: XCTestCase {
@@ -62,7 +64,7 @@ class C32PatientImporterTest: XCTestCase {
 
   func test_parse_c32() {
     
-    let xmlString = TestHelpers.fileHelpers.load_xml_string_from_file("C32Importer_0032_numerator") //test/fixtures/c32_fragments/expired_person.xml
+    let xmlString = TestHelpers.fileHelpers.load_xml_string_from_file("numerator") //test/fixtures/c32_fragments/expired_person.xml
     var doc: XMLDocument!
     
     do {

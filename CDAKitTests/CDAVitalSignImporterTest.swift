@@ -1,12 +1,14 @@
 //
 //  CDAVitalSignImporterTest.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 1/21/16.
 //  Copyright © 2016 Eric Whitley. All rights reserved.
 //
 
 import XCTest
+@testable import CDAKit
+
 import Fuzi
 
 class CDAVitalSignImporterTest: XCTestCase {

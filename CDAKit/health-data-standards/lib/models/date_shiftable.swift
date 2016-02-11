@@ -1,6 +1,6 @@
 //
 //  date_shiftable.swift
-//  CCDAccess
+//  CDAKit
 //
 //  Created by Eric Whitley on 12/1/15.
 //  Copyright © 2015 Eric Whitley. All rights reserved.
