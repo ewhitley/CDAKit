@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   CDAKitDefaultSampleTypeIdentifierSettings.plist
+   CDAKit
+
+   Created by Eric Whitley on 2/15/16.
+   Copyright (c) 2016 Eric Whitley. All rights reserved.
+-->
+<plist version="1.0">
+    <dict>
+        <key>HKQuantityTypeIdentifierBodyMassIndex</key>
+        <dict>
+            <key>unit</key>
+            <string>count</string>
+            <key>displayName</key>
+            <string>Body Mass Index</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierBodyFatPercentage</key>
+        <dict>
+            <key>unit</key>
+            <string>%</string>
+            <key>displayName</key>
+            <string>Body Fat Percentage</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierHeight</key>
+        <dict>
+            <key>unit</key>
+            <string>in</string>
+            <key>displayName</key>
+            <string>Height</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierBodyMass</key>
+        <dict>
+            <key>unit</key>
+            <string>lb</string>
+            <key>displayName</key>
+            <string>Weight</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierLeanBodyMass</key>
+        <dict>
+            <key>unit</key>
+            <string>lb</string>
+            <key>displayName</key>
+            <string>Lean Body mass</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierStepCount</key>
+        <dict>
+            <key>unit</key>
+            <string>count</string>
+            <key>displayName</key>
+            <string>Step Count</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierDistanceWalkingRunning</key>
+        <dict>
+            <key>unit</key>
+            <string>km</string>
+            <key>displayName</key>
+            <string>Distance Running or Walking</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierDistanceCycling</key>
+        <dict>
+            <key>unit</key>
+            <string>km</string>
+            <key>displayName</key>
+            <string>Distance Cycling</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierBasalEnergyBurned</key>
+        <dict>
+            <key>unit</key>
+            <string>cal</string>
+            <key>displayName</key>
+            <string>Basal Energy Burned</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierActiveEnergyBurned</key>
+        <dict>
+            <key>unit</key>
+            <string>cal</string>
+            <key>displayName</key>
+            <string>Active Energy Burned</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierFlightsClimbed</key>
+        <dict>
+            <key>unit</key>
+            <string>count</string>
+            <key>displayName</key>
+            <string>Flights Climbed</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierNikeFuel</key>
+        <dict>
+            <key>unit</key>
+            <string>count</string>
+            <key>displayName</key>
+            <string>Nike Fuel</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierHeartRate</key>
+        <dict>
+            <key>unit</key>
+            <string>count/min</string>
+            <key>displayName</key>
+            <string>Heart Rate</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierBodyTemperature</key>
+        <dict>
+            <key>unit</key>
+            <string>degF</string>
+            <key>displayName</key>
+            <string>Body Temperature</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierBasalBodyTemperature</key>
+        <dict>
+            <key>unit</key>
+            <string>degF</string>
+            <key>displayName</key>
+            <string>Basal Body Temperature</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierBloodPressureSystolic</key>
+        <dict>
+            <key>unit</key>
+            <string>mmHg</string>
+            <key>displayName</key>
+            <string>Systolic Blood Pressure</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierBloodPressureDiastolic</key>
+        <dict>
+            <key>unit</key>
+            <string>mmHg</string>
+            <key>displayName</key>
+            <string>Diastolic Blood Pressure</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierRespiratoryRate</key>
+        <dict>
+            <key>unit</key>
+            <string>count/min</string>
+            <key>displayName</key>
+            <string>Respiratory Rate</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierOxygenSaturation</key>
+        <dict>
+            <key>unit</key>
+            <string>%</string>
+            <key>displayName</key>
+            <string>Oxygen Saturation</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierPeripheralPerfusionIndex</key>
+        <dict>
+            <key>unit</key>
+            <string>%</string>
+            <key>displayName</key>
+            <string>Peripheral Perfusion Index</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierBloodGlucose</key>
+        <dict>
+            <key>unit</key>
+            <string>mg/dl</string>
+            <key>displayName</key>
+            <string>Blood Glucose</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierNumberOfTimesFallen</key>
+        <dict>
+            <key>unit</key>
+            <string>count</string>
+            <key>displayName</key>
+            <string>Number of Times Fallen</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierElectrodermalActivity</key>
+        <dict>
+            <key>unit</key>
+            <string>mcS</string>
+            <key>displayName</key>
+            <string>Electrodermal Activity</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierInhalerUsage</key>
+        <dict>
+            <key>unit</key>
+            <string>count</string>
+            <key>displayName</key>
+            <string>Inhaler Usage</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierBloodAlcoholContent</key>
+        <dict>
+            <key>unit</key>
+            <string>%</string>
+            <key>displayName</key>
+            <string>Blood Alcohol Content</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierForcedVitalCapacity</key>
+        <dict>
+            <key>unit</key>
+            <string>L</string>
+            <key>displayName</key>
+            <string>Forced Vital Capacity</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierForcedExpiratoryVolume1</key>
+        <dict>
+            <key>unit</key>
+            <string>L</string>
+            <key>displayName</key>
+            <string>Forced Expiratory Volume 1 Second</string>
+        </dict>
+        <key>HKQuantityTypeIdentifierPeakExpiratoryFlowRate</key>
+        <dict>
+            <key>unit</key>
+            <string>L/sec</string>
+            <key>displayName</key>
+            <string>Expiratory Flow Rate</string>
+        </dict>
+    </dict>
+</plist>

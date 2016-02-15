@@ -63,10 +63,8 @@ public class HDSHealthKitBridge {
     
     //this is not my preferred approach, but for prototypeing it's fine for the moment
     public static let allValues = [HKQuantityTypeIdentifierBodyMassIndex, HKQuantityTypeIdentifierBodyFatPercentage, HKQuantityTypeIdentifierHeight, HKQuantityTypeIdentifierBodyMass, HKQuantityTypeIdentifierLeanBodyMass, HKQuantityTypeIdentifierStepCount, HKQuantityTypeIdentifierDistanceWalkingRunning, HKQuantityTypeIdentifierDistanceCycling, HKQuantityTypeIdentifierBasalEnergyBurned, HKQuantityTypeIdentifierActiveEnergyBurned, HKQuantityTypeIdentifierFlightsClimbed, HKQuantityTypeIdentifierNikeFuel, HKQuantityTypeIdentifierHeartRate, HKQuantityTypeIdentifierBodyTemperature, HKQuantityTypeIdentifierBasalBodyTemperature, HKQuantityTypeIdentifierBloodPressureSystolic, HKQuantityTypeIdentifierBloodPressureDiastolic, HKQuantityTypeIdentifierRespiratoryRate  , HKQuantityTypeIdentifierOxygenSaturation, HKQuantityTypeIdentifierPeripheralPerfusionIndex, HKQuantityTypeIdentifierBloodGlucose, HKQuantityTypeIdentifierNumberOfTimesFallen, HKQuantityTypeIdentifierElectrodermalActivity, HKQuantityTypeIdentifierInhalerUsage, HKQuantityTypeIdentifierBloodAlcoholContent, HKQuantityTypeIdentifierForcedVitalCapacity, HKQuantityTypeIdentifierForcedExpiratoryVolume1, HKQuantityTypeIdentifierPeakExpiratoryFlowRate]
-    
   }
   
-
 
   
   class func dateFromEvent(eventDate: Double) -> NSDate
@@ -305,7 +303,8 @@ public class HDSHealthKitCodeReference {
   
   public static let sharedInstance = HDSHealthKitCodeReference()
   private init() {
-    loadHealthKitTermMap()
+    loadDefaultHealthKitTermMap()
+    loadDefaultHKQuantityTypeInfo()
   }
   
   
@@ -313,88 +312,86 @@ public class HDSHealthKitCodeReference {
   
   var HDSHKTypeConceptsImport: [String:HDSCodedEntries] = [:]
   var HDSHKTypeConceptsExport: [String:HDSCodedEntries] = [:]
-  
-  
+
   // placeholder for non-localized descriptions
-  var HDSHKQuantityTypeDescriptions: [String:String] =  [
-    //Body Measurements
-    "HKQuantityTypeIdentifierBodyMassIndex" : "Body Mass Index",
-    "HKQuantityTypeIdentifierBodyFatPercentage" : "Body Fat Percentage",
-    "HKQuantityTypeIdentifierHeight" : "Height",
-    "HKQuantityTypeIdentifierBodyMass" : "Weight",
-    "HKQuantityTypeIdentifierLeanBodyMass" : "Lean Body mass",
-    
-    //Fitness Identifiers
-    "HKQuantityTypeIdentifierStepCount" : "Step Count",
-    "HKQuantityTypeIdentifierDistanceWalkingRunning" : "Distance Running or Walking",
-    "HKQuantityTypeIdentifierDistanceCycling" : "Distance Cycling",
-    "HKQuantityTypeIdentifierBasalEnergyBurned" : "Basal Energy Burned",
-    "HKQuantityTypeIdentifierActiveEnergyBurned" : "Active Energy Burned",
-    "HKQuantityTypeIdentifierFlightsClimbed" : "Flights Climbed",
-    "HKQuantityTypeIdentifierNikeFuel" : "Nike Fuel",
-    
-    //Vitals
-    "HKQuantityTypeIdentifierHeartRate" : "Heart Rate",
-    "HKQuantityTypeIdentifierBodyTemperature" : "Body Temperature",
-    "HKQuantityTypeIdentifierBasalBodyTemperature" : "Basal Body Temperature",
-    "HKQuantityTypeIdentifierBloodPressureSystolic" : "Systolic Blood Pressure",
-    "HKQuantityTypeIdentifierBloodPressureDiastolic" : "Diastolic Blood Pressure",
-    "HKQuantityTypeIdentifierRespiratoryRate" : "Respiratory Rate",
-    
-    //Results
-    "HKQuantityTypeIdentifierOxygenSaturation" : "Oxygen Saturation",
-    "HKQuantityTypeIdentifierPeripheralPerfusionIndex" : "Peripheral Perfusion Index",
-    "HKQuantityTypeIdentifierBloodGlucose" : "Blood Glucose",
-    "HKQuantityTypeIdentifierNumberOfTimesFallen" : "Number of Times Fallen",
-    "HKQuantityTypeIdentifierElectrodermalActivity" : "Electrodermal Activity",
-    "HKQuantityTypeIdentifierInhalerUsage" : "Inhaler Usage",
-    "HKQuantityTypeIdentifierBloodAlcoholContent" : "Blood Alcohol Content",
-    "HKQuantityTypeIdentifierForcedVitalCapacity" : "Forced Vital Capacity",
-    "HKQuantityTypeIdentifierForcedExpiratoryVolume1" : "Forced Expiratory Volume, 1 Second",
-    "HKQuantityTypeIdentifierPeakExpiratoryFlowRate" : "Expiratory Flow Rate"
-  ]
+  public var HDSHKQuantityTypeDescriptions: [String:String] = [:]
   
   // placeholder for preferredUnitsForQuantityTypes from user's HealthKitStore
   // https://developer.apple.com/library/prerelease/ios/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:
-  var HDSHKQuantityTypeDefaultUnits: [String:String] =  [
+  
+  public var HDSHKQuantityTypeDefaultUnits: [String:String] = [:]
+
+  
+  //we're going to use this to set HDSHKQuantityTypeDefaultUnits based on user setting if we're allowed to
+  public func setHDSUnitTypesWithUserSettings(store: HKHealthStore) {
+    //https://developer.apple.com/library/watchos/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:
+    //really nice example implementation at: http://ambracode.com/index/show/1610009
+    for sampleType in supportedHKQuantityTypes {
+      //doing this one by one as I don't know what happens if we request all identifiers at once and don't have
+      // have access to a subset
+      store.preferredUnitsForQuantityTypes(Set([sampleType])) { (preferredUnits: [HKQuantityType : HKUnit], error: NSError?) -> Void in
+        if error == nil {
+          if let unit: HKUnit = preferredUnits[sampleType] {
+            self.HDSHKQuantityTypeDefaultUnits[sampleType.identifier] = unit.unitString
+          }
+        } else {
+          switch error!.code {
+          case 5:
+            print("Access to sample \(sampleType.identifier) denied - using default unit \(self.HDSHKQuantityTypeDefaultUnits[sampleType.identifier])")
+          default:
+            print("Error accessing user sample types. \(error?.localizedDescription)")
+          }
+        }
+      }
+    }
     
-    //Body Measurements
-    "HKQuantityTypeIdentifierBodyMassIndex" : "count",
-    "HKQuantityTypeIdentifierBodyFatPercentage" : "%",
-    "HKQuantityTypeIdentifierHeight" : "in",
-    "HKQuantityTypeIdentifierBodyMass" : "lb",
-    "HKQuantityTypeIdentifierLeanBodyMass" : "lb",
-    
-    //Fitness Identifiers
-    "HKQuantityTypeIdentifierStepCount" : "count",
-    "HKQuantityTypeIdentifierDistanceWalkingRunning" : "km",
-    "HKQuantityTypeIdentifierDistanceCycling" : "km",
-    "HKQuantityTypeIdentifierBasalEnergyBurned" : "cal",
-    "HKQuantityTypeIdentifierActiveEnergyBurned" : "cal",
-    "HKQuantityTypeIdentifierFlightsClimbed" : "count",
-    "HKQuantityTypeIdentifierNikeFuel" : "count",
-    
-    //Vitals
-    "HKQuantityTypeIdentifierHeartRate" : "count/min",
-    "HKQuantityTypeIdentifierBodyTemperature" : "degF",
-    "HKQuantityTypeIdentifierBasalBodyTemperature" : "degF",
-    "HKQuantityTypeIdentifierBloodPressureSystolic" : "mmHg",
-    "HKQuantityTypeIdentifierBloodPressureDiastolic" : "mmHg",
-    "HKQuantityTypeIdentifierRespiratoryRate" : "count/min",
-    
-    //Results
-    "HKQuantityTypeIdentifierOxygenSaturation" : "%",
-    "HKQuantityTypeIdentifierPeripheralPerfusionIndex" : "%",
-    "HKQuantityTypeIdentifierBloodGlucose" : "mg/dl",
-    "HKQuantityTypeIdentifierNumberOfTimesFallen" : "count",
-    "HKQuantityTypeIdentifierElectrodermalActivity" : "mcS",
-    "HKQuantityTypeIdentifierInhalerUsage" : "count",
-    "HKQuantityTypeIdentifierBloodAlcoholContent" : "%",
-    "HKQuantityTypeIdentifierForcedVitalCapacity" : "L",
-    "HKQuantityTypeIdentifierForcedExpiratoryVolume1" : "L",
-    "HKQuantityTypeIdentifierPeakExpiratoryFlowRate" : "L/sec" //?
-    
-  ]
+  }
+  
+  public func setPreferedUnitForSampleType(preferredUnitString unit: String, forHKQuantityTypeIdentifier type: String) {
+    HDSHKQuantityTypeDefaultUnits[type] = unit
+  }
+  
+
+  
+  private var _supportedHKQuantityTypes: Set<HKQuantityType>?
+  public var supportedHKQuantityTypes: Set<HKQuantityType> {
+    get {
+      
+      if _supportedHKQuantityTypes != nil {
+        return _supportedHKQuantityTypes!
+      }
+      
+      var supportedTypes = Set<HKQuantityType>()
+      for identifier in supportedHKQuantityTypeIdentifiers {
+        if let sampleType = HKQuantityType.quantityTypeForIdentifier(identifier) {
+          supportedTypes.insert(sampleType)
+        }
+      }
+      _supportedHKQuantityTypes = supportedTypes
+      return _supportedHKQuantityTypes!
+    }
+  }
+  
+  private var _supportedHKQuantityTypeIdentifiers: Set<String>?
+  public var supportedHKQuantityTypeIdentifiers: Set<String> {
+    get {
+      
+      if _supportedHKQuantityTypeIdentifiers != nil {
+        return _supportedHKQuantityTypeIdentifiers!
+      }
+      
+      var supportedTypes = Set([
+        HKQuantityTypeIdentifierActiveEnergyBurned, HKQuantityTypeIdentifierBasalEnergyBurned, HKQuantityTypeIdentifierBloodAlcoholContent, HKQuantityTypeIdentifierBloodGlucose, HKQuantityTypeIdentifierBloodPressureDiastolic, HKQuantityTypeIdentifierBloodPressureSystolic, HKQuantityTypeIdentifierBodyFatPercentage, HKQuantityTypeIdentifierBodyMass, HKQuantityTypeIdentifierBodyMassIndex, HKQuantityTypeIdentifierBodyTemperature, HKQuantityTypeIdentifierDistanceCycling, HKQuantityTypeIdentifierDistanceWalkingRunning, HKQuantityTypeIdentifierElectrodermalActivity, HKQuantityTypeIdentifierFlightsClimbed, HKQuantityTypeIdentifierForcedExpiratoryVolume1, HKQuantityTypeIdentifierForcedVitalCapacity, HKQuantityTypeIdentifierHeartRate, HKQuantityTypeIdentifierHeight, HKQuantityTypeIdentifierInhalerUsage, HKQuantityTypeIdentifierLeanBodyMass, HKQuantityTypeIdentifierNikeFuel, HKQuantityTypeIdentifierNumberOfTimesFallen, HKQuantityTypeIdentifierOxygenSaturation, HKQuantityTypeIdentifierPeakExpiratoryFlowRate, HKQuantityTypeIdentifierPeripheralPerfusionIndex, HKQuantityTypeIdentifierRespiratoryRate, HKQuantityTypeIdentifierStepCount
+        ])
+      
+      if #available(iOS 9.0, *) {
+        supportedTypes.insert(HKQuantityTypeIdentifierBasalBodyTemperature)
+      }
+      
+      _supportedHKQuantityTypeIdentifiers = supportedTypes
+      return supportedTypes
+    }
+  }
   
   
   /*
@@ -415,21 +412,84 @@ public class HDSHealthKitCodeReference {
   //-------------------------------
   */
   
-  func loadHealthKitTermMap() {
-    if let filePath = HDSCommonUtility.bundle.pathForResource("CDAKitDefaultHealthKitTermMap", ofType: "plist"), plistData = NSDictionary(contentsOfFile:filePath) {
-      for (identifierKey, entryData) in plistData {
-        //"identifierKey" will be something like  "HKQuantityTypeIdentifierBloodGlucose"
-        if let identifierKey = identifierKey as? String, entryData = entryData as? NSDictionary {
-          HDSHKTypeConceptsImport[identifierKey] = restoreHDSCodedEntriesFromPList(entryData, forType: ["import", "both"])
-          HDSHKTypeConceptsExport[identifierKey] = restoreHDSCodedEntriesFromPList(entryData, forType: ["export", "both"])
+  private func getPlistFromBundle(plistNamed name: String) -> NSDictionary? {
+    if let filePath = HDSCommonUtility.bundle.pathForResource(name, ofType: "plist"), plistData = NSDictionary(contentsOfFile:filePath) {
+      return plistData
+    }
+    return nil
+  }
+
+  private func loadDefaultHKQuantityTypeInfo() {
+    if let plistData = getPlistFromBundle(plistNamed: "CDAKitDefaultSampleTypeIdentifierSettings") {
+      loadHealthKitQuantityTypeMetadata(withPlist: plistData)
+    } else {
+      print("Failed to find HK quantity unit and description file (CDAKitDefaultSampleTypeIdentifierSettings).  This will make it impossible to import or generate CDA using HealthKit ")
+    }
+  }
+
+  public func loadHealthKitQuantityTypeMetadata(withPlist plist: NSDictionary) {
+    for (identifierKey, entryData) in plist {
+      if let identifierKey = identifierKey as? String, entryData = entryData as? NSDictionary {
+        if supportedHKQuantityTypeIdentifiers.contains(identifierKey) {
+          if let unit = entryData["unit"] as? String {
+            HDSHKQuantityTypeDefaultUnits[identifierKey] = unit
+          }
+          if let displayName = entryData["displayName"] as? String {
+            HDSHKQuantityTypeDescriptions[identifierKey] = displayName
+          }
+        } else {
+          print("Was not able to import metadata for sample type '\(identifierKey)'. Please check quantity info plist file for entry. ")
         }
       }
+    }
+  }
+
+  
+  private func loadDefaultHealthKitTermMap() {
+    if let plistData = getPlistFromBundle(plistNamed: "CDAKitDefaultHealthKitTermMap") {
+      loadHealthKitTermMap(withPlist: plistData)
     } else {
       print("Failed to find term map file (CDAKitDefaultHealthKitTermMap).  This will make it impossible to import or generate CDA using HealthKit ")
     }
   }
   
-  private func restoreHDSCodedEntriesFromPList(dictEntry: NSDictionary, forType type: [String]) -> HDSCodedEntries {
+  public func loadHealthKitTermMap(withPlist plist: NSDictionary) {
+    for (identifierKey, entryData) in plist {
+      //"identifierKey" will be something like  "HKQuantityTypeIdentifierBloodGlucose"
+      if let identifierKey = identifierKey as? String, entryData = entryData as? NSDictionary {
+        HDSHKTypeConceptsImport[identifierKey] = restoreHDSCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["import", "both"])
+        HDSHKTypeConceptsExport[identifierKey] = restoreHDSCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["export", "both"])
+      }
+    }
+  }
+
+  
+//  public func exportHealthKitTermMap() -> NSDictionary {
+//    let terms = NSMutableDictionary()
+//    
+//    //[String:HDSCodedEntries]
+//    
+//    //sample type (HKQuantityTypeIdentifierLeanBodyMass) is the first key
+//    // then HDSCodedEntries (VOCAB : [term info])
+//    //    term info: 
+//    //        code: String -> 12345
+//    //        displayName: String -> "my awesome term"
+//    //        mapRestriction: String -> import, export, both
+//    for (identifierKey, concepts) in HDSHKTypeConceptsImport {
+//      let mapRestriction = "import"
+//      //does the sample type already exist?
+//      if let existing_concepts = terms.objectForKey(identifierKey) as? NSMutableDictionary {
+//        
+//      } else {
+//        
+//      }
+//    }
+//    
+//    return terms
+//  }
+  
+  //forMapDirection - >
+  private func restoreHDSCodedEntriesFromPList(usingPlist dictEntry: NSDictionary, forMapDirection direction: [String]) -> HDSCodedEntries {
     //expecting something like....
     /*
     LOINC = (
@@ -450,7 +510,7 @@ public class HDSHealthKitCodeReference {
       if let vocabulary = vocabulary as? String, codes = codes as? [NSDictionary] {
         for a_code in codes {
           if let code = a_code["code"] as? String, mapRestriction = a_code["mapRestriction"] as? String {
-            if type.contains(mapRestriction) {
+            if direction.contains(mapRestriction) {
               //we only want to load the codes for a specific import or export set
               var displayName: String?
               if let a_displayName = a_code["displayName"] as? String {
@@ -467,8 +527,6 @@ public class HDSHealthKitCodeReference {
   }
   
 }
-
-
 
 
 //example of writing to health store

@@ -26,7 +26,7 @@ class HealthKitRecordTest: XCTestCase {
   
   func testHealthKitTermMap() {
     
-    HDSHealthKitCodeReference.sharedInstance.loadHealthKitTermMap()
+    //HDSHealthKitCodeReference.sharedInstance.loadHealthKitTermMap(withPlist: <#T##NSDictionary#>)
 
   }
 
@@ -60,8 +60,13 @@ class HealthKitRecordTest: XCTestCase {
     hkRecord.healthKitSamples.append(hkHeight)
     //print(hkRecord)
     
+    //NOTE: for now you need to make sure you set the units before you import the record
+    // the unit types, etc. are set on the way _in_
+    HDSHealthKitCodeReference.sharedInstance.HDSHKQuantityTypeDefaultUnits["HKQuantityTypeIdentifierHeight"] = "cm"
     let aSecondRecord = hkRecord.exportAsHDSRecord()
-    //print(aSecondRecord.export(inFormat: .c32))
+    //HDSHKQuantityTypeDefaultUnits
+    //HDSHealthKitCodeReference.sharedInstance.HDSHKQuantityTypeDefaultUnits)
+    print(aSecondRecord.export(inFormat: .c32))
     
     XCTAssertEqual(hkRecord.healthKitSamples.count, aSecondRecord.vital_signs.count)
   }
@@ -87,20 +92,26 @@ class HealthKitRecordTest: XCTestCase {
   
   func testImportingFromCCD() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
-    if let record = HDSImport_BulkRecordImporter.importRecord(doc) {
+    do {
+      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
       let hkRecord = HDSHKRecord(fromHDSRecord: record)
       print(hkRecord.healthKitSamplesDescription)
       
       let hdsRecord = hkRecord.exportAsHDSRecord()
       print(hdsRecord)
-
     }
+    catch {
+      XCTFail()
+    }
+
   }
 
   func testImportingFromCCD_2() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Vitera_CCDA_SMART_Sample")
-    if let record = HDSImport_BulkRecordImporter.importRecord(doc) {
-      //print(record)
+
+    
+    do {
+      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
       let hkRecord = HDSHKRecord(fromHDSRecord: record)
       print(hkRecord.healthKitSamplesDescription)
       
@@ -108,16 +119,20 @@ class HealthKitRecordTest: XCTestCase {
       print(hdsRecord)
       
       print(hdsRecord.export(inFormat: .ccda))
-
     }
+    catch {
+      XCTFail()
+    }
+
   }
 
 
   func testImportingFromCCD_4() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Rosa.ccda")
-    if let record = HDSImport_BulkRecordImporter.importRecord(doc) {
+    do {
+      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
       //print(record)
-//  print(HDSHealthKitCodeReference.sharedInstance.HDSHKTypeConceptsImport["HKQuantityTypeIdentifierBodyMassIndex"])
+      //  print(HDSHealthKitCodeReference.sharedInstance.HDSHKTypeConceptsImport["HKQuantityTypeIdentifierBodyMassIndex"])
       let hkRecord = HDSHKRecord(fromHDSRecord: record)
       print(hkRecord.healthKitSamplesDescription)
       
@@ -125,6 +140,11 @@ class HealthKitRecordTest: XCTestCase {
       print(hdsRecord)
       
     }
+    catch {
+      XCTFail()
+    }
+
+    
   }
 
   
@@ -186,5 +206,14 @@ class HealthKitRecordTest: XCTestCase {
     //HDSHealthKitBridge.heartRate
   }
 
-    
+  func testDefaults_HKSampleType_units() {
+    print(HDSHealthKitCodeReference.sharedInstance.HDSHKQuantityTypeDefaultUnits)
+  }
+
+  func testDefaults_HKSampleType_descriptions() {
+    print(HDSHealthKitCodeReference.sharedInstance.HDSHKQuantityTypeDescriptions)
+  }
+
+
+  
 }

@@ -993,14 +993,28 @@ extension HDSRecord {
     self.addresses = record.addresses
     self.telecoms = record.telecoms
   }
-  
-  public convenience init?(fromXML doc: String) {
-    if let record = HDSImport_BulkRecordImporter.importRecord(doc) {
-      self.init(copyFrom: record)
-    } else {
-      return nil
-    }
+
+  //I don't think I'm doing this right
+  public convenience init(fromXML doc: String) throws   {
+    let x = try HDSImport_BulkRecordImporter.importRecord(doc)
+    self.init(copyFrom: x)
+//    do {
+//      if let record = try HDSImport_BulkRecordImporter.importRecord(doc) {
+//        self.init(copyFrom: record)
+//      }
+//    } catch HDSImport_BulkRecordImporter.Error.NotImplemented {
+//      throw HDSImport_BulkRecordImporter.Error.NotImplemented
+//    } catch HDSImport_BulkRecordImporter.Error.NoClinicalDocumentElement {
+//      throw HDSImport_BulkRecordImporter.Error.NoClinicalDocumentElement
+//    } catch HDSImport_BulkRecordImporter.Error.UnableToDetermineFormat {
+//      throw HDSImport_BulkRecordImporter.Error.UnableToDetermineFormat
+//    } catch HDSImport_BulkRecordImporter.Error.InvalidXML {
+//      throw HDSImport_BulkRecordImporter.Error.InvalidXML
+//    } catch let error as NSError {
+//      print(error.localizedDescription)
+//      throw error
+//      return nil
+//    }
   }
-  
   
 }

@@ -11,7 +11,14 @@ import Fuzi
 
 public class HDSImport_BulkRecordImporter {
   
-  public class func importRecord(XMLString: String, providier_map:[String:HDSProvider] = [:]) -> HDSRecord? {
+  public enum Error : ErrorType {
+    case NotImplemented
+    case UnableToDetermineFormat
+    case NoClinicalDocumentElement
+    case InvalidXML
+  }
+  
+  public class func importRecord(XMLString: String, providier_map:[String:HDSProvider] = [:]) throws -> HDSRecord {
     
     do {
       let doc = try XMLDocument(string: XMLString, encoding: NSUTF8StringEncoding)
@@ -39,12 +46,17 @@ public class HDSImport_BulkRecordImporter {
             return record
           } else if doc.xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.24.1.2']").count > 0 {
             print("QRDA1 not (yet) supported")
+            throw HDSImport_BulkRecordImporter.Error.NotImplemented
           } else {
             print("Unable to determinate document template/type of CDA document")
+            throw HDSImport_BulkRecordImporter.Error.UnableToDetermineFormat
           }
         } else {
           print("XML does not appear to be a valid ClinicalDocument")
+          throw HDSImport_BulkRecordImporter.Error.NoClinicalDocumentElement
         }
+      } else {
+        throw HDSImport_BulkRecordImporter.Error.InvalidXML
       }
     } catch let error as XMLError {
       switch error {
@@ -53,11 +65,14 @@ public class HDSImport_BulkRecordImporter {
       case .LibXMLError(let code, let message):
         print("libxml error code: \(code), message: \(message)")
       }
-    } catch let error as NSError {
-      print("Error: \(error.localizedDescription)")
+      throw HDSImport_BulkRecordImporter.Error.InvalidXML
+      
     }
+//    } catch let error as NSError {
+//      print("Error: \(error.localizedDescription)")
+//    }
 
-    return nil
+    //return nil
   }
   
 }

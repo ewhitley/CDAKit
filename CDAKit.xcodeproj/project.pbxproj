@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		386A14691C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 386A14681C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist */; };
 		389170351C6CC1EE00A31299 /* CDAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 389170341C6CC1EE00A31299 /* CDAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3891703C1C6CC1EE00A31299 /* CDAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 389170311C6CC1EE00A31299 /* CDAKit.framework */; };
 		389170411C6CC1EE00A31299 /* CDAKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170401C6CC1EE00A31299 /* CDAKitTests.swift */; };
@@ -274,6 +275,7 @@
 /* Begin PBXFileReference section */
 		2659CE5B586D31D29E7610E8 /* Pods_CDAKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CDAKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3584B78321E453821B9F825B /* Pods-CDAKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDAKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CDAKitTests/Pods-CDAKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		386A14681C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CDAKitDefaultSampleTypeIdentifierSettings.plist; sourceTree = "<group>"; };
 		389170311C6CC1EE00A31299 /* CDAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CDAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		389170341C6CC1EE00A31299 /* CDAKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDAKit.h; sourceTree = "<group>"; };
 		389170361C6CC1EE00A31299 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -638,6 +640,7 @@
 			children = (
 				3891705E1C6CD74500A31299 /* CDAKitDefaultHealthKitTermMap.plist */,
 				3891705F1C6CD74500A31299 /* CDAKitHealthKitBridge.swift */,
+				386A14681C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist */,
 			);
 			path = HealthKitBridge;
 			sourceTree = "<group>";
@@ -1216,6 +1219,7 @@
 				389171661C6CD8D200A31299 /* ccda_results.ccda.mustache in Resources */,
 				389171381C6CD8BA00A31299 /* c32_conditions.c32.mustache in Resources */,
 				3891715F1C6CD8D200A31299 /* ccda_medical_equipment.ccda.mustache in Resources */,
+				386A14691C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist in Resources */,
 				389171421C6CD8BA00A31299 /* c32_social_history.c32.mustache in Resources */,
 				3891704E1C6CD18400A31299 /* LICENSE.txt in Resources */,
 				389171621C6CD8D200A31299 /* ccda_narrative_block.ccda.mustache in Resources */,
