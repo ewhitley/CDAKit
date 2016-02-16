@@ -9,7 +9,7 @@
 import Foundation
 import Mustache
 
-//this is sort of annoying
+// this is sort of annoying
 // I get that this should be its own class, but the way ResultValue is used in the CDAKRecord makes this cumbersome to use
 //  because you have to cast ResultValue to PhysicalResultValue to access the scalars
 
@@ -24,8 +24,6 @@ public class CDAKPhysicalQuantityResultValue: CDAKResultValue {
       self.scalar = String(scalar)
     } else if let scalar = scalar as? Double {
       self.scalar = String(scalar)
-//    } else if let scalar = scalar as? Float {
-//      self.scalar = String(scalar)
     } else if let scalar = scalar as? String {
       self.scalar = scalar
     } else if let scalar = scalar as? Bool {
@@ -33,18 +31,6 @@ public class CDAKPhysicalQuantityResultValue: CDAKResultValue {
     }
     self.units = units
   }
-  
-//  init(scalar: String?, units: String? = nil) {
-//    super.init()
-//    self.scalar = scalar
-//    self.units = units
-//  }
-//
-//  init(scalar: Int, units: String? = nil) {
-//    super.init()
-//    self.scalar = String(scalar)
-//    self.units = units
-//  }
 
   override public var hashValue: Int {
     return "\(scalar)\(units)".hashValue

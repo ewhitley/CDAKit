@@ -19,9 +19,6 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   public var addresses: [CDAKAddress] = [CDAKAddress]()
   public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
-  //  include Mongoid::Tree
-  //  include Mongoid::Attributes::Dynamic
-
   static let NPI_OID = "2.16.840.1.113883.4.6"
   static let NPI_OID_C83 = "2.16.840.1.113883.3.72.5.2"
   //NPI_OID_C83: Added this because there's a weird "ordering" condition that occurs in the XML import
@@ -49,16 +46,9 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
     CDAKProvider.removeProvider(self)
   }
   
-//  func initFromEventList(event: [String:Any?]) {
-//    for (key, value) in event {
-//      CDAKCommonUtility.setProperty(self, property: key, value: value)
-//    }
-//  }
-
-  
-  //MARK: FIXME - so foul
   //scope :by_npi, ->(an_npi){ where("cda_identifiers.root" => NPI_OID, "cda_identifiers.extension" => an_npi)}
   class func by_npi(an_npi: String?) -> CDAKProvider? {
+    //MARK: FIXME - so foul
     for prov in CDAKGlobals.sharedInstance.CDAKProviders {
       for cda in prov.cda_identifiers {
         if (cda.root == CDAKProvider.NPI_OID) && cda.extension_id == an_npi {
@@ -84,12 +74,6 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
       } else {
         cda_identifiers.append(CDAKCDAIdentifier(root: CDAKProvider.NPI_OID, extension_id: an_npi))
       }
-      
-//      //if we also have a C83 NPI reference, update that
-//      if let cda_id_npi = cda_identifiers.filter({ $0.root == Provider.NPI_OID_C83 }).first {
-//        cda_id_npi.extension_id = an_npi
-//      }
-
     }
   }
   
@@ -103,15 +87,16 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
     }
   }
   
-  //MARK: FIXME - need to figure out how to do this
   func records(effective_date: String? = nil) {
+    //TODO: need to do this, but doesn't have a purpose given our needs right now
     //CDAKRecord.by_provider(self, effective_date)
   }
   
+  /**
+   Validate the NPI, should be 10 or 15 digits total with the final digit being a checksum using the Luhn algorithm with additional special handling as described in
   
-  //# validate the NPI, should be 10 or 15 digits total with the final digit being a
-  //# checksum using the Luhn algorithm with additional special handling as described in
-  //# https://www.cms.gov/NationalProvIdentStand/Downloads/NPIcheckdigit.pdf
+  [NPI Check Digit](https://www.cms.gov/NationalProvIdentStand/Downloads/NPIcheckdigit.pdf)
+  */
   public class func valid_npi(npi: String?) -> Bool {
     guard var npi = npi else {
       return false
@@ -159,17 +144,13 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
     
     return String(sum)
   }
-
-  //# When using the ProviderImporter class this method will be called if a parsed
-  //# provider can not be found in the database if the parsed provider does not
-  //# have an npi number associated with it.  This allows applications to handle
-  //# this how they see fit by redefining this method.  The default implementation
-  //# is to return an orphan parent (the singular provider without an NPI) if one
-  //# exists.  If this method call return nil an attempt will be made to discover
-  //# the Provider by name matching and if that fails a Provider will be created
-  //# in the db based on the information in the parsed hash.
   
-  //NOTE: In Swift 2.1 we cannot provide default arguments for closures, so if you use the resolve_provider closure you'll need to send in nil for patient if there isn't one
+  /**
+   When using the ProviderImporter class this method will be called if a parsed provider can not be found in the database if the parsed provider does not have an npi number associated with it.  This allows applications to handle this how they see fit by redefining this method.  The default implementation is to return an orphan parent (the singular provider without an NPI) if one exists.  If this method call return nil an attempt will be made to discover the Provider by name matching and if that fails a Provider will be created in the db based on the information in the parsed hash.
+   
+   NOTE: In Swift 2.1 we cannot provide default arguments for closures, so if you use the resolve_provider closure you'll need to send in nil for patient if there isn't one
+   
+  */
   class func resolve_provider(provider_hash: [String:Any], patient: CDAKPerson? = nil, resolve_function:((provider_hash: [String:Any], patient: CDAKPerson? ) -> CDAKProvider?)? = nil ) -> CDAKProvider? {
     //Provider.where(:npi => nil).first
     if let resolve_function = resolve_function {

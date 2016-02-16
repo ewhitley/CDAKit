@@ -9,7 +9,7 @@
 import Foundation
 
 public class CDAKResultValue: NSObject, CDAKThingWithTimes {
-  //embedded_in :entry
+
   public var attributes: [String:String] = [String:String]()
   
   //this is not originally in the model, but found instances where dynamic properties

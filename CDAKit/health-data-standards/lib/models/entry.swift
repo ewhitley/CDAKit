@@ -92,13 +92,14 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     //Time is stored internally as the number of seconds with fraction since the Epoch, January 1, 1970 00:00
     // http://apidock.com/rails/ActiveSupport/CoreExtensions/DateTime/Conversions/to_formatted_s
     // datetime.to_formatted_s(:long_ordinal)  # => "December 4th, 2007 00:00"
-    
   }
   
 
-  //  # CDAKEntry previously had a status field that dropped the code set and converted
-  //  # the status to a String. CDAKEntry now preserves the original code and code set.
-  //  # This method is here to maintain backwards compatibility.
+  /**
+  CDAKEntry previously had a status field that dropped the code set and converted the status to a String. CDAKEntry now preserves the original code and code set.
+ 
+  This method is here to maintain backwards compatibility.
+  */
   func status_legacy() -> String? {
     
     if status_code.count > 0 {
@@ -159,9 +160,13 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     }
   }
   
-  //# Sets the value for the entry
-  //# @param [String] scalar the value
-  //# @param [String] units the units of the scalar value
+  /**
+ 
+  Sets the value for the entry
+  
+  - parameter scalar: the value.  Anything we can convert to a String
+  - parameter units: the units of the scalar value
+  */
   public func set_value(scalar: Any?, units: String?) {
 
     var a_scalar: String?
@@ -224,20 +229,20 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     self.cda_identifier = cda_identifier
   }
   
-  //MARK: FIXME - changed values from ResultValue to PhysicalQuantityResultValue
   public init(cda_identifier: CDAKCDAIdentifier, codes: CDAKCodedEntries, values: [CDAKPhysicalQuantityResultValue]) {
+    //MARK: FIXME - changed values from ResultValue to PhysicalQuantityResultValue
     self.cda_identifier = cda_identifier
     self.codes = codes
     self.values = values
   }
 
   
-  //MARK: FIXME - incomplete "is_in_code_set"
-  //# Checks if a code is in the list of possible codes
-  //# @param [Array] code_set an Array of Hashes that describe the values for code sets
-  //#                The hash has a key of "set" for the code system name and "values"
-  //#                for the actual code list
-  //# @return [true, false] whether the code is in the list of desired codes
+  /**
+ Checks if a code is in the list of possible codes
+  
+  - parameter code_set: array of CodedEntries. Describe the values for code sets
+  - returns: true / false whether the code is in the list of desired codes
+ */
   func is_in_code_set(code_set: [CDAKCodedEntries]) -> Bool {
     for entries in code_set {
       for (key, entry) in entries {
@@ -246,33 +251,14 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
         }
       }
     }
-//    for code_system in codes.keys {
-//      let all_codes_in_system = code_set.filter({set in set["set"]?.first == code_system})
-//      //      all_codes_in_system = code_set.find_all {|set| set['set'] == code_system}
-//      
-//      for codes_in_system in all_codes_in_system {
-//        var values_set: Set<String> = Set()
-//        var codes_set: Set<String> = Set()
-//        if let values = codes_in_system["values"] {
-//          values_set = Set(values)
-//        }
-//        if let values = codes[code_system] {
-//          codes_set = Set(values)
-//        }
-//        //print("code_system = '\(code_system)', values_set = '\(values_set)' , codes_set = '\(codes_set)', intersection = '\(values_set.intersect(codes_set))' ")
-//        
-//        if values_set.intersect(codes_set).count > 0 {
-//          return true
-//        }
-//      }
-//    }
     
     return false
   }
   
   
-  //# Tries to find a single point in time for this entry. Will first return time if it is present,
-  //# then fall back to start_time and finally end_time
+  /**
+   Tries to find a single point in time for this entry. Will first return time if it is present, then fall back to start_time and finally end_time
+   */
   func as_point_in_time() -> Double? {
     if let time = time {
       return time
@@ -286,8 +272,11 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     return nil
   }
   
-  //# Checks to see if this CDAKEntry can be used as a date range
-  //# @return [true, false] If the CDAKEntry has a start and end time returns true, false otherwise.
+  /**
+ Checks to see if this CDAKEntry can be used as a date range
+  
+  - returns: true / false If the CDAKEntry has a start and end time returns true, false otherwise.
+  */
   var is_date_range : Bool {
     if start_time != nil && end_time != nil {
       return true
@@ -295,9 +284,9 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     return false
   }
   
-  //# Checks to see if this CDAKEntry is usable for measure calculation. This means that it contains
-  //# at least one code and has one of its time properties set (start, end or time)
-  //# @return [true, false]
+  /**
+ Checks to see if this CDAKEntry is usable for measure calculation. This means that it contains at least one code and has one of its time properties set (start, end or time)
+ */
   func usable() -> Bool {
     if codes.count > 0 && (start_time != nil || end_time != nil || time != nil) {
       return true
@@ -320,8 +309,8 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     }
   }
   
-  //MARK: FIXME - not using the hash - just using native properties
   override public var hashValue: Int {
+    //MARK: FIXME - not using the hash - just using native properties
     
     var hv: Int
     
@@ -350,15 +339,19 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
   
 
-  //# Returns the hash value, calculating it if not already done
-  // MARK: FIXME - do as lazy?
-  // EWW: not doing this as lazy just now
+  /**
+   Returns the hash value, calculating it if not already done
+   */
   var hash_object : [String:Any] {
+    // MARK: FIXME - do as lazy?
+    // EWW: not doing this as lazy just now
     return to_hash()
   }
   
-  //  # Creates a Hash for this CDAKEntry
-  //  # @return [Hash] a Hash representing the CDAKEntry
+  /**
+ Creates a Hash for this CDAKEntry
+  - returns: A Hash representing the CDAKEntry
+  */
   func to_hash() -> [String:Any] {
     
     var entry_hash: [String:Any] = [:]
@@ -393,8 +386,8 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
   
   
-  //MARK: FIXME - not sure this whole "identifier" business is right here
   public var identifier: AnyObject? {
+    //MARK: FIXME - not sure this whole "identifier" business is right here
     if let cda_identifier = cda_identifier {
       return cda_identifier
     } else {
@@ -402,8 +395,8 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     }
   }
 
-  //MARK: FIXME: this is a bad placeholder to deal with typing - I just need an "identifier" I can use as a key
   public var identifier_as_string: String {
+    //MARK: FIXME: this is a bad placeholder to deal with typing - I just need an "identifier" I can use as a key
     if let cda_identifier = cda_identifier {
       return cda_identifier.as_string
     }
@@ -420,15 +413,6 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   
 }
 
-/*
-extension CDAKEntry {
-  // NSObject already does MustacheBoxable
-  override var mustacheBox: MustacheBox {
-    return Box(["time": self.time])
-    //"codes": self.codes,
-  }
-}
-*/
 
 //new in Swift 2.x with NSObject
 // http://mgrebenets.github.io/swift/2015/06/21/equatable-nsobject-with-swift-2/
@@ -446,37 +430,6 @@ func == (lhs: CDAKEntry, rhs: CDAKEntry) -> Bool {
 }
 
 extension CDAKEntry {
-  
-//  var export_section_name: String {
-//    switch String(self.dynamicType) {
-//    case "CDAKAllergy": return "allergies"
-//    case "CDAKEncounter": return "encounters"
-//    case "CDAKCareGoal": return "plan_of_care"
-//    case "Condition": return "conditions"
-//    case "CDAKImmunization": return "immunizations"
-//    case "CDAKMedicalEquipment": return "medical_equipment"
-//    case "CDAKMedicalEquipment": return "medications"
-//    case "CDAKProcedure": return "procedures"
-//    case "ResultValue": return "results"
-//    case "CDAKLabResult": return "results"
-//    case "CDAKSocialHistory": return "social_history"
-//    case "CDAKVitalSign": return "vitals"
-//    default: fatalError("Unknown type '\(self.dynamicType)' in export_section_name")
-//    }
-//  }
-//  var export_section_status: Bool? {
-//    switch String(self.dynamicType) {
-//    case "Condition": return true
-//    default: return nil
-//    }
-//  }
-//  var export_section_value: Bool? {
-//    switch String(self.dynamicType) {
-//    case "ResultValue": return true
-//    case "CDAKVitalSign": return true
-//    default: return nil
-//    }
-//  }
   
   var preferred_code_sets: [String] {
     switch String(self.dynamicType) {
@@ -502,14 +455,8 @@ extension CDAKEntry {
   }
   
   var boxedValues: [String:MustacheBox] {
-    //let x = ViewHelper.code_display(self, options: ["preferred_code_set":self.export_preferred_code_sets])
-    //let y = ViewHelper.code_display(self, options: ["preferred_code_set":self.export_preferred_code_sets])
-    
-    //      //code_system_oid = HealthDataStandards::Util::CDAKCodeSystemHelper.oid_for_code_system(preferred_code['code_set'])
-    //var entry_preferred_code : [String:String] = [:]
     var entry_preferred_code : CDAKCodedEntry?
     var code_system_oid = ""
-//    if let a_preferred_code = preferred_code(preferred_code_sets), let code_set = a_preferred_code["code_set"] {
     if let a_preferred_code = preferred_code(preferred_code_sets) {
       let code_set = a_preferred_code.codeSystem
       code_system_oid = CDAKCodeSystemHelper.oid_for_code_system(code_set)
@@ -539,10 +486,6 @@ extension CDAKEntry {
       "created_at" :  Box(self.created_at),
       "updated_at" :  Box(self.updated_at),
       
-      //used in C32 narrative_block
-      //"section": Box(self.export_section_name),
-
-      
       "status": Box(self.status),
       
       "statusCode_code": self.status != nil && self.status! == "resolved" ? Box("completed") : Box("active"),
@@ -552,7 +495,6 @@ extension CDAKEntry {
       "code_display": Box(code_display),
 
       "as_point_in_time" : Box(self.as_point_in_time()),
-//      "preferred_code" : entry_preferred_code.count > 0 ? Box(["code":entry_preferred_code["code"], "code_set":entry_preferred_code["code_set"]] ) : Box(nil), //need to transform this into a usable struct
       "preferred_code" : entry_preferred_code != nil ? Box(["code":entry_preferred_code!.codes, "code_set":entry_preferred_code!.codeSystem] ) : Box(nil), //need to transform this into a usable struct
       "code_system_oid" : Box(code_system_oid),
       "translation_codes": Box(self.translation_codes(self.preferred_code_sets).arrayOfFlattenedCodedEntry.map({ce -> [String:String] in
@@ -562,11 +504,6 @@ extension CDAKEntry {
       "times_to_s" : Box(times_to_s()),
       
       "status_code_for" : Box(ViewHelper.status_code_for(self))
-      
-      //preferred_code = entry.preferred_code(preferred_code_sets)
-      //if preferred_code
-      //code_system_oid = HealthDataStandards::Util::CDAKCodeSystemHelper.oid_for_code_system(preferred_code['code_set'])
-      
     ]
   }
   
@@ -576,12 +513,3 @@ extension CDAKEntry {
 }
 
 
-
-extension CDAKEntry {
-
-
-
-  
-  
-  
-}

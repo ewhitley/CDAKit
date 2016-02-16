@@ -23,7 +23,6 @@ public class CDAKProcedure: CDAKEntry {
   
   public var facility: CDAKFacility?
   
-  //belongs_to :performer, class_name: "CDAKProvider"
   public var performer: CDAKProvider?
   
   override func shift_dates(date_diff: Double) {

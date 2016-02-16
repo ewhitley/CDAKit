@@ -17,8 +17,6 @@ public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
   public var value: String?
   public var preferred: Bool?
   
-  //embedded_in :contactable, polymorphic: true
-  
   public override init(){
     super.init()
   }

@@ -16,9 +16,6 @@ public class CDAKOrganization: CDAKJSONInstantiable, CustomStringConvertible, Eq
   public var addresses: [CDAKAddress] = [CDAKAddress]()
   public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
-  //embeds_many :addresses, as: :locatable
-  //embeds_many :telecoms, as: :contactable
-  
   public init() {
   }
   

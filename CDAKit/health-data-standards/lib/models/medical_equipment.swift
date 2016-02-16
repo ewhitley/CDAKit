@@ -16,11 +16,6 @@ public class CDAKMedicalEquipment: CDAKEntry {
   public var anatomical_approach: CDAKCodedEntries = CDAKCodedEntries()
   public var reaction: CDAKCodedEntries = CDAKCodedEntries()
   
-//  var removal_time : Double? {
-//    get { return removalTime }
-//    set { removalTime = newValue }
-//  }
-  
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
 

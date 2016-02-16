@@ -14,5 +14,4 @@ public class CDAKVitalSign: CDAKLabResult {
     return super.description
   }
 
-  
 }

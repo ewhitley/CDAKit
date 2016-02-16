@@ -15,22 +15,11 @@ import Mustache
 //CDAKJSONInstantiable, CustomStringConvertible
 
 public class CDAKReason: CDAKEntry {
-//  var item_description: String?
-//  var codes: CDAKCodedEntries = CDAKCodedEntries()
-  
-//  required init() {
-//  }
-//  
-//  required init(event: [String:Any?]) {
-//    initFromEventList(event)
-//  }
-  
   override public var description: String {
     return "CDAKReason => description: \(item_description), codes: \(codes)"
   }
   
 }
-
 
 //extension CDAKReason: MustacheBoxable {
 //  var boxedValues: [String:MustacheBox] {

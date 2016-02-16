@@ -9,10 +9,8 @@
 import Foundation
 
 public class CDAKMedication: CDAKEntry {
-//  var administration_timing = [String:AnyObject]()  // as: :administration_timing  // type: Hash
-  public var administration_timing: CDAKMedicationAdministrationTiming = CDAKMedicationAdministrationTiming()  // as: :administration_timing  // type: Hash
-  public var free_text_sig: String?  // type: String
-//  var dose = [String:String]()  // type: Hash
+  public var administration_timing: CDAKMedicationAdministrationTiming = CDAKMedicationAdministrationTiming()
+  public var free_text_sig: String?
   public var dose = CDAKValueAndUnit()
   public var type_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :type_of_medication  // type: Hash
   public var status_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :status_of_medication  // type: Hash
@@ -24,7 +22,6 @@ public class CDAKMedication: CDAKEntry {
   
   //go take a look at the CDA CDAKMedication importer - it appears this is a hash of numerator / denominator entries that then have futher scalar value entries inside
   // not entirely clear what we'd really do with these except for far more complex inpatient examples
-  //var dose_restriction: [String:[String:String]] = [:] //CDAKCodedEntries = CDAKCodedEntries()  // as: :dose_restriction  // type: Hash
   public var dose_restriction: CDAKMedicationRestriction = CDAKMedicationRestriction()
   
   public var fulfillment_instructions: String?  // as: :fulfillment_instructions  // type: String
@@ -40,13 +37,11 @@ public class CDAKMedication: CDAKEntry {
   public var active_datetime: Double?   //  type: Integer
   public var signed_datetime: Double?   //  type: Integer
   
-  //# There are currently no importers that support this field
-  //# It is expected to be a scalar and value  // such as 7 days
-  public var cumulativeMedicationDuration = [String:String]()  // as: :cumulative_medication_duration  // type: Hash
+  /// There are currently no importers that support this field.
+  /// It is expected to be a scalar and value  // such as 7 days
+  public var cumulativeMedicationDuration = [String:String]()
   //      "scalar": 3,
   //      "unit": "d"
-  
-
   
   public struct CDAKMedicationRestriction {
     var numerator: CDAKValueAndUnit = CDAKValueAndUnit()
@@ -58,21 +53,6 @@ public class CDAKMedication: CDAKEntry {
     var period: CDAKValueAndUnit = CDAKValueAndUnit()
     //var period: Int? // only example I have shows this as an Int - probably need to check spec
   }
-//  struct CDAKMedicationDose:  {
-//    var value: Double?
-//    var unit: String?
-//  }
-
-  
-//  var fulfillment_history: [CDAKFulfillmentHistory] {
-//    get { return fulfillmentHistory }
-//    set (value) { fulfillmentHistory = value }
-//  }
-//  var order_information: [CDAKOrderInformation] {
-//    get { return orderInformation }
-//    set (value) { orderInformation = value }
-//  }
-
   
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)

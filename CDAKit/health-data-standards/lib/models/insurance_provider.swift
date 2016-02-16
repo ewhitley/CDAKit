@@ -21,18 +21,8 @@ public class CDAKInsuranceProvider: CDAKEntry {
   public var name: String?
   
   override func shift_dates(date_diff: Double) {
-    //super.shift_dates(date_diff)
+    super.shift_dates(date_diff)
 
-    if let start_time = start_time {
-      self.start_time = start_time + date_diff
-    }
-    if let end_time = end_time {
-      self.end_time = end_time + date_diff
-    }
-    if let time = time {
-      self.time = time + date_diff
-    }
-    
     for g in guarantors {
       g.shift_dates(date_diff)
     }

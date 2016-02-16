@@ -13,9 +13,7 @@ public class CDAKTransfer: CDAKThingWithCodes, CustomStringConvertible {
   
   public var time: Double?
   public var codes = CDAKCodedEntries()
-//  var codes = [String:Any]()
-  
-  //embedded_in :encounter, class_name: "CDAKEncounter"
+
   public var description : String {
     return "CDAKTransfer => time: \(time), codes: \(codes)"
   }

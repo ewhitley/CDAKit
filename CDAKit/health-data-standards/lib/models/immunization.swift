@@ -13,7 +13,6 @@ public class CDAKImmunization: CDAKEntry {
   public var seriesNumber: Int? //, type: Integer
   public var reaction: CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
   
-  //belongs_to :performer, class_name: "CDAKProvider"
   public var performer: CDAKProvider?
   
   public var medication_product: CDAKMedication?

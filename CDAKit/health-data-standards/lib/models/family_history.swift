@@ -10,10 +10,7 @@ import Foundation
 
 public class CDAKFamilyHistory: CDAKEntry {
   
-  //field :relationshipToPatient, as: :relationship_to_patient, type: Hash
   public var relationshipToPatient = [String:String]()
-  
-  //field :onsetAge, as: :onset_age, type: Hash
   public var onsetAge = [String:String]()
     
 }

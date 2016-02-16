@@ -9,5 +9,5 @@
 import Foundation
 
 public class CDAKProviderPreference {
-  //  include Mongoid::Attributes::Dynamic
+  //nothing here...
 }

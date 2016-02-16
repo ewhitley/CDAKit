@@ -13,11 +13,6 @@ class CDAKMetadataAuthor {
   static let Types = ["authenticator", "authorcustodiandataEnterer", "informant",
     "legalAuthenticator", "participant", "performer", "recordTarget"]
   
-//  enum Types {
-//    case authenticator, authorcustodiandataEnterer, informant,
-//    legalAuthenticator, participant, performer, recordTarget
-//  }
-  
   enum InputError: ErrorType {
     case InputMissing
     case TypeIncorrect
@@ -49,16 +44,5 @@ class CDAKMetadataAuthor {
     }
     _type = type
   }
-  
-//  init(type: String, name: String?, role: String?) throws {
-//    self.name = name
-//    self.role = role
-//    self.type = type
-//
-//    guard Author.Types.contains(type) else {
-//      throw InputError.TypeIncorrect
-//    }
-//
-//  }
   
 }

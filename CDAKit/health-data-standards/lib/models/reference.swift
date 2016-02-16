@@ -16,10 +16,7 @@ public class CDAKReference: CDAKJSONInstantiable {
   
   public var entry: CDAKEntry?
   
-  //MARK: FIXME: Can't resolve any of this since it's using Mongo
-  
-  //embedded_in :entry
-  
+  //FIXME: Can't resolve any of this since it's using Mongo
   public init(entry: CDAKEntry) {
     self.entry = entry
   }
@@ -54,12 +51,7 @@ public class CDAKReference: CDAKJSONInstantiable {
     var an_entry: CDAKEntry?
     
     if let entry = self.entry {
-      //print("found an entry")
       if let record = entry.record {
-        //print("found a record")
-        //for e in record.entries {
-          //print("reference_type = '\(referenced_type)', referenced_id = '\(referenced_id)', entry = \(e) is of type '\(e.dynamicType)' with identifier '\(e.identifier_as_string)' ")
-        //}
         an_entry = (record.entries.filter({ e in
           String(e.dynamicType) == referenced_type &&
           e.identifier_as_string == referenced_id

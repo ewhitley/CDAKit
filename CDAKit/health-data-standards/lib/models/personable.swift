@@ -17,21 +17,4 @@ protocol CDAKPersonable {
   var addresses: [CDAKAddress] {get set}
   var telecoms: [CDAKTelecom] {get set}
   
-//  receiver.embeds_many :addresses, as: :locatable
-//  receiver.embeds_many :telecoms, as: :contactable
-  
 }
-
-//extension Peronsable {
-//  
-////  var _title: String?
-////  var title: String? {
-////    get {
-////      return _title
-////    }
-////    set(value) {
-////      _title = value
-////    }
-////  }
-//  
-//}
