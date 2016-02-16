@@ -8,13 +8,13 @@
 
 import Foundation
 
-class CDAKMetadataLinkInfo {
+public class CDAKMetadataLinkInfo {
   
-  var href: String?
-  var extension_id: String?
-  var uri: String?
+  public var href: String?
+  public var extension_id: String?
+  public var uri: String?
   
-  init() {
+  public init() {
     
   }
   

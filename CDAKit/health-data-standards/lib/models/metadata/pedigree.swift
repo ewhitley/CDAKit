@@ -8,25 +8,25 @@
 
 import Foundation
 
-class CDAKMetadataPedigree {
+public class CDAKMetadataPedigree {
   
-  var organization: String?
-  var signature: String?
-  var document_method: String?
-  var derived: Bool?
+  public var organization: String?
+  public var signature: String?
+  public var document_method: String?
+  public var derived: Bool?
 
-  var author: CDAKMetadataAuthor?
-  var source_pedigrees: [CDAKMetadataPedigree] = [CDAKMetadataPedigree]()
-  var source_documents: [CDAKMetadataLinkInfo] = [CDAKMetadataLinkInfo]()
+  public var author: CDAKMetadataAuthor?
+  public var source_pedigrees: [CDAKMetadataPedigree] = [CDAKMetadataPedigree]()
+  public var source_documents: [CDAKMetadataLinkInfo] = [CDAKMetadataLinkInfo]()
   
-  init(organization: String?, signature: String?, document_method: String?, derived: Bool?  ) {
+  public init(organization: String?, signature: String?, document_method: String?, derived: Bool?  ) {
     self.organization = organization
     self.signature = signature
     self.document_method = document_method
     self.derived = derived
   }
   
-  init() {
+  public init() {
   }
   
 }

@@ -8,12 +8,12 @@
 
 import Foundation
 
-class CDAKMetadataChangeInfo {
+public class CDAKMetadataChangeInfo {
   
-  var timestamp: NSDate?
-  var pedigree: CDAKMetadataPedigree?
+  public var timestamp: NSDate?
+  public var pedigree: CDAKMetadataPedigree?
     
-  init(timestamp: NSDate? ) {
+  public init(timestamp: NSDate? ) {
     self.timestamp = timestamp
   }
   

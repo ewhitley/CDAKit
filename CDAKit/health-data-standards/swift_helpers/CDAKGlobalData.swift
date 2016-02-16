@@ -16,8 +16,14 @@ public class CDAKGlobals {
   public static let sharedInstance = CDAKGlobals()
   
   private init() {
+    CDAKDefaultMetadata = CDAKQRDAHeader()
+    CDAKDefaultMetadata.confidentiality = .Normal
   }
 
+  
+  public var CDAKDefaultMetadata: CDAKQRDAHeader
+
+  
   /**
    Allows importing of "non-standard" CDA documents.  If we find an XML file with the general CDA header we're going to attempt to import it
    

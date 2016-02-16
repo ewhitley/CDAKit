@@ -26,6 +26,8 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   public var effective_time: Double?
   
   public var _id: String = NSUUID().UUIDString
+  
+  public var cdaHeader: CDAKQRDAHeader?
 
   // FIXME:  - apparently the JSON has "pregnancies" as its own item
   // that's not on the dx or problem list (which makes sense - sort of)
