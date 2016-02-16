@@ -29,7 +29,7 @@ class ViewHelperTest: XCTestCase {
       "time" : 1234,
       "codes" : ["CPT" : ["1234"]]
     ]
-    let entry = HDSEntry(event: fields)
+    let entry = CDAKEntry(event: fields)
     print("codes = \(entry.codes)")
     let code_xml = ViewHelper.code_display(entry)
     print("code_xml = \n\n\(code_xml)\n\n")

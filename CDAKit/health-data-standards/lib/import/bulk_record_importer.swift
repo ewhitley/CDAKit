@@ -9,7 +9,7 @@
 import Foundation
 import Fuzi
 
-public class HDSImport_BulkRecordImporter {
+public class CDAKImport_BulkRecordImporter {
   
   public enum Error : ErrorType {
     case NotImplemented
@@ -18,7 +18,7 @@ public class HDSImport_BulkRecordImporter {
     case InvalidXML
   }
   
-  public class func importRecord(XMLString: String, providier_map:[String:HDSProvider] = [:]) throws -> HDSRecord {
+  public class func importRecord(XMLString: String, providier_map:[String:CDAKProvider] = [:]) throws -> CDAKRecord {
     
     do {
       let doc = try XMLDocument(string: XMLString, encoding: NSUTF8StringEncoding)
@@ -36,27 +36,27 @@ public class HDSImport_BulkRecordImporter {
           
           if doc.xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.3.88.11.32.1']").count > 0 {
             print("Deteremined XML document format as: C32")
-            let importer = HDSImport_C32_PatientImporter()
+            let importer = CDAKImport_C32_PatientImporter()
             let record = importer.parse_c32(doc)
             return record
           } else if doc.xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.22.1.2']").count > 0 {
             print("Deteremined XML document format as: CCDA")
-            let importer = HDSImport_CCDA_PatientImporter()
+            let importer = CDAKImport_CCDA_PatientImporter()
             let record = importer.parse_ccda(doc)
             return record
           } else if doc.xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.24.1.2']").count > 0 {
             print("QRDA1 not (yet) supported")
-            throw HDSImport_BulkRecordImporter.Error.NotImplemented
+            throw CDAKImport_BulkRecordImporter.Error.NotImplemented
           } else {
             print("Unable to determinate document template/type of CDA document")
-            throw HDSImport_BulkRecordImporter.Error.UnableToDetermineFormat
+            throw CDAKImport_BulkRecordImporter.Error.UnableToDetermineFormat
           }
         } else {
           print("XML does not appear to be a valid ClinicalDocument")
-          throw HDSImport_BulkRecordImporter.Error.NoClinicalDocumentElement
+          throw CDAKImport_BulkRecordImporter.Error.NoClinicalDocumentElement
         }
       } else {
-        throw HDSImport_BulkRecordImporter.Error.InvalidXML
+        throw CDAKImport_BulkRecordImporter.Error.InvalidXML
       }
     } catch let error as XMLError {
       switch error {
@@ -65,7 +65,7 @@ public class HDSImport_BulkRecordImporter {
       case .LibXMLError(let code, let message):
         print("libxml error code: \(code), message: \(message)")
       }
-      throw HDSImport_BulkRecordImporter.Error.InvalidXML
+      throw CDAKImport_BulkRecordImporter.Error.InvalidXML
       
     }
 //    } catch let error as NSError {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HDSMetadataAuthor {
+class CDAKMetadataAuthor {
   
   static let Types = ["authenticator", "authorcustodiandataEnterer", "informant",
     "legalAuthenticator", "participant", "performer", "recordTarget"]
@@ -44,7 +44,7 @@ class HDSMetadataAuthor {
   }
   
   func setType(type: String?) throws {
-    guard let type = type where HDSMetadataAuthor.Types.contains(type) else {
+    guard let type = type where CDAKMetadataAuthor.Types.contains(type) else {
       throw InputError.TypeIncorrect
     }
     _type = type

@@ -9,15 +9,15 @@
 import Foundation
 import Mustache
 
-public class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatable, CustomStringConvertible {
+public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equatable, CustomStringConvertible {
   
-  //  include HDSPersonable
+  //  include CDAKPersonable
   public var title: String?
   public var given_name: String?
   public var family_name: String?
   
-  public var addresses: [HDSAddress] = [HDSAddress]()
-  public var telecoms: [HDSTelecom] = [HDSTelecom]()
+  public var addresses: [CDAKAddress] = [CDAKAddress]()
+  public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
   //  include Mongoid::Tree
   //  include Mongoid::Attributes::Dynamic
@@ -32,36 +32,36 @@ public class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatabl
   public var specialty: String?
   public var phone: String?
   
-  public var organization: HDSOrganization?
+  public var organization: CDAKOrganization?
   
-  public var cda_identifiers: [HDSCDAIdentifier] = [HDSCDAIdentifier]()
+  public var cda_identifiers: [CDAKCDAIdentifier] = [CDAKCDAIdentifier]()
   
   public init() {
-    HDSProviders.append(self) //INSTANCE WORK-AROUND
+    CDAKProviders.append(self) //INSTANCE WORK-AROUND
   }
   
   required public init(event: [String:Any?]) {
     initFromEventList(event)
-    HDSProviders.append(self) //INSTANCE WORK-AROUND
+    CDAKProviders.append(self) //INSTANCE WORK-AROUND
   }
   
   deinit {
-    HDSProvider.removeProvider(self)
+    CDAKProvider.removeProvider(self)
   }
   
 //  func initFromEventList(event: [String:Any?]) {
 //    for (key, value) in event {
-//      HDSCommonUtility.setProperty(self, property: key, value: value)
+//      CDAKCommonUtility.setProperty(self, property: key, value: value)
 //    }
 //  }
 
   
   //MARK: FIXME - so foul
   //scope :by_npi, ->(an_npi){ where("cda_identifiers.root" => NPI_OID, "cda_identifiers.extension" => an_npi)}
-  class func by_npi(an_npi: String?) -> HDSProvider? {
-    for prov in HDSProviders {
+  class func by_npi(an_npi: String?) -> CDAKProvider? {
+    for prov in CDAKProviders {
       for cda in prov.cda_identifiers {
-        if (cda.root == HDSProvider.NPI_OID) && cda.extension_id == an_npi {
+        if (cda.root == CDAKProvider.NPI_OID) && cda.extension_id == an_npi {
           return prov
         }
       }
@@ -75,14 +75,14 @@ public class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatabl
   // please refer to the provider importer and tests for examples where this occurs
   public var npi : String? {
     get {
-      let cda_id_npi = cda_identifiers.filter({ $0.root == HDSProvider.NPI_OID }).first
+      let cda_id_npi = cda_identifiers.filter({ $0.root == CDAKProvider.NPI_OID }).first
       return cda_id_npi != nil ? cda_id_npi?.extension_id : nil
     }
     set(an_npi) {
-      if let cda_id_npi = cda_identifiers.filter({ $0.root == HDSProvider.NPI_OID }).first {
+      if let cda_id_npi = cda_identifiers.filter({ $0.root == CDAKProvider.NPI_OID }).first {
         cda_id_npi.extension_id = an_npi
       } else {
-        cda_identifiers.append(HDSCDAIdentifier(root: HDSProvider.NPI_OID, extension_id: an_npi))
+        cda_identifiers.append(CDAKCDAIdentifier(root: CDAKProvider.NPI_OID, extension_id: an_npi))
       }
       
 //      //if we also have a C83 NPI reference, update that
@@ -95,17 +95,17 @@ public class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatabl
   
   public var tin: String? {
     get {
-      let cda_id_tin = cda_identifiers.filter({ $0.root == HDSProvider.TAX_ID_OID }).first
+      let cda_id_tin = cda_identifiers.filter({ $0.root == CDAKProvider.TAX_ID_OID }).first
       return cda_id_tin != nil ? cda_id_tin?.extension_id : nil
     }
     set(a_tin) {
-      cda_identifiers.append(HDSCDAIdentifier(root: HDSProvider.TAX_ID_OID, extension_id: a_tin))
+      cda_identifiers.append(CDAKCDAIdentifier(root: CDAKProvider.TAX_ID_OID, extension_id: a_tin))
     }
   }
   
   //MARK: FIXME - need to figure out how to do this
   func records(effective_date: String? = nil) {
-    //HDSRecord.by_provider(self, effective_date)
+    //CDAKRecord.by_provider(self, effective_date)
   }
   
   
@@ -170,13 +170,13 @@ public class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatabl
   //# in the db based on the information in the parsed hash.
   
   //NOTE: In Swift 2.1 we cannot provide default arguments for closures, so if you use the resolve_provider closure you'll need to send in nil for patient if there isn't one
-  class func resolve_provider(provider_hash: [String:Any], patient: HDSPerson? = nil, resolve_function:((provider_hash: [String:Any], patient: HDSPerson? ) -> HDSProvider?)? = nil ) -> HDSProvider? {
+  class func resolve_provider(provider_hash: [String:Any], patient: CDAKPerson? = nil, resolve_function:((provider_hash: [String:Any], patient: CDAKPerson? ) -> CDAKProvider?)? = nil ) -> CDAKProvider? {
     //Provider.where(:npi => nil).first
     if let resolve_function = resolve_function {
       let p = resolve_function(provider_hash: provider_hash, patient: patient ?? nil)
       return p
     } else {
-      let p = HDSProviders.filter({ $0.npi == nil }).first
+      let p = CDAKProviders.filter({ $0.npi == nil }).first
       return p
     }
   }
@@ -188,23 +188,23 @@ public class HDSProvider: HDSPersonable, HDSJSONInstantiable, Hashable, Equatabl
   
 }
 
-extension HDSProvider {
+extension CDAKProvider {
   
   
-  class func removeProvider(provider: HDSProvider) {
+  class func removeProvider(provider: CDAKProvider) {
     var matching_idx: Int?
-    for (i, p) in HDSProviders.enumerate() {
+    for (i, p) in CDAKProviders.enumerate() {
       if p == provider {
         matching_idx = i
       }
     }
     if let matching_idx = matching_idx {
-      HDSProviders.removeAtIndex(matching_idx)
+      CDAKProviders.removeAtIndex(matching_idx)
     }
   }
 }
 
-extension HDSProvider {
+extension CDAKProvider {
   //MARK: FIXME - not using the hash - just using native properties
   public var hashValue: Int {
     
@@ -229,12 +229,12 @@ extension HDSProvider {
   }
 }
 
-public func == (lhs: HDSProvider, rhs: HDSProvider) -> Bool {
-  return lhs.hashValue == rhs.hashValue && HDSCommonUtility.classNameAsString(lhs) == HDSCommonUtility.classNameAsString(rhs)
+public func == (lhs: CDAKProvider, rhs: CDAKProvider) -> Bool {
+  return lhs.hashValue == rhs.hashValue && CDAKCommonUtility.classNameAsString(lhs) == CDAKCommonUtility.classNameAsString(rhs)
 }
 
 
-extension HDSProvider: MustacheBoxable {
+extension CDAKProvider: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     return [
       "title" :  Box(title),

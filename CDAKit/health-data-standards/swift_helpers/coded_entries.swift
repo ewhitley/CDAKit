@@ -10,7 +10,7 @@ import Foundation
 import Mustache
 
 
-public struct HDSCodedTerm: Equatable, Hashable {
+public struct CDAKCodedTerm: Equatable, Hashable {
   var code: String
   var displayName: String?
 
@@ -20,28 +20,28 @@ public struct HDSCodedTerm: Equatable, Hashable {
 
 }
 
-public func == (lhs: HDSCodedTerm, rhs: HDSCodedTerm) -> Bool {
+public func == (lhs: CDAKCodedTerm, rhs: CDAKCodedTerm) -> Bool {
   return lhs.hashValue == rhs.hashValue
 }
 
 
-public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionType, Equatable, Hashable {
+public struct CDAKCodedEntry: CustomStringConvertible, SequenceType, CollectionType, Equatable, Hashable {
   public var codeSystem: String
   public var codeSystemOid: String?
   public var displayName: String?
   
 //  private var _codes = Set<String>()
-  private var _codes: [HDSCodedTerm] = []
+  private var _codes: [CDAKCodedTerm] = []
   public var codes: [String] {
     get { return _codes.map({$0.code}) }
     set {
-      let terms = newValue.map({HDSCodedTerm(code: $0, displayName: nil)})
+      let terms = newValue.map({CDAKCodedTerm(code: $0, displayName: nil)})
       _codes = mergeTermDisplayNames(terms)
     }
   }
 
-  private func uniqueTerms(forTerms terms: [HDSCodedTerm]) -> [HDSCodedTerm] {
-    var uniqueTerms: [HDSCodedTerm] = []
+  private func uniqueTerms(forTerms terms: [CDAKCodedTerm]) -> [CDAKCodedTerm] {
+    var uniqueTerms: [CDAKCodedTerm] = []
     for term in terms {
       if !uniqueTerms.contains(term) {
         uniqueTerms.append(term)
@@ -50,9 +50,9 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
     return uniqueTerms
   }
   
-  private func mergeTermDisplayNames(inTerms: [HDSCodedTerm]) -> [HDSCodedTerm] {
+  private func mergeTermDisplayNames(inTerms: [CDAKCodedTerm]) -> [CDAKCodedTerm] {
     //this is slow, but I want to be explicit about what we're doing for the moment
-    var mergedTerms: [HDSCodedTerm] = inTerms
+    var mergedTerms: [CDAKCodedTerm] = inTerms
     
     //we already have terms, so some may have descriptions where our existing may not
     // in this case (while not necessarily "right,") we want to retain descriptions wherever we can
@@ -70,7 +70,7 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
     return uniqueTerms(forTerms: mergedTerms)
   }
   
-  public var codedTerms: [HDSCodedTerm] {
+  public var codedTerms: [CDAKCodedTerm] {
     get { return _codes }
     set { _codes = newValue }
   }
@@ -110,7 +110,7 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
       self.codeSystemOid = codeSystemOid
     }
     self.displayName = displayName
-    HDSCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
+    CDAKCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
   }
   public init(codeSystem: String, codes: [String?]?, codeSystemOid: String? = nil, displayName: String? = nil) {
     self.codeSystem = codeSystem
@@ -121,7 +121,7 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
       self.codeSystemOid = codeSystemOid
     }
     self.displayName = displayName
-    HDSCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
+    CDAKCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
   }
   public init(codeSystem: String, codes: [String?], codeSystemOid: String? = nil, displayName: String? = nil) {
     self.codeSystem = codeSystem
@@ -130,7 +130,7 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
       self.codeSystemOid = codeSystemOid
     }
     self.displayName = displayName
-    HDSCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
+    CDAKCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
   }
   public init(codeSystem: String, codes: [String], codeSystemOid: String? = nil, displayName: String? = nil) {
     self.codeSystem = codeSystem
@@ -139,7 +139,7 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
       self.codeSystemOid = codeSystemOid
     }
     self.displayName = displayName
-    HDSCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
+    CDAKCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOid)
   }
   public var description: String {
     return ("codeSystem: \(codeSystem), codeSystemOid: \(codeSystemOid), codes: \(codes), displayName: \(displayName)")
@@ -147,9 +147,9 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
   
   public var hashValue: Int {
     // Removing the code system OID portion of the comparison
-    // There are situations where HDS equates these as "the same," but we might
+    // There are situations where CDAK equates these as "the same," but we might
     //   have an OID in one, but not another
-    // The original Ruby HDS would see these as "the same" so we're following that
+    // The original Ruby CDAK would see these as "the same" so we're following that
     //return "\(codeSystem)\(codeSystemOid)\(codes)".hashValue
     return "\(codeSystem)\(codes)".hashValue
   }
@@ -163,11 +163,11 @@ public struct HDSCodedEntry: CustomStringConvertible, SequenceType, CollectionTy
   
 }
 
-public func == (lhs: HDSCodedEntry, rhs: HDSCodedEntry) -> Bool {
+public func == (lhs: CDAKCodedEntry, rhs: CDAKCodedEntry) -> Bool {
   return lhs.hashValue == rhs.hashValue
 }
 
-extension HDSCodedEntry: MustacheBoxable {
+extension CDAKCodedEntry: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     return [
       "codeSystem" :  Box(self.codeSystem),
@@ -181,14 +181,14 @@ extension HDSCodedEntry: MustacheBoxable {
 }
 
 
-public struct HDSCodedEntries: CustomStringConvertible, SequenceType, CollectionType, Equatable, Hashable {
+public struct CDAKCodedEntries: CustomStringConvertible, SequenceType, CollectionType, Equatable, Hashable {
   
-  public func generate() -> DictionaryGenerator<String, HDSCodedEntry> {
+  public func generate() -> DictionaryGenerator<String, CDAKCodedEntry> {
     return entries.generate()
   }
   
-  public typealias Index = Dictionary<String, HDSCodedEntry>.Index
-  public typealias _Element = (String, HDSCodedEntry)
+  public typealias Index = Dictionary<String, CDAKCodedEntry>.Index
+  public typealias _Element = (String, CDAKCodedEntry)
   public var startIndex: Index {get { return entries.startIndex }}
   public var endIndex: Index {get { return entries.endIndex }}
   public subscript(_i: Index) -> _Element {get { return entries[_i] }}
@@ -198,14 +198,14 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
 
   
   private var _codeSystems: Set<String> = Set<String>()
-  private var entries: [String:HDSCodedEntry] = [:]
+  private var entries: [String:CDAKCodedEntry] = [:]
 
   public var codeSystems: [String] {
     get { return Array(_codeSystems) }
     set { _codeSystems = Set(newValue) }
   }
   
-  public var codes: [HDSCodedEntry] {
+  public var codes: [CDAKCodedEntry] {
     get { return entries.map({$0.1}) }
   }
 
@@ -239,20 +239,20 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
   public init(entries:[String:String?]?){
     addCodes(entries)
   }
-  public init(entries: [HDSCodedEntry]?) {
+  public init(entries: [CDAKCodedEntry]?) {
     if let entries = entries {
       for entry in entries {
         addCodes(entry.codeSystem, codes: entry.codes, codeSystemOid: entry.codeSystemOid, displayName: entry.displayName)
       }
     }
   }
-  public init(entries: HDSCodedEntry?) {
+  public init(entries: CDAKCodedEntry?) {
     if let entry = entries {
       addCodes(entry.codeSystem, codes: entry.codes, codeSystemOid: entry.codeSystemOid, displayName: entry.displayName)
     }
   }
   
-  public subscript(codeSystem: String) -> HDSCodedEntry? {
+  public subscript(codeSystem: String) -> CDAKCodedEntry? {
     get {
       return self.entries[codeSystem]
     }
@@ -271,7 +271,7 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
   }
   
   //we may want to remove a bunch of entries from a set
-  mutating func removeCodes(foundInEntries set1: HDSCodedEntries) {
+  mutating func removeCodes(foundInEntries set1: CDAKCodedEntries) {
     for (kr, vr) in set1 {
       //EX: SNOMED-CT: [entries]
       if self[kr] != nil {
@@ -289,12 +289,12 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
   }
 
   
-  public mutating func addCodes(entries: [HDSCodedEntry]) {
+  public mutating func addCodes(entries: [CDAKCodedEntry]) {
     for entry in entries {
       addCodes(entry.codeSystem, codes: entry.codes, codeSystemOid: entry.codeSystemOid, displayName: entry.displayName)
     }
   }
-  public mutating func addCodes(entry: HDSCodedEntry) {
+  public mutating func addCodes(entry: CDAKCodedEntry) {
     addCodes(entry.codeSystem, codes: entry.codes, codeSystemOid: entry.codeSystemOid, displayName: entry.displayName)
   }
   public mutating func addCodes(codedSet:[String:String?]?) {
@@ -349,7 +349,7 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
         self.entries[codeSystem]!.displayName = displayName
       }
     } else {
-      self.entries[codeSystem] = HDSCodedEntry(codeSystem: codeSystem, codes: codes, codeSystemOid: codeSystemOid, displayName: displayName)
+      self.entries[codeSystem] = CDAKCodedEntry(codeSystem: codeSystem, codes: codes, codeSystemOid: codeSystemOid, displayName: displayName)
     }
   }
   
@@ -380,11 +380,11 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
     return result
   }
   
-  public var arrayOfFlattenedCodedEntry: [HDSCodedEntry] {
-    var result: [HDSCodedEntry] = []
+  public var arrayOfFlattenedCodedEntry: [CDAKCodedEntry] {
+    var result: [CDAKCodedEntry] = []
     for (key, ce) in entries {
       for code in ce.codes {
-        result.append(HDSCodedEntry(codeSystem: key, codes: code))
+        result.append(CDAKCodedEntry(codeSystem: key, codes: code))
       }
     }
     return result
@@ -407,13 +407,13 @@ public struct HDSCodedEntries: CustomStringConvertible, SequenceType, Collection
 }
 
 
-public func == (lhs: HDSCodedEntries, rhs: HDSCodedEntries) -> Bool {
+public func == (lhs: CDAKCodedEntries, rhs: CDAKCodedEntries) -> Bool {
   return lhs.hashValue == rhs.hashValue
 }
 
 //MARK: FIXME - this is probably wrong - resolve after other fixes
 // see if we can just return the actual boxed values from self
-extension HDSCodedEntries: MustacheBoxable {
+extension CDAKCodedEntries: MustacheBoxable {
 //  var boxedValues: [String:MustacheBox] {
 //    return [
 //      "entries": Box(entries)

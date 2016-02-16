@@ -8,6 +8,6 @@
 
 import Foundation
 
-public class HDSProviderPreference {
+public class CDAKProviderPreference {
   //  include Mongoid::Attributes::Dynamic
 }

@@ -8,16 +8,16 @@
 
 import Foundation
 
-class HDSMetadataPedigree {
+class CDAKMetadataPedigree {
   
   var organization: String?
   var signature: String?
   var document_method: String?
   var derived: Bool?
 
-  var author: HDSMetadataAuthor?
-  var source_pedigrees: [HDSMetadataPedigree] = [HDSMetadataPedigree]()
-  var source_documents: [HDSMetadataLinkInfo] = [HDSMetadataLinkInfo]()
+  var author: CDAKMetadataAuthor?
+  var source_pedigrees: [CDAKMetadataPedigree] = [CDAKMetadataPedigree]()
+  var source_documents: [CDAKMetadataLinkInfo] = [CDAKMetadataLinkInfo]()
   
   init(organization: String?, signature: String?, document_method: String?, derived: Bool?  ) {
     self.organization = organization

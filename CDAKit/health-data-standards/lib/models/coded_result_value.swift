@@ -8,9 +8,9 @@
 
 import Foundation
 
-public class HDSCodedResultValue: HDSResultValue, HDSThingWithCodes {
+public class CDAKCodedResultValue: CDAKResultValue, CDAKThingWithCodes {
   public var item_description: String?
-  public var codes: HDSCodedEntries = HDSCodedEntries()
+  public var codes: CDAKCodedEntries = CDAKCodedEntries()
 //  var codes: [String:Any] = [String:Any]()
   
   override public var description: String {

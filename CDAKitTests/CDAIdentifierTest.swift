@@ -1,5 +1,5 @@
 //
-//  HDSCDAIdentifierTest.swift
+//  CDAKCDAIdentifierTest.swift
 //  CDAKit
 //
 //  Created by Eric Whitley on 12/9/15.
@@ -10,7 +10,7 @@ import XCTest
 @testable import CDAKit
 
 
-class HDSCDAIdentifierTest: XCTestCase {
+class CDAKCDAIdentifierTest: XCTestCase {
     
   override func setUp() {
       super.setUp()
@@ -23,10 +23,10 @@ class HDSCDAIdentifierTest: XCTestCase {
   }
   
   func test_equality() {
-    let id1 = HDSCDAIdentifier(root: "1.2.3.4", extension_id: "abcdef")
-    let id2 = HDSCDAIdentifier(root: "1.2.3.4", extension_id: "abcdef")
-    let id3 = HDSCDAIdentifier(root: "dfadsfdsaf")
-    let id4 = HDSCDAIdentifier(root: "1.2.3.4", extension_id: "abasdsadcdef")
+    let id1 = CDAKCDAIdentifier(root: "1.2.3.4", extension_id: "abcdef")
+    let id2 = CDAKCDAIdentifier(root: "1.2.3.4", extension_id: "abcdef")
+    let id3 = CDAKCDAIdentifier(root: "dfadsfdsaf")
+    let id4 = CDAKCDAIdentifier(root: "1.2.3.4", extension_id: "abasdsadcdef")
 
     //let x = id1.as_string
 

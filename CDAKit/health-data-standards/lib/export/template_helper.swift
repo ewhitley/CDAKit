@@ -17,9 +17,9 @@ import Mustache
 //# [template_directory] The root directory to look in for templates. By default, it
 //#                      is in the template folder of this gem. It can be handy to
 //#                      provide a different directory if you want to use this class
-//#                      outside of the HDS gem
+//#                      outside of the CDAK gem
 
-class HDSTemplateHelper {
+class CDAKTemplateHelper {
 
   static let TEMPLATE_DIRECTORY = "health-data-standards/templates/" //make sure whatever you set is in the build phases (resources)
   static let TEMPLATE_EXTENSION = "mustache"
@@ -44,7 +44,7 @@ class HDSTemplateHelper {
   
   var template_format: String
   var template_subdir: String?
-  var template_directory: String = HDSTemplateHelper.TEMPLATE_DIRECTORY
+  var template_directory: String = CDAKTemplateHelper.TEMPLATE_DIRECTORY
   var template_cache: [String:TemplateCacheEntry] = [String:TemplateCacheEntry]()
   // ex: for keys -> _allergies, _narrative_block, _code_with_reference
   
@@ -89,8 +89,8 @@ class HDSTemplateHelper {
     let fileName = "\(template_format)_\(template_name).\(template_format)"
     
     
-    guard let filePath = HDSCommonUtility.bundle.pathForResource(fileName, ofType: HDSTemplateHelper.TEMPLATE_EXTENSION) else {
-      fatalError("Failed to find template '\(fileName).\(HDSTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)' ")
+    guard let filePath = CDAKCommonUtility.bundle.pathForResource(fileName, ofType: CDAKTemplateHelper.TEMPLATE_EXTENSION) else {
+      fatalError("Failed to find template '\(fileName).\(CDAKTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)' ")
     }
     
     do {
@@ -98,7 +98,7 @@ class HDSTemplateHelper {
       
       let templateAttributes = try NSFileManager.defaultManager().attributesOfItemAtPath(filePath)
       guard let fileModDate: NSDate = templateAttributes["NSFileModificationDate"] as? NSDate else {
-        fatalError("Unable to obtain NSFileModificationDate from template '\(fileName).\(HDSTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)' ")
+        fatalError("Unable to obtain NSFileModificationDate from template '\(fileName).\(CDAKTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)' ")
       }
       
       if entry == nil || entry?.mtime.compare(fileModDate) == .OrderedAscending  {
@@ -110,14 +110,14 @@ class HDSTemplateHelper {
       }
     }
     catch let error as MustacheError {
-      fatalError("Failed to process template '\(fileName).\(HDSTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)' . Line \(error.lineNumber) - \(error.kind). Error: \(error.description)")
+      fatalError("Failed to process template '\(fileName).\(CDAKTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)' . Line \(error.lineNumber) - \(error.kind). Error: \(error.description)")
 
     }
     catch let error as NSError {
-      fatalError("Failed to load template '\(fileName).\(HDSTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)'. Exception: \(error.localizedDescription) ")
+      fatalError("Failed to load template '\(fileName).\(CDAKTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)'. Exception: \(error.localizedDescription) ")
     }
     catch {
-      fatalError("Failed to load template '\(fileName).\(HDSTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)' ")
+      fatalError("Failed to load template '\(fileName).\(CDAKTemplateHelper.TEMPLATE_EXTENSION)' in path '\(template_root)' ")
     }
     
     return entry!.erb

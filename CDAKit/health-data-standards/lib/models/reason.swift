@@ -10,13 +10,13 @@ import Foundation
 import Mustache
 
 //NOTE: deviating from original Ruby again
-// this was NOT an HDSEntry.  Needed to do this for the generalized importer
+// this was NOT an CDAKEntry.  Needed to do this for the generalized importer
 // it was treating everything like an entry because it had similar-ish fields
-//HDSJSONInstantiable, CustomStringConvertible
+//CDAKJSONInstantiable, CustomStringConvertible
 
-public class HDSReason: HDSEntry {
+public class CDAKReason: CDAKEntry {
 //  var item_description: String?
-//  var codes: HDSCodedEntries = HDSCodedEntries()
+//  var codes: CDAKCodedEntries = CDAKCodedEntries()
   
 //  required init() {
 //  }
@@ -26,13 +26,13 @@ public class HDSReason: HDSEntry {
 //  }
   
   override public var description: String {
-    return "HDSReason => description: \(item_description), codes: \(codes)"
+    return "CDAKReason => description: \(item_description), codes: \(codes)"
   }
   
 }
 
 
-//extension HDSReason: MustacheBoxable {
+//extension CDAKReason: MustacheBoxable {
 //  var boxedValues: [String:MustacheBox] {
 //    return [
 //      "codes" :  Box(codes),

@@ -8,13 +8,13 @@
 
 import Foundation
 
-//NOTE: making this an HDSEntry subclass - This is a change to the Ruby code
-public class HDSGuarantor: HDSEntry {
+//NOTE: making this an CDAKEntry subclass - This is a change to the Ruby code
+public class CDAKGuarantor: CDAKEntry {
   
   //include Mongoid::Attributes::Dynamic
   
-  public var organization: HDSOrganization?
-  public var person: HDSPerson?
+  public var organization: CDAKOrganization?
+  public var person: CDAKPerson?
   
   override public var description: String {
     return super.description + " person: \(person), organization: \(organization)"
@@ -57,7 +57,7 @@ public class HDSGuarantor: HDSEntry {
 //        case "end_time": self.end_time = a_new_time
 //        case "start_time": self.start_time = a_new_time
 //        case "time": self.time = a_new_time
-//        default: print("HDSEntry.init() undefined value setter for key \(time_key)")
+//        default: print("CDAKEntry.init() undefined value setter for key \(time_key)")
 //        }
 //      }
 //    }

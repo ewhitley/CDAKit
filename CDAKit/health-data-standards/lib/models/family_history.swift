@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class HDSFamilyHistory: HDSEntry {
+public class CDAKFamilyHistory: CDAKEntry {
   
   //field :relationshipToPatient, as: :relationship_to_patient, type: Hash
   public var relationshipToPatient = [String:String]()

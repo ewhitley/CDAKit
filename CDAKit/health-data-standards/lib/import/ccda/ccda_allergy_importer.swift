@@ -9,8 +9,8 @@
 import Foundation
 import Fuzi
 
-class HDSImport_CCDA_AllergyImporter: HDSImport_CDA_AllergyImporter {
-  override init(entry_finder: HDSImport_CDA_EntryFinder = HDSImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.7']")) {
+class CDAKImport_CCDA_AllergyImporter: CDAKImport_CDA_AllergyImporter {
+  override init(entry_finder: CDAKImport_CDA_EntryFinder = CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.7']")) {
     super.init(entry_finder: entry_finder)
 
     reaction_xpath = "./cda:entryRelationship[@typeCode='MFST']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.9']/cda:value"

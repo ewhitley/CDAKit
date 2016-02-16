@@ -8,23 +8,23 @@
 
 import Foundation
 
-public class HDSProcedure: HDSEntry {
+public class CDAKProcedure: CDAKEntry {
   
   public var incisionTime : Double? //,        type: Integer,      as: :incision_time
-  public var ordinality: HDSCodedEntries = HDSCodedEntries() //,          type: Hash
-  public var source: HDSCodedEntries = HDSCodedEntries() //,              type: Hash
-  public var anatomical_approach: HDSCodedEntries = HDSCodedEntries() //
-  public var anatomical_target: HDSCodedEntries = HDSCodedEntries() //
-  public var method: HDSCodedEntries = HDSCodedEntries() //
-  public var reaction: HDSCodedEntries = HDSCodedEntries() //
+  public var ordinality: CDAKCodedEntries = CDAKCodedEntries() //,          type: Hash
+  public var source: CDAKCodedEntries = CDAKCodedEntries() //,              type: Hash
+  public var anatomical_approach: CDAKCodedEntries = CDAKCodedEntries() //
+  public var anatomical_target: CDAKCodedEntries = CDAKCodedEntries() //
+  public var method: CDAKCodedEntries = CDAKCodedEntries() //
+  public var reaction: CDAKCodedEntries = CDAKCodedEntries() //
   
-  public var radiation_dose: HDSCodedEntries = HDSCodedEntries() //
-  public var radiation_duration: HDSCodedEntries = HDSCodedEntries() //
+  public var radiation_dose: CDAKCodedEntries = CDAKCodedEntries() //
+  public var radiation_duration: CDAKCodedEntries = CDAKCodedEntries() //
   
-  public var facility: HDSFacility?
+  public var facility: CDAKFacility?
   
-  //belongs_to :performer, class_name: "HDSProvider"
-  public var performer: HDSProvider?
+  //belongs_to :performer, class_name: "CDAKProvider"
+  public var performer: CDAKProvider?
   
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)

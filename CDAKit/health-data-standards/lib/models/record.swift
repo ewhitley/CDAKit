@@ -14,7 +14,7 @@ public struct code_and_name {
   var name: String
 }
 
-public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
+public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   //include Mongoid::Attributes::Dynamic
   //extend Memoist
@@ -25,7 +25,7 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   public var gender: String?
   public var birthdate: Double?
   public var deathdate: Double?
-  public var religious_affiliation: HDSCodedEntries = HDSCodedEntries()
+  public var religious_affiliation: CDAKCodedEntries = CDAKCodedEntries()
   public var effective_time: Double?
   
   public var _id: String = NSUUID().UUIDString
@@ -35,18 +35,18 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   // but this isn't relfected in the base model
   // figure out where this is coming from and how to handle
   // for now, making it an "entry"
-  public var pregnancies: [HDSEntry] = []
+  public var pregnancies: [CDAKEntry] = []
   
   //MARK: FIXME - race / ethnicity really should be a multi-value fields
   // MU2 allows for multiple
-  public var race: HDSCodedEntries = HDSCodedEntries()
-  public var ethnicity: HDSCodedEntries = HDSCodedEntries()
+  public var race: CDAKCodedEntries = CDAKCodedEntries()
+  public var ethnicity: CDAKCodedEntries = CDAKCodedEntries()
   
-  public var languages: [HDSCodedEntries] = [] //Array, default: []
+  public var languages: [CDAKCodedEntries] = [] //Array, default: []
 
   //MARK: FIXME - not sure this is used
   //var test_id: BSON::ObjectId
-  public var marital_status: HDSCodedEntries = HDSCodedEntries()
+  public var marital_status: CDAKCodedEntries = CDAKCodedEntries()
   public var medical_record_number: String?
   public var medical_record_assigner: String?
   public var expired: Bool?
@@ -59,8 +59,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   //index medical_record_number: 1
   //index test_id: 1
   //index bundle_id: 1
-  private var _allergies = [HDSAllergy]()
-  public var allergies: [HDSAllergy] {
+  private var _allergies = [CDAKAllergy]()
+  public var allergies: [CDAKAllergy] {
     get {return _allergies}
     set {
       for c in newValue {
@@ -70,8 +70,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
 
-  private var _care_goals = [HDSEntry]() // , class_name: "HDSEntry" # This can be any number of different entry types
-  public var care_goals: [HDSEntry] {
+  private var _care_goals = [CDAKEntry]() // , class_name: "CDAKEntry" # This can be any number of different entry types
+  public var care_goals: [CDAKEntry] {
     get {return _care_goals}
     set {
       for c in newValue {
@@ -81,8 +81,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
 
-  private var _conditions = [HDSCondition]()
-  public var conditions: [HDSCondition] {
+  private var _conditions = [CDAKCondition]()
+  public var conditions: [CDAKCondition] {
     get {return _conditions}
     set {
       for c in newValue {
@@ -92,8 +92,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _encounters = [HDSEncounter]()
-  public var encounters: [HDSEncounter] {
+  private var _encounters = [CDAKEncounter]()
+  public var encounters: [CDAKEncounter] {
     get {return _encounters}
     set {
       for c in newValue {
@@ -103,8 +103,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _communications = [HDSCommunication]()
-  public var communications: [HDSCommunication] {
+  private var _communications = [CDAKCommunication]()
+  public var communications: [CDAKCommunication] {
     get {return _communications}
     set {
       for c in newValue {
@@ -114,8 +114,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
 
-  private var _family_history = [HDSFamilyHistory]()
-  public var family_history: [HDSFamilyHistory] {
+  private var _family_history = [CDAKFamilyHistory]()
+  public var family_history: [CDAKFamilyHistory] {
     get {return _family_history}
     set {
       for c in newValue {
@@ -125,8 +125,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _immunizations = [HDSImmunization]()
-  public var immunizations: [HDSImmunization] {
+  private var _immunizations = [CDAKImmunization]()
+  public var immunizations: [CDAKImmunization] {
     get {return _immunizations}
     set {
       for c in newValue {
@@ -136,8 +136,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _medical_equipment = [HDSMedicalEquipment]()
-  public var medical_equipment: [HDSMedicalEquipment] {
+  private var _medical_equipment = [CDAKMedicalEquipment]()
+  public var medical_equipment: [CDAKMedicalEquipment] {
     get {return _medical_equipment}
     set {
       for c in newValue {
@@ -148,8 +148,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
 
   
-  private var _medications = [HDSMedication]()
-  public var medications: [HDSMedication] {
+  private var _medications = [CDAKMedication]()
+  public var medications: [CDAKMedication] {
     get {return _medications}
     set {
       for c in newValue {
@@ -159,8 +159,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _procedures = [HDSProcedure]()
-  public var procedures: [HDSProcedure] {
+  private var _procedures = [CDAKProcedure]()
+  public var procedures: [CDAKProcedure] {
     get {return _procedures}
     set {
       for c in newValue {
@@ -170,8 +170,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _results = [HDSLabResult]()//, class_name: "HDSLabResult"
-  public var results: [HDSLabResult] {
+  private var _results = [CDAKLabResult]()//, class_name: "CDAKLabResult"
+  public var results: [CDAKLabResult] {
     get {return _results}
     set {
       for c in newValue {
@@ -181,12 +181,12 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _socialhistories = [HDSSocialHistory]() //, class_name: "HDSEntry"
-  public var social_history: [HDSSocialHistory] {
+  private var _socialhistories = [CDAKSocialHistory]() //, class_name: "CDAKEntry"
+  public var social_history: [CDAKSocialHistory] {
     get { return socialhistories }
     set { socialhistories = newValue }
   }
-  var socialhistories: [HDSSocialHistory] {
+  var socialhistories: [CDAKSocialHistory] {
     get {return _socialhistories}
     set {
       for c in newValue {
@@ -196,8 +196,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
 
-  private var _vital_signs = [HDSVitalSign]()
-  public var vital_signs: [HDSVitalSign] {
+  private var _vital_signs = [CDAKVitalSign]()
+  public var vital_signs: [CDAKVitalSign] {
     get {return _vital_signs}
     set {
       for c in newValue {
@@ -207,8 +207,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _support = [HDSSupport]()
-  public var support: [HDSSupport] {
+  private var _support = [CDAKSupport]()
+  public var support: [CDAKSupport] {
     get {return _support}
     set {
       for c in newValue {
@@ -218,8 +218,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
 
-  private var _advance_directives = [HDSEntry]() //, class_name: "HDSEntry"
-  public var advance_directives: [HDSEntry] {
+  private var _advance_directives = [CDAKEntry]() //, class_name: "CDAKEntry"
+  public var advance_directives: [CDAKEntry] {
     get {return _advance_directives}
     set {
       for c in newValue {
@@ -229,8 +229,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _insurance_providers = [HDSInsuranceProvider]()
-  public var insurance_providers: [HDSInsuranceProvider] {
+  private var _insurance_providers = [CDAKInsuranceProvider]()
+  public var insurance_providers: [CDAKInsuranceProvider] {
     get {return _insurance_providers}
     set {
       for c in newValue {
@@ -240,8 +240,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _functional_statuses = [HDSFunctionalStatus]()
-  public var functional_statuses: [HDSFunctionalStatus] {
+  private var _functional_statuses = [CDAKFunctionalStatus]()
+  public var functional_statuses: [CDAKFunctionalStatus] {
     get {return _functional_statuses}
     set {
       for c in newValue {
@@ -252,8 +252,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   //MARK: FIXME - I think "provider_performances" shoud be handled differently here
-  private var _provider_performances = [HDSProviderPerformance]()
-  public var provider_performances: [HDSProviderPerformance] {
+  private var _provider_performances = [CDAKProviderPerformance]()
+  public var provider_performances: [CDAKProviderPerformance] {
     get {return _provider_performances}
     set {
       for c in newValue {
@@ -263,8 +263,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _addresses = [HDSAddress]() //, as: :locatable
-  public var addresses: [HDSAddress] {
+  private var _addresses = [CDAKAddress]() //, as: :locatable
+  public var addresses: [CDAKAddress] {
     get {return _addresses}
     set {
       for c in newValue {
@@ -274,8 +274,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
   }
   
-  private var _telecoms = [HDSTelecom]() //, as: :contactable
-  public var telecoms: [HDSTelecom] {
+  private var _telecoms = [CDAKTelecom]() //, as: :contactable
+  public var telecoms: [CDAKTelecom] {
     get {return _telecoms}
     set {
       for c in newValue {
@@ -293,12 +293,12 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   
   //MARK: FIXME - BAD implementation
   // this is a mess
-  class func by_provider(provider: HDSProvider, effective_date: Double?) -> [HDSRecord] {
-    var records = [HDSRecord]()
+  class func by_provider(provider: CDAKProvider, effective_date: Double?) -> [CDAKRecord] {
+    var records = [CDAKRecord]()
     if let effective_date = effective_date {
-      var a_provider: HDSProvider?
+      var a_provider: CDAKProvider?
       a_provider = provider_queries(provider.npi!, effective_date: effective_date)
-      for record in HDSRecords {
+      for record in CDAKRecords {
         for perf in record.provider_performances {
           if perf.provider?.npi == a_provider?.npi {
             records.append(record)
@@ -307,7 +307,7 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
       }
     } else {
       //: where('provider_performances.provider_id'=>prov.id)
-      for record in HDSRecords {
+      for record in CDAKRecords {
         for perf in record.provider_performances {
           if perf.provider?.npi == provider.npi {
             records.append(record)
@@ -321,9 +321,9 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   
   //MARK: FIXME - Should this return just one record?
   //scope :by_patient_id, ->(id) { where(:medical_record_number => id) }
-  class func by_patient_id(id: String) -> [HDSRecord] {
-    var records = [HDSRecord]()
-    for record in HDSRecords {
+  class func by_patient_id(id: String) -> [CDAKRecord] {
+    var records = [CDAKRecord]()
+    for record in CDAKRecords {
       if record.medical_record_number == id {
         records.append(record)
       }
@@ -332,10 +332,10 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   
-  class func update_or_create(data: HDSRecord) -> HDSRecord {
-    //existing = HDSRecord.where(medical_record_number: data.medical_record_number).first
-    var existing: HDSRecord?
-    for record in HDSRecords {
+  class func update_or_create(data: CDAKRecord) -> CDAKRecord {
+    //existing = CDAKRecord.where(medical_record_number: data.medical_record_number).first
+    var existing: CDAKRecord?
+    for record in CDAKRecords {
       if record.medical_record_number == data.medical_record_number {
         existing = record
       }
@@ -344,14 +344,14 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
       //MARK: FIXME - this is just horribly dangerous
       //kludgy (and probably wrong) work-around for Ruby's being able to just magically copy
       //existing.update_attributes!(data.attributes.except('_id'))
-      existing = data.copy() as! HDSRecord
+      existing = data.copy() as! CDAKRecord
       return existing
     } else {
       return data
     }
   }
   
-  public func providers() -> [HDSProvider] {
+  public func providers() -> [CDAKProvider] {
     return provider_performances.filter({pp in pp.provider != nil}).map({pp in pp.provider!})
   }
 
@@ -377,8 +377,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   
-  //MARK: FIXME - move this into the HDS helper stuff
-  func getSection(section: String) -> [HDSEntry] {
+  //MARK: FIXME - move this into the CDAK helper stuff
+  func getSection(section: String) -> [CDAKEntry] {
     switch section {
     case "allergies" : return allergies
     case "care_goals" : return care_goals
@@ -397,47 +397,47 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     case "advance_directives" : return advance_directives
     case "insurance_providers" : return insurance_providers
     case "functional_statuses" : return functional_statuses
-    default : return [HDSEntry]()
+    default : return [CDAKEntry]()
     }
   }
   
-  func setSection(section: String, entries: [HDSEntry]) {
+  func setSection(section: String, entries: [CDAKEntry]) {
       switch section {
-      case "allergies" :  allergies = (entries as! [HDSAllergy])
+      case "allergies" :  allergies = (entries as! [CDAKAllergy])
       case "care_goals" :  care_goals = entries
-      case "conditions" :  conditions = (entries as! [HDSCondition])
-      case "encounters" :  encounters = (entries as! [HDSEncounter])
-      case "immunizations" :  immunizations = (entries as! [HDSImmunization])
-      case "medical_equipment" :  medical_equipment = (entries as! [HDSMedicalEquipment])
-      case "medications" :  medications = (entries as! [HDSMedication])
-      case "procedures" :  procedures = (entries as! [HDSProcedure])
-      case "results" :  results = (entries as! [HDSLabResult])
-      case "communications" :  communications = (entries as! [HDSCommunication])
-      case "family_history" :  family_history = (entries as! [HDSFamilyHistory])
-      case "social_history" :  social_history = (entries as! [HDSSocialHistory])
-      case "vital_signs" :  vital_signs = (entries as! [HDSVitalSign])
-      case "support" :  support = (entries as! [HDSSupport])
+      case "conditions" :  conditions = (entries as! [CDAKCondition])
+      case "encounters" :  encounters = (entries as! [CDAKEncounter])
+      case "immunizations" :  immunizations = (entries as! [CDAKImmunization])
+      case "medical_equipment" :  medical_equipment = (entries as! [CDAKMedicalEquipment])
+      case "medications" :  medications = (entries as! [CDAKMedication])
+      case "procedures" :  procedures = (entries as! [CDAKProcedure])
+      case "results" :  results = (entries as! [CDAKLabResult])
+      case "communications" :  communications = (entries as! [CDAKCommunication])
+      case "family_history" :  family_history = (entries as! [CDAKFamilyHistory])
+      case "social_history" :  social_history = (entries as! [CDAKSocialHistory])
+      case "vital_signs" :  vital_signs = (entries as! [CDAKVitalSign])
+      case "support" :  support = (entries as! [CDAKSupport])
       case "advance_directives" :  advance_directives = entries
-      case "insurance_providers" :  insurance_providers = (entries as! [HDSInsuranceProvider])
-      case "functional_statuses" :  functional_statuses = (entries as! [HDSFunctionalStatus])
+      case "insurance_providers" :  insurance_providers = (entries as! [CDAKInsuranceProvider])
+      case "functional_statuses" :  functional_statuses = (entries as! [CDAKFunctionalStatus])
       default: print("section '\(section)' not found")
       }
   }
   
-  public func entries_for_oid(oid: String) -> [HDSEntry] {
+  public func entries_for_oid(oid: String) -> [CDAKEntry] {
     //OK, so this appears to be sort of reflecting on the Ruby attributes by "section"
     // EX: section string "allergies" -> looks at object property "allergies"
     // I don't want to start doing wonky things to work around reflection challenges, so I'm just going to 
     // brute force this with a switch statement
-    var matching_entries_by_section = [HDSEntry]()
+    var matching_entries_by_section = [CDAKEntry]()
 
       
     for section in Sections {
 //      // let's look at all of our Swift object's properties - by name
 //      if let property_name = self.propertyNames().filter({$0 == section}).first {
-//        //OK, so is this now a property which is typed as an array of HDSEntry?
+//        //OK, so is this now a property which is typed as an array of CDAKEntry?
 //        // if so, let's go ahead and pull those out
-//        if let entries = self.valueForKey(property_name) as? [HDSEntry] {
+//        if let entries = self.valueForKey(property_name) as? [CDAKEntry] {
 //        // now let's see if the individual entries match the OID we're looking for
 //          matching_entries_by_section.appendContentsOf(entries.filter({entry in entry.oid == oid}))
 //        }
@@ -453,11 +453,11 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   }
   
   
-  public var entries: [HDSEntry] {
-    var all_entries = [HDSEntry]()
+  public var entries: [CDAKEntry] {
+    var all_entries = [CDAKEntry]()
     for section in Sections {
 //      if let property_name = self.propertyNames().filter({$0 == section}).first {
-//        if let entries = self.valueForKey(property_name) as? [HDSEntry] {
+//        if let entries = self.valueForKey(property_name) as? [CDAKEntry] {
 //          all_entries.appendContentsOf(entries)
 //        }
 //      }
@@ -482,14 +482,14 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   func dedup_section_ignoring_content(section: String) {
     //ok, as I gather here... this should review a given "section" (string reference to a variable like "encounter"
     // or "allergies"
-    // from there, it uses the "identifier" (HDSCDAIdentifier or the id) to determine uniqueness (nothing else)
+    // from there, it uses the "identifier" (CDAKCDAIdentifier or the id) to determine uniqueness (nothing else)
     // it then tosses out the duplicates and re-sets the given "section" to the new value
     // so - basically - de-dupe the arrays based on the identifier
 
     //Warning: this is some very ugly, very verbose code...
     // I'm not sure of a better/concise/elegant way of dealing with the typing and "uniq" from Ruby
-    var unique_entries = [HDSEntry]()
-    var unique_cda_identifiers = [HDSCDAIdentifier]()
+    var unique_entries = [CDAKEntry]()
+    var unique_cda_identifiers = [CDAKCDAIdentifier]()
     var unique_id_identifiers = [String]()
     
       let entries = getSection(section)
@@ -497,7 +497,7 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
         for ref in entry.references {
           ref.resolve_referenced_id()
         }
-        if let id = entry.identifier as? HDSCDAIdentifier {
+        if let id = entry.identifier as? CDAKCDAIdentifier {
           if !unique_cda_identifiers.contains(id) {
             unique_cda_identifiers.append(id)
             unique_entries.append(entry)
@@ -512,13 +512,13 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
       setSection(section, entries: unique_entries)
       
 //    if let property_name = self.propertyNames().filter({$0 == section}).first {
-//      if let entries = self.valueForKey(property_name) as? [HDSEntry] {
+//      if let entries = self.valueForKey(property_name) as? [CDAKEntry] {
 //        for entry in entries {
 //          for ref in entry.references {
 //            ref.resolve_referenced_id()
 //          }
-//          //identifier can be a HDSCDAIdentifier or a String?
-//          if let id = entry.identifier as? HDSCDAIdentifier {
+//          //identifier can be a CDAKCDAIdentifier or a String?
+//          if let id = entry.identifier as? CDAKCDAIdentifier {
 //            if !unique_cda_identifiers.contains(id) {
 //              unique_cda_identifiers.append(id)
 //              unique_entries.append(entry)
@@ -538,7 +538,7 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   //marked as mutating / dangerous in Ruby
   // yup - this code is even worse than the above - similar, but worse
   func dedup_section_merging_codes_and_values(section: String) {
-    var unique_entries = [String:HDSEntry]()
+    var unique_entries = [String:CDAKEntry]()
               
     let entries = getSection(section)
     for entry in entries {
@@ -560,7 +560,7 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     setSection(section, entries: Array(unique_entries.values))
 
               //    if let property_name = self.propertyNames().filter({$0 == section}).first {
-//      if let entries = self.valueForKey(property_name) as? [HDSEntry] {
+//      if let entries = self.valueForKey(property_name) as? [CDAKEntry] {
 //        for entry in entries {
 //          for ref in entry.references {
 //            ref.resolve_referenced_id()
@@ -582,7 +582,7 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
 //    }
   }
   
-  func mergeCodes(var ar1: HDSCodedEntries, ar2: HDSCodedEntries) -> HDSCodedEntries {
+  func mergeCodes(var ar1: CDAKCodedEntries, ar2: CDAKCodedEntries) -> CDAKCodedEntries {
 //    for (key, value) in ar2 {
 //      if ar1[key] != nil {
 //        ar1[key]!.appendContentsOf(value)
@@ -591,8 +591,8 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
 //        ar1[key] = value
 //      }
 //    }
-    for (_, HDSCodedEntry) in ar2 {
-      ar1.addCodes(HDSCodedEntry)
+    for (_, CDAKCodedEntry) in ar2 {
+      ar1.addCodes(CDAKCodedEntry)
     }
     return ar1
   }
@@ -625,7 +625,7 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     }
     for sec in Sections {
       if let property_name = self.propertyNames().filter({$0 == sec}).first {
-        if let entries = self.valueForKey(property_name) as? [HDSEntry] {
+        if let entries = self.valueForKey(property_name) as? [CDAKEntry] {
           for entry in entries {
             entry.shift_dates(date_diff)
           }
@@ -640,7 +640,7 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   //MARK: FIXME - no implementation
   //Making the (probably bad) assumption these return a single value - provider_id assumed to be unique
   // see warning about NPI vs. provider_id on provider_query
-  class func provider_queries(provider_id: String, effective_date: Double) -> HDSProvider? {
+  class func provider_queries(provider_id: String, effective_date: Double) -> CDAKProvider? {
 
     if let provider = provider_query(provider_id, start_before: effective_date, end_before: effective_date) {
       return provider
@@ -657,9 +657,9 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   //MARK: FIXME - BAD implementation
   // because we're not using Mongo here we don't really have a "provider_id" the way it's looking for here...
   // I'm going to do a "bad thing" and use NPI for the moment since it's all I've got
-  class func provider_query(provider_id: String, start_before: Double?, end_before: Double?) -> HDSProvider? {
+  class func provider_query(provider_id: String, start_before: Double?, end_before: Double?) -> CDAKProvider? {
     //  def self.provider_query(provider_id, start_before, end_after)
-    for record in HDSRecords {
+    for record in CDAKRecords {
       for perf in record.provider_performances {
         if let provider = perf.provider {
           if provider.npi == provider_id //bad
@@ -684,13 +684,13 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   // this is so hacky it hurts
   required override public init() { // <== Need "required" because we need to call dynamicType() below
     super.init()
-    HDSRecords.append(self)
+    CDAKRecords.append(self)
   }
   
   deinit {
-    for (index, record) in HDSRecords.enumerate() {
+    for (index, record) in CDAKRecords.enumerate() {
       if record == self {
-        HDSRecords.removeAtIndex(index)
+        CDAKRecords.removeAtIndex(index)
         break
       }
     }
@@ -720,7 +720,7 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
         switch time_key {
           case "birthdate": self.birthdate = a_new_time
           case "deathdate": self.deathdate = a_new_time
-        default: print("HDSEntry.init() undefined value setter for key \(time_key)")
+        default: print("CDAKEntry.init() undefined value setter for key \(time_key)")
         }
       }
     }
@@ -731,12 +731,12 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
     for (key, value) in event {
       //ignore the ones we're handling differnetly above
       if !ignore_props.contains(key) {
-        HDSUtility.setProperty(self, property: key, value: value)
+        CDAKUtility.setProperty(self, property: key, value: value)
       }
     }
 
     
-    HDSRecords.append(self)
+    CDAKRecords.append(self)
     
   }
   
@@ -787,13 +787,13 @@ public class HDSRecord: NSObject, NSCopying, HDSPropertyAddressable {
   
   
   override public var description : String {
-    return "HDSRecord => title: \(title), first: \(first), last: \(last), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), religious_affiliation: \(religious_affiliation), effective_time: \(effective_time), race: \(race), ethnicity: \(ethnicity), languages = \(languages), marital_status: \(marital_status), medical_record_number: \(medical_record_number), medical_record_assigner: \(medical_record_assigner), expired: \(expired), clinicalTrialParticipant: \(clinicalTrialParticipant), allergies: \(allergies), care_goals: \(care_goals), conditions: \(conditions), encounters: \(encounters), communications: \(communications), family_history: \(family_history), immunizations: \(immunizations), medical_equipment: \(medical_equipment), medications: \(medications), procedures: \(procedures), results: \(results), social_history: \(social_history), vital_signs: \(vital_signs), advance_directives: \(advance_directives), insurance_providers: \(insurance_providers), functional_statuses: \(functional_statuses), provider_performances: \(provider_performances), addresses: \(addresses), telecoms: \(telecoms)"
+    return "CDAKRecord => title: \(title), first: \(first), last: \(last), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), religious_affiliation: \(religious_affiliation), effective_time: \(effective_time), race: \(race), ethnicity: \(ethnicity), languages = \(languages), marital_status: \(marital_status), medical_record_number: \(medical_record_number), medical_record_assigner: \(medical_record_assigner), expired: \(expired), clinicalTrialParticipant: \(clinicalTrialParticipant), allergies: \(allergies), care_goals: \(care_goals), conditions: \(conditions), encounters: \(encounters), communications: \(communications), family_history: \(family_history), immunizations: \(immunizations), medical_equipment: \(medical_equipment), medications: \(medications), procedures: \(procedures), results: \(results), social_history: \(social_history), vital_signs: \(vital_signs), advance_directives: \(advance_directives), insurance_providers: \(insurance_providers), functional_statuses: \(functional_statuses), provider_performances: \(provider_performances), addresses: \(addresses), telecoms: \(telecoms)"
   }
   
 }
 
 
-extension HDSRecord {
+extension CDAKRecord {
   override public var mustacheBox: MustacheBox {
     /*
     var boxValues : [String:MustacheBox] = [:]
@@ -871,14 +871,14 @@ extension HDSRecord {
       //        ]),
       //  var export_section_status: Bool? {
       //    switch String(self.dynamicType) {
-      //    case "HDSCondition": return true
+      //    case "CDAKCondition": return true
       //    default: return nil
       //    }
       //  }
       //  var export_section_value: Bool? {
       //    switch String(self.dynamicType) {
       //    case "ResultValue": return true
-      //    case "HDSVitalSign": return true
+      //    case "CDAKVitalSign": return true
       //    default: return nil
       //    }
       //  }
@@ -933,7 +933,7 @@ extension HDSRecord {
     return Box(vals)
   }
   
-  func boxEntries(entries: [HDSEntry], section: String, status: Bool = false, value: Bool = false) -> MustacheBox? {
+  func boxEntries(entries: [CDAKEntry], section: String, status: Bool = false, value: Bool = false) -> MustacheBox? {
     if entries.count > 0 {
       return Box([
         "section" : Box(section),
@@ -949,13 +949,13 @@ extension HDSRecord {
 
 
 
-extension HDSRecord {
+extension CDAKRecord {
   
-  public func export(inFormat format: HDSExport.HDSExportFormat) -> String {
-    return HDSExport.export(patientRecord: self, inFormat: format)
+  public func export(inFormat format: CDAKExport.CDAKExportFormat) -> String {
+    return CDAKExport.export(patientRecord: self, inFormat: format)
   }
   
-  public convenience init(copyFrom record: HDSRecord) {
+  public convenience init(copyFrom record: CDAKRecord) {
     self.init()
     self.title = record.title
     self.first = record.first
@@ -996,20 +996,20 @@ extension HDSRecord {
 
   //I don't think I'm doing this right
   public convenience init(fromXML doc: String) throws   {
-    let x = try HDSImport_BulkRecordImporter.importRecord(doc)
+    let x = try CDAKImport_BulkRecordImporter.importRecord(doc)
     self.init(copyFrom: x)
 //    do {
-//      if let record = try HDSImport_BulkRecordImporter.importRecord(doc) {
+//      if let record = try CDAKImport_BulkRecordImporter.importRecord(doc) {
 //        self.init(copyFrom: record)
 //      }
-//    } catch HDSImport_BulkRecordImporter.Error.NotImplemented {
-//      throw HDSImport_BulkRecordImporter.Error.NotImplemented
-//    } catch HDSImport_BulkRecordImporter.Error.NoClinicalDocumentElement {
-//      throw HDSImport_BulkRecordImporter.Error.NoClinicalDocumentElement
-//    } catch HDSImport_BulkRecordImporter.Error.UnableToDetermineFormat {
-//      throw HDSImport_BulkRecordImporter.Error.UnableToDetermineFormat
-//    } catch HDSImport_BulkRecordImporter.Error.InvalidXML {
-//      throw HDSImport_BulkRecordImporter.Error.InvalidXML
+//    } catch CDAKImport_BulkRecordImporter.Error.NotImplemented {
+//      throw CDAKImport_BulkRecordImporter.Error.NotImplemented
+//    } catch CDAKImport_BulkRecordImporter.Error.NoClinicalDocumentElement {
+//      throw CDAKImport_BulkRecordImporter.Error.NoClinicalDocumentElement
+//    } catch CDAKImport_BulkRecordImporter.Error.UnableToDetermineFormat {
+//      throw CDAKImport_BulkRecordImporter.Error.UnableToDetermineFormat
+//    } catch CDAKImport_BulkRecordImporter.Error.InvalidXML {
+//      throw CDAKImport_BulkRecordImporter.Error.InvalidXML
 //    } catch let error as NSError {
 //      print(error.localizedDescription)
 //      throw error

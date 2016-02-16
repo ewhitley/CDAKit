@@ -8,10 +8,10 @@
 
 import Foundation
 
-class HDSMetadataChangeInfo {
+class CDAKMetadataChangeInfo {
   
   var timestamp: NSDate?
-  var pedigree: HDSMetadataPedigree?
+  var pedigree: CDAKMetadataPedigree?
     
   init(timestamp: NSDate? ) {
     self.timestamp = timestamp

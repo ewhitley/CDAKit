@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HDSMetadataLinkInfo {
+class CDAKMetadataLinkInfo {
   
   var href: String?
   var extension_id: String?

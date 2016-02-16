@@ -8,15 +8,15 @@
 
 import Foundation
 
-//NOTE: was not originally: HDSEntry - changing type
-public class HDSFulfillmentHistory: HDSEntry {
+//NOTE: was not originally: CDAKEntry - changing type
+public class CDAKFulfillmentHistory: CDAKEntry {
   
   //include Mongoid::Attributes::Dynamic
   
   public var prescription_number: String? //, as: :prescription_number, type: String
   public var dispense_date: Double? //, as: :dispense_date, type: Integer
 //  var quantityDispensed = [String:String]() //, as: :quantity_dispensed, type: Hash
-  public var quantity_dispensed = HDSValueAndUnit() //, as: :quantity_dispensed, type: Hash
+  public var quantity_dispensed = CDAKValueAndUnit() //, as: :quantity_dispensed, type: Hash
   
   public var fill_number: Int? //, as: :fill_number, type: Integer
   public var fill_status: String? //, as: :fill_status, type: String
@@ -47,8 +47,8 @@ public class HDSFulfillmentHistory: HDSEntry {
 //  }
 
   
-  //belongs_to :provider, class_name: "HDSProvider"
-  public var provider: HDSProvider?
+  //belongs_to :provider, class_name: "CDAKProvider"
+  public var provider: CDAKProvider?
   
   override func shift_dates(date_diff: Double) {
     
@@ -86,7 +86,7 @@ public class HDSFulfillmentHistory: HDSEntry {
 //        }
 //        switch time_key {
 //        case "dispense_date": self.dispense_date = a_new_time
-//        default: print("HDSEntry.init() undefined value setter for key \(time_key)")
+//        default: print("CDAKEntry.init() undefined value setter for key \(time_key)")
 //        }
 //      }
 //    }

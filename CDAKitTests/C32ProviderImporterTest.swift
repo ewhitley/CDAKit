@@ -15,15 +15,15 @@ class C32ProviderImporterTest: XCTestCase {
 
   var doc: XMLDocument!
   var nist_doc: XMLDocument!
-  let importer = HDSImport_CDA_ProviderImporter()
+  let importer = CDAKImport_CDA_ProviderImporter()
   
   override func setUp() {
     super.setUp()
     
     //TestHelpers.collections.providers.load_providers()
     
-    //print(HDSProviders)
-    HDSProviders.removeAll()
+    //print(CDAKProviders)
+    CDAKProviders.removeAll()
     
     let xmlString = TestHelpers.fileHelpers.load_xml_string_from_file("provider_importer_sample")
     do {
@@ -50,12 +50,12 @@ class C32ProviderImporterTest: XCTestCase {
 
   func test_document_provider_extraction() {
     
-    print(HDSProviders)
+    print(CDAKProviders)
     
-    let providers = HDSImport_CDA_ProviderImporter.extract_providers(doc)
+    let providers = CDAKImport_CDA_ProviderImporter.extract_providers(doc)
     
     print(providers)
-    print(HDSProviders)
+    print(CDAKProviders)
     
     XCTAssertEqual(2, providers.count)
     
@@ -86,10 +86,10 @@ class C32ProviderImporterTest: XCTestCase {
   }
 
   func test_nist_example_provider_extraction() {
-    let providers = HDSImport_CDA_ProviderImporter.extract_providers(nist_doc)
+    let providers = CDAKImport_CDA_ProviderImporter.extract_providers(nist_doc)
     
     print(providers)
-    print(HDSProviders)
+    print(CDAKProviders)
     
     XCTAssertEqual(2, providers.count)
     

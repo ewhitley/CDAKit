@@ -15,7 +15,7 @@ import Fuzi
 
 class CDASectionImporterTest: XCTestCase {
 
-  let si = HDSImport_CDA_SectionImporter(entry_finder: HDSImport_CDA_EntryFinder(entry_xpath: "/cda:simple/cda:entry"))
+  let si = CDAKImport_CDA_SectionImporter(entry_finder: CDAKImport_CDA_EntryFinder(entry_xpath: "/cda:simple/cda:entry"))
   let xmlString = TestHelpers.fileHelpers.load_xml_string_from_file("section_importer")
   var doc: XMLDocument!
 
@@ -49,7 +49,7 @@ class CDASectionImporterTest: XCTestCase {
     let entry = entries[2]
     XCTAssertEqual(1026777600, entry.time)
     XCTAssert(entry.codes["SNOMED-CT"]?.codes.contains("314443004") == true)
-    XCTAssertEqual("eleventeen", (entry.values.first as? HDSPhysicalQuantityResultValue)?.scalar)
+    XCTAssertEqual("eleventeen", (entry.values.first as? CDAKPhysicalQuantityResultValue)?.scalar)
     XCTAssertEqual("active", entry.status)
   }
   

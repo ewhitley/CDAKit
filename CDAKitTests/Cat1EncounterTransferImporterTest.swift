@@ -24,7 +24,7 @@ class Cat1EncounterTransferImporterTest: XCTestCase {
     }
     
     func test_encounter_transfer_importing() {
-      let si = HDSImport_CDA_EncounterImporter(entry_finder: HDSImport_CDA_EntryFinder(entry_xpath: "//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.23']"))
+      let si = CDAKImport_CDA_EncounterImporter(entry_finder: CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:encounter[cda:templateId/@root = '2.16.840.1.113883.10.20.24.3.23']"))
       let xmlString = TestHelpers.fileHelpers.load_xml_string_from_file("encounter_performed_fragment")
       var doc: XMLDocument!
 
@@ -32,7 +32,7 @@ class Cat1EncounterTransferImporterTest: XCTestCase {
         doc = try XMLDocument(string: xmlString)
         doc.definePrefix("cda", defaultNamespace: "urn:hl7-org:v3")
         
-        let nrh = HDSImport_CDA_NarrativeReferenceHandler()
+        let nrh = CDAKImport_CDA_NarrativeReferenceHandler()
         nrh.build_id_map(doc)
         
         let encounters = si.create_entries(doc)

@@ -8,22 +8,22 @@
 
 import Foundation
 
-public class HDSImmunization: HDSEntry {
+public class CDAKImmunization: CDAKEntry {
   
   public var seriesNumber: Int? //, type: Integer
-  public var reaction: HDSCodedEntries = HDSCodedEntries() //, type: Hash
+  public var reaction: CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
   
-  //belongs_to :performer, class_name: "HDSProvider"
-  public var performer: HDSProvider?
+  //belongs_to :performer, class_name: "CDAKProvider"
+  public var performer: CDAKProvider?
   
-  public var medication_product: HDSMedication?
+  public var medication_product: CDAKMedication?
 
   public var refusal_ind: Bool? {
     get { return negation_ind }
     set (value) { negation_ind = value }
   }
   
-  public var refusal_reason: HDSCodedEntries {
+  public var refusal_reason: CDAKCodedEntries {
     get {return negation_reason }
     set (value) {negation_reason = value}
   }

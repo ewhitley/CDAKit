@@ -18,7 +18,7 @@ class ViewHelper {
   // {"preferred_code_sets"=>["LOINC", "SNOMED-CT"]}
   // looks like the value of the dictionary can be a string or an array of values
   // MARK: FIXME - issue with :codes here
-  class func code_display(entry: HDSEntry, var options:[String:Any] = [:]) -> String {
+  class func code_display(entry: CDAKEntry, var options:[String:Any] = [:]) -> String {
     
     if options["tag_name"] == nil { options["tag_name"] = "code" }
 
@@ -50,7 +50,7 @@ class ViewHelper {
     if preferred_code_sets.count > 0 {
       if preferred_code_sets.contains("*") {
         //# all of the code_systems that we know about
-        pcs = Array(Set(HDSCodeSystemHelper.CODE_SYSTEMS.values).union(HDSCodeSystemHelper.CODE_SYSTEM_ALIASES.keys))
+        pcs = Array(Set(CDAKCodeSystemHelper.CODE_SYSTEMS.values).union(CDAKCodeSystemHelper.CODE_SYSTEM_ALIASES.keys))
         // if options['preferred_code_sets'] && options['preferred_code_sets'].index("*")
         // options['preferred_code_sets'] can apparently take a wildcard "*" argument here
         //  so we're saying "if we have code sets" - and if one of them is "wildcard" - give us everything
@@ -61,21 +61,21 @@ class ViewHelper {
       }
     }
 
-    var value_set_map: [HDSCodedEntries] = []
-    if let vsm = options["value_set_map"] as? [HDSCodedEntries] {
+    var value_set_map: [CDAKCodedEntries] = []
+    if let vsm = options["value_set_map"] as? [CDAKCodedEntries] {
       value_set_map = vsm
     }
     
     let preferred_code = entry.preferred_code(pcs, codes_attribute: options_attribute, value_set_map: value_set_map)
     
-//    if String(entry.dynamicType) == "HDSCondition" {
+//    if String(entry.dynamicType) == "CDAKCondition" {
 //      print("preferred_code_sets = \(preferred_code_sets)")
 //    }
     
     
     if let preferred_code = preferred_code {
       let pc = preferred_code.codeSystem
-      let code_system_oid = HDSCodeSystemHelper.oid_for_code_system(pc)
+      let code_system_oid = CDAKCodeSystemHelper.oid_for_code_system(pc)
       let tag_name = options["tag_name"] as? String
       let code = preferred_code.codes.first
       let extra_content = options["extra_content"] as? String
@@ -96,7 +96,7 @@ class ViewHelper {
     // the only class/protocol that uses this is ThingWithCodes, so we can test to see if
     // the entry is of type ThingWithCodes... but all entries at that, so....
     if options_attribute == "codes" {
-      code_string += "<originalText>\(HDSCommonUtility.html_escape(entry.item_description))</originalText>"
+      code_string += "<originalText>\(CDAKCommonUtility.html_escape(entry.item_description))</originalText>"
       //print("preferred_code_sets = \(preferred_code_sets)")
       for (codeSystem, codes) in entry.translation_codes(preferred_code_sets, value_set_map: value_set_map) {
 //        let code = translation["code"]!
@@ -104,7 +104,7 @@ class ViewHelper {
 //        let code = codes.first!
 //        let code_set = codeSystem
         for code in codes {
-          code_string += "<translation code=\"\(code)\" codeSystem=\"\(HDSCodeSystemHelper.oid_for_code_system(codeSystem))\"/>\n"
+          code_string += "<translation code=\"\(code)\" codeSystem=\"\(CDAKCodeSystemHelper.oid_for_code_system(codeSystem))\"/>\n"
         }
       }
     }
@@ -113,22 +113,22 @@ class ViewHelper {
     return code_string
   }
   
-  class func status_code_for(entry: HDSEntry) -> String? {
+  class func status_code_for(entry: CDAKEntry) -> String? {
     if let status = entry.status {
       switch status.lowercaseString {
       case "active": return "55561003"
       case "inactive": return "73425007"
       case "resolved": return "413322009"
       default: return nil
-      //default: fatalError("status_code_for() - invalid status (\(status)) for HDSEntry")
+      //default: fatalError("status_code_for() - invalid status (\(status)) for CDAKEntry")
       }
     }
     return nil
-    //fatalError("status_code_for() - no status for HDSEntry")
+    //fatalError("status_code_for() - no status for CDAKEntry")
   }
   
-//  class func fulfillment_quantity(codes: HDSCodedEntries, fulfillmentHistory: HDSFulfillmentHistory, dose:[String:String]) -> String {
-  class func fulfillment_quantity(codes: HDSCodedEntries, fulfillmentHistory: HDSFulfillmentHistory, dose: HDSValueAndUnit) -> String {
+//  class func fulfillment_quantity(codes: CDAKCodedEntries, fulfillmentHistory: CDAKFulfillmentHistory, dose:[String:String]) -> String {
+  class func fulfillment_quantity(codes: CDAKCodedEntries, fulfillmentHistory: CDAKFulfillmentHistory, dose: CDAKValueAndUnit) -> String {
     if codes["RxNorm"]?.count > 0 {
       if let qty = fulfillmentHistory.quantity_dispensed.value, dose_value = dose.value {
         let doses = Int(qty / dose_value)
@@ -174,7 +174,7 @@ class ViewHelper {
     }
   }
   
-  class func dose_quantity(codes: HDSCodedEntries, dose: [String:String]) -> String {
+  class func dose_quantity(codes: CDAKCodedEntries, dose: [String:String]) -> String {
     if codes["RxNorm"]?.count > 0 {
       return "value = '1'"
     } else {
@@ -225,7 +225,7 @@ class ViewHelper {
   // output can be a few different things, but most often seems to be a string like...
   // SNOMED-CT: 6736007
 //  func convert_field_to_hash(field: String, codes: Any) {
-//    if let codes = codes as? [HDSCodedEntries] {
+//    if let codes = codes as? [CDAKCodedEntries] {
 //      //return codes.collect{ |code| convert_field_to_hash(field, convert_field_to_hash(field, code))}.join("<br>")
 //      let x = codes.map({
 //        (code) in
@@ -235,7 +235,7 @@ class ViewHelper {
 //    
 ////    let x = "hello".capitalizedString
 //    
-//    if let codes = codes as? HDSCodedEntries {
+//    if let codes = codes as? CDAKCodedEntries {
 //      
 //    } else {
 //      

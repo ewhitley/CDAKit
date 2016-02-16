@@ -9,17 +9,17 @@
 import Foundation
 import Fuzi
 
-class HDSImport_CDA_ResultImporter: HDSImport_CDA_SectionImporter {
+class CDAKImport_CDA_ResultImporter: CDAKImport_CDA_SectionImporter {
   var ordinality_xpath = "./cda:priorityCode"
   
-  override init(entry_finder: HDSImport_CDA_EntryFinder = HDSImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")) {
+  override init(entry_finder: CDAKImport_CDA_EntryFinder = CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']")) {
     super.init(entry_finder: entry_finder)
-    entry_class = HDSLabResult.self
+    entry_class = CDAKLabResult.self
   }
   
-  override func create_entry(entry_element: XMLElement, nrh: HDSImport_CDA_NarrativeReferenceHandler = HDSImport_CDA_NarrativeReferenceHandler()) -> HDSLabResult? {
+  override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKLabResult? {
     
-    if let result = super.create_entry(entry_element, nrh: nrh) as? HDSLabResult {
+    if let result = super.create_entry(entry_element, nrh: nrh) as? CDAKLabResult {
 
       extract_interpretation(entry_element, result: result)
       extract_reference_range(entry_element, result: result)
@@ -32,20 +32,20 @@ class HDSImport_CDA_ResultImporter: HDSImport_CDA_SectionImporter {
 
   }
   
-  private func extract_interpretation(parent_element: XMLElement, result: HDSLabResult) {
+  private func extract_interpretation(parent_element: XMLElement, result: CDAKLabResult) {
     if let interpretation_element = parent_element.xpath("./cda:interpretationCode").first {
       if let code = interpretation_element["code"], code_system_oid = interpretation_element["codeSystem"] {
         if let codeSystemName = interpretation_element["codeSystemName"] {
-          HDSCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
+          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
         }
-        let code_system = HDSCodeSystemHelper.code_system_for(code_system_oid)
-        let ce = HDSCodedEntries(entries: HDSCodedEntry(codeSystem: code_system, codes: code))
+        let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
+        let ce = CDAKCodedEntries(entries: CDAKCodedEntry(codeSystem: code_system, codes: code))
         result.interpretation = ce
       }
     }
   }
 
-  private func extract_reference_range(parent_element: XMLElement, result: HDSLabResult) {
+  private func extract_reference_range(parent_element: XMLElement, result: CDAKLabResult) {
     if let reference_range = parent_element.xpath("./cda:referenceRange/cda:observationRange/cda:text").first?.stringValue {
       result.reference_range = reference_range
     }

@@ -9,16 +9,16 @@
 import Foundation
 import Fuzi
 
-class HDSImport_CDA_OrganizationImporter {
+class CDAKImport_CDA_OrganizationImporter {
   
-  class func extract_organization(org_element: XMLElement?) -> HDSOrganization? {
+  class func extract_organization(org_element: XMLElement?) -> CDAKOrganization? {
     guard let org_element = org_element else {
       return nil
     }
-    let org = HDSOrganization()
+    let org = CDAKOrganization()
     org.name = org_element.xpath("./cda:name | ./cda:representedOrganization/cda:name").first?.stringValue
-    org.addresses = org_element.xpath("./cda:addr").map { addr in HDSImport_CDA_LocatableImportUtils.import_address(addr) }
-    org.telecoms = org_element.xpath("./cda:telecom").map { tele in HDSImport_CDA_LocatableImportUtils.import_telecom(tele) }
+    org.addresses = org_element.xpath("./cda:addr").map { addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr) }
+    org.telecoms = org_element.xpath("./cda:telecom").map { tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele) }
     
     return org
   }

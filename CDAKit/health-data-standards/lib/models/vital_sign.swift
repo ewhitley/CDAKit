@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class HDSVitalSign: HDSLabResult {
+public class CDAKVitalSign: CDAKLabResult {
   
   override public var description: String {
     return super.description

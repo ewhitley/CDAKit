@@ -8,6 +8,6 @@
 
 import Foundation
 
-public class HDSTreatingProvider: HDSEntry {
+public class CDAKTreatingProvider: CDAKEntry {
   public var treatingProviderID: Int?
 }

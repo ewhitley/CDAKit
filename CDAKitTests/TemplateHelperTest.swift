@@ -1,5 +1,5 @@
 //
-//  HDSTemplateHelperTest.swift
+//  CDAKTemplateHelperTest.swift
 //  CDAKit
 //
 //  Created by Eric Whitley on 12/21/15.
@@ -10,7 +10,7 @@ import XCTest
 @testable import CDAKit
 
 
-class HDSTemplateHelperTest: XCTestCase {
+class CDAKTemplateHelperTest: XCTestCase {
     
   override func setUp() {
       super.setUp()
@@ -24,7 +24,7 @@ class HDSTemplateHelperTest: XCTestCase {
   
   func test_template_finding() {
 
-    let template_helper = HDSTemplateHelper(template_format: "c32", template_subdir: "c32", template_directory: nil)
+    let template_helper = CDAKTemplateHelper(template_format: "c32", template_subdir: "c32", template_directory: nil)
     let erb = template_helper.template("show")
     
 //    template_helper = HealthDataStandards::Export::TemplateHelper.new('c32', 'c32')

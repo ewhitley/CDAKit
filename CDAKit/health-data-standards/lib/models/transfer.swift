@@ -9,19 +9,19 @@
 import Foundation
 import Mustache
 
-public class HDSTransfer: HDSThingWithCodes, CustomStringConvertible {
+public class CDAKTransfer: CDAKThingWithCodes, CustomStringConvertible {
   
   public var time: Double?
-  public var codes = HDSCodedEntries()
+  public var codes = CDAKCodedEntries()
 //  var codes = [String:Any]()
   
-  //embedded_in :encounter, class_name: "HDSEncounter"
+  //embedded_in :encounter, class_name: "CDAKEncounter"
   public var description : String {
-    return "HDSTransfer => time: \(time), codes: \(codes)"
+    return "CDAKTransfer => time: \(time), codes: \(codes)"
   }
 }
 
-extension HDSTransfer: MustacheBoxable {
+extension CDAKTransfer: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     return [
       "time" :  Box(time),

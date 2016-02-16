@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol HDSDateShiftable {
+protocol CDAKDateShiftable {
 //  var start_time: Int? { get set }
 //  var end_time: Int? { get set }
   func shift_dates(date_diff: Double)
@@ -25,6 +25,6 @@ protocol HDSDateShiftable {
 //  }
 //}
 
-protocol HDSPropertyQueryable {
+protocol CDAKPropertyQueryable {
   
 }

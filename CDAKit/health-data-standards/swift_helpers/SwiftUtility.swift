@@ -9,12 +9,12 @@
 import Foundation
 
 //http://stackoverflow.com/questions/24494784/get-class-name-of-object-as-string-in-swift
-class HDSCommonUtility {
+class CDAKCommonUtility {
 
   //I need to find out how to make this work both in a project and in a pod
   static let podName = "CDAKit"
   static var bundle: NSBundle {
-    let frameworkBundle = NSBundle(forClass: HDSTemplateHelper.self)
+    let frameworkBundle = NSBundle(forClass: CDAKTemplateHelper.self)
     //if we're in a pod, look for our own bundle in the parent project
     if let bundlePath = frameworkBundle.pathForResource(podName, ofType: "bundle") {
       if let myBundle = NSBundle.init(path: bundlePath) {
@@ -31,7 +31,7 @@ class HDSCommonUtility {
     //    //prints more readable results for dictionaries, arrays, Int, etc
     var class_name = String(obj.dynamicType).componentsSeparatedByString(".").last!
     if removeOptional == true && class_name.containsString("Optional") {
-      class_name = HDSCommonUtility.Regex.replaceMatches("(?:^|\")([^\"]*)(?:$|\")", inString: class_name, withString: "")!
+      class_name = CDAKCommonUtility.Regex.replaceMatches("(?:^|\")([^\"]*)(?:$|\")", inString: class_name, withString: "")!
     }
 
     return class_name
@@ -155,7 +155,7 @@ class HDSCommonUtility {
   
   class func load_xml_string_from_file(filename: String) -> String
   {
-    let data = HDSCommonUtility.load_xml_data_from_file(filename)
+    let data = CDAKCommonUtility.load_xml_data_from_file(filename)
     
     if let xml = NSString(data: data, encoding: NSUTF8StringEncoding) as? String
     {

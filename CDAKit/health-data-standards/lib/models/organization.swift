@@ -9,12 +9,12 @@
 import Foundation
 import Mustache
 
-public class HDSOrganization: HDSJSONInstantiable, CustomStringConvertible, Equatable, Hashable {
+public class CDAKOrganization: CDAKJSONInstantiable, CustomStringConvertible, Equatable, Hashable {
   
   public var name: String?
   
-  public var addresses: [HDSAddress] = [HDSAddress]()
-  public var telecoms: [HDSTelecom] = [HDSTelecom]()
+  public var addresses: [CDAKAddress] = [CDAKAddress]()
+  public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
   //embeds_many :addresses, as: :locatable
   //embeds_many :telecoms, as: :contactable
@@ -28,17 +28,17 @@ public class HDSOrganization: HDSJSONInstantiable, CustomStringConvertible, Equa
   
   private func initFromEventList(event: [String:Any?]) {
     for (key, value) in event {
-      HDSUtility.setProperty(self, property: key, value: value)
+      CDAKUtility.setProperty(self, property: key, value: value)
     }
   }
   
   public var description: String {
-    return "HDSOrganization => name: \(name), addresses: \(addresses), telecoms: \(telecoms)"
+    return "CDAKOrganization => name: \(name), addresses: \(addresses), telecoms: \(telecoms)"
   }
   
 }
 
-extension HDSOrganization {
+extension CDAKOrganization {
   public var hashValue: Int {
     
     var hv: Int
@@ -56,12 +56,12 @@ extension HDSOrganization {
   }
 }
 
-public func == (lhs: HDSOrganization, rhs: HDSOrganization) -> Bool {
-  return lhs.hashValue == rhs.hashValue && HDSCommonUtility.classNameAsString(lhs) == HDSCommonUtility.classNameAsString(rhs)
+public func == (lhs: CDAKOrganization, rhs: CDAKOrganization) -> Bool {
+  return lhs.hashValue == rhs.hashValue && CDAKCommonUtility.classNameAsString(lhs) == CDAKCommonUtility.classNameAsString(rhs)
 }
 
 
-extension HDSOrganization: MustacheBoxable {
+extension CDAKOrganization: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     return [
       "name" :  Box(name),

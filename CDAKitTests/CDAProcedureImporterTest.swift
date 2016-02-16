@@ -13,7 +13,7 @@ import Fuzi
 
 class CDAProcedureImporterTest: XCTestCase {
   
-  let si = HDSImport_CDA_SectionImporter(entry_finder: HDSImport_CDA_EntryFinder(entry_xpath: "/cda:simple/cda:entry"))
+  let si = CDAKImport_CDA_SectionImporter(entry_finder: CDAKImport_CDA_EntryFinder(entry_xpath: "/cda:simple/cda:entry"))
   let xmlString = TestHelpers.fileHelpers.load_xml_string_from_file("section_importer")
   var doc: XMLDocument!
   
@@ -38,17 +38,17 @@ class CDAProcedureImporterTest: XCTestCase {
   func test_extracting_scalars() {
     let entries = si.create_entries(doc)
     let entry = entries[3]
-    let pq_value = HDSPhysicalQuantityResultValue(scalar: "eleventeen", units: nil)
-    XCTAssertEqual(pq_value.scalar, (entry.values[0] as? HDSPhysicalQuantityResultValue)!.scalar)
-    XCTAssertEqual(pq_value.units, (entry.values[0] as? HDSPhysicalQuantityResultValue)!.units)
+    let pq_value = CDAKPhysicalQuantityResultValue(scalar: "eleventeen", units: nil)
+    XCTAssertEqual(pq_value.scalar, (entry.values[0] as? CDAKPhysicalQuantityResultValue)!.scalar)
+    XCTAssertEqual(pq_value.units, (entry.values[0] as? CDAKPhysicalQuantityResultValue)!.units)
   }
 
   func test_extracting_values() {
     let entries = si.create_entries(doc)
     let entry = entries[2]
-    let pq_value = HDSPhysicalQuantityResultValue(scalar: "eleventeen", units: nil)
-    XCTAssertEqual(pq_value.scalar, (entry.values[0] as? HDSPhysicalQuantityResultValue)!.scalar)
-    XCTAssertEqual(pq_value.units, (entry.values[0] as? HDSPhysicalQuantityResultValue)!.units)
+    let pq_value = CDAKPhysicalQuantityResultValue(scalar: "eleventeen", units: nil)
+    XCTAssertEqual(pq_value.scalar, (entry.values[0] as? CDAKPhysicalQuantityResultValue)!.scalar)
+    XCTAssertEqual(pq_value.units, (entry.values[0] as? CDAKPhysicalQuantityResultValue)!.units)
   }
 
 }

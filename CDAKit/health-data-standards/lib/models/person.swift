@@ -9,14 +9,14 @@
 import Foundation
 import Mustache
 
-public class HDSPerson: HDSPersonable, HDSJSONInstantiable {
+public class CDAKPerson: CDAKPersonable, CDAKJSONInstantiable {
   
   public var title: String?
   public var given_name: String?
   public var family_name: String?
   
-  public var addresses: [HDSAddress] = [HDSAddress]()
-  public var telecoms: [HDSTelecom] = [HDSTelecom]()
+  public var addresses: [CDAKAddress] = [CDAKAddress]()
+  public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
   public init() {
   }
@@ -27,7 +27,7 @@ public class HDSPerson: HDSPersonable, HDSJSONInstantiable {
   
 }
 
-extension HDSPerson: MustacheBoxable {
+extension CDAKPerson: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     return [
       "title" :  Box(title),

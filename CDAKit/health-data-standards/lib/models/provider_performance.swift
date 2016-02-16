@@ -8,11 +8,11 @@
 
 import Foundation
 
-//NOTE: changing type to HDSEntry
-public class HDSProviderPerformance: HDSEntry {
+//NOTE: changing type to CDAKEntry
+public class CDAKProviderPerformance: CDAKEntry {
   //include Mongoid::Attributes::Dynamic
   
-//  var record: HDSRecord?
+//  var record: CDAKRecord?
   
   public var start_date: Double?
   public var end_date: Double?
@@ -20,7 +20,7 @@ public class HDSProviderPerformance: HDSEntry {
   //MARK: FIXME - model relationship issues here
   //belongs_to :provider
   //embedded_in :record
-  public var provider: HDSProvider?
+  public var provider: CDAKProvider?
   
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
@@ -35,7 +35,7 @@ public class HDSProviderPerformance: HDSEntry {
   
 //  init(event: [String:Any?]) {
 //    for (key, value) in event {
-//      HDSCommonUtility.setProperty(self, property: key, value: value)
+//      CDAKCommonUtility.setProperty(self, property: key, value: value)
 //    }
 //  }
   
@@ -60,7 +60,7 @@ public class HDSProviderPerformance: HDSEntry {
 //        switch time_key {
 //        case "end_date": self.end_date = a_new_time
 //        case "start_date": self.start_date = a_new_time
-//        default: print("HDSEntry.init() undefined value setter for key \(time_key)")
+//        default: print("CDAKEntry.init() undefined value setter for key \(time_key)")
 //        }
 //      }
 //    }

@@ -12,21 +12,21 @@ import Mustache
 
 
 
-public class HDSCondition: HDSEntry {
+public class CDAKCondition: CDAKEntry {
   
   public var type          : String?
   public var cause_of_death  : Bool? = false
   public var time_of_death : Double?
   public var priority      : Int?
   public var name          : String?
-  public var ordinality    : HDSCodedEntries = HDSCodedEntries()
-  public var severity      : HDSCodedEntries = HDSCodedEntries() //# Currently unsupported by any importers
-  public var laterality    : HDSCodedEntries = HDSCodedEntries()
-  public var anatomical_target : HDSCodedEntries = HDSCodedEntries()
-  public var anatomical_location : HDSCodedEntries = HDSCodedEntries()
+  public var ordinality    : CDAKCodedEntries = CDAKCodedEntries()
+  public var severity      : CDAKCodedEntries = CDAKCodedEntries() //# Currently unsupported by any importers
+  public var laterality    : CDAKCodedEntries = CDAKCodedEntries()
+  public var anatomical_target : CDAKCodedEntries = CDAKCodedEntries()
+  public var anatomical_location : CDAKCodedEntries = CDAKCodedEntries()
   public var age_at_onset: Int? //an actual age - like "20"
   
-  public var treating_provider: [HDSProvider] = [HDSProvider]()
+  public var treating_provider: [CDAKProvider] = [CDAKProvider]()
   
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
@@ -41,7 +41,7 @@ public class HDSCondition: HDSEntry {
   
 }
 
-extension HDSCondition {
+extension CDAKCondition {
   
   override public var code_display : String {
     return ViewHelper.code_display(self, options: ["preferred_code_sets":self.preferred_code_sets, "tag_name": "value", "extra_content": "xsi:type=\"CD\""])

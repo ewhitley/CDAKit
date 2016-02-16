@@ -9,28 +9,28 @@
 import Foundation
 import Fuzi
 
-class HDSImport_CCDA_PatientImporter: HDSImport_C32_PatientImporter {
+class CDAKImport_CCDA_PatientImporter: CDAKImport_C32_PatientImporter {
 
   override init(check_usable: Bool = true) {
 
     super.init(check_usable: check_usable) //NOTE: original Ruby does NOT call super
     
-    section_importers["encounters"] = HDSImport_CCDA_EncounterImporter()
-    section_importers["procedures"] = HDSImport_CCDA_ProcedureImporter()
-    section_importers["results"] = HDSImport_CCDA_ResultImporter()
-    section_importers["vital_signs"] = HDSImport_CCDA_VitalSignImporter()
-    section_importers["medications"] = HDSImport_CCDA_MedicationImporter()
-    section_importers["conditions"] = HDSImport_CCDA_ConditionImporter()
-    section_importers["social_history"] = HDSImport_CDA_SectionImporter(entry_finder: HDSImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.38' or cda:templateId/@root='2.16.840.1.113883.10.20.15.3.8']"))
-    section_importers["care_goals"] = HDSImport_CCDA_CareGoalImporter()
-    section_importers["medical_equipment"] = HDSImport_CCDA_MedicalEquipmentImporter()
-    section_importers["allergies"] = HDSImport_CCDA_AllergyImporter()
-    section_importers["immunizations"] = HDSImport_CCDA_ImmunizationImporter()
-    section_importers["insurance_providers"] = HDSImport_CCDA_InsuranceProviderImporter()
+    section_importers["encounters"] = CDAKImport_CCDA_EncounterImporter()
+    section_importers["procedures"] = CDAKImport_CCDA_ProcedureImporter()
+    section_importers["results"] = CDAKImport_CCDA_ResultImporter()
+    section_importers["vital_signs"] = CDAKImport_CCDA_VitalSignImporter()
+    section_importers["medications"] = CDAKImport_CCDA_MedicationImporter()
+    section_importers["conditions"] = CDAKImport_CCDA_ConditionImporter()
+    section_importers["social_history"] = CDAKImport_CDA_SectionImporter(entry_finder: CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.38' or cda:templateId/@root='2.16.840.1.113883.10.20.15.3.8']"))
+    section_importers["care_goals"] = CDAKImport_CCDA_CareGoalImporter()
+    section_importers["medical_equipment"] = CDAKImport_CCDA_MedicalEquipmentImporter()
+    section_importers["allergies"] = CDAKImport_CCDA_AllergyImporter()
+    section_importers["immunizations"] = CDAKImport_CCDA_ImmunizationImporter()
+    section_importers["insurance_providers"] = CDAKImport_CCDA_InsuranceProviderImporter()
   }
   
   
-  func parse_ccda(doc: XMLDocument) -> HDSRecord {
+  func parse_ccda(doc: XMLDocument) -> CDAKRecord {
     return parse_c32(doc)
   }
 

@@ -31,16 +31,16 @@ class C32MedicalEquipmentImporterTest: XCTestCase {
     do {
       doc = try XMLDocument(string: xmlString)
       doc.definePrefix("cda", defaultNamespace: "urn:hl7-org:v3")
-      let pi = HDSImport_C32_PatientImporter()
+      let pi = CDAKImport_C32_PatientImporter()
       let patient = pi.parse_c32(doc)
       
       XCTAssertEqual(3, patient.medical_equipment.count)
       
       let me = patient.medical_equipment[0]
-      XCTAssertEqual(me.codes, HDSCodedEntries(codeSystem: "SNOMED-CT", code: "72506001"))
+      XCTAssertEqual(me.codes, CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "72506001"))
 
       let me2 = patient.medical_equipment[1]
-      XCTAssertEqual(me2.codes, HDSCodedEntries(codeSystem: "SNOMED-CT", code: "304120007"))
+      XCTAssertEqual(me2.codes, CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "304120007"))
       XCTAssertEqual("Good Health Prostheses Company", me2.manufacturer)
 
     } catch {

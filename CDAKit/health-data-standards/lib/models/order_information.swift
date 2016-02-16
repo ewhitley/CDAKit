@@ -8,21 +8,21 @@
 
 import Foundation
 
-//NOTE: Changing class to HDSEntry
-public class HDSOrderInformation: HDSEntry {
+//NOTE: Changing class to CDAKEntry
+public class CDAKOrderInformation: CDAKEntry {
   
   //include Mongoid::Attributes::Dynamic
   
   public var order_number: String? //, as: :order_number, type: String
   public var fills: Int? //, type: Integer
 //  var quantityOrdered = [String:String]() //, as: :quantity_ordered, type: Hash
-  public var quantity_ordered = HDSValueAndUnit()
+  public var quantity_ordered = CDAKValueAndUnit()
   public var order_expiration_date_time: Double? //, as: :order_expiration_date_time, type: Integer
   public var order_date_time: Double? //, as: :order_date_time, type: Integer
   
-  //MARK: FIXME - handle getting order_information by HDSProvider
+  //MARK: FIXME - handle getting order_information by CDAKProvider
   //belongs_to :provider
-  public var provider: HDSProvider?
+  public var provider: CDAKProvider?
   
 //  var order_number: String? {
 //    get {return orderNumber }
@@ -77,7 +77,7 @@ public class HDSOrderInformation: HDSEntry {
 //        switch time_key {
 //        case "orderDateTime": self.orderDateTime = a_new_time
 //        case "orderExpirationDateTime": self.orderExpirationDateTime = a_new_time
-//        default: print("HDSEntry.init() undefined value setter for key \(time_key)")
+//        default: print("CDAKEntry.init() undefined value setter for key \(time_key)")
 //        }
 //      }
 //    }

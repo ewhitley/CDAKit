@@ -9,7 +9,7 @@
 import Foundation
 import Fuzi
 
-class HDSImport_CDA_EntryFinder {
+class CDAKImport_CDA_EntryFinder {
   var entry_xpath: String!
   
   init(entry_xpath: String){

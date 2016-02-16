@@ -8,9 +8,9 @@
 
 import Foundation
 
-class HDSImport_CCDA_MedicationImporter: HDSImport_CDA_MedicationImporter {
+class CDAKImport_CCDA_MedicationImporter: CDAKImport_CDA_MedicationImporter {
   
-  override init(entry_finder: HDSImport_CDA_EntryFinder = HDSImport_CDA_EntryFinder(entry_xpath: "//cda:section[cda:templateId/@root='2.16.840.1.113883.10.20.22.2.1' or cda:templateId/@root='2.16.840.1.113883.10.20.22.2.1.1']/cda:entry/cda:substanceAdministration")) {
+  override init(entry_finder: CDAKImport_CDA_EntryFinder = CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:section[cda:templateId/@root='2.16.840.1.113883.10.20.22.2.1' or cda:templateId/@root='2.16.840.1.113883.10.20.22.2.1.1']/cda:entry/cda:substanceAdministration")) {
     super.init(entry_finder: entry_finder)
     
     indication_xpath = "./cda:entryRelationship[@typeCode='RSON']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.19']/cda:code"

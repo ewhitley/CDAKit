@@ -9,29 +9,29 @@
 import Foundation
 import Mustache
 
-public class HDSEncounter: HDSEntry {
+public class CDAKEncounter: CDAKEntry {
   
-  public var admitType: HDSCodedEntries = HDSCodedEntries() // :admit_type, type: Hash
-  public var dischargeDisposition: HDSCodedEntries = HDSCodedEntries() // :discharge_disposition, type: Hash
+  public var admitType: CDAKCodedEntries = CDAKCodedEntries() // :admit_type, type: Hash
+  public var dischargeDisposition: CDAKCodedEntries = CDAKCodedEntries() // :discharge_disposition, type: Hash
   public var admitTime: Double? // , as: :admit_time, type: Integer
   public var dischargeTime: Double? // :discharge_time, type: Integer
-  public var principalDiagnosis: HDSCodedEntries = HDSCodedEntries() //:principal_diagnosis, type: Hash
-  public var diagnosis: HDSCodedEntries = HDSCodedEntries()
+  public var principalDiagnosis: CDAKCodedEntries = CDAKCodedEntries() //:principal_diagnosis, type: Hash
+  public var diagnosis: CDAKCodedEntries = CDAKCodedEntries()
   
-  public var transferTo: HDSTransfer?//, class_name: "HDSTransfer"
-  public var transferFrom: HDSTransfer?//, class_name: "HDSTransfer"
+  public var transferTo: CDAKTransfer?//, class_name: "CDAKTransfer"
+  public var transferFrom: CDAKTransfer?//, class_name: "CDAKTransfer"
   
-  public var facility: HDSFacility?
+  public var facility: CDAKFacility?
   
   //belongs_to :performer, class_name: "Provider"
-  public var performer: HDSProvider?
+  public var performer: CDAKProvider?
 
-  public var admit_type: HDSCodedEntries {
+  public var admit_type: CDAKCodedEntries {
     get { return admitType }
     set(value) { admitType = value }
   }
 
-  public var discharge_disposition: HDSCodedEntries {
+  public var discharge_disposition: CDAKCodedEntries {
     get { return dischargeDisposition }
     set(value) { dischargeDisposition = value }
   }
@@ -46,19 +46,19 @@ public class HDSEncounter: HDSEntry {
     set(value) { dischargeTime = value }
   }
 
-  public var principal_diagnosis: HDSCodedEntries {
+  public var principal_diagnosis: CDAKCodedEntries {
     get { return principalDiagnosis }
     set(value) { principalDiagnosis = value }
   }
 
 //  alias :transfer_to :transferTo
-  public var transfer_to: HDSTransfer? {
+  public var transfer_to: CDAKTransfer? {
     get { return transferTo }
     set(value) { transferTo = value }
   }
 
   //  alias :transfer_from :transferFrom
-  public var transfer_from: HDSTransfer? {
+  public var transfer_from: CDAKTransfer? {
     get { return transferFrom }
     set(value) { transferFrom = value }
   }
@@ -84,7 +84,7 @@ public class HDSEncounter: HDSEntry {
   
 }
 
-extension HDSEncounter {
+extension CDAKEncounter {
   override var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
     

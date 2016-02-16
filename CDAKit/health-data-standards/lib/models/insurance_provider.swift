@@ -8,16 +8,16 @@
 
 import Foundation
 
-public class HDSInsuranceProvider: HDSEntry {
+public class CDAKInsuranceProvider: CDAKEntry {
 
-  public var payer: HDSOrganization? //, class_name: "HDSOrganization"
-  public var guarantors = [HDSGuarantor]()//, class_name: "HDSGuarantor"
-  public var subscriber: HDSPerson? //, class_name: "HDSPerson"
+  public var payer: CDAKOrganization? //, class_name: "CDAKOrganization"
+  public var guarantors = [CDAKGuarantor]()//, class_name: "CDAKGuarantor"
+  public var subscriber: CDAKPerson? //, class_name: "CDAKPerson"
   
   public var type: String?
   public var member_id: String?
-  public var relationship : HDSCodedEntries = HDSCodedEntries() //, type: Hash
-  public var financial_responsibility_type : HDSCodedEntries = HDSCodedEntries() //, type: Hash
+  public var relationship : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
+  public var financial_responsibility_type : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
   public var name: String?
   
   override func shift_dates(date_diff: Double) {

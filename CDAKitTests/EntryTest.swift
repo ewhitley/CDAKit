@@ -12,14 +12,14 @@ import XCTest
 
 class EntryTest: XCTestCase {
   
-  var entry: HDSEntry!
+  var entry: CDAKEntry!
   
   override func setUp() {
       super.setUp()
     
-//    let entry = HDSEntry()
-    entry = HDSEntry()
-    entry.codes = HDSCodedEntries(entries:[
+//    let entry = CDAKEntry()
+    entry = CDAKEntry()
+    entry.codes = CDAKCodedEntries(entries:[
       "SNOMED-CT" : ["1234", "5678", "AABB"],
       "LOINC" : ["CCDD", "EEFF"],
       "ICD-9-CM" : ["GGHH"]
@@ -49,7 +49,7 @@ class EntryTest: XCTestCase {
       "time" : 1234,
       "codes" : ["CPT" : ["1234"]]
     ]
-    let entry_with_no_codes = HDSEntry(event: fields)
+    let entry_with_no_codes = CDAKEntry(event: fields)
     print("preferred codes: ")
     print(entry_with_no_codes.preferred_code([], codes_attribute: "codes", value_set_map: []))
     print("end")
@@ -70,7 +70,7 @@ class EntryTest: XCTestCase {
   }
 
   func test_is_usable() {
-    let entry = HDSEntry()
+    let entry = CDAKEntry()
     entry.time = 1270598400
     entry.add_code("314443004", code_system: "SNOMED-CT")
     XCTAssert(entry.usable())
@@ -85,7 +85,7 @@ class EntryTest: XCTestCase {
 //      "status" : "active"
 //    ]
 //    
-//    let entry = HDSEntry(from_hash: hash)
+//    let entry = CDAKEntry(from_hash: hash)
 //    print(entry)
 //
 //  }
@@ -101,58 +101,58 @@ class EntryTest: XCTestCase {
     ]
     
     
-    let entry = HDSEntry(from_hash: hash)
+    let entry = CDAKEntry(from_hash: hash)
 //    print(String(hash["code"]!!))
 //    print(entry.codes[String(hash["code_set"]!!)]!)
 //    XCTAssertEqual([String(hash["code"]!)], entry.codes[String(hash["code_set"]!!)]!)
     XCTAssertEqual([String(hash["code"]!)], entry.codes["RxNorm"]!.codes)
-    XCTAssertEqual(String(hash["value"]!!), (entry.values.first as! HDSPhysicalQuantityResultValue).scalar)
-    XCTAssertEqual(String(hash["unit"]!!), (entry.values.first as! HDSPhysicalQuantityResultValue).units)
+    XCTAssertEqual(String(hash["value"]!!), (entry.values.first as! CDAKPhysicalQuantityResultValue).scalar)
+    XCTAssertEqual(String(hash["unit"]!!), (entry.values.first as! CDAKPhysicalQuantityResultValue).units)
     XCTAssertEqual(String(hash["specifics"]!!), entry.specifics)
     XCTAssertEqual(String(hash["status"]!!), entry.status)
   }
 
   func test_unusable_without_time() {
-    let entry = HDSEntry()
+    let entry = CDAKEntry()
     entry.add_code("314443004", code_system: "SNOMED-CT")
     XCTAssert(!entry.usable())
   }
 
   func test_unusable_without_code() {
-    let entry = HDSEntry()
+    let entry = CDAKEntry()
     entry.time = 1270598400
     XCTAssert(!entry.usable())
   }
 
   func test_is_in_code_set() {
-    let entry = HDSEntry()
+    let entry = CDAKEntry()
     entry.add_code("854935", code_system: "RxNorm")
     entry.add_code("44556699", code_system: "RxNorm")
     entry.add_code("1245", code_system: "Junk")
     XCTAssert(entry.is_in_code_set([
-      HDSCodedEntries(entries: ["RxNorm": ["854935", "5440"], "SNOMED-CT" : ["24601"]])
+      CDAKCodedEntries(entries: ["RxNorm": ["854935", "5440"], "SNOMED-CT" : ["24601"]])
     ]))
   }
 
   func test_is_not_in_code_set() {
-    let entry = HDSEntry()
+    let entry = CDAKEntry()
     entry.add_code("44556699", code_system: "RxNorm")
     entry.add_code("1245", code_system: "Junk")
     XCTAssert(!entry.is_in_code_set([
-      HDSCodedEntries(entries: ["RxNorm": ["854935", "5440"], "SNOMED-CT" : ["24601"]])
+      CDAKCodedEntries(entries: ["RxNorm": ["854935", "5440"], "SNOMED-CT" : ["24601"]])
     ]))
   }
 
   func test_equality() {
-    let entry1 = HDSEntry()
+    let entry1 = CDAKEntry()
     entry1.add_code("44556699", code_system: "RxNorm")
     entry1.time = 1270598400
     
-    let entry2 = HDSEntry()
+    let entry2 = CDAKEntry()
     entry2.add_code("44556699", code_system: "RxNorm")
     entry2.time = 1270598400
     
-    let entry3 = HDSEntry()
+    let entry3 = CDAKEntry()
     entry3.add_code("44556699", code_system: "RxNorm")
     entry3.time = 1270598401
     
@@ -164,7 +164,7 @@ class EntryTest: XCTestCase {
 
   func test_to_hash() {
     
-    let entry = HDSEntry()
+    let entry = CDAKEntry()
     entry.add_code("44556699", code_system: "RxNorm")
     entry.time = 1270598400
     entry.specifics = "specific"
@@ -178,14 +178,14 @@ class EntryTest: XCTestCase {
   }
 
   func test_identifier_id() {
-    let entry = HDSEntry()
+    let entry = CDAKEntry()
     XCTAssertEqual(entry.id, entry.identifier as? String)
   }
 
   func test_identifier_cda_identifier() {
-    let identifier = HDSCDAIdentifier(root: "1.2.3.4")
+    let identifier = CDAKCDAIdentifier(root: "1.2.3.4")
     entry.cda_identifier = identifier
-    XCTAssertEqual(identifier, entry.identifier as? HDSCDAIdentifier)
+    XCTAssertEqual(identifier, entry.identifier as? CDAKCDAIdentifier)
   }
 
   

@@ -9,7 +9,7 @@
 import Foundation
 import Fuzi
 
-class HDSImport_CDA_NarrativeReferenceHandler {
+class CDAKImport_CDA_NarrativeReferenceHandler {
   var id_map: [String:String] = [:] // this might be an XMLElement - not clear yet
 
   func build_id_map(doc: XMLDocument) {

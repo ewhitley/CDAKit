@@ -10,10 +10,10 @@ import Foundation
 import Mustache
 
 //this is sort of annoying
-// I get that this should be its own class, but the way ResultValue is used in the HDSRecord makes this cumbersome to use
+// I get that this should be its own class, but the way ResultValue is used in the CDAKRecord makes this cumbersome to use
 //  because you have to cast ResultValue to PhysicalResultValue to access the scalars
 
-public class HDSPhysicalQuantityResultValue: HDSResultValue {
+public class CDAKPhysicalQuantityResultValue: CDAKResultValue {
   //, Equatable, Hashable
   public var scalar: String? //no clue what this type should be, so sticking with String for now
   public var units: String?
@@ -57,13 +57,13 @@ public class HDSPhysicalQuantityResultValue: HDSResultValue {
   
 }
 
-public func == (lhs: HDSPhysicalQuantityResultValue, rhs: HDSPhysicalQuantityResultValue) -> Bool {
+public func == (lhs: CDAKPhysicalQuantityResultValue, rhs: CDAKPhysicalQuantityResultValue) -> Bool {
   return lhs.hashValue == rhs.hashValue
 }
 
 
 
-extension HDSPhysicalQuantityResultValue {
+extension CDAKPhysicalQuantityResultValue {
   
   var boxedValues: [String:MustacheBox] {
     return [

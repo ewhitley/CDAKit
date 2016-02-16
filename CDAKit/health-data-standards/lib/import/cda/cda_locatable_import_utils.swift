@@ -11,10 +11,10 @@ import Fuzi
 
 
 //# Helpers for importing C32 addresses and telecoms
-class HDSImport_CDA_LocatableImportUtils {
+class CDAKImport_CDA_LocatableImportUtils {
 
-  class func import_address(address_element: XMLElement) -> HDSAddress {
-    let address = HDSAddress()
+  class func import_address(address_element: XMLElement) -> CDAKAddress {
+    let address = CDAKAddress()
     address.use = address_element["use"]
     address.street = address_element.xpath("./cda:streetAddressLine").map({$0.stringValue})
     address.city = address_element.xpath("./cda:city").first?.stringValue
@@ -24,8 +24,8 @@ class HDSImport_CDA_LocatableImportUtils {
     return address
   }
 
-  class func import_telecom(telecom_element: XMLElement) -> HDSTelecom {
-    let tele = HDSTelecom()
+  class func import_telecom(telecom_element: XMLElement) -> CDAKTelecom {
+    let tele = CDAKTelecom()
     tele.value = telecom_element["value"]
     tele.use = telecom_element["use"]
     return tele

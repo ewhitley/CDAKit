@@ -10,25 +10,25 @@ import Foundation
 import Mustache
 
 
-public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDSJSONInstantiable, HDSThingWithTimes {
+public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, CDAKJSONInstantiable, CDAKThingWithTimes {
   
   //Equatable, Hashable,
   
   //include Mongoid::Attributes::Dynamic
-  weak var record: HDSRecord?
+  weak var record: CDAKRecord?
   //the original code makes use of the ability to point back to the containing record
   // adding a weak reference here since the record actually contains the entry (self)
   
   //ThingWithCodes
-  public var codes: HDSCodedEntries = HDSCodedEntries()
+  public var codes: CDAKCodedEntries = CDAKCodedEntries()
   
-  public var cda_identifier: HDSCDAIdentifier? //, class_name: "HDSCDAIdentifier", as: :cda_identifiable
+  public var cda_identifier: CDAKCDAIdentifier? //, class_name: "CDAKCDAIdentifier", as: :cda_identifiable
   //MARK: FIXME - I changed the class to PhysicalQuantityResultValue here
   // the test cases all made it appear we're using that and not ResultValue
-  public var values = [HDSResultValue]() //, class_name: "ResultValue"... and yet... it wants PhysicalQuantityResultValue - but in other places... ResultValue (PhysicalQuantityResultValue is a subclass of ResultValue)
-  public var references = [HDSReference]() //
-  public var provider_preference = [HDSEntry]() //, class_name: "HDSEntry"
-  public var patient_preference = [HDSEntry]() //, class_name: "HDSEntry"
+  public var values = [CDAKResultValue]() //, class_name: "ResultValue"... and yet... it wants PhysicalQuantityResultValue - but in other places... ResultValue (PhysicalQuantityResultValue is a subclass of ResultValue)
+  public var references = [CDAKReference]() //
+  public var provider_preference = [CDAKEntry]() //, class_name: "CDAKEntry"
+  public var patient_preference = [CDAKEntry]() //, class_name: "CDAKEntry"
   
   public var item_description: String?
   public var specifics: String?
@@ -36,15 +36,15 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
   public var start_time: Double?
   public var end_time: Double?
   
-  public var status_code : HDSCodedEntries = HDSCodedEntries() //, type: Hash
+  public var status_code : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
   public var mood_code: String = "EVN" //, type: String, default: "EVN"
   public var negation_ind: Bool? = false //, as: :negation_ind, type: Boolean
-  public var negation_reason : HDSCodedEntries = HDSCodedEntries()//, as: :negation_reason, type: Hash
+  public var negation_reason : CDAKCodedEntries = CDAKCodedEntries()//, as: :negation_reason, type: Hash
   public var oid: String? //, type: String
-  public var reason: HDSReason?//, type: Hash
+  public var reason: CDAKReason?//, type: Hash
   
   
-  public var comment: String? // not in original model, but found in some other HDSEntry items like pregnancies
+  public var comment: String? // not in original model, but found in some other CDAKEntry items like pregnancies
   
   public var version: Int = 1
   public var id: String?
@@ -54,9 +54,9 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
   
   //Condition
   //method "builds" (new) object and reflects on properties (response to -> class, id)
-  // any of the HDSEntry types should have this
-  func add_reference(entry: HDSEntry, type: String) {
-    let ref = HDSReference(type: type, referenced_type: HDSCommonUtility.classNameAsString(entry), referenced_id: entry.id, entry: entry)
+  // any of the CDAKEntry types should have this
+  func add_reference(entry: CDAKEntry, type: String) {
+    let ref = CDAKReference(type: type, referenced_type: CDAKCommonUtility.classNameAsString(entry), referenced_id: entry.id, entry: entry)
     references.append(ref)
     //references.build(type: type, referenced_type: entry.class, referenced_id: entry.id)
     
@@ -68,8 +68,8 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
     var ret = ""
     
     if start_time != nil || end_time != nil {
-      let start_string: String = (start_time != nil ? HDSEntry.time_to_s(start_time!) : nil_string)
-      let end_string: String = (end_time != nil ? HDSEntry.time_to_s(end_time!) : nil_string)
+      let start_string: String = (start_time != nil ? CDAKEntry.time_to_s(start_time!) : nil_string)
+      let end_string: String = (end_time != nil ? CDAKEntry.time_to_s(end_time!) : nil_string)
       ret = "\(start_string) - \(end_string)"
     } else if let time = time {
       //Time.at(time).utc.to_formatted_s(:long_ordinal)
@@ -96,8 +96,8 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
   }
   
 
-  //  # HDSEntry previously had a status field that dropped the code set and converted
-  //  # the status to a String. HDSEntry now preserves the original code and code set.
+  //  # CDAKEntry previously had a status field that dropped the code set and converted
+  //  # the status to a String. CDAKEntry now preserves the original code and code set.
   //  # This method is here to maintain backwards compatibility.
   func status_legacy() -> String? {
     
@@ -134,26 +134,26 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
     
     set(status_text) {
     
-      var sc: HDSCodedEntries = HDSCodedEntries()
+      var sc: CDAKCodedEntries = CDAKCodedEntries()
       
       switch status_text {
       case let status_text where status_text == "active":
         //self.status_code = {'SNOMED-CT' => ['55561003'], 'HL7 ActStatus' => ['active']}
-        sc["SNOMED-CT"] = HDSCodedEntry(codeSystem: "SNOMED-CT", codes: ["55561003"])
-        sc["HL7 ActStatus"] = HDSCodedEntry(codeSystem: "HL7 ActStatus", codes: ["active"])
+        sc["SNOMED-CT"] = CDAKCodedEntry(codeSystem: "SNOMED-CT", codes: ["55561003"])
+        sc["HL7 ActStatus"] = CDAKCodedEntry(codeSystem: "HL7 ActStatus", codes: ["active"])
         self.status_code = sc
       case let status_text where status_text == "inactive":
         //self.status_code = {'SNOMED-CT' => ['73425007']}
-        sc["SNOMED-CT"] = HDSCodedEntry(codeSystem: "SNOMED-CT", codes: ["73425007"])
+        sc["SNOMED-CT"] = CDAKCodedEntry(codeSystem: "SNOMED-CT", codes: ["73425007"])
         self.status_code = sc
       case let status_text where status_text == "resolved":
         //self.status_code = {'SNOMED-CT' => ['413322009']}
-        sc["SNOMED-CT"] = HDSCodedEntry(codeSystem: "SNOMED-CT", codes: ["413322009"])
+        sc["SNOMED-CT"] = CDAKCodedEntry(codeSystem: "SNOMED-CT", codes: ["413322009"])
         self.status_code = sc
       default:
         //self.status_code = {'HL7 ActStatus' => [status_text]}
         //boom
-        sc["HL7 ActStatus"] = HDSCodedEntry(codeSystem: "HL7 ActStatus", codes: [status_text!])
+        sc["HL7 ActStatus"] = CDAKCodedEntry(codeSystem: "HL7 ActStatus", codes: [status_text!])
         self.status_code = sc
       }
     }
@@ -170,7 +170,7 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
       a_scalar = String(val)
     }
     
-    let pq_value = HDSPhysicalQuantityResultValue(scalar: a_scalar, units: units)
+    let pq_value = CDAKPhysicalQuantityResultValue(scalar: a_scalar, units: units)
     self.values.append(pq_value)
   }
 
@@ -211,21 +211,21 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
     for (key, value) in event {
       //ignore the ones we're handling differnetly above
       if !ignore_props.contains(key) {
-        HDSUtility.setProperty(self, property: key, value: value)
+        CDAKUtility.setProperty(self, property: key, value: value)
       }
     }
   }
   
-  public init(record: HDSRecord) {
+  public init(record: CDAKRecord) {
     self.record = record
   }
   
-  public init(cda_identifier: HDSCDAIdentifier) {
+  public init(cda_identifier: CDAKCDAIdentifier) {
     self.cda_identifier = cda_identifier
   }
   
   //MARK: FIXME - changed values from ResultValue to PhysicalQuantityResultValue
-  public init(cda_identifier: HDSCDAIdentifier, codes: HDSCodedEntries, values: [HDSPhysicalQuantityResultValue]) {
+  public init(cda_identifier: CDAKCDAIdentifier, codes: CDAKCodedEntries, values: [CDAKPhysicalQuantityResultValue]) {
     self.cda_identifier = cda_identifier
     self.codes = codes
     self.values = values
@@ -238,7 +238,7 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
   //#                The hash has a key of "set" for the code system name and "values"
   //#                for the actual code list
   //# @return [true, false] whether the code is in the list of desired codes
-  func is_in_code_set(code_set: [HDSCodedEntries]) -> Bool {
+  func is_in_code_set(code_set: [CDAKCodedEntries]) -> Bool {
     for entries in code_set {
       for (key, entry) in entries {
         if codes.findIntersectingCodes(forCodeSystem: key, matchingCodes: entry.codes)?.count > 0 {
@@ -286,8 +286,8 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
     return nil
   }
   
-  //# Checks to see if this HDSEntry can be used as a date range
-  //# @return [true, false] If the HDSEntry has a start and end time returns true, false otherwise.
+  //# Checks to see if this CDAKEntry can be used as a date range
+  //# @return [true, false] If the CDAKEntry has a start and end time returns true, false otherwise.
   var is_date_range : Bool {
     if start_time != nil && end_time != nil {
       return true
@@ -295,7 +295,7 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
     return false
   }
   
-  //# Checks to see if this HDSEntry is usable for measure calculation. This means that it contains
+  //# Checks to see if this CDAKEntry is usable for measure calculation. This means that it contains
   //# at least one code and has one of its time properties set (start, end or time)
   //# @return [true, false]
   func usable() -> Bool {
@@ -357,8 +357,8 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
     return to_hash()
   }
   
-  //  # Creates a Hash for this HDSEntry
-  //  # @return [Hash] a Hash representing the HDSEntry
+  //  # Creates a Hash for this CDAKEntry
+  //  # @return [Hash] a Hash representing the CDAKEntry
   func to_hash() -> [String:Any] {
     
     var entry_hash: [String:Any] = [:]
@@ -421,7 +421,7 @@ public class HDSEntry: NSObject , HDSThingWithCodes, HDSPropertyAddressable, HDS
 }
 
 /*
-extension HDSEntry {
+extension CDAKEntry {
   // NSObject already does MustacheBoxable
   override var mustacheBox: MustacheBox {
     return Box(["time": self.time])
@@ -432,35 +432,35 @@ extension HDSEntry {
 
 //new in Swift 2.x with NSObject
 // http://mgrebenets.github.io/swift/2015/06/21/equatable-nsobject-with-swift-2/
-extension HDSEntry {
+extension CDAKEntry {
   override public func isEqual(object: AnyObject?) -> Bool {
-    if let rhs = object as? HDSEntry {
-      return hashValue == rhs.hashValue && HDSCommonUtility.classNameAsString(self) == HDSCommonUtility.classNameAsString(rhs)
+    if let rhs = object as? CDAKEntry {
+      return hashValue == rhs.hashValue && CDAKCommonUtility.classNameAsString(self) == CDAKCommonUtility.classNameAsString(rhs)
     }
     return false
   }
 }
 
-func == (lhs: HDSEntry, rhs: HDSEntry) -> Bool {
-  return lhs.hashValue == rhs.hashValue && HDSCommonUtility.classNameAsString(lhs) == HDSCommonUtility.classNameAsString(rhs)
+func == (lhs: CDAKEntry, rhs: CDAKEntry) -> Bool {
+  return lhs.hashValue == rhs.hashValue && CDAKCommonUtility.classNameAsString(lhs) == CDAKCommonUtility.classNameAsString(rhs)
 }
 
-extension HDSEntry {
+extension CDAKEntry {
   
 //  var export_section_name: String {
 //    switch String(self.dynamicType) {
-//    case "HDSAllergy": return "allergies"
-//    case "HDSEncounter": return "encounters"
-//    case "HDSCareGoal": return "plan_of_care"
+//    case "CDAKAllergy": return "allergies"
+//    case "CDAKEncounter": return "encounters"
+//    case "CDAKCareGoal": return "plan_of_care"
 //    case "Condition": return "conditions"
-//    case "HDSImmunization": return "immunizations"
-//    case "HDSMedicalEquipment": return "medical_equipment"
-//    case "HDSMedicalEquipment": return "medications"
-//    case "HDSProcedure": return "procedures"
+//    case "CDAKImmunization": return "immunizations"
+//    case "CDAKMedicalEquipment": return "medical_equipment"
+//    case "CDAKMedicalEquipment": return "medications"
+//    case "CDAKProcedure": return "procedures"
 //    case "ResultValue": return "results"
-//    case "HDSLabResult": return "results"
-//    case "HDSSocialHistory": return "social_history"
-//    case "HDSVitalSign": return "vitals"
+//    case "CDAKLabResult": return "results"
+//    case "CDAKSocialHistory": return "social_history"
+//    case "CDAKVitalSign": return "vitals"
 //    default: fatalError("Unknown type '\(self.dynamicType)' in export_section_name")
 //    }
 //  }
@@ -473,25 +473,25 @@ extension HDSEntry {
 //  var export_section_value: Bool? {
 //    switch String(self.dynamicType) {
 //    case "ResultValue": return true
-//    case "HDSVitalSign": return true
+//    case "CDAKVitalSign": return true
 //    default: return nil
 //    }
 //  }
   
   var preferred_code_sets: [String] {
     switch String(self.dynamicType) {
-    case "HDSAllergy": return ["RxNorm"]
-    case "HDSCareGoal": return ["SNOMED-CT"]
-    case "HDSCondition": return ["SNOMED-CT"]
-    case "HDSEncounter": return ["CPT"]
-    case "HDSImmunization": return ["CVX"]
-    case "HDSMedicalEquipment": return ["SNOMED-CT"]
-    case "HDSMedication": return ["RxNorm"]
-    case "HDSProcedure": return ["CPT", "ICD-9-CM", "ICD-10-CM", "HCPCS", "SNOMED-CT"]
-    case "HDSResultValue": return ["LOINC", "SNOMED-CT"]
-    case "HDSLabResult": return ["LOINC", "SNOMED-CT"]
-    case "HDSSocialHistory": return ["SNOMED-CT"]
-    case "HDSVitalSign": return ["LOINC", "SNOMED-CT"] //NOTE - in the original Ruby template they key was "SNOMED"
+    case "CDAKAllergy": return ["RxNorm"]
+    case "CDAKCareGoal": return ["SNOMED-CT"]
+    case "CDAKCondition": return ["SNOMED-CT"]
+    case "CDAKEncounter": return ["CPT"]
+    case "CDAKImmunization": return ["CVX"]
+    case "CDAKMedicalEquipment": return ["SNOMED-CT"]
+    case "CDAKMedication": return ["RxNorm"]
+    case "CDAKProcedure": return ["CPT", "ICD-9-CM", "ICD-10-CM", "HCPCS", "SNOMED-CT"]
+    case "CDAKResultValue": return ["LOINC", "SNOMED-CT"]
+    case "CDAKLabResult": return ["LOINC", "SNOMED-CT"]
+    case "CDAKSocialHistory": return ["SNOMED-CT"]
+    case "CDAKVitalSign": return ["LOINC", "SNOMED-CT"] //NOTE - in the original Ruby template they key was "SNOMED"
       // which is wrong, but... not sure if they did something else with it
     default: return []
     }
@@ -505,15 +505,15 @@ extension HDSEntry {
     //let x = ViewHelper.code_display(self, options: ["preferred_code_set":self.export_preferred_code_sets])
     //let y = ViewHelper.code_display(self, options: ["preferred_code_set":self.export_preferred_code_sets])
     
-    //      //code_system_oid = HealthDataStandards::Util::HDSCodeSystemHelper.oid_for_code_system(preferred_code['code_set'])
+    //      //code_system_oid = HealthDataStandards::Util::CDAKCodeSystemHelper.oid_for_code_system(preferred_code['code_set'])
     //var entry_preferred_code : [String:String] = [:]
-    var entry_preferred_code : HDSCodedEntry?
+    var entry_preferred_code : CDAKCodedEntry?
     var code_system_oid = ""
 //    if let a_preferred_code = preferred_code(preferred_code_sets), let code_set = a_preferred_code["code_set"] {
     if let a_preferred_code = preferred_code(preferred_code_sets) {
       let code_set = a_preferred_code.codeSystem
-      code_system_oid = HDSCodeSystemHelper.oid_for_code_system(code_set)
-      entry_preferred_code = HDSCodedEntry(codeSystem: code_set, codes: a_preferred_code.codes, codeSystemOid: code_system_oid)
+      code_system_oid = CDAKCodeSystemHelper.oid_for_code_system(code_set)
+      entry_preferred_code = CDAKCodedEntry(codeSystem: code_set, codes: a_preferred_code.codes, codeSystemOid: code_system_oid)
     }
     
     return [
@@ -565,7 +565,7 @@ extension HDSEntry {
       
       //preferred_code = entry.preferred_code(preferred_code_sets)
       //if preferred_code
-      //code_system_oid = HealthDataStandards::Util::HDSCodeSystemHelper.oid_for_code_system(preferred_code['code_set'])
+      //code_system_oid = HealthDataStandards::Util::CDAKCodeSystemHelper.oid_for_code_system(preferred_code['code_set'])
       
     ]
   }
@@ -577,7 +577,7 @@ extension HDSEntry {
 
 
 
-extension HDSEntry {
+extension CDAKEntry {
 
 
 

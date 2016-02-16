@@ -8,11 +8,11 @@
 
 import Foundation
 
-public protocol HDSThingWithCodes: class {
-  var codes: HDSCodedEntries { get set }
+public protocol CDAKThingWithCodes: class {
+  var codes: CDAKCodedEntries { get set }
 }
 
-extension HDSThingWithCodes {
+extension CDAKThingWithCodes {
   
   func single_code_value() -> Bool {
     guard let (_, first_val) = codes.first else {
@@ -25,15 +25,15 @@ extension HDSThingWithCodes {
     return convert_codes_to_s(codes)
   }
   
-  func convert_codes_to_s(codes: HDSCodedEntries) -> String {
+  func convert_codes_to_s(codes: CDAKCodedEntries) -> String {
     //codes.map {|code_set, codes| "#{code_set}: #{codes.join(', ')}"}.join(' ')
     return codes.map { (code_set, codes) in ("\(code_set): " + codes.codes.joinWithSeparator(", ")) }.joinWithSeparator(" ")
   }
   
   //# Will return a single code and code set if one exists in the code sets that are
   //# passed in. Returns a hash with a key of code and code_set if found, nil otherwise
-  //  func preferred_code(var preferred_code_sets: [String], var codes_attribute: HDSCodedEntries = HDSCodedEntries(), value_set_map: [HDSCodedEntries] = []) -> [String:String]?
-  func preferred_code(var preferred_code_sets: [String], codes_attribute: String? = "codes", value_set_map: [HDSCodedEntries] = []) -> HDSCodedEntry?//[String:String]?
+  //  func preferred_code(var preferred_code_sets: [String], var codes_attribute: CDAKCodedEntries = CDAKCodedEntries(), value_set_map: [CDAKCodedEntries] = []) -> [String:String]?
+  func preferred_code(var preferred_code_sets: [String], codes_attribute: String? = "codes", value_set_map: [CDAKCodedEntries] = []) -> CDAKCodedEntry?//[String:String]?
   {
 
     //MARK: FIXME - likely issues here with send() and the way I'm pulling this in
@@ -46,7 +46,7 @@ extension HDSThingWithCodes {
     // potential fix - set this to a nilable collection
     //
     //
-    var codes_value: HDSCodedEntries = HDSCodedEntries()
+    var codes_value: CDAKCodedEntries = CDAKCodedEntries()
     switch codes_attribute {
       case let codes_attribute where codes_attribute == "codes": codes_value = self.codes
     default:
@@ -121,7 +121,7 @@ extension HDSThingWithCodes {
             if let code_set = matching_code_sets.first {
 //              result["code"] = codes_value[code_set]!.first!
 //              result["code_set"] = matching_code_set
-              return HDSCodedEntry(codeSystem: code_set, codes: codes_value[code_set]!.first!)
+              return CDAKCodedEntry(codeSystem: code_set, codes: codes_value[code_set]!.first!)
             }
             //return result
           }
@@ -133,7 +133,7 @@ extension HDSThingWithCodes {
         if let code_set = matching_code_sets.first {
           //result["code"] = codes_value[code_set]!.first!
           //result["code_set"] = code_set
-          return HDSCodedEntry(codeSystem: code_set, codes: codes_value[code_set]!.first!)
+          return CDAKCodedEntry(codeSystem: code_set, codes: codes_value[code_set]!.first!)
         }
         //return result
       }
@@ -158,11 +158,11 @@ extension HDSThingWithCodes {
   //
   //  Value set Map appears to look like...
   //       [{"set"=>"RxNorm", "values"=>["89905"]}]
-  //    ->[HDSCodedEntries]
+  //    ->[CDAKCodedEntries]
   //
   //  Code Set appears to look like...
   //       [{"set"=>"RxNorm", "values"=>["89905"]}]
-  //    ->[HDSCodedEntries], but also... [[String:String]]
+  //    ->[CDAKCodedEntries], but also... [[String:String]]
   //
   //  preferred_code_sets looks like...
   //       ["SOP", "Source of Payment Typology"]
@@ -171,12 +171,12 @@ extension HDSThingWithCodes {
   //  return looks like...
   //  [{"code"=>"1234", "code_set"=>"SNOMED-CT"}, {"code"=>"5678", "code_set"=>"SNOMED-CT"}, {"code"=>"AABB", "code_set"=>"SNOMED-CT"}, {"code"=>"CCDD", "code_set"=>"LOINC"}, {"code"=>"EEFF", "code_set"=>"LOINC"}]
   //     -> [[String:String]]
-//  func translation_codes(preferred_code_sets: [String], value_set_map: [HDSCodedEntries] = []) -> [[String:String]] {
-  func translation_codes(preferred_code_sets: [String], value_set_map: [HDSCodedEntries] = []) -> HDSCodedEntries {
+//  func translation_codes(preferred_code_sets: [String], value_set_map: [CDAKCodedEntries] = []) -> [[String:String]] {
+  func translation_codes(preferred_code_sets: [String], value_set_map: [CDAKCodedEntries] = []) -> CDAKCodedEntries {
     
 //    var tx_codes: [[String:String]] = [[String:String]]()
-    var tx_codes: HDSCodedEntries = HDSCodedEntries()
-    var matching_codes: HDSCodedEntries = HDSCodedEntries()
+    var tx_codes: CDAKCodedEntries = CDAKCodedEntries()
+    var matching_codes: CDAKCodedEntries = CDAKCodedEntries()
     
     matching_codes = value_set_map.count > 0 ? codes_in_code_set(value_set_map) : codes
     for (code_set, code_list) in matching_codes {
@@ -188,7 +188,7 @@ extension HDSThingWithCodes {
     
     //tx_codes - [preferred_code(preferred_code_sets, :codes, value_set_map)]
     //var pref_code: [[String:String]] = []
-    var pref_code = HDSCodedEntries()
+    var pref_code = CDAKCodedEntries()
     if let somecodes = preferred_code(preferred_code_sets, codes_attribute: "codes", value_set_map: value_set_map) {
         pref_code.addCodes([somecodes])
     }
@@ -213,8 +213,8 @@ extension HDSThingWithCodes {
 
   // code_set would look like... [{"set"=>"RxNorm", "values"=>["89905"]}]
   // result would look like... {"RxNorm"=>["89905"]}
-  func codes_in_code_set(code_set: [HDSCodedEntries]) -> HDSCodedEntries {
-    var matching: HDSCodedEntries = HDSCodedEntries()
+  func codes_in_code_set(code_set: [CDAKCodedEntries]) -> CDAKCodedEntries {
+    var matching: CDAKCodedEntries = CDAKCodedEntries()
     
     for code_system in codes.keys {
       var matching_codes: [String] = []
@@ -230,7 +230,7 @@ extension HDSThingWithCodes {
         }
       }
       matching_codes = Array(Set(matching_codes)) //bad de-dupe
-      matching[code_system] = HDSCodedEntry(codeSystem: code_system, codes: matching_codes)
+      matching[code_system] = CDAKCodedEntry(codeSystem: code_system, codes: matching_codes)
       //NOTE : moving this code down to the bottom - in the original Ruby it's at the top
       // Ruby will retain the reference between the dictionary entry and the array, so
       // we're moving this to the bottom since Swift doesn't really do that
@@ -259,7 +259,7 @@ extension HDSThingWithCodes {
 ////    matching
 //    
 
-  //# Add a code into the HDSEntry
+  //# Add a code into the CDAKEntry
   //# @param [String] code the code to add
   //# @param [String] code_system the code system that the code belongs to
   func add_code(code:Any, code_system:String, code_system_oid: String? = nil, display_name: String? = nil) {
@@ -269,7 +269,7 @@ extension HDSThingWithCodes {
         codes.addCodes(code_system, codes: code_str, codeSystemOid: code_system_oid, displayName: display_name)
       }
     } else {
-      codes[code_system] = HDSCodedEntry(codeSystem: code_system, codes: [code_str], codeSystemOid: code_system_oid, displayName: display_name)
+      codes[code_system] = CDAKCodedEntry(codeSystem: code_system, codes: [code_str], codeSystemOid: code_system_oid, displayName: display_name)
     }
   }
 

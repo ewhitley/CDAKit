@@ -31,7 +31,7 @@ class BasicXPathTest: XCTestCase {
     let c32Doc = TestHelpers.fileHelpers.load_xml_string_from_file("Rosa.c32")
     
     do {
-      let record = try HDSImport_BulkRecordImporter.importRecord(c32Doc)
+      let record = try CDAKImport_BulkRecordImporter.importRecord(c32Doc)
       //print(record)
     }
     catch {
@@ -43,7 +43,7 @@ class BasicXPathTest: XCTestCase {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("sample_ccda")
 
     do {
-      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
       //print(record)
     }
     catch {
@@ -55,7 +55,7 @@ class BasicXPathTest: XCTestCase {
   func testImportWithTypeDetection_C32() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("NISTExampleC32")
     do {
-      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
       //print(record)
     }
     catch {
@@ -66,7 +66,7 @@ class BasicXPathTest: XCTestCase {
   func testImportWithExternalRecord_GithubCCD() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Vitera_CCDA_SMART_Sample")
     do {
-      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
       //print(record)
     }
     catch {
@@ -77,7 +77,7 @@ class BasicXPathTest: XCTestCase {
   func testImportWithExternalRecord_HealthKitCDA() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("export_cda")
     do {
-      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
       //print(record)
     }
     catch {
@@ -90,15 +90,15 @@ class BasicXPathTest: XCTestCase {
     
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Vitera_CCDA_SMART_Sample")
     do {
-      let record = try HDSRecord.init(fromXML: doc)
+      let record = try CDAKRecord.init(fromXML: doc)
         //print(record)
-      //print(HDS_EXTENDED_CODE_SYSTEMS)
+      //print(CDAK_EXTENDED_CODE_SYSTEMS)
     } catch {
       XCTFail()
       
     }
     
-//    if let record = HDSRecord.init(fromXML: doc) {
+//    if let record = CDAKRecord.init(fromXML: doc) {
 //    } else {
 //      XCTFail()
 //    }
@@ -110,7 +110,7 @@ class BasicXPathTest: XCTestCase {
     
     let doc = "<?xml version=\"1.0\"?>NOPE"
     do {
-      let record = try HDSRecord.init(fromXML: doc)
+      let record = try CDAKRecord.init(fromXML: doc)
       XCTFail() // we shouldn't get here
     }
     catch {
@@ -123,7 +123,7 @@ class BasicXPathTest: XCTestCase {
 
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Vitera_CCDA_SMART_Sample")
     do {
-      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
       let myOut = record.export(inFormat: .ccda)
       //print(record)
     }

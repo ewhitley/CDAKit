@@ -1,5 +1,5 @@
 //
-//  HDSValueAndUnit.swift
+//  CDAKValueAndUnit.swift
 //  CDAKit
 //
 //  Created by Eric Whitley on 2/4/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct HDSValueAndUnit {
+public struct CDAKValueAndUnit {
   var value: Double?
   var unit: String?
 }

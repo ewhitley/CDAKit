@@ -8,9 +8,9 @@
 
 import Foundation
 
-class HDSImport_CCDA_ResultImporter: HDSImport_CDA_ResultImporter {
+class CDAKImport_CCDA_ResultImporter: CDAKImport_CDA_ResultImporter {
   
-  override init(entry_finder: HDSImport_CDA_EntryFinder = HDSImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.2']")) {
+  override init(entry_finder: CDAKImport_CDA_EntryFinder = CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.2']")) {
     super.init(entry_finder: entry_finder)
   }
   

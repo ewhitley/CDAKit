@@ -8,23 +8,23 @@
 
 import Foundation
 
-public class HDSReference: HDSJSONInstantiable {
+public class CDAKReference: CDAKJSONInstantiable {
   
   public var type: String?
   public var referenced_type: String = ""
   public var referenced_id: String = ""
   
-  public var entry: HDSEntry?
+  public var entry: CDAKEntry?
   
   //MARK: FIXME: Can't resolve any of this since it's using Mongo
   
   //embedded_in :entry
   
-  public init(entry: HDSEntry) {
+  public init(entry: CDAKEntry) {
     self.entry = entry
   }
   
-  public init(type: String?, referenced_type: String, referenced_id: String?, entry: HDSEntry? = nil ) {
+  public init(type: String?, referenced_type: String, referenced_id: String?, entry: CDAKEntry? = nil ) {
     self.type = type
     self.referenced_type = referenced_type
     if let referenced_id = referenced_id {
@@ -41,7 +41,7 @@ public class HDSReference: HDSJSONInstantiable {
   
   private func initFromEventList(event: [String:Any?]) {
     for (key, value) in event {
-      HDSUtility.setProperty(self, property: key, value: value)
+      CDAKUtility.setProperty(self, property: key, value: value)
     }
   }
 
@@ -50,8 +50,8 @@ public class HDSReference: HDSJSONInstantiable {
   // this is a problem...
   //  I can't tell if this returns one entry or multiple
   //  Appears to be one...
-  func resolve_reference() -> HDSEntry? {
-    var an_entry: HDSEntry?
+  func resolve_reference() -> CDAKEntry? {
+    var an_entry: CDAKEntry?
     
     if let entry = self.entry {
       //print("found an entry")

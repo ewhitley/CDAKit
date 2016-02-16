@@ -1,5 +1,5 @@
 //
-//  HDSUtility.swift
+//  CDAKUtility.swift
 //  CDAKit
 //
 //  Created by Eric Whitley on 12/10/15.
@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol HDSPropertyAddressable {
+protocol CDAKPropertyAddressable {
   init(event: [String:Any?])
 }
 
-class HDSUtility {
+class CDAKUtility {
   
   static let DEBUG = true
   static let entry_fields: [String] = [
@@ -67,15 +67,15 @@ class HDSUtility {
   //    BUT the code system might not be supplied
   // race {code: 12345 }
   // so we need to account for a flattened setup and the possibility of an absent code system
-  class func singleCodeFieldFlat(value: Any?, withDefaultCodeSystem defaultCodeSystem: String? = nil) -> HDSCodedEntries {
-    var result: HDSCodedEntries = HDSCodedEntries()
+  class func singleCodeFieldFlat(value: Any?, withDefaultCodeSystem defaultCodeSystem: String? = nil) -> CDAKCodedEntries {
+    var result: CDAKCodedEntries = CDAKCodedEntries()
     //print(value)
     print("singleCodeFieldFlat:value = \(value)")
     if let value = value as? [String:Any?] {
       if let val = value["code"] {
         if let val = val { //still optional
           let code = String(val) //since we can have integers, etc. in here
-          if code != "<null>" { //filter out the weird "<null>" we see in HDS entries
+          if code != "<null>" { //filter out the weird "<null>" we see in CDAK entries
           var codeSystem: String?
             if let val = value["codeSystem"] as? String {
               codeSystem = val
@@ -99,10 +99,10 @@ class HDSUtility {
   
   //"codes" : ["CPT" : ["1234"]]
   //I feel so very very dirty.  And yes - I realize how bad this code is.
-  class func dictionaryStringArray(value: Any?, withDefaultCodeSystem defaultCodeSystem: String? = nil) -> HDSCodedEntries {
-    var result: HDSCodedEntries = HDSCodedEntries()
+  class func dictionaryStringArray(value: Any?, withDefaultCodeSystem defaultCodeSystem: String? = nil) -> CDAKCodedEntries {
+    var result: CDAKCodedEntries = CDAKCodedEntries()
     print("dictionaryStringArray:value = \(value)")
-    if let value = value as? HDSCodedEntries { return value }
+    if let value = value as? CDAKCodedEntries { return value }
 //    else if let value = value as? [String:Any] {
 //      print("dictionaryStringArray:value = \(value) WITH TYPE [String:Any]")
 //    }
@@ -141,8 +141,8 @@ class HDSUtility {
     return result
   }
   
-  class func arrayOfCodedEntries(value: Any?) -> [HDSCodedEntries] {
-    var result: [HDSCodedEntries] = []
+  class func arrayOfCodedEntries(value: Any?) -> [CDAKCodedEntries] {
+    var result: [CDAKCodedEntries] = []
     //print(value)
 
     if let value = value as? [Any] {
@@ -172,15 +172,15 @@ class HDSUtility {
 
   
   class func debug_message(object: String, function: String, property: String) {
-    if HDSUtility.DEBUG {
-      if !HDSUtility.entry_fields.contains(property) { print("\(function) for \(object) failed to return '\(property)' ") }
+    if CDAKUtility.DEBUG {
+      if !CDAKUtility.entry_fields.contains(property) { print("\(function) for \(object) failed to return '\(property)' ") }
     }
   }
   
   class func getProperty(obj: Any?, property: String) -> Any? {
 
     
-    if let obj = obj as? HDSEntry {
+    if let obj = obj as? CDAKEntry {
       switch property {
       case "item_description", "description": return obj.item_description
       case "specifics": return obj.specifics
@@ -193,84 +193,84 @@ class HDSUtility {
       case "oid": return obj.oid
       case "id": return obj.id
       case "codes": return obj.codes
-      default: print("getProperty for HDSEntry failed to return '\(property)' ")
+      default: print("getProperty for CDAKEntry failed to return '\(property)' ")
       }
     }
     
-    if let obj = obj as? HDSEncounter {
+    if let obj = obj as? CDAKEncounter {
       switch property {
       case "admit_time", "admitTime": return obj.admit_time
       case "discharge_time", "dischargeTime": return obj.discharge_time
-      default: debug_message("HDSEncounter", function: "getProperty", property: property)
+      default: debug_message("CDAKEncounter", function: "getProperty", property: property)
       }
-    } else if let obj = obj as? HDSCondition {
+    } else if let obj = obj as? CDAKCondition {
       switch property {
       case "time_of_death": return obj.time_of_death
-      default: debug_message("HDSCondition", function: "getProperty", property: property)
+      default: debug_message("CDAKCondition", function: "getProperty", property: property)
       }
-      //shouldn't need this since we're now making HDSFacility an HDSEntry
-//    } else if let obj = obj as? HDSFacility {
+      //shouldn't need this since we're now making CDAKFacility an CDAKEntry
+//    } else if let obj = obj as? CDAKFacility {
 //      switch property {
 //      case "start_time": return obj.start_time
 //      case "end_time": return obj.end_time
-//      default: debug_message("HDSFacility", function: "getProperty", property: property)
+//      default: debug_message("CDAKFacility", function: "getProperty", property: property)
 //      }
-    } else if let obj = obj as? HDSFulfillmentHistory {
+    } else if let obj = obj as? CDAKFulfillmentHistory {
       switch property {
       case "dispense_date": return obj.dispense_date
-      default: debug_message("HDSFulfillmentHistory", function: "getProperty", property: property)
+      default: debug_message("CDAKFulfillmentHistory", function: "getProperty", property: property)
       }
-    } else if let obj = obj as? HDSFunctionalStatus {
+    } else if let obj = obj as? CDAKFunctionalStatus {
       switch property {
       case "type": return obj.type
-      default: debug_message("HDSFunctionalStatus", function: "getProperty", property: property)
+      default: debug_message("CDAKFunctionalStatus", function: "getProperty", property: property)
       }
-      //shouldn't need this since we're now making HDSGuarantor an HDSEntry
-//    } else if let obj = obj as? HDSGuarantor {
+      //shouldn't need this since we're now making CDAKGuarantor an CDAKEntry
+//    } else if let obj = obj as? CDAKGuarantor {
 //      switch property {
 //      case "end_time": return obj.end_time
 //      case "start_time": return obj.start_time
 //      case "time": return obj.time
-//      default: debug_message("HDSGuarantor", function: "getProperty", property: property)
+//      default: debug_message("CDAKGuarantor", function: "getProperty", property: property)
 //      }
-    } else if let obj = obj as? HDSMedicalEquipment {
+    } else if let obj = obj as? CDAKMedicalEquipment {
       switch property {
       case "removal_time": return obj.removal_time
-      default: debug_message("HDSMedicalEquipment", function: "getProperty", property: property)
+      default: debug_message("CDAKMedicalEquipment", function: "getProperty", property: property)
       }
-    } else if let obj = obj as? HDSMedication {
+    } else if let obj = obj as? CDAKMedication {
       switch property {
       case "active_datetime": return obj.active_datetime
       case "signed_datetime": return obj.signed_datetime
-      default: debug_message("HDSMedication", function: "getProperty", property: property)
+      default: debug_message("CDAKMedication", function: "getProperty", property: property)
       }
-    } else if let obj = obj as? HDSOrderInformation {
+    } else if let obj = obj as? CDAKOrderInformation {
       switch property {
       case "order_date_time", "orderDateTime": return obj.order_date_time
       case "order_expiration_date_time", "orderExpirationDateTime": return obj.order_expiration_date_time
-      default: debug_message("HDSOrderInformation", function: "getProperty", property: property)
+      default: debug_message("CDAKOrderInformation", function: "getProperty", property: property)
       }
-    } else if let obj = obj as? HDSProcedure {
+    } else if let obj = obj as? CDAKProcedure {
       switch property {
       case "incision_time": return obj.incision_time
-      default: debug_message("HDSProcedure", function: "getProperty", property: property)
+      default: debug_message("CDAKProcedure", function: "getProperty", property: property)
       }
-    } else if let obj = obj as? HDSProviderPerformance {
+    } else if let obj = obj as? CDAKProviderPerformance {
       switch property {
       case "end_date": return obj.end_date
       case "start_date": return obj.start_date
-      default: debug_message("HDSProviderPerformance", function: "getProperty", property: property)
+      default: debug_message("CDAKProviderPerformance", function: "getProperty", property: property)
       }
-    } else if let obj = obj as? HDSFulfillmentHistory {
+    } else if let obj = obj as? CDAKFulfillmentHistory {
       switch property {
       case "dispense_date": return obj.dispense_date
-      default: debug_message("HDSFulfillmentHistory", function: "getProperty", property: property)
+      default: debug_message("CDAKFulfillmentHistory", function: "getProperty", property: property)
       }
-    } else if let obj = obj as? HDSRecord {
+    } else if let obj = obj as? CDAKRecord {
       switch property {
       case "birthdate": return obj.birthdate
       case "deathdate": return obj.deathdate
-      default: debug_message("HDSRecord", function: "getProperty", property: property)
+      default: debug_message("CDAKRecord", function: "getProperty", property: property)
       }
     }
     
@@ -279,7 +279,7 @@ class HDSUtility {
   
   class func setProperty(obj: Any?, property: String, value: Any?) {
     
-    if let obj = obj as? HDSEntry {
+    if let obj = obj as? CDAKEntry {
       switch property {
       case "item_description", "description": obj.item_description = stringValue(value)
       case "specifics": obj.specifics = stringValue(value)
@@ -294,12 +294,12 @@ class HDSUtility {
       case "id", "_id":  obj.id = stringValue(value)
       case "codes", "code": obj.codes = dictionaryStringArray(value)
       case "status_code", "problemStatus": obj.status_code = dictionaryStringArray(value)
-      case "patient_preference" : obj.patient_preference = createArrayOfEntries(HDSEntry.self, withValues: value)
-      case "references" : obj.references = createArrayOfEntries(HDSReference.self, withValues: value)
-      case "provider_preference" : obj.provider_preference = createArrayOfEntries(HDSEntry.self, withValues: value)
+      case "patient_preference" : obj.patient_preference = createArrayOfEntries(CDAKEntry.self, withValues: value)
+      case "references" : obj.references = createArrayOfEntries(CDAKReference.self, withValues: value)
+      case "provider_preference" : obj.provider_preference = createArrayOfEntries(CDAKEntry.self, withValues: value)
       case "comment":  obj.comment = stringValue(value)
         
-      case "reason": obj.reason = HDSReason(event: dictionaryAny(value))
+      case "reason": obj.reason = CDAKReason(event: dictionaryAny(value))
         
       case "values":
         if let values = value as? [Any] {
@@ -311,7 +311,7 @@ class HDSUtility {
               }
               var scalar: String?
               if let a_scalar = event["scalar"], another_scalar = stringValue(a_scalar) {
-                //I know, I know - we're cleaning up weirdness in HDS with "null"
+                //I know, I know - we're cleaning up weirdness in CDAK with "null"
                 scalar = another_scalar
               }
               obj.set_value(scalar, units: units)
@@ -319,11 +319,11 @@ class HDSUtility {
           }
         }
         
-      default: print("setProperty for HDSEntry failed to find '\(property)' ")
+      default: print("setProperty for CDAKEntry failed to find '\(property)' ")
       }
     }
     
-    if let obj = obj as? HDSEncounter {
+    if let obj = obj as? CDAKEncounter {
       switch property {
       case "admit_time", "admitTime": obj.admit_time = doubleValue(value)
       case "discharge_time", "dischargeTime": obj.discharge_time = doubleValue(value)
@@ -331,17 +331,17 @@ class HDSUtility {
         // look at "dischargeDisp"
       case "discharge_disposition", "dischargeDisposition", "dischargeDisp": obj.discharge_disposition = dictionaryStringArray(value)
       case "admit_type", "admitType": obj.admit_type = dictionaryStringArray(value)
-      case "facility": obj.facility = HDSFacility(event: dictionaryAny(value))
-      case "performer": obj.performer = HDSProvider(event: dictionaryAny(value))
-      default: debug_message("HDSEncounter", function: "setProperty", property: property)
+      case "facility": obj.facility = CDAKFacility(event: dictionaryAny(value))
+      case "performer": obj.performer = CDAKProvider(event: dictionaryAny(value))
+      default: debug_message("CDAKEncounter", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSAllergy {
+    } else if let obj = obj as? CDAKAllergy {
       switch property {
       case "reaction": obj.reaction = singleCodeFieldFlat(value)
       case "severity": obj.severity = singleCodeFieldFlat(value)
-      default: debug_message("HDSAllergy", function: "setProperty", property: property)
+      default: debug_message("CDAKAllergy", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSCondition {
+    } else if let obj = obj as? CDAKCondition {
       switch property {
       case "time_of_death": obj.time_of_death = doubleValue(value)
       case "severity": obj.severity = dictionaryStringArray(value)
@@ -361,42 +361,42 @@ class HDSUtility {
 
       case "severity": obj.severity = dictionaryStringArray(value)
 
-      case "treating_provider" : obj.treating_provider = createArrayOfEntries(HDSProvider.self, withValues: value)
+      case "treating_provider" : obj.treating_provider = createArrayOfEntries(CDAKProvider.self, withValues: value)
 
-      default: debug_message("HDSCondition", function: "setProperty", property: property)
+      default: debug_message("CDAKCondition", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSFacility {
+    } else if let obj = obj as? CDAKFacility {
       switch property {
       case "name": obj.name = stringValue(value)
       //case "codes", "code": obj.code = dictionaryStringArray(value)
-      case "addresses" : obj.addresses = createArrayOfEntries(HDSAddress.self, withValues: value)
-      case "telecoms" : obj.telecoms = createArrayOfEntries(HDSTelecom.self, withValues: value)
-      default: debug_message("HDSFacility", function: "setProperty", property: property)
+      case "addresses" : obj.addresses = createArrayOfEntries(CDAKAddress.self, withValues: value)
+      case "telecoms" : obj.telecoms = createArrayOfEntries(CDAKTelecom.self, withValues: value)
+      default: debug_message("CDAKFacility", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSFulfillmentHistory {
+    } else if let obj = obj as? CDAKFulfillmentHistory {
       switch property {
       case "dispense_date": obj.dispense_date = doubleValue(value)
-      default: debug_message("HDSFulfillmentHistory", function: "setProperty", property: property)
+      default: debug_message("CDAKFulfillmentHistory", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSFunctionalStatus {
+    } else if let obj = obj as? CDAKFunctionalStatus {
       switch property {
       case "type": obj.type = stringValue(value)
-      default: debug_message("HDSFunctionalStatus", function: "setProperty", property: property)
+      default: debug_message("CDAKFunctionalStatus", function: "setProperty", property: property)
       }
-      //shouldn't need this since we're now making HDSGuarantor an HDSEntry
-//    } else if let obj = obj as? HDSGuarantor {
+      //shouldn't need this since we're now making CDAKGuarantor an CDAKEntry
+//    } else if let obj = obj as? CDAKGuarantor {
 //      switch property {
 //      case "end_time": obj.end_time = intValue(value)
 //      case "start_time": obj.start_time = intValue(value)
 //      case "time": obj.time = intValue(value)
-//      default: debug_message("HDSGuarantor", function: "setProperty", property: property)
+//      default: debug_message("CDAKGuarantor", function: "setProperty", property: property)
 //      }
-    } else if let obj = obj as? HDSMedicalEquipment {
+    } else if let obj = obj as? CDAKMedicalEquipment {
       switch property {
       case "removal_time": obj.removal_time = doubleValue(value)
-      default: debug_message("HDSMedicalEquipment", function: "setProperty", property: property)
+      default: debug_message("CDAKMedicalEquipment", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSMedication {
+    } else if let obj = obj as? CDAKMedication {
       switch property {
       case "active_datetime": obj.active_datetime = doubleValue(value)
       case "signed_datetime": obj.signed_datetime = doubleValue(value)
@@ -404,38 +404,38 @@ class HDSUtility {
       
         
         
-      default: debug_message("HDSMedication", function: "setProperty", property: property)
+      default: debug_message("CDAKMedication", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSOrderInformation {
+    } else if let obj = obj as? CDAKOrderInformation {
       switch property {
       case "order_date_time", "orderDateTime": obj.order_date_time = doubleValue(value)
       case "order_expiration_date_time", "orderExpirationDateTime": obj.order_expiration_date_time = doubleValue(value)
-      default: debug_message("HDSOrderInformation", function: "setProperty", property: property)
+      default: debug_message("CDAKOrderInformation", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSProcedure {
+    } else if let obj = obj as? CDAKProcedure {
       switch property {
       case "incision_time": obj.incision_time = doubleValue(value)
-      default: debug_message("HDSProcedure", function: "setProperty", property: property)
+      default: debug_message("CDAKProcedure", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSProviderPerformance {
+    } else if let obj = obj as? CDAKProviderPerformance {
       switch property {
       case "end_date": obj.end_date = doubleValue(value)
       case "start_date": obj.start_date = doubleValue(value)
-      default: debug_message("HDSProviderPerformance", function: "setProperty", property: property)
+      default: debug_message("CDAKProviderPerformance", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSFulfillmentHistory {
+    } else if let obj = obj as? CDAKFulfillmentHistory {
       switch property {
       case "dispense_date": obj.dispense_date = doubleValue(value)
-      default: debug_message("HDSFulfillmentHistory", function: "setProperty", property: property)
+      default: debug_message("CDAKFulfillmentHistory", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSRecord {
+    } else if let obj = obj as? CDAKRecord {
       switch property {
         
       case "id", "_id" :
         if let a_value = stringValue(value) {
-          //remove Object("") wrapping we find in HDS samples - fall back on just loading the value
+          //remove Object("") wrapping we find in CDAK samples - fall back on just loading the value
           let quote_match = "([\"'])(?:(?=(\\\\?))\\2.)*?\\1"
-          obj._id = HDSCommonUtility.Regex.listMatches(quote_match, inString: a_value).first ?? a_value
+          obj._id = CDAKCommonUtility.Regex.listMatches(quote_match, inString: a_value).first ?? a_value
         }
         
       case "birthdate": obj.birthdate = doubleValue(value)
@@ -476,41 +476,41 @@ class HDSUtility {
         
       //case "custodian": obj.custodian = stringValue(value) //need to do QRDA extensions
         
-      case "encounters": obj.encounters = createArrayOfEntries(HDSEncounter.self, withValues: value)
-      case "addresses" : obj.addresses = createArrayOfEntries(HDSAddress.self, withValues: value)
-      case "telecoms" : obj.telecoms = createArrayOfEntries(HDSTelecom.self, withValues: value)
+      case "encounters": obj.encounters = createArrayOfEntries(CDAKEncounter.self, withValues: value)
+      case "addresses" : obj.addresses = createArrayOfEntries(CDAKAddress.self, withValues: value)
+      case "telecoms" : obj.telecoms = createArrayOfEntries(CDAKTelecom.self, withValues: value)
 
-      case "advance_directives" : obj.advance_directives = createArrayOfEntries(HDSEntry.self, withValues: value)
-      case "allergies" : obj.allergies = createArrayOfEntries(HDSAllergy.self, withValues: value)
+      case "advance_directives" : obj.advance_directives = createArrayOfEntries(CDAKEntry.self, withValues: value)
+      case "allergies" : obj.allergies = createArrayOfEntries(CDAKAllergy.self, withValues: value)
 
-      case "care_goals" : obj.care_goals = createArrayOfEntries(HDSCareGoal.self, withValues: value)
-      case "communications" : obj.communications = createArrayOfEntries(HDSCommunication.self, withValues: value)
-      case "conditions" : obj.conditions = createArrayOfEntries(HDSCondition.self, withValues: value)
-      case "family_history" : obj.family_history = createArrayOfEntries(HDSFamilyHistory.self, withValues: value)
-      case "functional_statuses" : obj.functional_statuses = createArrayOfEntries(HDSFunctionalStatus.self, withValues: value)
-      case "immunizations" : obj.immunizations = createArrayOfEntries(HDSImmunization.self, withValues: value)
-      case "insurance_providers" : obj.insurance_providers = createArrayOfEntries(HDSInsuranceProvider.self, withValues: value)
+      case "care_goals" : obj.care_goals = createArrayOfEntries(CDAKCareGoal.self, withValues: value)
+      case "communications" : obj.communications = createArrayOfEntries(CDAKCommunication.self, withValues: value)
+      case "conditions" : obj.conditions = createArrayOfEntries(CDAKCondition.self, withValues: value)
+      case "family_history" : obj.family_history = createArrayOfEntries(CDAKFamilyHistory.self, withValues: value)
+      case "functional_statuses" : obj.functional_statuses = createArrayOfEntries(CDAKFunctionalStatus.self, withValues: value)
+      case "immunizations" : obj.immunizations = createArrayOfEntries(CDAKImmunization.self, withValues: value)
+      case "insurance_providers" : obj.insurance_providers = createArrayOfEntries(CDAKInsuranceProvider.self, withValues: value)
         
 
-      case "medical_equipment" : obj.medical_equipment = createArrayOfEntries(HDSMedicalEquipment.self, withValues: value)
-      case "medications" : obj.medications = createArrayOfEntries(HDSMedication.self, withValues: value)
+      case "medical_equipment" : obj.medical_equipment = createArrayOfEntries(CDAKMedicalEquipment.self, withValues: value)
+      case "medications" : obj.medications = createArrayOfEntries(CDAKMedication.self, withValues: value)
 
 
-      case "procedures" : obj.procedures = createArrayOfEntries(HDSProcedure.self, withValues: value)
-      case "provider_performances" : obj.provider_performances = createArrayOfEntries(HDSProviderPerformance.self, withValues: value)
-      case "results" : obj.results = createArrayOfEntries(HDSLabResult.self, withValues: value)
-      case "social_history", "socialhistories", "social_histories" : obj.social_history = createArrayOfEntries(HDSSocialHistory.self, withValues: value)
-      case "vital_signs" : obj.vital_signs = createArrayOfEntries(HDSVitalSign.self, withValues: value)
+      case "procedures" : obj.procedures = createArrayOfEntries(CDAKProcedure.self, withValues: value)
+      case "provider_performances" : obj.provider_performances = createArrayOfEntries(CDAKProviderPerformance.self, withValues: value)
+      case "results" : obj.results = createArrayOfEntries(CDAKLabResult.self, withValues: value)
+      case "social_history", "socialhistories", "social_histories" : obj.social_history = createArrayOfEntries(CDAKSocialHistory.self, withValues: value)
+      case "vital_signs" : obj.vital_signs = createArrayOfEntries(CDAKVitalSign.self, withValues: value)
 
       //NOTE: not in base model - may be from QRDA?
-      case "pregnancies" : obj.pregnancies = createArrayOfEntries(HDSEntry.self, withValues: value)
+      case "pregnancies" : obj.pregnancies = createArrayOfEntries(CDAKEntry.self, withValues: value)
 
         //values
 
         
-      default: debug_message("HDSRecord", function: "setProperty", property: property)
+      default: debug_message("CDAKRecord", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSAddress {
+    } else if let obj = obj as? CDAKAddress {
       switch property {
       case "city": obj.city = stringValue(value)
       case "state": obj.state = stringValue(value)
@@ -528,16 +528,16 @@ class HDSUtility {
         }
         obj.street = street
         
-      default: debug_message("HDSAddress", function: "setProperty", property: property)
+      default: debug_message("CDAKAddress", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSTelecom {
+    } else if let obj = obj as? CDAKTelecom {
       switch property {
       case "use": obj.use = stringValue(value)
       case "value": obj.value = stringValue(value)
       case "preferred": obj.preferred = boolValue(value)
-      default: debug_message("HDSTelecom", function: "setProperty", property: property)
+      default: debug_message("CDAKTelecom", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSProvider {
+    } else if let obj = obj as? CDAKProvider {
       switch property {
       case "title": obj.title = stringValue(value)
       case "given_name": obj.given_name = stringValue(value)
@@ -545,37 +545,37 @@ class HDSUtility {
       case "specialty": obj.specialty = stringValue(value)
       case "phone": obj.phone = stringValue(value)
 
-      case "addresses" : obj.addresses = createArrayOfEntries(HDSAddress.self, withValues: value)
-      case "telecoms" : obj.telecoms = createArrayOfEntries(HDSTelecom.self, withValues: value)
-      case "organization" : obj.organization = HDSOrganization(event: dictionaryAny(value))
-      case "cda_identifiers" : obj.cda_identifiers = createArrayOfEntries(HDSCDAIdentifier.self, withValues: value)
-      default: debug_message("HDSProvider", function: "setProperty", property: property)
+      case "addresses" : obj.addresses = createArrayOfEntries(CDAKAddress.self, withValues: value)
+      case "telecoms" : obj.telecoms = createArrayOfEntries(CDAKTelecom.self, withValues: value)
+      case "organization" : obj.organization = CDAKOrganization(event: dictionaryAny(value))
+      case "cda_identifiers" : obj.cda_identifiers = createArrayOfEntries(CDAKCDAIdentifier.self, withValues: value)
+      default: debug_message("CDAKProvider", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSOrganization {
+    } else if let obj = obj as? CDAKOrganization {
       switch property {
       case "name": obj.name = stringValue(value)
-      case "addresses" : obj.addresses = createArrayOfEntries(HDSAddress.self, withValues: value)
-      case "telecoms" : obj.telecoms = createArrayOfEntries(HDSTelecom.self, withValues: value)
-      default: debug_message("HDSOrganization", function: "setProperty", property: property)
+      case "addresses" : obj.addresses = createArrayOfEntries(CDAKAddress.self, withValues: value)
+      case "telecoms" : obj.telecoms = createArrayOfEntries(CDAKTelecom.self, withValues: value)
+      default: debug_message("CDAKOrganization", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSCDAIdentifier {
+    } else if let obj = obj as? CDAKCDAIdentifier {
       switch property {
       case "root": obj.root = stringValue(value)
       case "extension_id": obj.extension_id = stringValue(value)
-      default: debug_message("HDSCDAIdentifier", function: "setProperty", property: property)
+      default: debug_message("CDAKCDAIdentifier", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSReason {
+    } else if let obj = obj as? CDAKReason {
       switch property {
       case "description": obj.item_description = stringValue(value)
       case "codes": obj.codes = dictionaryStringArray(value)
-      default: debug_message("HDSReason", function: "setProperty", property: property)
+      default: debug_message("CDAKReason", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? HDSInsuranceProvider {
+    } else if let obj = obj as? CDAKInsuranceProvider {
       switch property {
       case "name": obj.name = stringValue(value)
-      case "payer": obj.payer = HDSOrganization(event: dictionaryAny(value))
-      case "guarantors" : obj.guarantors = createArrayOfEntries(HDSGuarantor.self, withValues: value)
-      case "subscriber": obj.subscriber = HDSPerson(event: dictionaryAny(value))
+      case "payer": obj.payer = CDAKOrganization(event: dictionaryAny(value))
+      case "guarantors" : obj.guarantors = createArrayOfEntries(CDAKGuarantor.self, withValues: value)
+      case "subscriber": obj.subscriber = CDAKPerson(event: dictionaryAny(value))
       
       case "type": obj.type = stringValue(value)
       case "member_id": obj.member_id = stringValue(value)
@@ -584,7 +584,7 @@ class HDSUtility {
       //var relationship = [String:String]() //, type: Hash
       //var financial_responsibility_type = [String:String]() //, type: Hash
         
-      default: debug_message("HDSInsuranceProvider", function: "setProperty", property: property)
+      default: debug_message("CDAKInsuranceProvider", function: "setProperty", property: property)
       }
     }
 
@@ -594,7 +594,7 @@ class HDSUtility {
   //http://stackoverflow.com/questions/30897892/how-to-create-generic-convenience-initializer-in-swift
   //http://austinzheng.com/2015/09/29/swift-generics-pt-2/
   //T.Type
-  class func createArrayOfEntries<T: HDSJSONInstantiable>(type : T.Type, withValues value: Any?) -> [T] {
+  class func createArrayOfEntries<T: CDAKJSONInstantiable>(type : T.Type, withValues value: Any?) -> [T] {
     var result : [T] = []
     if let values = value as? [Any] {
       for value in values {

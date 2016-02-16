@@ -23,15 +23,15 @@ class CodeSystemHelperTest: XCTestCase {
   }
   
   func test_oid_lookup() {
-    XCTAssertEqual(HDSCodeSystemHelper.code_system_for("2.16.840.1.113883.6.88"), "RxNorm")
-    XCTAssertEqual(HDSCodeSystemHelper.code_system_for("2.16.840.1.113883.6.59"), "CVX")
-    XCTAssertEqual(HDSCodeSystemHelper.code_system_for("2.16.840.1.113883.12.292"), "CVX")
+    XCTAssertEqual(CDAKCodeSystemHelper.code_system_for("2.16.840.1.113883.6.88"), "RxNorm")
+    XCTAssertEqual(CDAKCodeSystemHelper.code_system_for("2.16.840.1.113883.6.59"), "CVX")
+    XCTAssertEqual(CDAKCodeSystemHelper.code_system_for("2.16.840.1.113883.12.292"), "CVX")
   }
   func test_name_lookup() {
-    XCTAssertEqual(HDSCodeSystemHelper.oid_for_code_system("RxNorm"), "2.16.840.1.113883.6.88")
-    XCTAssertEqual(HDSCodeSystemHelper.oid_for_code_system("CVX"), "2.16.840.1.113883.12.292")
-    XCTAssertEqual(HDSCodeSystemHelper.oid_for_code_system("NCI Thesaurus"), "2.16.840.1.113883.3.26.1.1")
-    XCTAssertEqual(HDSCodeSystemHelper.oid_for_code_system("FDA SPL"), "2.16.840.1.113883.3.26.1.1")
+    XCTAssertEqual(CDAKCodeSystemHelper.oid_for_code_system("RxNorm"), "2.16.840.1.113883.6.88")
+    XCTAssertEqual(CDAKCodeSystemHelper.oid_for_code_system("CVX"), "2.16.840.1.113883.12.292")
+    XCTAssertEqual(CDAKCodeSystemHelper.oid_for_code_system("NCI Thesaurus"), "2.16.840.1.113883.3.26.1.1")
+    XCTAssertEqual(CDAKCodeSystemHelper.oid_for_code_system("FDA SPL"), "2.16.840.1.113883.3.26.1.1")
   }
 
   

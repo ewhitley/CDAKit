@@ -9,19 +9,19 @@
 import Foundation
 import Fuzi
 
-class HDSImport_C32_InsuranceProviderImporter: HDSImport_CDA_SectionImporter {
-  override init(entry_finder: HDSImport_CDA_EntryFinder = HDSImport_CDA_EntryFinder(entry_xpath: "//cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.1.26']")) {
+class CDAKImport_C32_InsuranceProviderImporter: CDAKImport_CDA_SectionImporter {
+  override init(entry_finder: CDAKImport_CDA_EntryFinder = CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.1.26']")) {
     super.init(entry_finder: entry_finder)
     
-    check_for_usable = false //# needs to be this way becase HDSInsuranceProvider does not respond to usable?
+    check_for_usable = false //# needs to be this way becase CDAKInsuranceProvider does not respond to usable?
     
-    entry_class = HDSInsuranceProvider.self
+    entry_class = CDAKInsuranceProvider.self
     
   }
   
-  override func create_entry(payer_element: XMLElement, nrh: HDSImport_CDA_NarrativeReferenceHandler = HDSImport_CDA_NarrativeReferenceHandler()) -> HDSInsuranceProvider? {
+  override func create_entry(payer_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKInsuranceProvider? {
     
-    let ip = HDSInsuranceProvider()
+    let ip = CDAKInsuranceProvider()
     if let type = extract_code(payer_element, code_xpath: "./cda:code") {
       ip.type = type.code
     }
@@ -38,7 +38,7 @@ class HDSImport_C32_InsuranceProviderImporter: HDSImport_CDA_SectionImporter {
       extract_dates(member_info_element, entry: ip, element_name: "time")
       if let patient_element = member_info_element.xpath("./cda:participantRole[@classCode='PAT']").first {
         ip.member_id = patient_element.xpath("./cda:id").first?.stringValue //not sure this is right
-        ip.relationship = HDSCodedEntries(entries: extract_code(patient_element, code_xpath: "./cda:code"))
+        ip.relationship = CDAKCodedEntries(entries: extract_code(patient_element, code_xpath: "./cda:code"))
       }
     }
     
@@ -47,16 +47,16 @@ class HDSImport_C32_InsuranceProviderImporter: HDSImport_CDA_SectionImporter {
     }
 
     
-    ip.financial_responsibility_type = HDSCodedEntries(entries: extract_code(payer_element, code_xpath: "./cda:performer/cda:assignedEntity/cda:code"))
+    ip.financial_responsibility_type = CDAKCodedEntries(entries: extract_code(payer_element, code_xpath: "./cda:performer/cda:assignedEntity/cda:code"))
     
     return ip
     
   }
   
-  func extract_guarantors(guarantor_elements: XPathNodeSet) -> [HDSGuarantor] {
-    var guarantors: [HDSGuarantor] = []
+  func extract_guarantors(guarantor_elements: XPathNodeSet) -> [CDAKGuarantor] {
+    var guarantors: [CDAKGuarantor] = []
     for guarantor_element in guarantor_elements {
-      let guarantor = HDSGuarantor()
+      let guarantor = CDAKGuarantor()
       extract_dates(guarantor_element, entry: guarantor, element_name: "time")
       if let guarantor_entity = guarantor_element.xpath("./cda:assignedEntity").first {
         if let person_element = guarantor_entity.xpath("./cda:assignedPerson").first {

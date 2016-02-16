@@ -26,29 +26,29 @@ class HealthKitRecordTest: XCTestCase {
   
   func testHealthKitTermMap() {
     
-    //HDSHealthKitBridge.sharedInstance.loadHealthKitTermMap(withPlist: <#T##NSDictionary#>)
+    //CDAKHealthKitBridge.sharedInstance.loadHealthKitTermMap(withPlist: <#T##NSDictionary#>)
 
   }
 
   func testRoundTrip() {
-    let aRecord = HDSRecord()
+    let aRecord = CDAKRecord()
     aRecord.title = "Mr."
     aRecord.first = "Jimbo"
     aRecord.last = "Jones"
     
-    let anAllergy = HDSAllergy()
+    let anAllergy = CDAKAllergy()
     anAllergy.codes.addCodes("LOINC", codes: ["abc123"])
     
-    let aVital = HDSVitalSign()
+    let aVital = CDAKVitalSign()
     aVital.codes.addCodes("LOINC", codes: ["3141-9"]) //weight
-    aVital.values.append(HDSPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
+    aVital.values.append(CDAKPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
     aVital.start_time = NSDate().timeIntervalSince1970
     aVital.end_time = NSDate().timeIntervalSince1970
     
     //let xmlString = aRecord.export(inFormat: .ccda)
     //print(xmlString)
     
-    let hkRecord = HDSHKRecord(fromHDSRecord: aRecord)
+    let hkRecord = CDAKHKRecord(fromHDSRecord: aRecord)
     
     XCTAssertEqual(hkRecord.healthKitSamples.count, aRecord.vital_signs.count)
     
@@ -62,10 +62,10 @@ class HealthKitRecordTest: XCTestCase {
     
     //NOTE: for now you need to make sure you set the units before you import the record
     // the unit types, etc. are set on the way _in_
-    HDSHealthKitBridge.sharedInstance.HDSHKQuantityTypeDefaultUnits["HKQuantityTypeIdentifierHeight"] = "cm"
+    CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits["HKQuantityTypeIdentifierHeight"] = "cm"
     let aSecondRecord = hkRecord.exportAsHDSRecord()
-    //HDSHKQuantityTypeDefaultUnits
-    //HDSHealthKitBridge.sharedInstance.HDSHKQuantityTypeDefaultUnits)
+    //CDAKHKQuantityTypeDefaultUnits
+    //CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits)
     print(aSecondRecord.export(inFormat: .c32))
     
     XCTAssertEqual(hkRecord.healthKitSamples.count, aSecondRecord.vital_signs.count)
@@ -75,10 +75,10 @@ class HealthKitRecordTest: XCTestCase {
   func testBogusHKUnit() {
     
     let badUnitString = "bogusUnit"
-    let aBadUnit = HDSHealthKitBridge.sharedInstance.unitForCDAString(badUnitString)
+    let aBadUnit = CDAKHealthKitBridge.sharedInstance.unitForCDAString(badUnitString)
     
     let goodUnitString = "%"
-    let aGoodUnit = HDSHealthKitBridge.sharedInstance.unitForCDAString(badUnitString)
+    let aGoodUnit = CDAKHealthKitBridge.sharedInstance.unitForCDAString(badUnitString)
     
   }
   
@@ -93,8 +93,8 @@ class HealthKitRecordTest: XCTestCase {
   func testImportingFromCCD() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
     do {
-      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
-      let hkRecord = HDSHKRecord(fromHDSRecord: record)
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+      let hkRecord = CDAKHKRecord(fromHDSRecord: record)
       print(hkRecord.healthKitSamplesDescription)
       
       let hdsRecord = hkRecord.exportAsHDSRecord()
@@ -111,8 +111,8 @@ class HealthKitRecordTest: XCTestCase {
 
     
     do {
-      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
-      let hkRecord = HDSHKRecord(fromHDSRecord: record)
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+      let hkRecord = CDAKHKRecord(fromHDSRecord: record)
       print(hkRecord.healthKitSamplesDescription)
       
       let hdsRecord = hkRecord.exportAsHDSRecord()
@@ -130,10 +130,10 @@ class HealthKitRecordTest: XCTestCase {
   func testImportingFromCCD_4() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Rosa.ccda")
     do {
-      let record = try HDSImport_BulkRecordImporter.importRecord(doc)
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
       //print(record)
-      //  print(HDSHealthKitBridge.sharedInstance.HDSHKTypeConceptsImport["HKQuantityTypeIdentifierBodyMassIndex"])
-      let hkRecord = HDSHKRecord(fromHDSRecord: record)
+      //  print(CDAKHealthKitBridge.sharedInstance.CDAKHKTypeConceptsImport["HKQuantityTypeIdentifierBodyMassIndex"])
+      let hkRecord = CDAKHKRecord(fromHDSRecord: record)
       print(hkRecord.healthKitSamplesDescription)
       
       let hdsRecord = hkRecord.exportAsHDSRecord()
@@ -150,7 +150,7 @@ class HealthKitRecordTest: XCTestCase {
   
   func testCreatingHKRecord() {
     
-    let patient = HDSRecord()
+    let patient = CDAKRecord()
     patient.first = "Jimbo"
     patient.last = "Jones"
     patient.gender = "M"
@@ -158,15 +158,15 @@ class HealthKitRecordTest: XCTestCase {
     let dates: [Double] = [1390666620, 1453824900, 1453825020]
     
     for x in dates {
-      let hds_hrEntry = HDSVitalSign()
+      let hds_hrEntry = CDAKVitalSign()
       hds_hrEntry.start_time = x
       hds_hrEntry.end_time = x
-      hds_hrEntry.values.append(HDSPhysicalQuantityResultValue(scalar: 86, units: "count/min"))
+      hds_hrEntry.values.append(CDAKPhysicalQuantityResultValue(scalar: 86, units: "count/min"))
       hds_hrEntry.codes.addCodes("LOINC", codes: "8867-4")
       patient.vital_signs.append(hds_hrEntry)
     }
     
-    let hkRecord = HDSHKRecord(fromHDSRecord: patient)
+    let hkRecord = CDAKHKRecord(fromHDSRecord: patient)
     print(hkRecord)
     
     
@@ -176,8 +176,8 @@ class HealthKitRecordTest: XCTestCase {
     let hr_value: Double = 86
     let hr_unit = "count/min"
     
-    // we can construct an HDS representation of that value
-    let hds_hr = HDSPhysicalQuantityResultValue(scalar: 86, units: hr_unit)
+    // we can construct an CDAK representation of that value
+    let hds_hr = CDAKPhysicalQuantityResultValue(scalar: 86, units: hr_unit)
     
     // and we can build a HealthKit version
     let hk_hr: HKQuantity = HKQuantity(unit: HKUnit(fromString: hr_unit), doubleValue: hr_value)
@@ -188,34 +188,34 @@ class HealthKitRecordTest: XCTestCase {
     print(hds_hr)
     print(hk_hr)
     
-    //HDSHealthKitBridge.heartRate
+    //CDAKHealthKitBridge.heartRate
   }
 
   
   func testCreatingHKVital() {
-    let hds_hrEntry = HDSVitalSign()
+    let hds_hrEntry = CDAKVitalSign()
     hds_hrEntry.start_time = 1390666620
     hds_hrEntry.end_time = 1390666620
-    hds_hrEntry.values.append(HDSPhysicalQuantityResultValue(scalar: 86, units: "count/min"))
+    hds_hrEntry.values.append(CDAKPhysicalQuantityResultValue(scalar: 86, units: "count/min"))
     hds_hrEntry.codes.addCodes("LOINC", codes: "8867-4")
     
-    //let hk_hrEntry = HDSHealthKitBridge.heartRate(hds_hrEntry)
-    let hk_hrEntry = HDSHealthKitBridge.sharedInstance.sampleForEntry(hds_hrEntry, forSampleType: HDSHealthKitBridge.HDSHKQuantityIdentifiers.HKQuantityTypeIdentifierHeartRate)
+    //let hk_hrEntry = CDAKHealthKitBridge.heartRate(hds_hrEntry)
+    let hk_hrEntry = CDAKHealthKitBridge.sharedInstance.sampleForEntry(hds_hrEntry, forSampleType: CDAKHealthKitBridge.CDAKHKQuantityIdentifiers.HKQuantityTypeIdentifierHeartRate)
     print("hk_hrEntry is set to \(hk_hrEntry)")
     
-    //HDSHealthKitBridge.heartRate
+    //CDAKHealthKitBridge.heartRate
   }
 
   func testDefaults_HKSampleType_units() {
-    print(HDSHealthKitBridge.sharedInstance.HDSHKQuantityTypeDefaultUnits)
+    print(CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits)
   }
   
   func testDefaults_HKSampleType_types() {
-    print(HDSHealthKitBridge.sharedInstance.HDSHKQuantityTypeDefaultTypes)
+    print(CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultTypes)
   }
 
   func testDefaults_HKSampleType_descriptions() {
-    print(HDSHealthKitBridge.sharedInstance.HDSHKQuantityTypeDescriptions)
+    print(CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDescriptions)
   }
 
 
@@ -228,15 +228,15 @@ class HealthKitRecordTest: XCTestCase {
       return nil
     }
     
-    HDSHealthKitBridge.sharedInstance.cdaStringUnitFinder = cdaStringUnitFinder_nil
+    CDAKHealthKitBridge.sharedInstance.cdaStringUnitFinder = cdaStringUnitFinder_nil
     
-    let hds_hrEntry = HDSVitalSign()
+    let hds_hrEntry = CDAKVitalSign()
     hds_hrEntry.start_time = 1390666620
     hds_hrEntry.end_time = 1390666620
-    hds_hrEntry.values.append(HDSPhysicalQuantityResultValue(scalar: 86, units: "beats"))//count/min
+    hds_hrEntry.values.append(CDAKPhysicalQuantityResultValue(scalar: 86, units: "beats"))//count/min
     hds_hrEntry.codes.addCodes("LOINC", codes: "8867-4")
     
-    let hk_hrEntry_nil = HDSHealthKitBridge.sharedInstance.sampleForEntry(hds_hrEntry, forSampleType: HDSHealthKitBridge.HDSHKQuantityIdentifiers.HKQuantityTypeIdentifierHeartRate)
+    let hk_hrEntry_nil = CDAKHealthKitBridge.sharedInstance.sampleForEntry(hds_hrEntry, forSampleType: CDAKHealthKitBridge.CDAKHKQuantityIdentifiers.HKQuantityTypeIdentifierHeartRate)
 
     XCTAssertNil(hk_hrEntry_nil)
     
@@ -249,13 +249,13 @@ class HealthKitRecordTest: XCTestCase {
       
       return nil
     }
-    HDSHealthKitBridge.sharedInstance.cdaStringUnitFinder = cdaStringUnitFinder
+    CDAKHealthKitBridge.sharedInstance.cdaStringUnitFinder = cdaStringUnitFinder
 
-    let hk_hrEntry = HDSHealthKitBridge.sharedInstance.sampleForEntry(hds_hrEntry, forSampleType: HDSHealthKitBridge.HDSHKQuantityIdentifiers.HKQuantityTypeIdentifierHeartRate)
+    let hk_hrEntry = CDAKHealthKitBridge.sharedInstance.sampleForEntry(hds_hrEntry, forSampleType: CDAKHealthKitBridge.CDAKHKQuantityIdentifiers.HKQuantityTypeIdentifierHeartRate)
 
     XCTAssert(hk_hrEntry != nil)
     
-    HDSHealthKitBridge.sharedInstance.cdaStringUnitFinder = nil
+    CDAKHealthKitBridge.sharedInstance.cdaStringUnitFinder = nil
     
     
   }

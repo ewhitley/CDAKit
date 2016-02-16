@@ -15,7 +15,7 @@ import Foundation
 #
 # In the previously mentioned specifications, functional status may represented
 # using either a condition or result. Having "mixed" types of entries in a section
-# is currently not well supported in the existing HDSRecord class
+# is currently not well supported in the existing CDAKRecord class
 #
 # Additionally, there is a mismatch between the data needed to calculate Stage 2
 # Meaningful Use Quailty Measures and the data contained in patient summary
@@ -30,7 +30,7 @@ import Foundation
 # can be stored here, but it will be a lossy transformation.
 */
 
-public class HDSFunctionalStatus: HDSEntry {
+public class CDAKFunctionalStatus: CDAKEntry {
   
   //# Either "condition" or "result"
   public var type: String?

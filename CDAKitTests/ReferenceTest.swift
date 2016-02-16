@@ -1,5 +1,5 @@
 //
-//  HDSReferenceTest.swift
+//  CDAKReferenceTest.swift
 //  CDAKit
 //
 //  Created by Eric Whitley on 12/9/15.
@@ -10,7 +10,7 @@ import XCTest
 @testable import CDAKit
 
 
-class HDSReferenceTest: XCTestCase {
+class CDAKReferenceTest: XCTestCase {
     
   override func setUp() {
       super.setUp()
@@ -23,10 +23,10 @@ class HDSReferenceTest: XCTestCase {
   }
   
   func test_references() {
-    let r = HDSRecord()
+    let r = CDAKRecord()
     
-    let c1 = HDSCondition()
-    let c2 = HDSCondition()
+    let c1 = CDAKCondition()
+    let c2 = CDAKCondition()
 
     r.conditions.append(c1)
     r.conditions.append(c2)
@@ -40,7 +40,7 @@ class HDSReferenceTest: XCTestCase {
 //    let x = refs[0].resolve_reference()
 //    let y = ""
     
-    XCTAssertEqual(c2 as HDSEntry, refs[0].resolve_reference()!)
+    XCTAssertEqual(c2 as CDAKEntry, refs[0].resolve_reference()!)
     
   }
     

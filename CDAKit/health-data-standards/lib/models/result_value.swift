@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class HDSResultValue: NSObject, HDSThingWithTimes {
+public class CDAKResultValue: NSObject, CDAKThingWithTimes {
   //embedded_in :entry
   public var attributes: [String:String] = [String:String]()
   

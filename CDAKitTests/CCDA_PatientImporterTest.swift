@@ -31,7 +31,7 @@ class CCDA_PatientImporterTest: XCTestCase {
       doc = try XMLDocument(string: xmlString)
       doc.definePrefix("cda", defaultNamespace: "urn:hl7-org:v3")
       doc.definePrefix("sdtc", defaultNamespace: "urn:hl7-org:sdtc")
-      let pi = HDSImport_CCDA_PatientImporter()
+      let pi = CDAKImport_CCDA_PatientImporter()
       let patient = pi.parse_ccda(doc)
       
       print(patient)

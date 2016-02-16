@@ -10,13 +10,13 @@ import Foundation
 
 //# General helpers for working with codes and code system
 
-public class HDSCodeSystemHelper {
+public class CDAKCodeSystemHelper {
   
   static let CODE_SYSTEMS: [String:String] = [
     "2.16.840.1.113883.6.1" :    "LOINC",
     "2.16.840.1.113883.6.96" :   "SNOMED-CT",
     "2.16.840.1.113883.6.12" :   "CPT",
-    //"2.16.840.1.113883.3.88.12.80.32" : "CPT", //# HDSEncounter Type from C32, a subset of CPT
+    //"2.16.840.1.113883.3.88.12.80.32" : "CPT", //# CDAKEncounter Type from C32, a subset of CPT
     "2.16.840.1.113883.6.88" :   "RxNorm",
     "2.16.840.1.113883.6.103" :  "ICD-9-CM",
     "2.16.840.1.113883.6.104" :  "ICD-9-PCS",
@@ -72,7 +72,7 @@ public class HDSCodeSystemHelper {
     if let an_alias = OID_ALIASES[oid] {
       oid = an_alias
     }
-    if let a_value = HDS_EXTENDED_CODE_SYSTEMS[oid] {
+    if let a_value = CDAK_EXTENDED_CODE_SYSTEMS[oid] {
       return a_value
     }
     
@@ -88,7 +88,7 @@ public class HDSCodeSystemHelper {
     if let an_alias = CODE_SYSTEM_ALIASES[code_system] {
       code_system = an_alias
     }
-    let cs = HDS_EXTENDED_CODE_SYSTEMS.inverse()
+    let cs = CDAK_EXTENDED_CODE_SYSTEMS.inverse()
     if let sys = cs[code_system] {
       return sys
     }
@@ -101,17 +101,17 @@ public class HDSCodeSystemHelper {
   //# Returns the whole map of OIDs to code systems
   //# @terurn [Hash] oids as keys, code system names as values
   public class func code_systems() -> [String:String] {
-    return HDS_EXTENDED_CODE_SYSTEMS
+    return CDAK_EXTENDED_CODE_SYSTEMS
   }
   
   
   public class func addCodeSystem(code_system: String, oid: String? = "UNK") {
     if let oid = oid {
-      if let  _ = HDS_EXTENDED_CODE_SYSTEMS[oid] {
+      if let  _ = CDAK_EXTENDED_CODE_SYSTEMS[oid] {
       //we already have this code system
       return
       }
-      let cs = HDS_EXTENDED_CODE_SYSTEMS.inverse()
+      let cs = CDAK_EXTENDED_CODE_SYSTEMS.inverse()
       if let existing_oid = cs[code_system] {
         // do a reverse look-up for this code_system
         // we already have someting in the set - don't re-add the value for a different key
@@ -122,7 +122,7 @@ public class HDSCodeSystemHelper {
         return
       } else {
         // we don't have this code system, so add it - "Unknown" is OK
-        HDS_EXTENDED_CODE_SYSTEMS[oid] = code_system
+        CDAK_EXTENDED_CODE_SYSTEMS[oid] = code_system
       }
     }
   }

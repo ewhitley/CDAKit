@@ -8,35 +8,35 @@
 
 import Foundation
 
-public class HDSMedication: HDSEntry {
+public class CDAKMedication: CDAKEntry {
 //  var administration_timing = [String:AnyObject]()  // as: :administration_timing  // type: Hash
-  public var administration_timing: HDSMedicationAdministrationTiming = HDSMedicationAdministrationTiming()  // as: :administration_timing  // type: Hash
+  public var administration_timing: CDAKMedicationAdministrationTiming = CDAKMedicationAdministrationTiming()  // as: :administration_timing  // type: Hash
   public var free_text_sig: String?  // type: String
 //  var dose = [String:String]()  // type: Hash
-  public var dose = HDSValueAndUnit()
-  public var type_of_medication: HDSCodedEntries = HDSCodedEntries()  // as: :type_of_medication  // type: Hash
-  public var status_of_medication: HDSCodedEntries = HDSCodedEntries()  // as: :status_of_medication  // type: Hash
-  public var fulfillment_history = [HDSFulfillmentHistory]()  // class_name: 'HDSFulfillmentHistory'
-  public var order_information = [HDSOrderInformation]()  // class_name: 'HDSOrderInformation'
+  public var dose = CDAKValueAndUnit()
+  public var type_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :type_of_medication  // type: Hash
+  public var status_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :status_of_medication  // type: Hash
+  public var fulfillment_history = [CDAKFulfillmentHistory]()  // class_name: 'CDAKFulfillmentHistory'
+  public var order_information = [CDAKOrderInformation]()  // class_name: 'CDAKOrderInformation'
   
-  public var route: HDSCodedEntries = HDSCodedEntries()  // type: Hash
-  public var anatomical_approach: HDSCodedEntries = HDSCodedEntries()  // type: Hash
+  public var route: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  public var anatomical_approach: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
   
-  //go take a look at the CDA HDSMedication importer - it appears this is a hash of numerator / denominator entries that then have futher scalar value entries inside
+  //go take a look at the CDA CDAKMedication importer - it appears this is a hash of numerator / denominator entries that then have futher scalar value entries inside
   // not entirely clear what we'd really do with these except for far more complex inpatient examples
-  //var dose_restriction: [String:[String:String]] = [:] //HDSCodedEntries = HDSCodedEntries()  // as: :dose_restriction  // type: Hash
-  public var dose_restriction: HDSMedicationRestriction = HDSMedicationRestriction()
+  //var dose_restriction: [String:[String:String]] = [:] //CDAKCodedEntries = CDAKCodedEntries()  // as: :dose_restriction  // type: Hash
+  public var dose_restriction: CDAKMedicationRestriction = CDAKMedicationRestriction()
   
   public var fulfillment_instructions: String?  // as: :fulfillment_instructions  // type: String
-  public var indication: HDSCodedEntries = HDSCodedEntries()  // type: Hash
-  public var product_form: HDSCodedEntries = HDSCodedEntries()  // as: :product_form  // type: Hash
-  public var vehicle: HDSCodedEntries = HDSCodedEntries()  // type: Hash
-  public var reaction: HDSCodedEntries = HDSCodedEntries()  // type: Hash
-  public var delivery_method: HDSCodedEntries = HDSCodedEntries()  // as: :delivery_method  // type: Hash
+  public var indication: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  public var product_form: CDAKCodedEntries = CDAKCodedEntries()  // as: :product_form  // type: Hash
+  public var vehicle: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  public var reaction: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  public var delivery_method: CDAKCodedEntries = CDAKCodedEntries()  // as: :delivery_method  // type: Hash
   public var patient_instructions: String?  // as: :patient_instructions  // type: String
   public var dose_indicator: String?  // as: :dose_indicator  // type: String
   
-  public var method: HDSCodedEntries = HDSCodedEntries()   //   type: Hash
+  public var method: CDAKCodedEntries = CDAKCodedEntries()   //   type: Hash
   public var active_datetime: Double?   //  type: Integer
   public var signed_datetime: Double?   //  type: Integer
   
@@ -48,27 +48,27 @@ public class HDSMedication: HDSEntry {
   
 
   
-  public struct HDSMedicationRestriction {
-    var numerator: HDSValueAndUnit = HDSValueAndUnit()
-    var denominator: HDSValueAndUnit = HDSValueAndUnit()
+  public struct CDAKMedicationRestriction {
+    var numerator: CDAKValueAndUnit = CDAKValueAndUnit()
+    var denominator: CDAKValueAndUnit = CDAKValueAndUnit()
   }
   
-  public struct HDSMedicationAdministrationTiming {
+  public struct CDAKMedicationAdministrationTiming {
     var institution_specified: Bool = false
-    var period: HDSValueAndUnit = HDSValueAndUnit()
+    var period: CDAKValueAndUnit = CDAKValueAndUnit()
     //var period: Int? // only example I have shows this as an Int - probably need to check spec
   }
-//  struct HDSMedicationDose:  {
+//  struct CDAKMedicationDose:  {
 //    var value: Double?
 //    var unit: String?
 //  }
 
   
-//  var fulfillment_history: [HDSFulfillmentHistory] {
+//  var fulfillment_history: [CDAKFulfillmentHistory] {
 //    get { return fulfillmentHistory }
 //    set (value) { fulfillmentHistory = value }
 //  }
-//  var order_information: [HDSOrderInformation] {
+//  var order_information: [CDAKOrderInformation] {
 //    get { return orderInformation }
 //    set (value) { orderInformation = value }
 //  }

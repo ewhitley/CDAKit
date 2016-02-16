@@ -25,7 +25,7 @@ class CDAVitalSignImporterTest: XCTestCase {
   
   func test_vital_sign_importing() {
     
-    //let si = HDSImport_CDA_SectionImporter(entry_finder: HDSImport_CDA_EntryFinder(entry_xpath: "/cda:simple/cda:entry"))
+    //let si = CDAKImport_CDA_SectionImporter(entry_finder: CDAKImport_CDA_EntryFinder(entry_xpath: "/cda:simple/cda:entry"))
 
     let xmlString = TestHelpers.fileHelpers.load_xml_string_from_file("NISTExampleC32")
     var doc: XMLDocument!
@@ -33,7 +33,7 @@ class CDAVitalSignImporterTest: XCTestCase {
     do {
       doc = try XMLDocument(string: xmlString)
       doc.definePrefix("cda", defaultNamespace: "urn:hl7-org:v3")
-      let pi = HDSImport_C32_PatientImporter()
+      let pi = CDAKImport_C32_PatientImporter()
       let patient = pi.parse_c32(doc)
 //      print(patient)
       
@@ -41,8 +41,8 @@ class CDAVitalSignImporterTest: XCTestCase {
       print(vital_sign)
 
       XCTAssertEqual("N", vital_sign.interpretation.codes.first?.code)
-      XCTAssertEqual("177", (vital_sign.values.first as? HDSPhysicalQuantityResultValue)?.scalar)
-      XCTAssertEqual("cm", (vital_sign.values.first as? HDSPhysicalQuantityResultValue)?.units)
+      XCTAssertEqual("177", (vital_sign.values.first as? CDAKPhysicalQuantityResultValue)?.scalar)
+      XCTAssertEqual("cm", (vital_sign.values.first as? CDAKPhysicalQuantityResultValue)?.units)
       XCTAssertEqual("HITSP C80 Observation Status", vital_sign.interpretation.codes.first?.codeSystem)
       
     } catch {

@@ -10,12 +10,12 @@ import Foundation
 import Mustache
 
 
-public class HDSAllergy: HDSEntry {
-  public var type: HDSCodedEntries = HDSCodedEntries()
-  public var reaction: HDSCodedEntries = HDSCodedEntries() //flat code list
-  public var severity: HDSCodedEntries = HDSCodedEntries() //flat code list
+public class CDAKAllergy: CDAKEntry {
+  public var type: CDAKCodedEntries = CDAKCodedEntries()
+  public var reaction: CDAKCodedEntries = CDAKCodedEntries() //flat code list
+  public var severity: CDAKCodedEntries = CDAKCodedEntries() //flat code list
   
-  public init(type:HDSCodedEntries, reaction: HDSCodedEntries = HDSCodedEntries(), severity: HDSCodedEntries = HDSCodedEntries()) {
+  public init(type:CDAKCodedEntries, reaction: CDAKCodedEntries = CDAKCodedEntries(), severity: CDAKCodedEntries = CDAKCodedEntries()) {
     super.init()
     self.type = type
     self.reaction = reaction
@@ -32,7 +32,7 @@ public class HDSAllergy: HDSEntry {
   
 }
 
-extension HDSAllergy {
+extension CDAKAllergy {
   override var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
     

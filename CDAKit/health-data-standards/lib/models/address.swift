@@ -8,9 +8,9 @@
 
 import Foundation
 
-public class HDSAddress: NSObject, HDSJSONInstantiable {
+public class CDAKAddress: NSObject, CDAKJSONInstantiable {
   
-  var record: HDSRecord?
+  var record: CDAKRecord?
   
   public var street: [String] = [String]()
   public var city: String?
@@ -41,12 +41,12 @@ public class HDSAddress: NSObject, HDSJSONInstantiable {
   
   private func initFromEventList(event: [String:Any?]) {
     for (key, value) in event {
-      HDSUtility.setProperty(self, property: key, value: value)
+      CDAKUtility.setProperty(self, property: key, value: value)
     }
   }
 
   override public var description: String {
-    return "HDSAddress => street: \(street), city: \(city), state: \(state), zip: \(zip), country: \(country), use: \(use)"
+    return "CDAKAddress => street: \(street), city: \(city), state: \(state), zip: \(zip), country: \(country), use: \(use)"
   }
   
 }

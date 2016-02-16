@@ -8,9 +8,9 @@
 
 import Foundation
 
-class HDSImport_CCDA_MedicalEquipmentImporter: HDSImport_CDA_MedicalEquipmentImporter {
+class CDAKImport_CCDA_MedicalEquipmentImporter: CDAKImport_CDA_MedicalEquipmentImporter {
   
-  override init(entry_finder: HDSImport_CDA_EntryFinder = HDSImport_CDA_EntryFinder(entry_xpath: "//cda:section[cda:templateId/@root='2.16.840.1.113883.10.20.22.2.23']/cda:entry/cda:supply")) {
+  override init(entry_finder: CDAKImport_CDA_EntryFinder = CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:section[cda:templateId/@root='2.16.840.1.113883.10.20.22.2.23']/cda:entry/cda:supply")) {
     super.init(entry_finder: entry_finder)
     
   }

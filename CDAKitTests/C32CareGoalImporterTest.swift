@@ -31,7 +31,7 @@ class C32CareGoalImporterTest: XCTestCase {
     do {
       doc = try XMLDocument(string: xmlString)
       doc.definePrefix("cda", defaultNamespace: "urn:hl7-org:v3")
-      let pi = HDSImport_C32_PatientImporter()
+      let pi = CDAKImport_C32_PatientImporter()
       let patient = pi.parse_c32(doc)
       
       XCTAssertEqual(2, patient.care_goals.count)

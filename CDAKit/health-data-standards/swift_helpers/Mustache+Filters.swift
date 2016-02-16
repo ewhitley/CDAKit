@@ -76,7 +76,7 @@ class MustacheFilters {
     
     switch box.value {
     case let code_system as String:
-      let d = HDSCodeSystemHelper.oid_for_code_system(code_system)
+      let d = CDAKCodeSystemHelper.oid_for_code_system(code_system)
       return Box(d)
     default:
       return Box()
@@ -140,7 +140,7 @@ class MustacheFilters {
     let args = info.tag.innerTemplateString
     var opts: [String:Any] = [:]
     
-    opts = HDSUtility.convertStringToDictionary(args)
+    opts = CDAKUtility.convertStringToDictionary(args)
     //print("Got ops for ... \n \(opts) \n")
     
     var out = ""
@@ -158,12 +158,12 @@ class MustacheFilters {
       print("entryValues = \(entryValues)")
       //what KIND of entry are we? - we're going to cheat and abuse the "class_name" field we set up
       // for this we don't really seem to need it (great)
-      let entry = HDSEntry(event: entryValues)
+      let entry = CDAKEntry(event: entryValues)
       print("created an entry")
       out = ViewHelper.code_display(entry, options: opts)
     }
     
-//    if let entry = box.value as? HDSEntry {
+//    if let entry = box.value as? CDAKEntry {
 //      out = ViewHelper.code_display(entry, options: opts)
 //    } else {
 //      //print("couldn't cast entry")

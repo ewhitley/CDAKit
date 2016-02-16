@@ -31,12 +31,12 @@ class C32HDSConditionImporterTest: XCTestCase {
     do {
       doc = try XMLDocument(string: xmlString)
       doc.definePrefix("cda", defaultNamespace: "urn:hl7-org:v3")
-      let pi = HDSImport_C32_PatientImporter()
+      let pi = CDAKImport_C32_PatientImporter()
       let patient = pi.parse_c32(doc)
 
       let condition = patient.conditions[0]
       
-      XCTAssertEqual("HDSCondition", condition.type)
+      XCTAssertEqual("CDAKCondition", condition.type)
       XCTAssertEqual(false, condition.cause_of_death)
       XCTAssertEqual(condition.codes.containsCode("SNOMED-CT", withCode: "195967001"), true)
 

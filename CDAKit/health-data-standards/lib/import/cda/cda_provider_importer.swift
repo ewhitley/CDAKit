@@ -9,7 +9,7 @@
 import Foundation
 import Fuzi
 
-class HDSImport_CDA_ProviderImporter {
+class CDAKImport_CDA_ProviderImporter {
   
   
   //# Extract Healthcare Providers from C32
@@ -19,14 +19,14 @@ class HDSImport_CDA_ProviderImporter {
   //# @return [Array] an array of providers found in the document
 
   //MARK: FIXME - go back and re-read / test the original Ruby - this seems odd
-  class func extract_providers(doc: XMLDocument, patient:HDSPerson? = nil) -> [HDSProviderPerformance] {
+  class func extract_providers(doc: XMLDocument, patient:CDAKPerson? = nil) -> [CDAKProviderPerformance] {
     
     let performers = doc.xpath("//cda:documentationOf/cda:serviceEvent/cda:performer")
-    var performances: [HDSProviderPerformance] = []
+    var performances: [CDAKProviderPerformance] = []
     for performer in performers {
-      var provider_perf = HDSImport_CDA_ProviderImporter.extract_provider_data(performer, use_dates: true)
+      var provider_perf = CDAKImport_CDA_ProviderImporter.extract_provider_data(performer, use_dates: true)
       //this is for QRDA1 only, so I'm not sure we should go down this rabbit hole
-      let pp = HDSProviderPerformance()
+      let pp = CDAKProviderPerformance()
       if let start_date = provider_perf["start"] as? Double {
         pp.start_date = start_date
         provider_perf["start"] = nil
@@ -35,17 +35,17 @@ class HDSImport_CDA_ProviderImporter {
         pp.end_date = end_date
         provider_perf["end"] = nil
       }
-      pp.provider = HDSImport_ProviderImportUtils.find_or_create_provider(provider_perf, patient: patient)
+      pp.provider = CDAKImport_ProviderImportUtils.find_or_create_provider(provider_perf, patient: patient)
       performances.append(pp)
     }
 
     return performances
   }
   
-  //NOTE: this doesn't return a HDSProvider in the original Ruby HDS - it returns a hash of [String:Any]
+  //NOTE: this doesn't return a CDAKProvider in the original Ruby CDAK - it returns a hash of [String:Any]
   // I'm changing it
   //  we need to return start date, end date, and provider data
-  //  Instead... I'm going to return a whole new HDSProvider instead
+  //  Instead... I'm going to return a whole new CDAKProvider instead
   //  start, end, provider
   class func extract_provider_data(performer:XMLElement, use_dates:Bool = true, entity_path: String = "./cda:assignedEntity") -> [String:Any] {
     
@@ -53,12 +53,12 @@ class HDSImport_CDA_ProviderImporter {
 
     if let entity = performer.xpath(entity_path).first {
       
-      var cda_idents: [HDSCDAIdentifier] = []
+      var cda_idents: [CDAKCDAIdentifier] = []
       
       for cda_ident in entity.xpath("./cda:id") {
         if let ident_root = cda_ident["root"] {
           let ident_extension = cda_ident["extension"]
-          cda_idents.append(HDSCDAIdentifier(root: ident_root, extension_id: ident_extension))
+          cda_idents.append(CDAKCDAIdentifier(root: ident_root, extension_id: ident_extension))
         }
       }
       
@@ -67,10 +67,10 @@ class HDSImport_CDA_ProviderImporter {
         provider_data["given_name"]   = extract_data(name, query: "./cda:given[1]")
         provider_data["family_name"]  = extract_data(name, query: "./cda:family")
       }
-      provider_data["organization"] = HDSImport_CDA_OrganizationImporter.extract_organization(entity.xpath("./cda:representedOrganization").first)
+      provider_data["organization"] = CDAKImport_CDA_OrganizationImporter.extract_organization(entity.xpath("./cda:representedOrganization").first)
       provider_data["specialty"]    = extract_data(entity, query: "./cda:code/@code")
 
-      //MARK: FIXME - look at original HDS code - note how it's performer.xpath(performer...) - ?????
+      //MARK: FIXME - look at original CDAK code - note how it's performer.xpath(performer...) - ?????
       //let time                 = performer.xpath(performer, "./cda:time")
       if let time = performer.xpath("./cda:time").first {
         if use_dates == true {
@@ -81,10 +81,10 @@ class HDSImport_CDA_ProviderImporter {
       
       //# NIST sample C32s use different OID for NPI vs C83, support both
       let npi  = extract_data(entity, query: "./cda:id[@root='2.16.840.1.113883.4.6' or @root='2.16.840.1.113883.3.72.5.2']/@extension")
-      provider_data["addresses"] = performer.xpath("./cda:assignedEntity/cda:addr").map { ae in HDSImport_CDA_LocatableImportUtils.import_address(ae)}
-      provider_data["telecoms"] = performer.xpath("./cda:assignedEntity/cda:telecom").map { te in HDSImport_CDA_LocatableImportUtils.import_telecom(te)}
+      provider_data["addresses"] = performer.xpath("./cda:assignedEntity/cda:addr").map { ae in CDAKImport_CDA_LocatableImportUtils.import_address(ae)}
+      provider_data["telecoms"] = performer.xpath("./cda:assignedEntity/cda:telecom").map { te in CDAKImport_CDA_LocatableImportUtils.import_telecom(te)}
       
-      if HDSProvider.valid_npi(npi) {
+      if CDAKProvider.valid_npi(npi) {
         provider_data["npi"] = npi
       } else {
         print("Invalid NPI '\(npi)' found. Including NPI, but please validate.")

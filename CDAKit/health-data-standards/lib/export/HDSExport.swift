@@ -1,5 +1,5 @@
 //
-//  HDSExport.swift
+//  CDAKExport.swift
 //  CDAKit
 //
 //  Created by Eric Whitley on 2/4/16.
@@ -10,19 +10,19 @@ import Foundation
 import Mustache
 
 
-public class HDSExport {
+public class CDAKExport {
   
-  public enum HDSExportFormat: String {
+  public enum CDAKExportFormat: String {
     case ccda  = "ccda"
     case c32 = "c32"
   }
   
 
-  public class func export(patientRecord record: HDSRecord, inFormat format: HDSExportFormat) -> String {
+  public class func export(patientRecord record: CDAKRecord, inFormat format: CDAKExportFormat) -> String {
     
     var rendering = ""
     
-    let template_helper = HDSTemplateHelper(template_format: format.rawValue, template_subdir: format.rawValue, template_directory: nil)
+    let template_helper = CDAKTemplateHelper(template_format: format.rawValue, template_subdir: format.rawValue, template_directory: nil)
     let template = template_helper.template("show")
     
     let data = ["patient": record]

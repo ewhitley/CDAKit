@@ -8,12 +8,12 @@
 
 import Foundation
 
-public class HDSSupport: HDSEntry {
+public class CDAKSupport: CDAKEntry {
   
   public static let Types = ["Guardian", "Next of Kin", "Caregiver", "Emergency Contact"]
   
-  public var address: HDSAddress?
-  public var telecom: HDSTelecom?
+  public var address: CDAKAddress?
+  public var telecom: CDAKTelecom?
   
   public var title: String?
   public var given_name: String?

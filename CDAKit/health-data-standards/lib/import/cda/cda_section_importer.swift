@@ -20,33 +20,33 @@ struct CodePair {
   }
 }
 
-class HDSImport_CDA_SectionImporter {
+class CDAKImport_CDA_SectionImporter {
   
-  var entry_finder: HDSImport_CDA_EntryFinder
+  var entry_finder: CDAKImport_CDA_EntryFinder
   var code_xpath = "./cda:code"
   var id_xpath = "./cda:id"
   var status_xpath: String?
   var priority_xpath: String?
   var description_xpath = "./cda:code/cda:originalText/cda:reference[@value] | ./cda:text/cda:reference[@value]"
   var check_for_usable: Bool = false
-  var entry_class = HDSEntry.self
+  var entry_class = CDAKEntry.self
   var value_xpath: String? = "cda:value"
   
-  init(entry_finder: HDSImport_CDA_EntryFinder) {
+  init(entry_finder: CDAKImport_CDA_EntryFinder) {
     self.entry_finder = entry_finder
     check_for_usable = true
   }
   
 
-  //# Traverses an HL7 CDA document passed in and creates an Array of HDSEntry
+  //# Traverses an HL7 CDA document passed in and creates an Array of CDAKEntry
   //# objects based on what it finds
   //# @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
   //#        will have the "cda" namespace registered to "urn:hl7-org:v3"
   //#        measure definition
-  //# @return [Array] will be a list of HDSEntry objects
-  func create_entries(doc: XMLDocument, nrh: HDSImport_CDA_NarrativeReferenceHandler = HDSImport_CDA_NarrativeReferenceHandler()) -> [HDSEntry] {
+  //# @return [Array] will be a list of CDAKEntry objects
+  func create_entries(doc: XMLDocument, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> [CDAKEntry] {
 
-    var entry_list: [HDSEntry] = []
+    var entry_list: [CDAKEntry] = []
     let entry_elements = entry_finder.entries(doc)
     
     for entry_element in entry_elements {
@@ -65,7 +65,7 @@ class HDSImport_CDA_SectionImporter {
   }
 
   
-  func create_entry(entry_element: XMLElement, nrh: HDSImport_CDA_NarrativeReferenceHandler = HDSImport_CDA_NarrativeReferenceHandler()) -> HDSEntry? {
+  func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEntry? {
     
     let entry = entry_class.init()
     extract_id(entry_element, entry: entry)
@@ -87,7 +87,7 @@ class HDSImport_CDA_SectionImporter {
 
   
 
-  func extract_description(parent_element: XMLElement, entry: HDSEntry, nrh: HDSImport_CDA_NarrativeReferenceHandler) {
+  func extract_description(parent_element: XMLElement, entry: CDAKEntry, nrh: CDAKImport_CDA_NarrativeReferenceHandler) {
     let orig_text_ref_element = parent_element.xpath(description_xpath).first
     let desc_ref_element = parent_element.xpath("./cda:text/cda:reference").first
     if let orig_text_ref_element = orig_text_ref_element, val = orig_text_ref_element["value"] {
@@ -99,28 +99,28 @@ class HDSImport_CDA_SectionImporter {
     }
   }
 
-  func extract_status(parent_element: XMLElement, entry: HDSEntry) {
+  func extract_status(parent_element: XMLElement, entry: CDAKEntry) {
     if let status_xpath = status_xpath, status_element = parent_element.xpath(status_xpath).first {
       if let code_system_oid = status_element["codeSystem"], code = status_element["code"]{
         if let codeSystemName = status_element["codeSystemName"] {
-          HDSCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
+          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
         }
-        let codeSystem = HDSCodeSystemHelper.code_system_for(code_system_oid)
-        entry.status_code = HDSCodedEntries(entries: [codeSystem:[code]])
+        let codeSystem = CDAKCodeSystemHelper.code_system_for(code_system_oid)
+        entry.status_code = CDAKCodedEntries(entries: [codeSystem:[code]])
       }
     }
   }
 
-  func extract_id(parent_element: XMLElement, entry: HDSEntry) {
+  func extract_id(parent_element: XMLElement, entry: CDAKEntry) {
     if let id_element = parent_element.xpath(id_xpath).first {
-      let identifier = HDSCDAIdentifier()
+      let identifier = CDAKCDAIdentifier()
       identifier.root = id_element["root"]
       identifier.extension_id = id_element["extension"]
       entry.cda_identifier = identifier
     }
   }
 
-  func extract_reason_description(parent_element: XMLElement, entry: HDSEntry, nrh: HDSImport_CDA_NarrativeReferenceHandler) {
+  func extract_reason_description(parent_element: XMLElement, entry: CDAKEntry, nrh: CDAKImport_CDA_NarrativeReferenceHandler) {
     let code_elements = parent_element.xpath(description_xpath)
     for code_element in code_elements {
       if let tag = code_element["value"] {
@@ -129,7 +129,7 @@ class HDSImport_CDA_SectionImporter {
     }
   }
 
-  func extract_codes(parent_element: XMLElement, entry: HDSThingWithCodes) {
+  func extract_codes(parent_element: XMLElement, entry: CDAKThingWithCodes) {
     let code_elements = parent_element.xpath(code_xpath)
     for code_element in code_elements {
       add_code_if_present(code_element, entry: entry)
@@ -140,17 +140,17 @@ class HDSImport_CDA_SectionImporter {
     }
   }
 
-  func add_code_if_present(code_element: XMLElement, entry: HDSThingWithCodes) {
+  func add_code_if_present(code_element: XMLElement, entry: CDAKThingWithCodes) {
     if let code_system_oid = code_element["codeSystem"], code = code_element["code"] {
       let display_name = code_element["displayName"]
       if let codeSystemName = code_element["codeSystemName"] {
-        HDSCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
+        CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
       }
-      entry.add_code(code, code_system: HDSCodeSystemHelper.code_system_for(code_system_oid), code_system_oid: code_system_oid, display_name: display_name)
+      entry.add_code(code, code_system: CDAKCodeSystemHelper.code_system_for(code_system_oid), code_system_oid: code_system_oid, display_name: display_name)
     }
   }
 
-  func extract_dates(parent_element: XMLElement, entry: HDSThingWithTimes, element_name: String = "effectiveTime") {
+  func extract_dates(parent_element: XMLElement, entry: CDAKThingWithTimes, element_name: String = "effectiveTime") {
     if let elem = parent_element.xpath("cda:\(element_name)/@value").first {
       entry.time = HL7Helper.timestamp_to_integer(elem.stringValue)
     }
@@ -165,7 +165,7 @@ class HDSImport_CDA_SectionImporter {
     }
   }
 
-  func extract_values(parent_element: XMLElement, entry: HDSEntry) {
+  func extract_values(parent_element: XMLElement, entry: CDAKEntry) {
     if let value_xpath = value_xpath {
       for elem in parent_element.xpath(value_xpath) {
         extract_value(parent_element, value_element: elem, entry: entry)
@@ -175,7 +175,7 @@ class HDSImport_CDA_SectionImporter {
 
   //MARK: FIXME - I had to comment some of this out...
   // not the type I was expecting
-  func extract_value(parent_element: XMLElement, value_element: XMLElement?, entry: HDSEntry) {
+  func extract_value(parent_element: XMLElement, value_element: XMLElement?, entry: CDAKEntry) {
     if let value_element = value_element {
       if let value = value_element["value"] {
         let unit = value_element["unit"]
@@ -186,7 +186,7 @@ class HDSImport_CDA_SectionImporter {
         // that example blows up if you attempt to access time, start_time, or end_time
         // Ruby is using dynamic properties for times here - so we're side-stepping this 
         // by using the ThingWithTimes protocol
-        let crv = HDSCodedResultValue()
+        let crv = CDAKCodedResultValue()
         add_code_if_present(value_element, entry: crv)
         extract_dates(parent_element, entry: crv)
         entry.values.append(crv)
@@ -198,33 +198,33 @@ class HDSImport_CDA_SectionImporter {
     }
   }
 
-  func import_actor(actor_element: XMLElement) -> HDSProvider {
-    return HDSImport_ProviderImportUtils.extract_provider(actor_element)
+  func import_actor(actor_element: XMLElement) -> CDAKProvider {
+    return CDAKImport_ProviderImportUtils.extract_provider(actor_element)
   }
 
-  func import_organization(organization_element: XMLElement) -> HDSOrganization? {
-    return HDSImport_CDA_OrganizationImporter.extract_organization(organization_element)
+  func import_organization(organization_element: XMLElement) -> CDAKOrganization? {
+    return CDAKImport_CDA_OrganizationImporter.extract_organization(organization_element)
   }
 
   
-  func import_person(person_element: XMLElement?) -> HDSPerson? {
+  func import_person(person_element: XMLElement?) -> CDAKPerson? {
     
     guard let person_element = person_element else {
       return nil
     }
-    let person = HDSPerson()
+    let person = CDAKPerson()
     if let name_element = person_element.xpath("./cda:name").first {
       person.title = name_element.xpath("./cda:title").first?.stringValue
       person.given_name = name_element.xpath("./cda:given").first?.stringValue
       person.family_name = name_element.xpath("./cda:family").first?.stringValue
     }
-    person.addresses = person_element.xpath("./cda:addr").map { addr in HDSImport_CDA_LocatableImportUtils.import_address(addr) }
-    person.telecoms = person_element.xpath("./cda:telecom").map { tele in HDSImport_CDA_LocatableImportUtils.import_telecom(tele) }
+    person.addresses = person_element.xpath("./cda:addr").map { addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr) }
+    person.telecoms = person_element.xpath("./cda:telecom").map { tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele) }
     return person
   }
 
   //NOTE: does not appear to pull translations
-  func extract_negation(parent_element: XMLElement, entry: HDSEntry) {
+  func extract_negation(parent_element: XMLElement, entry: CDAKEntry) {
     if let negation_indicator = parent_element["negationInd"] {
       entry.negation_ind = negation_indicator.lowercaseString == "true"
       if entry.negation_ind == true {
@@ -232,12 +232,12 @@ class HDSImport_CDA_SectionImporter {
           //so apparently we're not pulling the translations, etc.?
           if let code_system_oid = negation_reason_element["codeSystem"], let code = negation_reason_element["code"] {
             if let codeSystemName = negation_reason_element["codeSystemName"] {
-              HDSCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
+              CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
             }
 
-            let code_system = HDSCodeSystemHelper.code_system_for(code_system_oid)
+            let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
             //entry.negation_reason = ["code" : code, "code_system" : code_system]
-            entry.negation_reason = HDSCodedEntries(entries: [code_system:[code]])
+            entry.negation_reason = CDAKCodedEntries(entries: [code_system:[code]])
           }
         }
       }
@@ -245,29 +245,29 @@ class HDSImport_CDA_SectionImporter {
   }
   
   //modified version - changing this to return a coded entry directly
-  func extract_code(parent_element: XMLElement, code_xpath: String, code_system: String? = nil) -> HDSCodedEntry? {
+  func extract_code(parent_element: XMLElement, code_xpath: String, code_system: String? = nil) -> CDAKCodedEntry? {
     let code_element = parent_element.xpath(code_xpath).first
-    var coded_entry: HDSCodedEntry?
+    var coded_entry: CDAKCodedEntry?
     
     if let code_element = code_element, code = code_element["code"] {
       let display_name = code_element["displayName"]
       if let code_system = code_system {
-        coded_entry = HDSCodedEntry(codeSystem: code_system, codes: code, displayName: display_name)
+        coded_entry = CDAKCodedEntry(codeSystem: code_system, codes: code, displayName: display_name)
       } else if let code_system_oid = code_element["codeSystem"] {
         //apparently in this case we get an OID instead of a codesystem name/key
         if let codeSystemName = code_element["codeSystemName"] {
-          HDSCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
+          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
         }
 
-        coded_entry = HDSCodedEntry(codeSystem: HDSCodeSystemHelper.code_system_for(code_system_oid), codes: code, codeSystemOid: code_system_oid, displayName: display_name)
+        coded_entry = CDAKCodedEntry(codeSystem: CDAKCodeSystemHelper.code_system_for(code_system_oid), codes: code, codeSystemOid: code_system_oid, displayName: display_name)
       }
     }
     
     return coded_entry
   }
   
-  //Revised - with fixed HDSValueAndUnit type
-  func extract_scalar(parent_element: XMLElement, scalar_xpath: String) -> HDSValueAndUnit? {
+  //Revised - with fixed CDAKValueAndUnit type
+  func extract_scalar(parent_element: XMLElement, scalar_xpath: String) -> CDAKValueAndUnit? {
     if let scalar_element = parent_element.xpath(scalar_xpath).first {
       //had to change htis from the original version a bit
       // we can have doseQuantity, for example, that only has a value and NOT a unit
@@ -275,7 +275,7 @@ class HDSImport_CDA_SectionImporter {
       let unit = scalar_element["unit"]
       let value = scalar_element["value"]
       if value != nil || unit != nil {
-        var scalar: HDSValueAndUnit = HDSValueAndUnit()
+        var scalar: CDAKValueAndUnit = CDAKValueAndUnit()
         if let unit = unit {
           scalar.unit = unit
         }

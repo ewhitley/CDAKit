@@ -9,37 +9,37 @@
 import Foundation
 import Fuzi
 
-//  class HDSProviderImportUtils {} //putting this here - it's NOT here in HDS - it's just its own module
+//  class CDAKProviderImportUtils {} //putting this here - it's NOT here in CDAK - it's just its own module
 
-class HDSImport_ProviderImportUtils {
+class CDAKImport_ProviderImportUtils {
   
-  class func extract_provider(performer: XMLElement, element_name:String = "assignedEntity") -> HDSProvider {
-    let provider_data = HDSImport_CDA_ProviderImporter.extract_provider_data(performer, use_dates: false, entity_path: "./cda:\(element_name)")
+  class func extract_provider(performer: XMLElement, element_name:String = "assignedEntity") -> CDAKProvider {
+    let provider_data = CDAKImport_CDA_ProviderImporter.extract_provider_data(performer, use_dates: false, entity_path: "./cda:\(element_name)")
     return find_or_create_provider(provider_data)
   }
 
   //
-  class func find_or_create_provider(provider_hash: [String:Any], patient: HDSPerson? = nil) -> HDSProvider {
+  class func find_or_create_provider(provider_hash: [String:Any], patient: CDAKPerson? = nil) -> CDAKProvider {
 
     //see if we can find our provider by NPI
     if let npi = provider_hash["npi"] as? String where npi != "" {
-      if let a_provider = HDSProvider.by_npi(npi) {
+      if let a_provider = CDAKProvider.by_npi(npi) {
         
         return a_provider
       }
     } else {
       //if we have cda identifiers
-      if let cda_identifiers = provider_hash["cda_identifiers"] as? [HDSCDAIdentifier] where cda_identifiers.count > 0 {
+      if let cda_identifiers = provider_hash["cda_identifiers"] as? [CDAKCDAIdentifier] where cda_identifiers.count > 0 {
         //try to find a Provider entry where the identifiers are common
-        if let a_provider = HDSProviders.filter({ p in p.cda_identifiers.filter({
+        if let a_provider = CDAKProviders.filter({ p in p.cda_identifiers.filter({
           id in cda_identifiers.contains(id)
         }).count > 0 }).first {
-          return a_provider //if we have one, return that HDSProvider
+          return a_provider //if we have one, return that CDAKProvider
         }
       }
       //no match found by cda identifier, so continue using other options
       //Swift is complaining that I have too many conditions in a single filter (timeout) so I'm splitting this up
-      if let a_provider = HDSProviders.filter({ p in
+      if let a_provider = CDAKProviders.filter({ p in
           p.title == provider_hash["title"] as? String
             && p.given_name == provider_hash["given_name"] as? String
             && p.family_name == provider_hash["family_name"] as? String
@@ -47,13 +47,13 @@ class HDSImport_ProviderImportUtils {
       }).filter({p in p.specialty == provider_hash["specialty"] as? String}).first {
         return a_provider
       }
-      if let a_provider = HDSProvider.resolve_provider(provider_hash) {
+      if let a_provider = CDAKProvider.resolve_provider(provider_hash) {
         return a_provider
       }
     }
   
     //we didn't find an existing provider, so create one now
-    let provider = HDSProvider()
+    let provider = CDAKProvider()
     provider.title = provider_hash["title"] as? String
     provider.given_name = provider_hash["given_name"] as? String
     provider.family_name = provider_hash["family_name"] as? String
@@ -71,10 +71,10 @@ class HDSImport_ProviderImportUtils {
     if let npi = provider_hash["npi"] {
       provider.npi = String(npi)
     }
-    if let cda_identifiers = provider_hash["cda_identifiers"] as? [HDSCDAIdentifier] {
-      var filteredValues: [HDSCDAIdentifier] = [HDSCDAIdentifier]()
+    if let cda_identifiers = provider_hash["cda_identifiers"] as? [CDAKCDAIdentifier] {
+      var filteredValues: [CDAKCDAIdentifier] = [CDAKCDAIdentifier]()
       for cda in cda_identifiers {
-        if cda.root == HDSProvider.NPI_OID || cda.root == HDSProvider.NPI_OID_C83 {
+        if cda.root == CDAKProvider.NPI_OID || cda.root == CDAKProvider.NPI_OID_C83 {
           //we're going to just do this the "bad" way and filter these out
           // since the NPI setter should hanlde these
         } else {
@@ -87,13 +87,13 @@ class HDSImport_ProviderImportUtils {
 
     
     
-    if let addresses = provider_hash["addresses"] as? [HDSAddress] {
+    if let addresses = provider_hash["addresses"] as? [CDAKAddress] {
       provider.addresses = addresses
     }
-    if let telecoms = provider_hash["telecoms"] as? [HDSTelecom] {
+    if let telecoms = provider_hash["telecoms"] as? [CDAKTelecom] {
       provider.telecoms = telecoms
     }
-    if let organization = provider_hash["organization"] as? HDSOrganization {
+    if let organization = provider_hash["organization"] as? CDAKOrganization {
       provider.organization = organization
     }
 

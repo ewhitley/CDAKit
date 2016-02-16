@@ -9,18 +9,18 @@
 import Foundation
 import Fuzi
 
-class HDSImport_CDA_ProcedureImporter: HDSImport_CDA_SectionImporter {
+class CDAKImport_CDA_ProcedureImporter: CDAKImport_CDA_SectionImporter {
   var ordinality_xpath = "./cda:priorityCode"
   
-  override init(entry_finder: HDSImport_CDA_EntryFinder = HDSImport_CDA_EntryFinder(entry_xpath: "//cda:section[cda:templateId/@root!='2.16.840.1.113883.3.88.11.83.124']//cda:procedure")) {
+  override init(entry_finder: CDAKImport_CDA_EntryFinder = CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:section[cda:templateId/@root!='2.16.840.1.113883.3.88.11.83.124']//cda:procedure")) {
     super.init(entry_finder: entry_finder)
     value_xpath = "./cda:value | ./cda:entryRelationship[@typeCode='REFR']/cda:observation/cda:value"
-    entry_class = HDSProcedure.self
+    entry_class = CDAKProcedure.self
   }
   
-  override func create_entry(entry_element: XMLElement, nrh: HDSImport_CDA_NarrativeReferenceHandler = HDSImport_CDA_NarrativeReferenceHandler()) -> HDSEntry? {
+  override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEntry? {
     
-    if let procedure = super.create_entry(entry_element, nrh: nrh) as? HDSProcedure {
+    if let procedure = super.create_entry(entry_element, nrh: nrh) as? CDAKProcedure {
 
       extract_ordinality(entry_element, procedure: procedure)
       extract_performer(entry_element, procedure: procedure)
@@ -36,7 +36,7 @@ class HDSImport_CDA_ProcedureImporter: HDSImport_CDA_SectionImporter {
   }
   
   
-  private func extract_ordinality(parent_element: XMLElement, procedure: HDSProcedure) {
+  private func extract_ordinality(parent_element: XMLElement, procedure: CDAKProcedure) {
     if let ordinality_element = parent_element.xpath(ordinality_xpath).first {
       /*
       Original Ruby
@@ -45,34 +45,34 @@ class HDSImport_CDA_ProcedureImporter: HDSImport_CDA_SectionImporter {
       
       {
         "code" => ordinality_element['code'], 
-        "code_system" => HDSCodeSystemHelper.code_system_for(ordinality_element['codeSystem']), 
-        "codeSystemName" => HDSCodeSystemHelper.code_system_for(ordinality_element['codeSystem']),
-        HDSCodeSystemHelper.code_system_for(ordinality_element['codeSystem']) => [ordinality_element['code']]
+        "code_system" => CDAKCodeSystemHelper.code_system_for(ordinality_element['codeSystem']), 
+        "codeSystemName" => CDAKCodeSystemHelper.code_system_for(ordinality_element['codeSystem']),
+        CDAKCodeSystemHelper.code_system_for(ordinality_element['codeSystem']) => [ordinality_element['code']]
       }
       */
       if let code = ordinality_element["code"], code_system_oid = ordinality_element["codeSystem"] {
         if let codeSystemName = ordinality_element["codeSystemName"] {
-          HDSCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
+          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
         }
-        let code_system = HDSCodeSystemHelper.code_system_for(code_system_oid)
-        let ce = HDSCodedEntries(entries: HDSCodedEntry(codeSystem: code_system, codes: code))
+        let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
+        let ce = CDAKCodedEntries(entries: CDAKCodedEntry(codeSystem: code_system, codes: code))
           procedure.ordinality = ce
       }
       
     }
   }
   
-  private func extract_performer(parent_element: XMLElement, procedure: HDSProcedure) {
+  private func extract_performer(parent_element: XMLElement, procedure: CDAKProcedure) {
     if let performer_element = parent_element.xpath("./cda:performer").first {
       procedure.performer = import_actor(performer_element)
     }
   }
 
-  private func extract_anatomical_target(parent_element: XMLElement, procedure: HDSProcedure) {
-    procedure.anatomical_target = HDSCodedEntries(entries: extract_code(parent_element, code_xpath: "./cda:targetSiteCode"))
+  private func extract_anatomical_target(parent_element: XMLElement, procedure: CDAKProcedure) {
+    procedure.anatomical_target = CDAKCodedEntries(entries: extract_code(parent_element, code_xpath: "./cda:targetSiteCode"))
   }
 
-  private func extract_scalar(parent_element: XMLElement, procedure: HDSProcedure) {
+  private func extract_scalar(parent_element: XMLElement, procedure: CDAKProcedure) {
     if let scalar_element = parent_element.xpath("./cda:value").first, scalar_type = scalar_element["xsi:type"] {
       switch scalar_type {
         case "PQ":
@@ -82,7 +82,7 @@ class HDSImport_CDA_ProcedureImporter: HDSImport_CDA_SectionImporter {
         case "ST":
           procedure.set_value(scalar_element.stringValue, units: nil)
       default:
-        print("HDSProcedure importer -> extract_scalar() unknown scalar element detected \(scalar_element["xsi:type"])")
+        print("CDAKProcedure importer -> extract_scalar() unknown scalar element detected \(scalar_element["xsi:type"])")
       }
     }
   }

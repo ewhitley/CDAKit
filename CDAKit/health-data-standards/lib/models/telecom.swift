@@ -9,9 +9,9 @@
 import Foundation
 import Mustache
 
-public class HDSTelecom: NSObject, HDSJSONInstantiable {
+public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
   
-  var record: HDSRecord?
+  var record: CDAKRecord?
 
   public var use: String?
   public var value: String?
@@ -37,18 +37,18 @@ public class HDSTelecom: NSObject, HDSJSONInstantiable {
   
   private func initFromEventList(event: [String:Any?]) {
     for (key, value) in event {
-      HDSUtility.setProperty(self, property: key, value: value)
+      CDAKUtility.setProperty(self, property: key, value: value)
     }
   }
 
   public override var description: String {
-    return "HDSTelecom => use: \(use), value: \(value), preferred: \(preferred)"
+    return "CDAKTelecom => use: \(use), value: \(value), preferred: \(preferred)"
   }
 
   
 }
 
-extension HDSTelecom {
+extension CDAKTelecom {
   override public var mustacheBox: MustacheBox {
     return Box([
       "use": use,

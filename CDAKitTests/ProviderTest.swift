@@ -1,5 +1,5 @@
 //
-//  HDSProviderTest.swift
+//  CDAKProviderTest.swift
 //  CDAKit
 //
 //  Created by Eric Whitley on 12/10/15.
@@ -10,7 +10,7 @@ import XCTest
 @testable import CDAKit
 
 
-class HDSProviderTest: XCTestCase {
+class CDAKProviderTest: XCTestCase {
     
   override func setUp() {
       super.setUp()
@@ -23,17 +23,17 @@ class HDSProviderTest: XCTestCase {
   }
   
   func test_valid_npi_value() {
-    XCTAssertEqual("3", HDSProvider.luhn_checksum("7992739871"))
-    XCTAssert(HDSProvider.valid_npi("1234567893"))
-    XCTAssert(HDSProvider.valid_npi("808401234567893"))
-    XCTAssertEqual(false, HDSProvider.valid_npi("1"))
-    XCTAssertEqual(false, HDSProvider.valid_npi("1010101010"))
-    XCTAssertEqual(false, HDSProvider.valid_npi("abcdefghij"))
+    XCTAssertEqual("3", CDAKProvider.luhn_checksum("7992739871"))
+    XCTAssert(CDAKProvider.valid_npi("1234567893"))
+    XCTAssert(CDAKProvider.valid_npi("808401234567893"))
+    XCTAssertEqual(false, CDAKProvider.valid_npi("1"))
+    XCTAssertEqual(false, CDAKProvider.valid_npi("1010101010"))
+    XCTAssertEqual(false, CDAKProvider.valid_npi("abcdefghij"))
   }
 
   func test_npi_assignment() {
     //# A provider should only have a single NPI
-    let p = HDSProvider()
+    let p = CDAKProvider()
     p.npi = "1234567893"
     XCTAssertEqual(1, p.cda_identifiers.count)
 //    assert_equal 1, p.cda_identifiers.length

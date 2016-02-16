@@ -8,13 +8,13 @@
 
 import Foundation
 
-public class HDSMedicalEquipment: HDSEntry {
+public class CDAKMedicalEquipment: CDAKEntry {
   
   public var manufacturer: String?
-  public var anatomical_structure: HDSCodedEntries = HDSCodedEntries() //, as: :anatomical_structure, type: Hash
+  public var anatomical_structure: CDAKCodedEntries = CDAKCodedEntries() //, as: :anatomical_structure, type: Hash
   public var removal_time: Double? //, as: :removal_time, type: Integer
-  public var anatomical_approach: HDSCodedEntries = HDSCodedEntries()
-  public var reaction: HDSCodedEntries = HDSCodedEntries()
+  public var anatomical_approach: CDAKCodedEntries = CDAKCodedEntries()
+  public var reaction: CDAKCodedEntries = CDAKCodedEntries()
   
 //  var removal_time : Double? {
 //    get { return removalTime }

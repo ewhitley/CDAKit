@@ -1,5 +1,5 @@
 //
-//  HDSHealthKitBridge.swift
+//  CDAKHealthKitBridge.swift
 //  CDAKit
 //
 //  Created by Eric Whitley on 1/26/16.
@@ -33,9 +33,9 @@ import HealthKit
 import Try
 
 
-public class HDSHealthKitBridge {
+public class CDAKHealthKitBridge {
   
-  public static let sharedInstance = HDSHealthKitBridge()
+  public static let sharedInstance = CDAKHealthKitBridge()
   
   private init() {
     loadDefaultHealthKitTermMap()
@@ -45,18 +45,18 @@ public class HDSHealthKitBridge {
   let kUnknownString = "Unknown"
 
   //https://developer.apple.com/library/watchos/documentation/HealthKit/Reference/HealthKit_Constants/index.html#//apple_ref/doc/constant_group/Results_Identifiers
-  var HDSHKTypeConceptsImport: [String:HDSCodedEntries] = [:]
-  var HDSHKTypeConceptsExport: [String:HDSCodedEntries] = [:]
+  var CDAKHKTypeConceptsImport: [String:CDAKCodedEntries] = [:]
+  var CDAKHKTypeConceptsExport: [String:CDAKCodedEntries] = [:]
   
   // placeholder for non-localized descriptions
-  public var HDSHKQuantityTypeDescriptions: [String:String] = [:]
+  public var CDAKHKQuantityTypeDescriptions: [String:String] = [:]
   // placeholder for preferredUnitsForQuantityTypes from user's HealthKitStore
   // https://developer.apple.com/library/prerelease/ios/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:
-  public var HDSHKQuantityTypeDefaultUnits: [String:String] = [:]
-  public var HDSHKQuantityTypeDefaultTypes: [String:String] = [:]
+  public var CDAKHKQuantityTypeDefaultUnits: [String:String] = [:]
+  public var CDAKHKQuantityTypeDefaultTypes: [String:String] = [:]
 
   
-  public enum HDSHKQuantityIdentifiers: String {
+  public enum CDAKHKQuantityIdentifiers: String {
     
     //  enum BodyMeasurements : String {
     case HKQuantityTypeIdentifierBodyMassIndex
@@ -167,7 +167,7 @@ public class HDSHealthKitBridge {
   }
 
   
-  func getDatesForResult(entry: HDSEntry, value: HDSResultValue) -> (start_date: NSDate?, end_date: NSDate?) {
+  func getDatesForResult(entry: CDAKEntry, value: CDAKResultValue) -> (start_date: NSDate?, end_date: NSDate?) {
     
     var start_date: NSDate?
     var end_date: NSDate?
@@ -185,17 +185,17 @@ public class HDSHealthKitBridge {
     
   }
 
-  func sampleForEntry(entry: HDSEntry, forSampleType sampleType: HDSHKQuantityIdentifiers) -> HKQuantitySample? {
+  func sampleForEntry(entry: CDAKEntry, forSampleType sampleType: CDAKHKQuantityIdentifiers) -> HKQuantitySample? {
     return sampleForEntryValue(entry, allowedCodeList:
-      HDSHealthKitBridge.sharedInstance.HDSHKTypeConceptsImport[sampleType.rawValue], quantityTypeIdentifier: sampleType.rawValue)
+      CDAKHealthKitBridge.sharedInstance.CDAKHKTypeConceptsImport[sampleType.rawValue], quantityTypeIdentifier: sampleType.rawValue)
   }
 
-  func sampleForEntryValue(entry: HDSEntry, allowedCodeList: HDSCodedEntries?, quantityTypeIdentifier: String) -> HKQuantitySample? {
+  func sampleForEntryValue(entry: CDAKEntry, allowedCodeList: CDAKCodedEntries?, quantityTypeIdentifier: String) -> HKQuantitySample? {
     if let allowedCodeList = allowedCodeList {
       for (codeSystem, codes) in allowedCodeList {
         if let matching_codes = entry.codes.findIntersectingCodes(forCodeSystem: codeSystem, matchingCodes: codes.codes) where matching_codes.count > 0 {
           //we have a matching code reference, so let's go ahead and try to return this entry
-          if let r_val = entry.values.first as? HDSPhysicalQuantityResultValue {
+          if let r_val = entry.values.first as? CDAKPhysicalQuantityResultValue {
             let times = getDatesForResult(entry, value: r_val)
             if let scalar = r_val.scalar, hr = Double(scalar), start_date = times.start_date, end_date = times.end_date, unit = unitForCDAString(r_val.units, forQuantityTypeIdentifier: quantityTypeIdentifier) {
               if let qtyType = HKQuantityType.quantityTypeForIdentifier(quantityTypeIdentifier) {
@@ -264,7 +264,7 @@ public class HDSHealthKitBridge {
       // remove things that have (s) in them like - milliLiter(s)
       let unit_match_string = "([\\[,\\]])|(\\(s\\))"
 
-      if let unit_string = unit_string, var a_unit_string = HDSCommonUtility.Regex.replaceMatches(unit_match_string, inString: unit_string, withString: "") {
+      if let unit_string = unit_string, var a_unit_string = CDAKCommonUtility.Regex.replaceMatches(unit_match_string, inString: unit_string, withString: "") {
         //need some sort of more general reference / replacement thing here
         //we need to find other alternative identifiers to units and
         // format them to something HK recognizes
@@ -318,7 +318,7 @@ public class HDSHealthKitBridge {
   
   
   
-  //we're going to use this to set HDSHKQuantityTypeDefaultUnits based on user setting if we're allowed to
+  //we're going to use this to set CDAKHKQuantityTypeDefaultUnits based on user setting if we're allowed to
   public func setHDSUnitTypesWithUserSettings(store: HKHealthStore) {
     //https://developer.apple.com/library/watchos/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:
     //really nice example implementation at: http://ambracode.com/index/show/1610009
@@ -328,12 +328,12 @@ public class HDSHealthKitBridge {
       store.preferredUnitsForQuantityTypes(Set([sampleType])) { (preferredUnits: [HKQuantityType : HKUnit], error: NSError?) -> Void in
         if error == nil {
           if let unit: HKUnit = preferredUnits[sampleType] {
-            self.HDSHKQuantityTypeDefaultUnits[sampleType.identifier] = unit.unitString
+            self.CDAKHKQuantityTypeDefaultUnits[sampleType.identifier] = unit.unitString
           }
         } else {
           switch error!.code {
           case 5:
-            print("Access to sample \(sampleType.identifier) denied - using default unit \(self.HDSHKQuantityTypeDefaultUnits[sampleType.identifier])")
+            print("Access to sample \(sampleType.identifier) denied - using default unit \(self.CDAKHKQuantityTypeDefaultUnits[sampleType.identifier])")
           default:
             print("Error accessing user sample types. \(error?.localizedDescription)")
           }
@@ -344,7 +344,7 @@ public class HDSHealthKitBridge {
   }
   
   public func setPreferedUnitForSampleType(preferredUnitString unit: String, forHKQuantityTypeIdentifier type: String) {
-    HDSHKQuantityTypeDefaultUnits[type] = unit
+    CDAKHKQuantityTypeDefaultUnits[type] = unit
   }
   
   
@@ -391,7 +391,7 @@ public class HDSHealthKitBridge {
   
   
   private func getPlistFromBundle(plistNamed name: String) -> NSDictionary? {
-    if let filePath = HDSCommonUtility.bundle.pathForResource(name, ofType: "plist"), plistData = NSDictionary(contentsOfFile:filePath) {
+    if let filePath = CDAKCommonUtility.bundle.pathForResource(name, ofType: "plist"), plistData = NSDictionary(contentsOfFile:filePath) {
       return plistData
     }
     return nil
@@ -410,13 +410,13 @@ public class HDSHealthKitBridge {
       if let identifierKey = identifierKey as? String, entryData = entryData as? NSDictionary {
         if supportedHKQuantityTypeIdentifiers.contains(identifierKey) {
           if let unit = entryData["unit"] as? String {
-            HDSHKQuantityTypeDefaultUnits[identifierKey] = unit
+            CDAKHKQuantityTypeDefaultUnits[identifierKey] = unit
           }
           if let displayName = entryData["displayName"] as? String {
-            HDSHKQuantityTypeDescriptions[identifierKey] = displayName
+            CDAKHKQuantityTypeDescriptions[identifierKey] = displayName
           }
           if let type = entryData["type"] as? String {
-            HDSHKQuantityTypeDefaultTypes[identifierKey] = type
+            CDAKHKQuantityTypeDefaultTypes[identifierKey] = type
           }
         } else {
           print("Was not able to import metadata for sample type '\(identifierKey)'. Please check quantity info plist file for entry. ")
@@ -438,8 +438,8 @@ public class HDSHealthKitBridge {
     for (identifierKey, entryData) in plist {
       //"identifierKey" will be something like  "HKQuantityTypeIdentifierBloodGlucose"
       if let identifierKey = identifierKey as? String, entryData = entryData as? NSDictionary {
-        HDSHKTypeConceptsImport[identifierKey] = restoreHDSCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["import", "both"])
-        HDSHKTypeConceptsExport[identifierKey] = restoreHDSCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["export", "both"])
+        CDAKHKTypeConceptsImport[identifierKey] = restoreHDSCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["import", "both"])
+        CDAKHKTypeConceptsExport[identifierKey] = restoreHDSCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["export", "both"])
       }
     }
   }
@@ -448,15 +448,15 @@ public class HDSHealthKitBridge {
   //  public func exportHealthKitTermMap() -> NSDictionary {
   //    let terms = NSMutableDictionary()
   //
-  //    //[String:HDSCodedEntries]
+  //    //[String:CDAKCodedEntries]
   //
   //    //sample type (HKQuantityTypeIdentifierLeanBodyMass) is the first key
-  //    // then HDSCodedEntries (VOCAB : [term info])
+  //    // then CDAKCodedEntries (VOCAB : [term info])
   //    //    term info:
   //    //        code: String -> 12345
   //    //        displayName: String -> "my awesome term"
   //    //        mapRestriction: String -> import, export, both
-  //    for (identifierKey, concepts) in HDSHKTypeConceptsImport {
+  //    for (identifierKey, concepts) in CDAKHKTypeConceptsImport {
   //      let mapRestriction = "import"
   //      //does the sample type already exist?
   //      if let existing_concepts = terms.objectForKey(identifierKey) as? NSMutableDictionary {
@@ -470,8 +470,8 @@ public class HDSHealthKitBridge {
   //  }
   
   //forMapDirection - >
-  private func restoreHDSCodedEntriesFromPList(usingPlist dictEntry: NSDictionary, forMapDirection direction: [String]) -> HDSCodedEntries {
-    var codedEntries = HDSCodedEntries()
+  private func restoreHDSCodedEntriesFromPList(usingPlist dictEntry: NSDictionary, forMapDirection direction: [String]) -> CDAKCodedEntries {
+    var codedEntries = CDAKCodedEntries()
     
     for (vocabulary, codes) in dictEntry {
       if let vocabulary = vocabulary as? String, codes = codes as? [NSDictionary] {
@@ -483,7 +483,7 @@ public class HDSHealthKitBridge {
               if let a_displayName = a_code["displayName"] as? String {
                 displayName = a_displayName
               }
-              codedEntries.addCodes(vocabulary, codes: code, codeSystemOid: HDSCodeSystemHelper.oid_for_code_system(vocabulary), displayName: displayName)
+              codedEntries.addCodes(vocabulary, codes: code, codeSystemOid: CDAKCodeSystemHelper.oid_for_code_system(vocabulary), displayName: displayName)
             }
           }
         }
@@ -503,7 +503,7 @@ public class HDSHealthKitBridge {
 //example of writing to health store
 //http://stackoverflow.com/questions/27268665/ios-healthkit-how-to-save-heart-rate-bpm-values-swift
 
-public class HDSHKRecord: CustomStringConvertible {
+public class CDAKHKRecord: CustomStringConvertible {
   
   public var title: String?
   public var first: String?
@@ -517,13 +517,13 @@ public class HDSHKRecord: CustomStringConvertible {
   public var healthKitSamples: [HKQuantitySample] = []
 
   
-  public func exportAsHDSRecord() -> HDSRecord {
+  public func exportAsHDSRecord() -> CDAKRecord {
     
-    let aRecord = HDSRecord()
+    let aRecord = CDAKRecord()
     aRecord.title = title
     aRecord.first = first
     aRecord.last = last
-    aRecord.gender = HDSHealthKitBridge.sharedInstance.administrativeGender(gender).code
+    aRecord.gender = CDAKHealthKitBridge.sharedInstance.administrativeGender(gender).code
     if let bDate = birthdate {
       aRecord.birthdate = bDate.timeIntervalSince1970
     }
@@ -534,17 +534,17 @@ public class HDSHKRecord: CustomStringConvertible {
     
     for sample in healthKitSamples {
       
-      //we want to figure out what HDS type this is and how / where to store it
+      //we want to figure out what CDAK type this is and how / where to store it
       // for now, that's really just vitals and lab results
 
-      if let type = HDSHealthKitBridge.sharedInstance.HDSHKQuantityTypeDefaultTypes[sample.sampleType.identifier] {
+      if let type = CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultTypes[sample.sampleType.identifier] {
         switch type {
           case "vital":
-          let entry = HDSVitalSign()
+          let entry = CDAKVitalSign()
           setHDSDataFromSample(sample, forEntry: entry)
           aRecord.vital_signs.append(entry)
         case "result":
-          let entry = HDSLabResult()
+          let entry = CDAKLabResult()
           setHDSDataFromSample(sample, forEntry: entry)
           aRecord.results.append(entry)
         default:
@@ -557,28 +557,28 @@ public class HDSHKRecord: CustomStringConvertible {
     
   }
   
-  private func setHDSDataFromSample(sample: HKQuantitySample, forEntry entry: HDSEntry) {
+  private func setHDSDataFromSample(sample: HKQuantitySample, forEntry entry: CDAKEntry) {
     entry.start_time = sample.startDate.timeIntervalSince1970
     entry.end_time = sample.endDate.timeIntervalSince1970
-    if let codes = HDSHealthKitBridge.sharedInstance.HDSHKTypeConceptsExport[sample.sampleType.identifier] {
+    if let codes = CDAKHealthKitBridge.sharedInstance.CDAKHKTypeConceptsExport[sample.sampleType.identifier] {
       entry.codes = codes
     }
     if let aValue = getHDSValueFromSample(sample) {
       entry.values.append(aValue)
-      entry.item_description = HDSHealthKitBridge.sharedInstance.HDSHKQuantityTypeDescriptions[sample.sampleType.identifier]
+      entry.item_description = CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDescriptions[sample.sampleType.identifier]
     }
   }
   
-  private func getHDSValueFromSample(sample: HKQuantitySample) -> HDSPhysicalQuantityResultValue? {
+  private func getHDSValueFromSample(sample: HKQuantitySample) -> CDAKPhysicalQuantityResultValue? {
     
     let sampleType = sample.sampleType.identifier
     
-    if let unitString = HDSHealthKitBridge.sharedInstance.HDSHKQuantityTypeDefaultUnits[sampleType] {
+    if let unitString = CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits[sampleType] {
       
       let defaultUnit = HKUnit(fromString: unitString)
       
       if sample.quantity.isCompatibleWithUnit(defaultUnit) {
-        return HDSPhysicalQuantityResultValue(scalar: sample.quantity.doubleValueForUnit(defaultUnit), units: defaultUnit.unitString)
+        return CDAKPhysicalQuantityResultValue(scalar: sample.quantity.doubleValueForUnit(defaultUnit), units: defaultUnit.unitString)
       } else {
         print("exportAsHDSRecord() - Cannot sample values for sample of type '\(HKQuantityTypeIdentifierBodyMassIndex)' using unit type '\(defaultUnit)'")
       }
@@ -588,26 +588,26 @@ public class HDSHKRecord: CustomStringConvertible {
     return nil
   }
   
-  public init(fromHDSRecord patient: HDSRecord) {
+  public init(fromHDSRecord patient: CDAKRecord) {
     
     
     first = patient.first
     last = patient.last
     title = patient.title
-    gender = HDSHealthKitBridge.sharedInstance.administrativeGender(patient.gender)
+    gender = CDAKHealthKitBridge.sharedInstance.administrativeGender(patient.gender)
     
-    for sampleType in HDSHealthKitBridge.HDSHKQuantityIdentifiers.allValues {
-      healthKitSamples.appendContentsOf( patient.vital_signs.flatMap( { HDSHealthKitBridge.sharedInstance.sampleForEntry($0, forSampleType: sampleType)} ) )
-      healthKitSamples.appendContentsOf( patient.results.flatMap( { HDSHealthKitBridge.sharedInstance.sampleForEntry($0, forSampleType: sampleType)} ) )
-      healthKitSamples.appendContentsOf( patient.procedures.flatMap( { HDSHealthKitBridge.sharedInstance.sampleForEntry($0, forSampleType: sampleType)} ) )
+    for sampleType in CDAKHealthKitBridge.CDAKHKQuantityIdentifiers.allValues {
+      healthKitSamples.appendContentsOf( patient.vital_signs.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, forSampleType: sampleType)} ) )
+      healthKitSamples.appendContentsOf( patient.results.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, forSampleType: sampleType)} ) )
+      healthKitSamples.appendContentsOf( patient.procedures.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, forSampleType: sampleType)} ) )
     }
     
     
     if let birthdate = patient.birthdate {
-      self.birthdate = HDSHealthKitBridge.sharedInstance.dateFromEvent(birthdate)
+      self.birthdate = CDAKHealthKitBridge.sharedInstance.dateFromEvent(birthdate)
     }
     if let deathdate = patient.deathdate {
-      self.deathdate = HDSHealthKitBridge.sharedInstance.dateFromEvent(deathdate)
+      self.deathdate = CDAKHealthKitBridge.sharedInstance.dateFromEvent(deathdate)
     }
     
   }
@@ -617,7 +617,7 @@ public class HDSHKRecord: CustomStringConvertible {
   }
   
   public var description: String {
-    return "HDSHKRecord => title: \(title), first: \(first), last: \(last), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), healthKitSamples: \(healthKitSamplesDescription) "
+    return "CDAKHKRecord => title: \(title), first: \(first), last: \(last), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), healthKitSamples: \(healthKitSamplesDescription) "
   }
   
 }

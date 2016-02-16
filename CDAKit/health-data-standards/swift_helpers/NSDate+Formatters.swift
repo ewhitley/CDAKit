@@ -49,7 +49,7 @@ extension NSDate {
     //we're abusing the possible formats here
     // if we have "December 31, 2009" we're OK for date formatter
     // if we have "December 31st, 2009" then we have to rip out st, nd, rd, th day suffixes
-    if let d = hdsDateformatter.dateFromString(HDSCommonUtility.Regex.replaceMatches("(\\d)(st|nd|rd|th)(,)", inString: hdsFormattedString, withString: "$1$3")!)
+    if let d = hdsDateformatter.dateFromString(CDAKCommonUtility.Regex.replaceMatches("(\\d)(st|nd|rd|th)(,)", inString: hdsFormattedString, withString: "$1$3")!)
     {
       return NSDate(timeInterval:0,sinceDate:d)
     }

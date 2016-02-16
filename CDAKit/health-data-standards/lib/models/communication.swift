@@ -8,6 +8,6 @@
 
 import Foundation
 
-public class HDSCommunication: HDSEntry {
+public class CDAKCommunication: CDAKEntry {
   public var direction: String?
 }

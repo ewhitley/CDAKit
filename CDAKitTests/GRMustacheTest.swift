@@ -317,7 +317,7 @@ class GRMustacheTest: XCTestCase {
       var out = ""
       print("box = \(box)")
 
-      if let entry = box.value as? HDSEntry {
+      if let entry = box.value as? CDAKEntry {
         out = ViewHelper.code_display(entry, options: opts)
       } else {
         print("couldn't cast entry")
@@ -333,7 +333,7 @@ class GRMustacheTest: XCTestCase {
 
       template.registerInBaseContext("code_display", Box(code_display))
       
-      let entry = HDSEntry()
+      let entry = CDAKEntry()
       entry.time = 1270598400
       entry.add_code("314443004", code_system: "SNOMED-CT")
       
@@ -352,7 +352,7 @@ class GRMustacheTest: XCTestCase {
   func testDictionaryEachTemplate() {
     do {
 
-      let entry = HDSEntry()
+      let entry = CDAKEntry()
       entry.time = 1270598400
       entry.add_code("314443004", code_system: "SNOMED-CT")
       entry.add_code("123345344", code_system: "SNOMED-CT")
@@ -384,7 +384,7 @@ class GRMustacheTest: XCTestCase {
       //triple mustache tags to disable escaping
       let template = try Template(string: "code_display = {{{code_display}}}")
       
-      let entry = HDSEntry()
+      let entry = CDAKEntry()
       entry.time = 1270598400
       entry.add_code("314443004", code_system: "SNOMED-CT")
       
@@ -411,9 +411,9 @@ class GRMustacheTest: XCTestCase {
   }
   
 
-  var bigTestRecord: HDSRecord {
+  var bigTestRecord: CDAKRecord {
     
-    let entry = HDSEntry()
+    let entry = CDAKEntry()
     entry.time = 1270598400
     entry.add_code("314443004", code_system: "SNOMED-CT")
     entry.add_code("123345344", code_system: "SNOMED-CT")
@@ -421,29 +421,29 @@ class GRMustacheTest: XCTestCase {
     entry.add_code("ABCSDFDFS", code_system: "LOINC")
     
     let testRecord = TestRecord()
-    let record: HDSRecord = testRecord.bigger_record()
+    let record: CDAKRecord = testRecord.bigger_record()
     record.first = "Steven"
     record.last = "Smith"
     record.gender = "female"
     
-    record.telecoms.append(HDSTelecom(use: "Home", value: "(123)456-7890"))
-    record.telecoms.append(HDSTelecom(use: "Work", value: "(987)654-3210"))
+    record.telecoms.append(CDAKTelecom(use: "Home", value: "(123)456-7890"))
+    record.telecoms.append(CDAKTelecom(use: "Work", value: "(987)654-3210"))
     
-    record.addresses.append(HDSAddress(street: ["123 My Street","Unit xyz"], city: "Chicago", state: "IL", zip: "12345", country: "USA", use: "Home"))
-    record.addresses.append(HDSAddress(street: ["One Derful Way"], city: "Kadavu", state: "IL", zip: "99999", country: "Fiji", use: "Vacation"))
+    record.addresses.append(CDAKAddress(street: ["123 My Street","Unit xyz"], city: "Chicago", state: "IL", zip: "12345", country: "USA", use: "Home"))
+    record.addresses.append(CDAKAddress(street: ["One Derful Way"], city: "Kadavu", state: "IL", zip: "99999", country: "Fiji", use: "Vacation"))
     
-    record.allergies.append(HDSAllergy(event: ["time": 1270598400, "codes":["SNOMED-CT":["xyz", "abc"]], "description": "my first allergy" ]))
-    record.allergies.append(HDSAllergy(event: ["time": 1270597400, "codes":["LOINC":["987"]], "description": "my second allergy", "specifics": "specific2" ]))
-    record.allergies.append(HDSAllergy(event: ["time": 1270597400, "codes":["RxNorm":["987"]], "description": "my third allergy", "specifics": "specific3" ]))
+    record.allergies.append(CDAKAllergy(event: ["time": 1270598400, "codes":["SNOMED-CT":["xyz", "abc"]], "description": "my first allergy" ]))
+    record.allergies.append(CDAKAllergy(event: ["time": 1270597400, "codes":["LOINC":["987"]], "description": "my second allergy", "specifics": "specific2" ]))
+    record.allergies.append(CDAKAllergy(event: ["time": 1270597400, "codes":["RxNorm":["987"]], "description": "my third allergy", "specifics": "specific3" ]))
     
-    let lr = HDSLabResult(event: ["time": 1270598400, "codes":["LOINC":["xyz", "abc"]], "description": "my first lab result" ])
+    let lr = CDAKLabResult(event: ["time": 1270598400, "codes":["LOINC":["xyz", "abc"]], "description": "my first lab result" ])
     // in case you want to test the other result value template info
     //      lr.values.append(PhysicalQuantityResultValue(scalar: nil, units: "imanilvalue"))
     //      lr.values.append(PhysicalQuantityResultValue(scalar: "left", units: "imastring"))
     //      lr.values.append(PhysicalQuantityResultValue(scalar: true, units: "imabool"))
-    lr.values.append(HDSPhysicalQuantityResultValue(scalar: 6, units: "inches"))
-    lr.values.append(HDSPhysicalQuantityResultValue(scalar: 12.2, units: "liters"))
-    lr.values.append(HDSPhysicalQuantityResultValue(scalar: -3.333, units: "hectares"))
+    lr.values.append(CDAKPhysicalQuantityResultValue(scalar: 6, units: "inches"))
+    lr.values.append(CDAKPhysicalQuantityResultValue(scalar: 12.2, units: "liters"))
+    lr.values.append(CDAKPhysicalQuantityResultValue(scalar: -3.333, units: "hectares"))
     record.results.append(lr)
 
     return record
@@ -510,7 +510,7 @@ class GRMustacheTest: XCTestCase {
   
   func testWithTemplateGenerator() {
     
-    let template_helper = HDSTemplateHelper(template_format: "c32", template_subdir: "c32", template_directory: nil)
+    let template_helper = CDAKTemplateHelper(template_format: "c32", template_subdir: "c32", template_directory: nil)
     let template = template_helper.template("show")
 
     let data = ["patient": bigTestRecord]
@@ -594,12 +594,12 @@ class GRMustacheTest: XCTestCase {
         
         var otherJson: [String:Any?] = [:]
         otherJson = transformAnyObjectDict(json)
-        let test_record = HDSRecord(event: otherJson)
+        let test_record = CDAKRecord(event: otherJson)
 //        print(test_record)
         
         
         
-        let template_helper = HDSTemplateHelper(template_format: format, template_subdir: format, template_directory: nil)
+        let template_helper = CDAKTemplateHelper(template_format: format, template_subdir: format, template_directory: nil)
         let template = template_helper.template("show")
         
         let data = ["patient": test_record]

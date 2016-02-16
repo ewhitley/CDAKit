@@ -9,7 +9,7 @@
 import Foundation
 import Mustache
 
-public class HDSCareGoal: HDSEntry {
+public class CDAKCareGoal: CDAKEntry {
 
   var relatedTo: [String:String] = [String:String]()
   var targetOutcome: [String:String] = [String:String]()
@@ -35,7 +35,7 @@ public class HDSCareGoal: HDSEntry {
   
 }
 
-extension HDSCareGoal {
+extension CDAKCareGoal {
   override var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
     

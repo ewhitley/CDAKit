@@ -39,7 +39,7 @@ class DateShiftTest: XCTestCase {
     let values = ENTRY_VALUES // dict is a struct, so it's a copy
     
     for vals in values {
-      let entry = HDSEntry(event: vals)
+      let entry = CDAKEntry(event: vals)
       entry.shift_dates(date_shift)
       entry_shift_assertions(vals, shift: date_shift, entry: entry)
     }
@@ -56,7 +56,7 @@ class DateShiftTest: XCTestCase {
       for con_val in con_values {
         var e_vals = vals
         e_vals.merge(con_val)
-        let entry = HDSCondition(event: e_vals)
+        let entry = CDAKCondition(event: e_vals)
         entry.shift_dates(date_shift)
         entry_shift_assertions(vals, shift: date_shift, entry: entry)
       }
@@ -84,8 +84,8 @@ class DateShiftTest: XCTestCase {
         for fac_vals in facility_values {
           var e_vals = vals
           e_vals.merge(enc_vals)
-          let entry = HDSEncounter(event: e_vals)
-          entry.facility = HDSFacility(event: fac_vals)
+          let entry = CDAKEncounter(event: e_vals)
+          entry.facility = CDAKFacility(event: fac_vals)
           entry.shift_dates(date_shift)
           let block: ()->() = {
             self.entry_shift_assertions(fac_vals, shift: date_shift, entry: entry.facility!)
@@ -108,7 +108,7 @@ class DateShiftTest: XCTestCase {
     ]
 
     for fac_vals in facility_values {
-      let facility = HDSFacility(event: fac_vals)
+      let facility = CDAKFacility(event: fac_vals)
       facility.shift_dates(date_shift)
       entry_shift_assertions(fac_vals, shift: date_shift, entry: facility)
     }
@@ -123,7 +123,7 @@ class DateShiftTest: XCTestCase {
     ]
     
     for vals in full_values {
-      let fullfillment = HDSFulfillmentHistory(event: vals)
+      let fullfillment = CDAKFulfillmentHistory(event: vals)
       fullfillment.shift_dates(date_shift)
       entry_shift_assertions(vals, shift: date_shift, entry: fullfillment)
     }
@@ -141,7 +141,7 @@ class DateShiftTest: XCTestCase {
     ]
     
     for vals in values {
-      let entry = HDSGuarantor(event: vals)
+      let entry = CDAKGuarantor(event: vals)
       entry.shift_dates(date_shift)
       entry_shift_assertions(vals, shift: date_shift, entry: entry)
     }
@@ -158,9 +158,9 @@ class DateShiftTest: XCTestCase {
     ]
     
     for vals in values {
-      let entry = HDSInsuranceProvider(event: vals)
+      let entry = CDAKInsuranceProvider(event: vals)
       let g_vals: [String:Any?] = ["start_time": nil, "end_time": 1]
-      let g = HDSGuarantor(event: g_vals)
+      let g = CDAKGuarantor(event: g_vals)
       entry.guarantors.append(g)
       
       entry.shift_dates(date_shift)
@@ -185,7 +185,7 @@ class DateShiftTest: XCTestCase {
       for con_val in con_values {
         var e_vals = vals
         e_vals.merge(con_val)
-        let entry = HDSMedicalEquipment(event: e_vals)
+        let entry = CDAKMedicalEquipment(event: e_vals)
         entry.shift_dates(date_shift)
         entry_shift_assertions(vals, shift: date_shift, entry: entry)
       }
@@ -201,9 +201,9 @@ class DateShiftTest: XCTestCase {
     let order_inf: [String:Any?] = ["orderDateTime":nil, "orderExpirationDateTime": 10]
     
     for vals in values {
-      let entry = HDSMedication(event: vals)
-      entry.fulfillment_history.append(HDSFulfillmentHistory(event: ful_hist))
-      entry.order_information.append(HDSOrderInformation(event: order_inf))
+      let entry = CDAKMedication(event: vals)
+      entry.fulfillment_history.append(CDAKFulfillmentHistory(event: ful_hist))
+      entry.order_information.append(CDAKOrderInformation(event: order_inf))
       entry.shift_dates(date_shift)
       
       let block: ()->() = {
@@ -226,7 +226,7 @@ class DateShiftTest: XCTestCase {
     ]
     
     for vals in values {
-      let entry = HDSOrderInformation(event: vals)
+      let entry = CDAKOrderInformation(event: vals)
       entry.shift_dates(date_shift)
       entry_shift_assertions(vals, shift: date_shift, entry: entry)
     }
@@ -241,7 +241,7 @@ class DateShiftTest: XCTestCase {
       for pro_val in pro_values {
         var e_vals = vals
         e_vals.merge(pro_val)
-        let entry = HDSProcedure(event: e_vals)
+        let entry = CDAKProcedure(event: e_vals)
         entry.shift_dates(date_shift)
         entry_shift_assertions(vals, shift: date_shift, entry: entry)
       }
@@ -259,7 +259,7 @@ class DateShiftTest: XCTestCase {
     ]
     
     for vals in values {
-      let entry = HDSProviderPerformance(event: vals)
+      let entry = CDAKProviderPerformance(event: vals)
       entry.shift_dates(date_shift)
       entry_shift_assertions(vals, shift: date_shift, entry: entry)
     }
@@ -276,7 +276,7 @@ class DateShiftTest: XCTestCase {
     ]
     
     for vals in values {
-      let entry = HDSRecord(event: vals)
+      let entry = CDAKRecord(event: vals)
       entry.shift_dates(date_shift)
       entry_shift_assertions(vals, shift: date_shift, entry: entry)
     }
@@ -284,7 +284,7 @@ class DateShiftTest: XCTestCase {
 
   //helper method for other tests
   //field_values appear to be things like ["start_time":1] or ["start_time":nil]
-  func entry_shift_assertions(field_values:[String:Any?], shift: Double, entry: HDSPropertyAddressable, block: (()->())? = nil ) {
+  func entry_shift_assertions(field_values:[String:Any?], shift: Double, entry: CDAKPropertyAddressable, block: (()->())? = nil ) {
 
     for (field, value) in field_values {
       //get the value from the entry
@@ -293,7 +293,7 @@ class DateShiftTest: XCTestCase {
       
       //OK... so we can't do reflection in Swift.
       // So... to get by this we're going to do something bad and just write a sort of fake static accessor
-      if let a_value = HDSUtility.getProperty(entry, property: field) as? Double {
+      if let a_value = CDAKUtility.getProperty(entry, property: field) as? Double {
         entry_value = a_value
       }
 

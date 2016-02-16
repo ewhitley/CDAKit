@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HDSMetadataBase {
+class CDAKMetadataBase {
   
   static let NS = "http://www.hl7.org/schemas/hdata/2009/11/metadata"
   
@@ -16,10 +16,10 @@ class HDSMetadataBase {
   var confidentiality: String?
   var original_creation_time: NSDate?
 
-  var pedigrees: [HDSMetadataPedigree] = [HDSMetadataPedigree]()
-  var modified_dates: [HDSMetadataChangeInfo] = [HDSMetadataChangeInfo]()
-  var copied_dates: [HDSMetadataChangeInfo] = [HDSMetadataChangeInfo]()
-  var linked_documents: [HDSMetadataLinkInfo] = [HDSMetadataLinkInfo]()
+  var pedigrees: [CDAKMetadataPedigree] = [CDAKMetadataPedigree]()
+  var modified_dates: [CDAKMetadataChangeInfo] = [CDAKMetadataChangeInfo]()
+  var copied_dates: [CDAKMetadataChangeInfo] = [CDAKMetadataChangeInfo]()
+  var linked_documents: [CDAKMetadataLinkInfo] = [CDAKMetadataLinkInfo]()
   
   init(mime_types: [String], confidentiality: String?, original_creation_time: NSDate? ) {
     self.mime_types = mime_types
