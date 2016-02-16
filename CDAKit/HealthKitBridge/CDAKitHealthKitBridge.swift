@@ -219,6 +219,27 @@ public class CDAKHealthKitBridge {
   
   
   /**
+   Closure that allows you to specify how unit strings from CDA templates are transformed into HealthKit units (if possible)
+   
+   Refer to unitForCDAString for information on arguments
+   
+   ```swift
+   var cdaStringUnitFinder : ((unit_string: String?, typeIdentifier: String? ) -> HKUnit?) = {
+   (unit_string: String?, typeIdentifier: String?) -> HKUnit? in
+   
+    //example
+    if unit_string == "beats" || aTypeIdentifier == HKQuantityTypeIdentifierBodyMassIndex {
+      return HKUnit(fromString: "count/min")
+    }
+   
+   return nil
+   }
+   
+   */
+  public var cdaStringUnitFinder : ((unit_string: String?, typeIdentifier: String? ) -> HKUnit?)?
+
+  
+  /**
    There are a fixed number of HKUnit code strings we can use to initialize an HKUnit.  EX: "cm" "dL" etc.  CDA does not, however, entirely fix that list like HKUnit. We've seen inches units which should be represented by "in" be formatted with unit strings like "inch" or "inches." 
    
    Additionally, the UCUM units CDA uses may be somewhat broader than HKUnit SI units.  EX: inch may be represented as "in_us"
@@ -233,12 +254,6 @@ public class CDAKHealthKitBridge {
    
    - returns: Optional HKUnit. If one can be created, it will be populated.
    */
-  
-  var cdaStringUnitFinder : ((unit_string: String?, typeIdentifier: String? ) -> HKUnit?)?
-  
-  //CDAKitUnitForCDAString
-  //public var cdaStringUnitFinder : CDAKitUnitForCDAString?
-  
   func unitForCDAString(var unit_string: String?, forQuantityTypeIdentifier typeIdentifier: String? = nil) -> HKUnit? {
 
     
@@ -317,27 +332,41 @@ public class CDAKHealthKitBridge {
   
   
   
+  /**
+   If you want to export HealthKit objects, you may want to let the user's personal unit settings drive the HKUnit selection (where possible).  For example, we may import a "body temperature" in Fahrenheit, but a user may prefer to see that information rendered in Celsius.  If their personal unit settings for a quantity type are set, this will overwrite the global defaults with the user's preferred setting.
   
-  //we're going to use this to set CDAKHKQuantityTypeDefaultUnits based on user setting if we're allowed to
+   This feature uses HKHealthStore.  It is assumed all authorizations will be managed by your application.
+   
+   NOTE: This functionality modifies the HealthKit samples - NOT the native CDA data stored in the CDAKRecord.  You must set the unit preferences BEFORE you export a HKRecord (exportAsHDSRecord).  Once exported to a CDAKRecord, any changes to the bridge's unit types will not be reflected.  CDA unit types are fixed strings.
+   
+   - parameter store: HKHealthStore that that will allow access to preferredUnitsForQuantityTypes
+
+   - Version: iOS 8.2 and above
+   
+   */
   public func setHDSUnitTypesWithUserSettings(store: HKHealthStore) {
     //https://developer.apple.com/library/watchos/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:
     //really nice example implementation at: http://ambracode.com/index/show/1610009
     for sampleType in supportedHKQuantityTypes {
       //doing this one by one as I don't know what happens if we request all identifiers at once and don't have
       // have access to a subset
-      store.preferredUnitsForQuantityTypes(Set([sampleType])) { (preferredUnits: [HKQuantityType : HKUnit], error: NSError?) -> Void in
-        if error == nil {
-          if let unit: HKUnit = preferredUnits[sampleType] {
-            self.CDAKHKQuantityTypeDefaultUnits[sampleType.identifier] = unit.unitString
+      if #available(iOS 8.2, *) {
+          store.preferredUnitsForQuantityTypes(Set([sampleType])) { (preferredUnits: [HKQuantityType : HKUnit], error: NSError?) -> Void in
+            if error == nil {
+              if let unit: HKUnit = preferredUnits[sampleType] {
+                self.CDAKHKQuantityTypeDefaultUnits[sampleType.identifier] = unit.unitString
+              }
+            } else {
+              switch error!.code {
+              case 5:
+                print("Access to sample \(sampleType.identifier) denied - using default unit \(self.CDAKHKQuantityTypeDefaultUnits[sampleType.identifier])")
+              default:
+                print("Error accessing user sample types. \(error?.localizedDescription)")
+              }
+            }
           }
-        } else {
-          switch error!.code {
-          case 5:
-            print("Access to sample \(sampleType.identifier) denied - using default unit \(self.CDAKHKQuantityTypeDefaultUnits[sampleType.identifier])")
-          default:
-            print("Error accessing user sample types. \(error?.localizedDescription)")
-          }
-        }
+      } else {
+          print("This version of iOS does not support preferredUnitsForQuantityTypes")
       }
     }
     
@@ -444,7 +473,7 @@ public class CDAKHealthKitBridge {
     }
   }
   
-  
+  //TODO: complete exportHealthKitTermMap()
   //  public func exportHealthKitTermMap() -> NSDictionary {
   //    let terms = NSMutableDictionary()
   //
@@ -493,15 +522,9 @@ public class CDAKHealthKitBridge {
     return codedEntries
   }
 
-
   
 }
 
-
-
-
-//example of writing to health store
-//http://stackoverflow.com/questions/27268665/ios-healthkit-how-to-save-heart-rate-bpm-values-swift
 
 public class CDAKHKRecord: CustomStringConvertible {
   

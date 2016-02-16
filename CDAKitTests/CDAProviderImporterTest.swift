@@ -15,14 +15,14 @@ class CDAProviderImporterTest: XCTestCase {
 
   override func setUp() {
     super.setUp()
-    CDAKProviders.removeAll()
+    CDAKGlobals.sharedInstance.CDAKProviders.removeAll()
     // Put setup code here. This method is called before the invocation of each test method in the class.
   }
   
   override func tearDown() {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     super.tearDown()
-    CDAKProviders.removeAll()
+    CDAKGlobals.sharedInstance.CDAKProviders.removeAll()
   }
   
   /*
@@ -63,7 +63,7 @@ class CDAProviderImporterTest: XCTestCase {
   }
   
   func test_import_non_existant_npi() {
-    XCTAssertEqual(0, CDAKProviders.count, "Should be 0 providers in the DB")
+    XCTAssertEqual(0, CDAKGlobals.sharedInstance.CDAKProviders.count, "Should be 0 providers in the DB")
 
     let xmlFileName = "one_provider_with_npi"
     let xmlString = TestHelpers.fileHelpers.load_xml_string_from_file(xmlFileName)
@@ -75,8 +75,8 @@ class CDAProviderImporterTest: XCTestCase {
       //should get a new provider here - none should exist in the "system"
       
       XCTAssertEqual(1, providers.count, "Should have found 1 provider in the file")
-      XCTAssertEqual(1, CDAKProviders.count, "Should be 1 provider in database")
-      XCTAssertEqual("808401234567893", CDAKProviders.first?.npi, "Expected provider npi number to be 808401234567893")
+      XCTAssertEqual(1, CDAKGlobals.sharedInstance.CDAKProviders.count, "Should be 1 provider in database")
+      XCTAssertEqual("808401234567893", CDAKGlobals.sharedInstance.CDAKProviders.first?.npi, "Expected provider npi number to be 808401234567893")
 
     } catch {
       print("Failed to load XML file : \(xmlFileName)")
@@ -93,17 +93,17 @@ class CDAProviderImporterTest: XCTestCase {
       let providers = CDAKImport_CDA_ProviderImporter.extract_providers(doc)
 
       XCTAssertEqual(1, providers.count, "should have found 1 provider in the file")
-      XCTAssertEqual(CDAKProviders.count, providers.count, "should be as many providers in db as parsed")
+      XCTAssertEqual(CDAKGlobals.sharedInstance.CDAKProviders.count, providers.count, "should be as many providers in db as parsed")
 
       let providers2 = CDAKImport_CDA_ProviderImporter.extract_providers(doc)
       
-      XCTAssertEqual(CDAKProviders.count, providers2.count, "should not have created any new providers")
+      XCTAssertEqual(CDAKGlobals.sharedInstance.CDAKProviders.count, providers2.count, "should not have created any new providers")
 
       //I'm going to add in this test case because it's in the original - and apparently we should be "safe"
       // with ordering because we're loading sequentially from the XML
       // Swift kept crashing (sourcekit) when I attempted to do this in one line, so I'm splitting up the lines
       let some_providers = providers2.map({$0.provider!})
-      XCTAssertEqual(CDAKProviders.map({$0}), some_providers, "should be the same providers after repatsing")
+      XCTAssertEqual(CDAKGlobals.sharedInstance.CDAKProviders.map({$0}), some_providers, "should be the same providers after repatsing")
 
     } catch {
       print("Failed to load XML file : \(xmlFileName)")
@@ -112,7 +112,7 @@ class CDAProviderImporterTest: XCTestCase {
   }
   
   func test_import_of_cda_identifier() {
-    XCTAssertEqual(0, CDAKProviders.count, "Should be 0 providers in the DB")
+    XCTAssertEqual(0, CDAKGlobals.sharedInstance.CDAKProviders.count, "Should be 0 providers in the DB")
     let xmlFileName = "one_provider_cda_ident"
     let xmlString = TestHelpers.fileHelpers.load_xml_string_from_file(xmlFileName)
     do {
@@ -123,8 +123,8 @@ class CDAProviderImporterTest: XCTestCase {
       
       XCTAssertEqual(1, providers.count, "Should be 1 providers in the file")
 
-      XCTAssertEqual(CDAKProviders.count, providers.count, "should be as many providers in db as parsed")
-      XCTAssertEqual(1, CDAKProviders.filter({
+      XCTAssertEqual(CDAKGlobals.sharedInstance.CDAKProviders.count, providers.count, "should be as many providers in db as parsed")
+      XCTAssertEqual(1, CDAKGlobals.sharedInstance.CDAKProviders.filter({
         p in
         p.cda_identifiers.contains({
           c in
@@ -147,14 +147,14 @@ class CDAProviderImporterTest: XCTestCase {
   func test_import_resolve_provider() {
     
     func my_resolve_provider(provider_hash: [String:Any], patient: CDAKPerson? = nil) -> CDAKProvider? {
-      return CDAKProviders.first
+      return CDAKGlobals.sharedInstance.CDAKProviders.first
     }
 
-    XCTAssertEqual(0, CDAKProviders.count, "Should be 0 providers in the DB")
+    XCTAssertEqual(0, CDAKGlobals.sharedInstance.CDAKProviders.count, "Should be 0 providers in the DB")
     let provider = CDAKProvider()
     provider.npi = "808401234567893"
     
-    XCTAssertEqual(1, CDAKProviders.count, "Should be 1 providers in the DB")
+    XCTAssertEqual(1, CDAKGlobals.sharedInstance.CDAKProviders.count, "Should be 1 providers in the DB")
     
     let xmlFileName = "two_providers"
     let xmlString = TestHelpers.fileHelpers.load_xml_string_from_file(xmlFileName)

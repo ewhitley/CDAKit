@@ -47,7 +47,6 @@ class CDAKImport_CDA_AllergyImporter: CDAKImport_CDA_SectionImporter {
       return allergy
     }
     
-    //OK, so at this point it should be an allergy...
     return nil
 
   }

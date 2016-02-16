@@ -12,15 +12,16 @@ import Fuzi
 class CDAKImport_CDA_ProviderImporter {
   
   
-  //# Extract Healthcare Providers from C32
-  //#
-  //# @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
-  //#        will have the "cda" namespace registered to "urn:hl7-org:v3"
-  //# @return [Array] an array of providers found in the document
-
-  //MARK: FIXME - go back and re-read / test the original Ruby - this seems odd
+  /**
+  Extract Healthcare Providers from C32
+  
+  - parameter doc: It is expected that the root node of this document will have the "cda" namespace registered to "urn:hl7-org:v3"
+  - returns: an array of providers found in the document
+  */
   class func extract_providers(doc: XMLDocument, patient:CDAKPerson? = nil) -> [CDAKProviderPerformance] {
     
+    //FIXME: - go back and re-read / test the original Ruby - this seems odd
+
     let performers = doc.xpath("//cda:documentationOf/cda:serviceEvent/cda:performer")
     var performances: [CDAKProviderPerformance] = []
     for performer in performers {
@@ -102,13 +103,14 @@ class CDAKImport_CDA_ProviderImporter {
   
   class func extract_date(subject: XMLElement, query: String) -> Double? {
     if let date = extract_data(subject, query: query) {
-      //date ? Date.parse(date).to_time.to_i : nil
       return NSDate.dateFromHDSFormattedString(date)?.timeIntervalSince1970
     }
     return nil
   }
   
-  //# Returns nil if result is an empty string, block allows text munging of result if there is one
+  /**
+  - returns: nil if result is an empty string, block allows text munging of result if there is one
+  */
   class func extract_data(subject: XMLElement, query: String) -> String? {
     let result = subject.xpath(query).first?.stringValue
     if let result = result where result != "" {

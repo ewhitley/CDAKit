@@ -9,14 +9,17 @@
 import Foundation
 import Fuzi
 
-//# This class is the central location for taking a HITSP C32 XML document and converting it
-//# into the processed form we store in MongoDB. The class does this by running each measure
-//# independently on the XML document
-//#
-//# This class is a Singleton. It should be accessed by calling PatientImporter.instance
 
+
+/**
+ This class is the central location for taking a HITSP C32 XML document and converting it into the processed form we store in MongoDB. The class does this by running each measure independently on the XML document
+ 
+*/
 class CDAKImport_C32_PatientImporter {
+  // This class is a Singleton. It should be accessed by calling PatientImporter.instance
 
+  
+  
   //# Creates a new PatientImporter with the following XPath expressions used to find content in
   //# a HITSP C32:
   //#
@@ -78,7 +81,9 @@ class CDAKImport_C32_PatientImporter {
   }
 
 
-  //# @param [boolean] value for check_usable_entries...importer uses true, stats uses false
+  /**
+   - parameter check_usable_entries: value for check_usable_entries...importer uses true, stats uses false
+   */
   func check_usable(check_usable_entries: Bool) {
     for (_, importer) in section_importers {
       importer.check_for_usable = check_usable_entries
@@ -86,11 +91,13 @@ class CDAKImport_C32_PatientImporter {
   }
   
   
-  //# Parses a HITSP C32 document and returns a Hash of of the patient.
-  //#
-  //# @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
-  //#        will have the "cda" namespace registered to "urn:hl7-org:v3"
-  //# @return [CDAKRecord] a Mongoid model representing the patient
+  /**
+   Parses a HITSP C32 document and returns a Hash of of the patient.
+   
+   - parameter doc: It is expected that the root node of this document
+   will have the "cda" namespace registered to "urn:hl7-org:v3"
+   - returns: a Mongoid model representing the patient
+   */
   func parse_c32(doc: XMLDocument) -> CDAKRecord {
     let c32_patient = CDAKRecord()
     get_demographics(c32_patient, doc: doc)
@@ -100,12 +107,12 @@ class CDAKImport_C32_PatientImporter {
     return c32_patient
   }
   
-  //# Checks the conditions to see if any of them have a cause of death set. If they do,
-  //# it will set the expired field on the CDAKRecord. This is done here rather than replacing
-  //# the expried method on CDAKRecord because other formats may actully tell you whether
-  //# a patient is dead or not.
-  //# @param [CDAKRecord] c32_patient to check the conditions on and set the expired
-  //#               property if applicable
+  /**
+   Checks the conditions to see if any of them have a cause of death set. If they do, it will set the expired field on the CDAKRecord. This is done here rather than replacing the expried method on CDAKRecord because other formats may actully tell you whether
+   a patient is dead or not.
+   
+   - parameter c32_patient: to check the conditions on and set the expired property if applicable
+   */
   func check_for_cause_of_death(c32_patient: CDAKRecord) {
     if let cause_of_death = c32_patient.conditions.filter({$0.cause_of_death == true}).first {
       c32_patient.expired = true
@@ -114,16 +121,23 @@ class CDAKImport_C32_PatientImporter {
   }
 
   
-  //# Create a simple representation of the patient from a HITSP C32
-  //# @param [CDAKRecord] record Mongoid model to append the CDAKEntry objects to
-  //# @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
-  //#        will have the "cda" namespace registered to "urn:hl7-org:v3"
-  //# @return [Hash] a represnetation of the patient with symbols as keys for each section
-  //NOTE: Changed original Ruby
-  // original Ruby was using "send" - which we can't really do.  So I'm not doing that...
-  // I'm going to inspect the section type and then just manually say "oh, you're a Condition" etc.
-  // and set things that way.  Not super elegant, but - at least I'll know what's going on
+  /**
+   Create a simple representation of the patient from a HITSP C32
+
+   - parameter record: Mongoid model to append the CDAKEntry objects to
+   
+   - parameter doc: It is expected that the root node of this document
+   will have the "cda" namespace registered to "urn:hl7-org:v3"
+   
+   - returns:a representation of the patient with symbols as keys for each section
+   
+   Attention: Changed original Ruby
+  */
   func create_c32_hash(record: CDAKRecord, doc: XMLDocument) {
+    // original Ruby was using "send" - which we can't really do.  So I'm not doing that...
+    // I'm going to inspect the section type and then just manually say "oh, you're a Condition" etc.
+    // and set things that way.  Not super elegant, but - at least I'll know what's going on
+    
     let nrh = CDAKImport_CDA_NarrativeReferenceHandler()
     nrh.build_id_map(doc)
     for (section, importer) in section_importers {
@@ -148,11 +162,12 @@ class CDAKImport_C32_PatientImporter {
     }
   }
   
-  //# Inspects a C32 document and populates the patient Hash with first name, last name
-  //# birth date, gender and the effectiveTime.
-  //#
-  //# @param [Hash] patient A hash that is used to represent the patient
-  //# @param [Nokogiri::XML::Node] doc The C32 document parsed by Nokogiri
+  /**
+    Inspects a C32 document and populates the patient Hash with first name, last name, birth date, gender and the effectiveTime.
+
+    - parameter patient:  A hash that is used to represent the patient
+    - parameter doc: The C32 document parsed by Nokogiri
+  */
   func get_demographics(patient: CDAKRecord, doc: XMLDocument) {
     let effective_date = doc.xpath("/cda:ClinicalDocument/cda:effectiveTime").first?["value"]
     patient.effective_time = HL7Helper.timestamp_to_integer(effective_date)
@@ -212,8 +227,6 @@ class CDAKImport_C32_PatientImporter {
       patient.religious_affiliation = CDAKCodedEntries(codeSystem: "Religious Affiliation", code: code)
     }
     
-    //languages = patient_element.search('languageCommunication').map {|lc| lc.at_xpath('cda:languageCode')['code'] }
-    //patient.languages = languages unless languages.empty?
     // USHIK info on language CDA https://ushik.ahrq.gov/ViewItemDetails?system=mdr&itemKey=83131002
     // Name Language Value Set -> http://www.ietf.org/rfc/rfc4646.txt
     for lc in patient_element.xpath("//cda:languageCommunication") {

@@ -37,12 +37,12 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   public var cda_identifiers: [CDAKCDAIdentifier] = [CDAKCDAIdentifier]()
   
   public init() {
-    CDAKProviders.append(self) //INSTANCE WORK-AROUND
+    CDAKGlobals.sharedInstance.CDAKProviders.append(self) //INSTANCE WORK-AROUND
   }
   
   required public init(event: [String:Any?]) {
     initFromEventList(event)
-    CDAKProviders.append(self) //INSTANCE WORK-AROUND
+    CDAKGlobals.sharedInstance.CDAKProviders.append(self) //INSTANCE WORK-AROUND
   }
   
   deinit {
@@ -59,7 +59,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   //MARK: FIXME - so foul
   //scope :by_npi, ->(an_npi){ where("cda_identifiers.root" => NPI_OID, "cda_identifiers.extension" => an_npi)}
   class func by_npi(an_npi: String?) -> CDAKProvider? {
-    for prov in CDAKProviders {
+    for prov in CDAKGlobals.sharedInstance.CDAKProviders {
       for cda in prov.cda_identifiers {
         if (cda.root == CDAKProvider.NPI_OID) && cda.extension_id == an_npi {
           return prov
@@ -176,7 +176,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
       let p = resolve_function(provider_hash: provider_hash, patient: patient ?? nil)
       return p
     } else {
-      let p = CDAKProviders.filter({ $0.npi == nil }).first
+      let p = CDAKGlobals.sharedInstance.CDAKProviders.filter({ $0.npi == nil }).first
       return p
     }
   }
@@ -193,13 +193,13 @@ extension CDAKProvider {
   
   class func removeProvider(provider: CDAKProvider) {
     var matching_idx: Int?
-    for (i, p) in CDAKProviders.enumerate() {
+    for (i, p) in CDAKGlobals.sharedInstance.CDAKProviders.enumerate() {
       if p == provider {
         matching_idx = i
       }
     }
     if let matching_idx = matching_idx {
-      CDAKProviders.removeAtIndex(matching_idx)
+      CDAKGlobals.sharedInstance.CDAKProviders.removeAtIndex(matching_idx)
     }
   }
 }

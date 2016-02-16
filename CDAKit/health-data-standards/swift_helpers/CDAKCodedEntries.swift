@@ -10,6 +10,8 @@ import Foundation
 import Mustache
 
 
+//FIXME: this needs serious clean-up. A lot of rendundant and "chatty" stuff going on.
+
 public struct CDAKCodedTerm: Equatable, Hashable {
   var code: String
   var displayName: String?
@@ -30,7 +32,6 @@ public struct CDAKCodedEntry: CustomStringConvertible, SequenceType, CollectionT
   public var codeSystemOid: String?
   public var displayName: String?
   
-//  private var _codes = Set<String>()
   private var _codes: [CDAKCodedTerm] = []
   public var codes: [String] {
     get { return _codes.map({$0.code}) }
@@ -209,7 +210,7 @@ public struct CDAKCodedEntries: CustomStringConvertible, SequenceType, Collectio
     get { return entries.map({$0.1}) }
   }
 
-  //this is an extraordinarily bad method
+  // this is an extraordinarily bad method
   // you're basically saying "look - just find me any title"
   // and those titles are absolutely going to be different across vocabularies and individual coded values
   // so this is "just pick one"

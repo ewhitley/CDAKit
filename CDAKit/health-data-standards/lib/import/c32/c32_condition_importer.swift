@@ -20,7 +20,6 @@ class CDAKImport_C32_ConditionImporter: CDAKImport_CDA_ConditionImporter {
 
     cod_xpath = "\(death_xpath)/cda:code[@code='419620001']"
     time_of_death_xpath = "\(death_xpath)/cda:effectiveTime/@value"
-
     
     //NOTE - this method originally had no argument for entry-finder (not good), so I'm duplicating the entry_xpath from the CDA Condition Importer (since this is a subclass)
     super.init(entry_finder: entry_finder)
@@ -51,6 +50,7 @@ class CDAKImport_C32_ConditionImporter: CDAKImport_CDA_ConditionImporter {
     
   }
 
+  //we should move this out of here
   private func extract_type(entry_element: XMLElement, condition: CDAKCondition) {
     if let code_element = entry_element.xpath("./cda:code").first, code = code_element["code"] {
       switch code {

@@ -8,10 +8,8 @@
 
 import Foundation
 
-//http://stackoverflow.com/questions/24494784/get-class-name-of-object-as-string-in-swift
 class CDAKCommonUtility {
 
-  //I need to find out how to make this work both in a project and in a pod
   static let podName = "CDAKit"
   static var bundle: NSBundle {
     let frameworkBundle = NSBundle(forClass: CDAKTemplateHelper.self)
@@ -22,10 +20,8 @@ class CDAKCommonUtility {
       }
     }
     //otherwise, try to just return ourselves like this
-    //local project
     return frameworkBundle
   }
-
   
   class func classNameAsString(obj: Any, removeOptional: Bool = true) -> String {
     //    //prints more readable results for dictionaries, arrays, Int, etc
@@ -35,7 +31,6 @@ class CDAKCommonUtility {
     }
 
     return class_name
-    //return _stdlib_getDemangledTypeName(obj).componentsSeparatedByString(".").last!
   }
   
   
@@ -97,7 +92,6 @@ class CDAKCommonUtility {
     //from Ray Wenderlich
     class func containsMatch(pattern: String, inString string: String) -> Bool {
       do {
-        //NSRegularExpressionOptions.allZeros
         let regex = try NSRegularExpression(pattern: pattern, options: [] )
         let range = NSMakeRange(0, string.characters.count)
         return regex.firstMatchInString(string, options: [], range: range) != nil
@@ -106,7 +100,6 @@ class CDAKCommonUtility {
         fatalError("containsMatch Exception with pattern '\(pattern)' ")
       }
     }
-
     
   }
 

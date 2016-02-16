@@ -9,15 +9,12 @@
 import Foundation
 import Fuzi
 
-//# TODO: Coded Product Name, Free Text Product Name, Coded Brand Name and Free Text Brand name need to be pulled out separatelty
-//#       This would mean overriding extract_codes
-//# TODO: Patient Instructions needs to be implemented. Will likely be a reference to the narrative section
-//# TODO: Couldn't find an example medication reaction. Isn't clear to me how it should be implemented from the specs, so
-//#       reaction is not implemented.
-//# TODO: Couldn't find an example dose indicator. Isn't clear to me how it should be implemented from the specs, so
-//#       dose indicator is not implemented.
-//# TODO: Fill Status is not implemented. Couldn't figure out which entryRelationship it should be nested in
 
+//TODO: Coded Product Name, Free Text Product Name, Coded Brand Name and Free Text Brand name need to be pulled out separatelty This would mean overriding extract_codes
+//TODO: Patient Instructions needs to be implemented. Will likely be a reference to the narrative section
+//TODO: Couldn't find an example medication reaction. Isn't clear to me how it should be implemented from the specs, so reaction is not implemented.
+//TODO: Couldn't find an example dose indicator. Isn't clear to me how it should be implemented from the specs, so dose indicator is not implemented.
+//TODO: Fill Status is not implemented. Couldn't figure out which entryRelationship it should be nested in
 class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
 
   var type_of_med_xpath: String? = "./cda:entryRelationship[@typeCode='SUBJ']/cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.8.1']/cda:code"
@@ -96,7 +93,7 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
     for order_element in order_elements {
       let order_information = CDAKOrderInformation()
       if let actor_element = order_element.xpath("./cda:author").first {
-        //ehhhh... this looks like it might explode
+        //this looks like it might explode
         order_information.provider = CDAKImport_ProviderImportUtils.extract_provider(actor_element, element_name: "assignedAuthor")
       }
       
@@ -113,7 +110,6 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
 
   private func extract_administration_timing(parent_element: XMLElement, medication: CDAKMedication) {
     if let administration_timing_element = parent_element.xpath("./cda:effectiveTime[2]").first {
-      //var at: [String:String] = [:]
       if let institutionSpecified = administration_timing_element["institutionSpecified"] {
         let inst = institutionSpecified.lowercaseString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         switch inst {
@@ -121,39 +117,21 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
         case "false": medication.administration_timing.institution_specified = false
         default: print("CDA importer - extract_administration_timing() - institutionSpecified - found uknown value \(inst)")
         }
-        //at["institutionSpecified"] = institutionSpecified.lowercaseString //NOTE - we're not treating this as a bool
-        //medication.administration_timing.institution_specified = institutionSpecified.lowercaseString
       }
-//      if let period = administration_timing_element["period"] {
       if let period = extract_scalar(administration_timing_element, scalar_xpath: "./cda:period") {
-        //at["period"] = period //NOTE - we're not treating this as a bool
-        //medication.administration_timing.period = period_int
-        
         medication.administration_timing.period = period
-//        if let a_unit = period["unit"] {
-//          medication.administration_timing.period.unit = a_unit
-//        }
-//        if let a_value = period["value"], a_float = Double(a_value) {
-//          medication.administration_timing.period.value = a_float
-//        }
-
       }
-      //medication.administration_timing = at
     }
   }
 
   private func extract_dose_restriction(parent_element: XMLElement, medication: CDAKMedication) {
     if let dre = parent_element.xpath("./cda:maxDoseQuantity").first {
-      //var dr: [String:[String:String]] = [:]
       if let numerator = extract_scalar(dre, scalar_xpath: "./cda:numerator") {
-        //dr["numerator"] = numerator
         medication.dose_restriction.numerator = numerator
       }
       if let denominator = extract_scalar(dre, scalar_xpath: "./cda:denominator") {
-        //dr["denominator"] = denominator
         medication.dose_restriction.denominator = denominator
       }
-      //medication.dose_restriction = dr
     }
   }
 

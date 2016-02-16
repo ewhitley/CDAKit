@@ -9,7 +9,7 @@
 import Foundation
 import Fuzi
 
-//  class CDAKProviderImportUtils {} //putting this here - it's NOT here in CDAK - it's just its own module
+//putting this here - it's NOT here in the original Ruby - it's just its own module
 
 class CDAKImport_ProviderImportUtils {
   
@@ -31,7 +31,7 @@ class CDAKImport_ProviderImportUtils {
       //if we have cda identifiers
       if let cda_identifiers = provider_hash["cda_identifiers"] as? [CDAKCDAIdentifier] where cda_identifiers.count > 0 {
         //try to find a Provider entry where the identifiers are common
-        if let a_provider = CDAKProviders.filter({ p in p.cda_identifiers.filter({
+        if let a_provider = CDAKGlobals.sharedInstance.CDAKProviders.filter({ p in p.cda_identifiers.filter({
           id in cda_identifiers.contains(id)
         }).count > 0 }).first {
           return a_provider //if we have one, return that CDAKProvider
@@ -39,7 +39,7 @@ class CDAKImport_ProviderImportUtils {
       }
       //no match found by cda identifier, so continue using other options
       //Swift is complaining that I have too many conditions in a single filter (timeout) so I'm splitting this up
-      if let a_provider = CDAKProviders.filter({ p in
+      if let a_provider = CDAKGlobals.sharedInstance.CDAKProviders.filter({ p in
           p.title == provider_hash["title"] as? String
             && p.given_name == provider_hash["given_name"] as? String
             && p.family_name == provider_hash["family_name"] as? String

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		384E23111C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml in Resources */ = {isa = PBXBuildFile; fileRef = 384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */; };
+		384E23141C738E4E009B9DED /* CDAKJSONInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */; };
 		386A14691C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 386A14681C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist */; };
 		389170351C6CC1EE00A31299 /* CDAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 389170341C6CC1EE00A31299 /* CDAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3891703C1C6CC1EE00A31299 /* CDAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 389170311C6CC1EE00A31299 /* CDAKit.framework */; };
@@ -99,17 +101,17 @@
 		389171081C6CD88A00A31299 /* ccda_result_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170FC1C6CD88A00A31299 /* ccda_result_importer.swift */; };
 		389171091C6CD88A00A31299 /* ccda_vital_sign_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170FD1C6CD88A00A31299 /* ccda_vital_sign_importer.swift */; };
 		389171161C6CD8A500A31299 /* Array+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891710A1C6CD8A500A31299 /* Array+Utility.swift */; };
-		389171171C6CD8A500A31299 /* coded_entries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891710B1C6CD8A500A31299 /* coded_entries.swift */; };
+		389171171C6CD8A500A31299 /* CDAKCodedEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891710B1C6CD8A500A31299 /* CDAKCodedEntries.swift */; };
 		389171181C6CD8A500A31299 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891710C1C6CD8A500A31299 /* Dictionary+Extensions.swift */; };
-		389171191C6CD8A500A31299 /* HDSGlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891710D1C6CD8A500A31299 /* HDSGlobalData.swift */; };
-		3891711A1C6CD8A500A31299 /* HDSUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891710E1C6CD8A500A31299 /* HDSUtility.swift */; };
-		3891711B1C6CD8A500A31299 /* HDSValueAndUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891710F1C6CD8A500A31299 /* HDSValueAndUnit.swift */; };
+		389171191C6CD8A500A31299 /* CDAKGlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891710D1C6CD8A500A31299 /* CDAKGlobalData.swift */; };
+		3891711A1C6CD8A500A31299 /* CDAKUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891710E1C6CD8A500A31299 /* CDAKUtility.swift */; };
+		3891711B1C6CD8A500A31299 /* CDAKValueAndUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891710F1C6CD8A500A31299 /* CDAKValueAndUnit.swift */; };
 		3891711C1C6CD8A500A31299 /* Mustache+Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171101C6CD8A500A31299 /* Mustache+Filters.swift */; };
 		3891711D1C6CD8A500A31299 /* NSDate+Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171111C6CD8A500A31299 /* NSDate+Formatters.swift */; };
 		3891711E1C6CD8A500A31299 /* NSObject+PropertyNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171121C6CD8A500A31299 /* NSObject+PropertyNames.swift */; };
 		3891711F1C6CD8A500A31299 /* String+CryptoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171131C6CD8A500A31299 /* String+CryptoExtensions.swift */; };
 		389171201C6CD8A500A31299 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171141C6CD8A500A31299 /* String+Extensions.swift */; };
-		389171211C6CD8A500A31299 /* SwiftUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171151C6CD8A500A31299 /* SwiftUtility.swift */; };
+		389171211C6CD8A500A31299 /* CDAKCommonUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389171151C6CD8A500A31299 /* CDAKCommonUtility.swift */; };
 		389171331C6CD8BA00A31299 /* c32_allergies_no_current.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 389171221C6CD8BA00A31299 /* c32_allergies_no_current.c32.mustache */; };
 		389171341C6CD8BA00A31299 /* c32_allergies.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 389171231C6CD8BA00A31299 /* c32_allergies.c32.mustache */; };
 		389171351C6CD8BA00A31299 /* c32_care_goals.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 389171241C6CD8BA00A31299 /* c32_care_goals.c32.mustache */; };
@@ -275,6 +277,8 @@
 /* Begin PBXFileReference section */
 		2659CE5B586D31D29E7610E8 /* Pods_CDAKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CDAKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3584B78321E453821B9F825B /* Pods-CDAKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDAKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CDAKitTests/Pods-CDAKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "170.314(b)(1)InPt_Discharge Summary CED Type.xml"; sourceTree = "<group>"; };
+		384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKJSONInstantiable.swift; sourceTree = "<group>"; };
 		386A14681C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CDAKitDefaultSampleTypeIdentifierSettings.plist; sourceTree = "<group>"; };
 		389170311C6CC1EE00A31299 /* CDAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CDAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		389170341C6CC1EE00A31299 /* CDAKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDAKit.h; sourceTree = "<group>"; };
@@ -371,17 +375,17 @@
 		389170FC1C6CD88A00A31299 /* ccda_result_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_result_importer.swift; sourceTree = "<group>"; };
 		389170FD1C6CD88A00A31299 /* ccda_vital_sign_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_vital_sign_importer.swift; sourceTree = "<group>"; };
 		3891710A1C6CD8A500A31299 /* Array+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Utility.swift"; sourceTree = "<group>"; };
-		3891710B1C6CD8A500A31299 /* coded_entries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = coded_entries.swift; sourceTree = "<group>"; };
+		3891710B1C6CD8A500A31299 /* CDAKCodedEntries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKCodedEntries.swift; sourceTree = "<group>"; };
 		3891710C1C6CD8A500A31299 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
-		3891710D1C6CD8A500A31299 /* HDSGlobalData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HDSGlobalData.swift; sourceTree = "<group>"; };
-		3891710E1C6CD8A500A31299 /* HDSUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HDSUtility.swift; sourceTree = "<group>"; };
-		3891710F1C6CD8A500A31299 /* HDSValueAndUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HDSValueAndUnit.swift; sourceTree = "<group>"; };
+		3891710D1C6CD8A500A31299 /* CDAKGlobalData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKGlobalData.swift; sourceTree = "<group>"; };
+		3891710E1C6CD8A500A31299 /* CDAKUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKUtility.swift; sourceTree = "<group>"; };
+		3891710F1C6CD8A500A31299 /* CDAKValueAndUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKValueAndUnit.swift; sourceTree = "<group>"; };
 		389171101C6CD8A500A31299 /* Mustache+Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Mustache+Filters.swift"; sourceTree = "<group>"; };
 		389171111C6CD8A500A31299 /* NSDate+Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Formatters.swift"; sourceTree = "<group>"; };
 		389171121C6CD8A500A31299 /* NSObject+PropertyNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+PropertyNames.swift"; sourceTree = "<group>"; };
 		389171131C6CD8A500A31299 /* String+CryptoExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+CryptoExtensions.swift"; sourceTree = "<group>"; };
 		389171141C6CD8A500A31299 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
-		389171151C6CD8A500A31299 /* SwiftUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUtility.swift; sourceTree = "<group>"; };
+		389171151C6CD8A500A31299 /* CDAKCommonUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKCommonUtility.swift; sourceTree = "<group>"; };
 		389171221C6CD8BA00A31299 /* c32_allergies_no_current.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_allergies_no_current.c32.mustache; sourceTree = "<group>"; };
 		389171231C6CD8BA00A31299 /* c32_allergies.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_allergies.c32.mustache; sourceTree = "<group>"; };
 		389171241C6CD8BA00A31299 /* c32_care_goals.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_care_goals.c32.mustache; sourceTree = "<group>"; };
@@ -558,6 +562,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		384E230E1C737A38009B9DED /* Allscripts Samples */ = {
+			isa = PBXGroup;
+			children = (
+				384E230F1C737A58009B9DED /* Internal Test with MU 2 data */,
+			);
+			name = "Allscripts Samples";
+			path = "BCS_github/Allscripts Samples";
+			sourceTree = "<group>";
+		};
+		384E230F1C737A58009B9DED /* Internal Test with MU 2 data */ = {
+			isa = PBXGroup;
+			children = (
+				384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */,
+			);
+			path = "Internal Test with MU 2 data";
+			sourceTree = "<group>";
+		};
+		384E23121C738DCD009B9DED /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3891710A1C6CD8A500A31299 /* Array+Utility.swift */,
+				3891710C1C6CD8A500A31299 /* Dictionary+Extensions.swift */,
+				389171121C6CD8A500A31299 /* NSObject+PropertyNames.swift */,
+				389171141C6CD8A500A31299 /* String+Extensions.swift */,
+				389171131C6CD8A500A31299 /* String+CryptoExtensions.swift */,
+			);
+			name = extensions;
+			sourceTree = "<group>";
+		};
 		389170271C6CC1EE00A31299 = {
 			isa = PBXGroup;
 			children = (
@@ -717,18 +750,15 @@
 		389170541C6CD58E00A31299 /* swift_helpers */ = {
 			isa = PBXGroup;
 			children = (
-				3891710A1C6CD8A500A31299 /* Array+Utility.swift */,
-				3891710B1C6CD8A500A31299 /* coded_entries.swift */,
-				3891710C1C6CD8A500A31299 /* Dictionary+Extensions.swift */,
-				3891710D1C6CD8A500A31299 /* HDSGlobalData.swift */,
-				3891710E1C6CD8A500A31299 /* HDSUtility.swift */,
-				3891710F1C6CD8A500A31299 /* HDSValueAndUnit.swift */,
+				384E23121C738DCD009B9DED /* extensions */,
+				3891710D1C6CD8A500A31299 /* CDAKGlobalData.swift */,
+				3891710B1C6CD8A500A31299 /* CDAKCodedEntries.swift */,
+				3891710E1C6CD8A500A31299 /* CDAKUtility.swift */,
+				3891710F1C6CD8A500A31299 /* CDAKValueAndUnit.swift */,
 				389171101C6CD8A500A31299 /* Mustache+Filters.swift */,
 				389171111C6CD8A500A31299 /* NSDate+Formatters.swift */,
-				389171121C6CD8A500A31299 /* NSObject+PropertyNames.swift */,
-				389171131C6CD8A500A31299 /* String+CryptoExtensions.swift */,
-				389171141C6CD8A500A31299 /* String+Extensions.swift */,
-				389171151C6CD8A500A31299 /* SwiftUtility.swift */,
+				389171151C6CD8A500A31299 /* CDAKCommonUtility.swift */,
+				384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */,
 			);
 			path = swift_helpers;
 			sourceTree = "<group>";
@@ -976,6 +1006,7 @@
 		389172571C6CEEB300A31299 /* BCS_github */ = {
 			isa = PBXGroup;
 			children = (
+				384E230E1C737A38009B9DED /* Allscripts Samples */,
 				389172A01C6CF6A000A31299 /* EMERGE */,
 				3891729D1C6CF67E00A31299 /* Vitera */,
 			);
@@ -1284,6 +1315,7 @@
 				389172D51C6CFD9000A31299 /* comm_prov_to_patient_fragment.xml in Resources */,
 				3891726E1C6CF03800A31299 /* demographics.xml in Resources */,
 				389172651C6CEEEF00A31299 /* test_code_with_reference.mustache in Resources */,
+				384E23111C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml in Resources */,
 				389172F91C6CFD9100A31299 /* risk_category_assessment_fragment.xml in Resources */,
 				389172601C6CEEEF00A31299 /* _allergies_no_current.c32.mustache in Resources */,
 				389172621C6CEEEF00A31299 /* _narrative_block.c32.mustache in Resources */,
@@ -1417,7 +1449,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				389171211C6CD8A500A31299 /* SwiftUtility.swift in Sources */,
+				389171211C6CD8A500A31299 /* CDAKCommonUtility.swift in Sources */,
 				389171061C6CD88A00A31299 /* ccda_patient_importer.swift in Sources */,
 				389171201C6CD8A500A31299 /* String+Extensions.swift in Sources */,
 				389170D11C6CD83700A31299 /* c32_patient_importer.swift in Sources */,
@@ -1454,7 +1486,7 @@
 				389170AA1C6CD7C800A31299 /* organization.swift in Sources */,
 				389170B11C6CD7C800A31299 /* provider.swift in Sources */,
 				389170F01C6CD86D00A31299 /* cda_section_importer.swift in Sources */,
-				3891711A1C6CD8A500A31299 /* HDSUtility.swift in Sources */,
+				3891711A1C6CD8A500A31299 /* CDAKUtility.swift in Sources */,
 				389170BB1C6CD7C800A31299 /* transfer.swift in Sources */,
 				3891709C1C6CD7C800A31299 /* date_shiftable.swift in Sources */,
 				389171041C6CD88A00A31299 /* ccda_medical_equipment_importer.swift in Sources */,
@@ -1476,7 +1508,7 @@
 				389170EE1C6CD86D00A31299 /* cda_provider_importer.swift in Sources */,
 				389171021C6CD88A00A31299 /* ccda_immunization_importer.swift in Sources */,
 				389170A51C6CD7C800A31299 /* insurance_provider.swift in Sources */,
-				3891711B1C6CD8A500A31299 /* HDSValueAndUnit.swift in Sources */,
+				3891711B1C6CD8A500A31299 /* CDAKValueAndUnit.swift in Sources */,
 				389170C51C6CD81900A31299 /* HDSExport.swift in Sources */,
 				389170A11C6CD7C800A31299 /* fulfillment_history.swift in Sources */,
 				389170C61C6CD81900A31299 /* template_helper.swift in Sources */,
@@ -1485,6 +1517,7 @@
 				389170971C6CD7C800A31299 /* care_goal.swift in Sources */,
 				389170E51C6CD86D00A31299 /* cda_condition_importer.swift in Sources */,
 				389170D01C6CD83700A31299 /* c32_insurance_provider_importer.swift in Sources */,
+				384E23141C738E4E009B9DED /* CDAKJSONInstantiable.swift in Sources */,
 				389170961C6CD7C800A31299 /* allergy.swift in Sources */,
 				389171071C6CD88A00A31299 /* ccda_procedure_importer.swift in Sources */,
 				389171081C6CD88A00A31299 /* ccda_result_importer.swift in Sources */,
@@ -1504,7 +1537,7 @@
 				389170A91C6CD7C800A31299 /* order_information.swift in Sources */,
 				3891709D1C6CD7C800A31299 /* encounter.swift in Sources */,
 				389170BD1C6CD7C800A31299 /* vital_sign.swift in Sources */,
-				389171191C6CD8A500A31299 /* HDSGlobalData.swift in Sources */,
+				389171191C6CD8A500A31299 /* CDAKGlobalData.swift in Sources */,
 				389170FE1C6CD88A00A31299 /* ccda_allergy_importer.swift in Sources */,
 				389170951C6CD7C800A31299 /* address.swift in Sources */,
 				389171001C6CD88A00A31299 /* ccda_condition_importer.swift in Sources */,
@@ -1512,7 +1545,7 @@
 				389170B01C6CD7C800A31299 /* provider_preference.swift in Sources */,
 				3891706A1C6CD7A500A31299 /* link_info.swift in Sources */,
 				389170CF1C6CD83700A31299 /* c32_immunization_importer.swift in Sources */,
-				389171171C6CD8A500A31299 /* coded_entries.swift in Sources */,
+				389171171C6CD8A500A31299 /* CDAKCodedEntries.swift in Sources */,
 				389170CE1C6CD83700A31299 /* c32_condition_importer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

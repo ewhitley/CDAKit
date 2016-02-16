@@ -92,7 +92,7 @@ class BasicXPathTest: XCTestCase {
     do {
       let record = try CDAKRecord.init(fromXML: doc)
         //print(record)
-      //print(CDAK_EXTENDED_CODE_SYSTEMS)
+      //print(CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS)
     } catch {
       XCTFail()
       

@@ -9,9 +9,6 @@
 import Foundation
 
 
-//http://stackoverflow.com/questions/24089999/how-do-you-create-a-swift-date-object
-//NSDate(dateString:"2014-06-06")
-//https://gist.github.com/algal/09b08515460b7bd229fa
 
 extension NSDate {
   
@@ -19,6 +16,9 @@ extension NSDate {
     return rfc3339formatter.stringFromDate(self)
   }
   
+  //http://stackoverflow.com/questions/24089999/how-do-you-create-a-swift-date-object
+  //NSDate(dateString:"2014-06-06")
+  //https://gist.github.com/algal/09b08515460b7bd229fa
   class func dateFromRFC3339FormattedString(rfc3339FormattedString:String) -> NSDate?
   {
     /*
@@ -95,14 +95,6 @@ private var hdsDateformatter:NSDateFormatter = {
   formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
   formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
   formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-
-//  let dateStringFormatter = NSDateFormatter()
-//  dateStringFormatter.dateFormat = "yyyy-MM-dd"
-//  dateStringFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-//  let d = dateStringFormatter.dateFromString(dateString)!
-//  self.init(timeInterval:0, sinceDate:d)
-
-  
   return formatter
 }()
 

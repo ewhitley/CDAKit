@@ -42,7 +42,6 @@ class CDAKImport_CDA_ProcedureImporter: CDAKImport_CDA_SectionImporter {
       Original Ruby
       Looks like there's issues with inconsistent use of the code_system / codeSystemName hash, so they're flooding
       the hash with keys
-      
       {
         "code" => ordinality_element['code'], 
         "code_system" => CDAKCodeSystemHelper.code_system_for(ordinality_element['codeSystem']), 

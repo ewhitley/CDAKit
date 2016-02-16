@@ -8,6 +8,15 @@
 
 import Foundation
 
+
+/**
+Warning - This class is due for removal.  DO NOT USE.
+ 
+ This is used for internal testing to mimic certain sections of the original Ruby.
+ 
+ Yes.  The code is foul.  Don't look at it or you might burn your eyes.
+*/
+
 protocol CDAKPropertyAddressable {
   init(event: [String:Any?])
 }

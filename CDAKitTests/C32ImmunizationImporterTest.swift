@@ -16,7 +16,7 @@ class C32ImmunizationImporterTest: XCTestCase {
   override func setUp() {
     super.setUp()
     
-    CDAKProviders.removeAll()
+    CDAKGlobals.sharedInstance.CDAKProviders.removeAll()
     TestHelpers.collections.providers.load_providers()
     
   }

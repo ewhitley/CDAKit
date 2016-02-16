@@ -38,12 +38,12 @@ class CDAKImport_CDA_SectionImporter {
   }
   
 
-  //# Traverses an HL7 CDA document passed in and creates an Array of CDAKEntry
-  //# objects based on what it finds
-  //# @param [Nokogiri::XML::Document] doc It is expected that the root node of this document
-  //#        will have the "cda" namespace registered to "urn:hl7-org:v3"
-  //#        measure definition
-  //# @return [Array] will be a list of CDAKEntry objects
+  /**
+  Traverses an HL7 CDA document passed in and creates an Array of CDAKEntry objects based on what it finds
+
+  - parameter doc: It is expected that the root node of this document will have the "cda" namespace registered to "urn:hl7-org:v3" measure definition
+  - returns: will be a list of CDAKEntry objects
+  */
   func create_entries(doc: XMLDocument, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> [CDAKEntry] {
 
     var entry_list: [CDAKEntry] = []
@@ -173,9 +173,8 @@ class CDAKImport_CDA_SectionImporter {
     }
   }
 
-  //MARK: FIXME - I had to comment some of this out...
-  // not the type I was expecting
   func extract_value(parent_element: XMLElement, value_element: XMLElement?, entry: CDAKEntry) {
+    //MARK: FIXME - I had to comment some of this out... not the type I was expecting
     if let value_element = value_element {
       if let value = value_element["value"] {
         let unit = value_element["unit"]
@@ -223,8 +222,8 @@ class CDAKImport_CDA_SectionImporter {
     return person
   }
 
-  //NOTE: does not appear to pull translations
   func extract_negation(parent_element: XMLElement, entry: CDAKEntry) {
+    //FIXME: does not appear to pull translations
     if let negation_indicator = parent_element["negationInd"] {
       entry.negation_ind = negation_indicator.lowercaseString == "true"
       if entry.negation_ind == true {
@@ -236,7 +235,6 @@ class CDAKImport_CDA_SectionImporter {
             }
 
             let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
-            //entry.negation_reason = ["code" : code, "code_system" : code_system]
             entry.negation_reason = CDAKCodedEntries(entries: [code_system:[code]])
           }
         }

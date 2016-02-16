@@ -23,12 +23,8 @@ public class CDAKImport_BulkRecordImporter {
     do {
       let doc = try XMLDocument(string: XMLString, encoding: NSUTF8StringEncoding)
       
-      //      var providers: [String] = [] //change this
-      //      var root_element_name = doc.root.name
-      
       if let root = doc.root {
         if let root_element_name = root.tag where root_element_name == "ClinicalDocument" {
-          //print(root_element_name)
           
           doc.definePrefix("cda", defaultNamespace: "urn:hl7-org:v3")
           doc.definePrefix("sdtc", defaultNamespace: "urn:hl7-org:sdtc")
@@ -47,6 +43,12 @@ public class CDAKImport_BulkRecordImporter {
           } else if doc.xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.24.1.2']").count > 0 {
             print("QRDA1 not (yet) supported")
             throw CDAKImport_BulkRecordImporter.Error.NotImplemented
+          } else if doc.xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1']").count > 0 && CDAKGlobals.sharedInstance.attemptNonStandardCDAImport == true {
+            //last ditch "we have a general US header, but that's about it"
+            print("Deteremined XML document format as: Non-Standard CDA. This may or may not import completely.")
+            let importer = CDAKImport_CCDA_PatientImporter()
+            let record = importer.parse_ccda(doc)
+            return record
           } else {
             print("Unable to determinate document template/type of CDA document")
             throw CDAKImport_BulkRecordImporter.Error.UnableToDetermineFormat
@@ -68,11 +70,6 @@ public class CDAKImport_BulkRecordImporter {
       throw CDAKImport_BulkRecordImporter.Error.InvalidXML
       
     }
-//    } catch let error as NSError {
-//      print("Error: \(error.localizedDescription)")
-//    }
-
-    //return nil
   }
   
 }

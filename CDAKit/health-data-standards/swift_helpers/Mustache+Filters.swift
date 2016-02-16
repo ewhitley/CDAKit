@@ -114,64 +114,15 @@ class MustacheFilters {
       return Box(true)
     case let val as Double?:
       return Box(true)
-//    case let val as Float:
-//      return Box(true)
-//    case let val as Float?:
-//      return Box(true)
     case let val as String:
       if let val = Double(val) {
         return Box(true)
       }
-//      if let val = Float(val) {
-//        return Box(true)
-//      }
       return Box(false)
     default:
       return Box(false)
     }
 
   }
-
-  
-  
-  //this is a serious abuse of the library...
-  static let codeDisplayForEntry = Filter { (box: MustacheBox, info: RenderingInfo) in
-    
-    let args = info.tag.innerTemplateString
-    var opts: [String:Any] = [:]
-    
-    opts = CDAKUtility.convertStringToDictionary(args)
-    //print("Got ops for ... \n \(opts) \n")
-    
-    var out = ""
-    //print("box = \(box)")
-    
-    //String:MustacheBox
-    //mustacheBox.value
-    
-    if let boxValues = box.value as? [String:MustacheBox] {
-      var entryValues: [String:Any?] = [:]
-      for(key, value) in boxValues {
-        //print(value.value)
-        entryValues[key] = (value.value as Any?)
-      }
-      print("entryValues = \(entryValues)")
-      //what KIND of entry are we? - we're going to cheat and abuse the "class_name" field we set up
-      // for this we don't really seem to need it (great)
-      let entry = CDAKEntry(event: entryValues)
-      print("created an entry")
-      out = ViewHelper.code_display(entry, options: opts)
-    }
-    
-//    if let entry = box.value as? CDAKEntry {
-//      out = ViewHelper.code_display(entry, options: opts)
-//    } else {
-//      //print("couldn't cast entry")
-//      //print("entry = '\(box.value)'")
-//    }
-    
-    return Rendering(out)
-  }
-
   
 }

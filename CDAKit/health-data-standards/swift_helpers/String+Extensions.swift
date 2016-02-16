@@ -24,18 +24,6 @@ extension String {
     return substringWithRange(Range(start: startIndex.advancedBy(r.startIndex), end: startIndex.advancedBy(r.endIndex)))
   }
 
-//  //http://dev.iachieved.it/iachievedit/swift-titleized-string-extension/
-//  var titleized:String {
-//    var words = self.lowercaseString.characters.split(" ").map { String($0) }
-//    words[0] = words[0].capitalizedString
-//    for i in 1..<words.count {
-//      if !SMALL_WORDS.contains(words[i]) {
-//        words[i] = words[i].capitalizedString
-//      }
-//    }
-//    return words.joinWithSeparator(" ")
-//  }
-  
 }
 
 

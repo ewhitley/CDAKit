@@ -298,7 +298,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     if let effective_date = effective_date {
       var a_provider: CDAKProvider?
       a_provider = provider_queries(provider.npi!, effective_date: effective_date)
-      for record in CDAKRecords {
+      for record in CDAKGlobals.sharedInstance.CDAKRecords {
         for perf in record.provider_performances {
           if perf.provider?.npi == a_provider?.npi {
             records.append(record)
@@ -307,7 +307,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
       }
     } else {
       //: where('provider_performances.provider_id'=>prov.id)
-      for record in CDAKRecords {
+      for record in CDAKGlobals.sharedInstance.CDAKRecords {
         for perf in record.provider_performances {
           if perf.provider?.npi == provider.npi {
             records.append(record)
@@ -323,7 +323,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   //scope :by_patient_id, ->(id) { where(:medical_record_number => id) }
   class func by_patient_id(id: String) -> [CDAKRecord] {
     var records = [CDAKRecord]()
-    for record in CDAKRecords {
+    for record in CDAKGlobals.sharedInstance.CDAKRecords {
       if record.medical_record_number == id {
         records.append(record)
       }
@@ -335,7 +335,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   class func update_or_create(data: CDAKRecord) -> CDAKRecord {
     //existing = CDAKRecord.where(medical_record_number: data.medical_record_number).first
     var existing: CDAKRecord?
-    for record in CDAKRecords {
+    for record in CDAKGlobals.sharedInstance.CDAKRecords {
       if record.medical_record_number == data.medical_record_number {
         existing = record
       }
@@ -659,7 +659,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   // I'm going to do a "bad thing" and use NPI for the moment since it's all I've got
   class func provider_query(provider_id: String, start_before: Double?, end_before: Double?) -> CDAKProvider? {
     //  def self.provider_query(provider_id, start_before, end_after)
-    for record in CDAKRecords {
+    for record in CDAKGlobals.sharedInstance.CDAKRecords {
       for perf in record.provider_performances {
         if let provider = perf.provider {
           if provider.npi == provider_id //bad
@@ -684,13 +684,13 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   // this is so hacky it hurts
   required override public init() { // <== Need "required" because we need to call dynamicType() below
     super.init()
-    CDAKRecords.append(self)
+    CDAKGlobals.sharedInstance.CDAKRecords.append(self)
   }
   
   deinit {
-    for (index, record) in CDAKRecords.enumerate() {
+    for (index, record) in CDAKGlobals.sharedInstance.CDAKRecords.enumerate() {
       if record == self {
-        CDAKRecords.removeAtIndex(index)
+        CDAKGlobals.sharedInstance.CDAKRecords.removeAtIndex(index)
         break
       }
     }
@@ -736,7 +736,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
 
     
-    CDAKRecords.append(self)
+    CDAKGlobals.sharedInstance.CDAKRecords.append(self)
     
   }
   

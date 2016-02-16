@@ -12,11 +12,11 @@ import Foundation
 
 extension NSObject {
   
-  //
-  // Retrieves an array of property names found on the current object
-  // using Objective-C runtime functions for introspection:
-  // https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html
-  //
+  /**
+   Retrieves an array of property names found on the current object using Objective-C runtime functions for introspection:
+  
+   [Property Introspection](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html)
+  */
   func propertyNames() -> Array<String> {
     var results: Array<String> = [];
     

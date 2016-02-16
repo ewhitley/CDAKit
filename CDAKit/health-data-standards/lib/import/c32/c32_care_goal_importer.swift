@@ -22,8 +22,6 @@ class CDAKImport_C32_CareGoalImporter: CDAKImport_CDA_SectionImporter {
     //original Ruby used "name" - which is "node_name"
     //looks like Fuzi calls this "tag"
     var importer: CDAKImport_CDA_SectionImporter
-    //print("TAG = \(goal_element.tag)")
-    //print("ELEMENT = \(goal_element)")
     switch goal_element.tag! {
       case "observation": importer = CDAKImport_CDA_ResultImporter()
       case "supply": importer = CDAKImport_CDA_MedicalEquipmentImporter()

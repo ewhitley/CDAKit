@@ -6,12 +6,12 @@
 //  Copyright © 2015 Eric Whitley. All rights reserved.
 //
 
-import Foundation
+//import Foundation
 //import CommonCrypto
 
 //http://stackoverflow.com/questions/25424831/cant-convert-nsdata-to-nsstring-in-swift
 
-extension String {
+//extension String {
   
 //  func md5(string string: String) -> [UInt8] {
 //    var digest = [UInt8](count: Int(CC_MD5_DIGEST_LENGTH), repeatedValue: 0)
@@ -59,6 +59,6 @@ extension String {
 //    return ""
 //  }
   
-}
+//}
 
 

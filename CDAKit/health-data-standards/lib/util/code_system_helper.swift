@@ -72,7 +72,7 @@ public class CDAKCodeSystemHelper {
     if let an_alias = OID_ALIASES[oid] {
       oid = an_alias
     }
-    if let a_value = CDAK_EXTENDED_CODE_SYSTEMS[oid] {
+    if let a_value = CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS[oid] {
       return a_value
     }
     
@@ -88,7 +88,7 @@ public class CDAKCodeSystemHelper {
     if let an_alias = CODE_SYSTEM_ALIASES[code_system] {
       code_system = an_alias
     }
-    let cs = CDAK_EXTENDED_CODE_SYSTEMS.inverse()
+    let cs = CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS.inverse()
     if let sys = cs[code_system] {
       return sys
     }
@@ -101,17 +101,17 @@ public class CDAKCodeSystemHelper {
   //# Returns the whole map of OIDs to code systems
   //# @terurn [Hash] oids as keys, code system names as values
   public class func code_systems() -> [String:String] {
-    return CDAK_EXTENDED_CODE_SYSTEMS
+    return CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS
   }
   
   
   public class func addCodeSystem(code_system: String, oid: String? = "UNK") {
     if let oid = oid {
-      if let  _ = CDAK_EXTENDED_CODE_SYSTEMS[oid] {
+      if let  _ = CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS[oid] {
       //we already have this code system
       return
       }
-      let cs = CDAK_EXTENDED_CODE_SYSTEMS.inverse()
+      let cs = CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS.inverse()
       if let existing_oid = cs[code_system] {
         // do a reverse look-up for this code_system
         // we already have someting in the set - don't re-add the value for a different key
@@ -122,7 +122,7 @@ public class CDAKCodeSystemHelper {
         return
       } else {
         // we don't have this code system, so add it - "Unknown" is OK
-        CDAK_EXTENDED_CODE_SYSTEMS[oid] = code_system
+        CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS[oid] = code_system
       }
     }
   }

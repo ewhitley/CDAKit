@@ -23,15 +23,15 @@ class CDAKImport_CDA_NarrativeReferenceHandler {
     }
   }
   
-  //# @param [String] tag
-  //# @return [String] text description of tag
+  /**
+  - parameter tag: the XML tag you're looking for
+  - returns: text description of the tag
+  */
   func lookup_tag(var tag: String) -> String? {
     var value = id_map[tag]
     //# Not sure why, but sometimes the reference is #<Reference> and the ID value is <Reference>, and
     //# sometimes it is #<Reference>.  We look for both.
     if value == nil && tag.characters.first == "#" {
-//      let index_pound = tag.endIndex.advancedBy(1)
-//      tag = tag.substringToIndex(index_pound)
       tag = String(tag.characters.dropFirst())
       value = id_map[tag]
     }
