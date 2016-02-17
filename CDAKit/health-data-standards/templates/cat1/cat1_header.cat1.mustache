@@ -26,13 +26,15 @@
       {{#each(legal_authenticator.ids)}}{{>cat1_id.cat1 }}{{/}}
       {{#each(legal_authenticator.addresses)}}{{>cat1_address.cat1 }}{{/}}
       {{#each(legal_authenticator.telecoms)}}{{>cat1_telecom.cat1 }}{{/}}
+    {{#legal_authenticator.person}}
     <assignedPerson>
       <name>
-        {{#legal_authenticator.given_name}}<given>{{.}}</given>{{/legal_authenticator.given_name}}}}
-        {{#legal_authenticator.family_name}}<family>{{.}}</family>{{/legal_authenticator.family_name}}
-        {{#legal_authenticator.title}}<suffix>{{.}}</suffix>{{/legal_authenticator.title}}
+        {{#legal_authenticator.person.given_name}}<given>{{.}}</given>{{/legal_authenticator.person.given_name}}
+        {{#legal_authenticator.person.family_name}}<family>{{.}}</family>{{/legal_authenticator.person.family_name}}
+        {{#legal_authenticator.person.title}}<suffix>{{.}}</suffix>{{/legal_authenticator.person.title}}
       </name>
     </assignedPerson>
+    {{/legal_authenticator.person}}
     {{#legal_authenticator.organization}}<representedOrganization>{{>cat1_organization.cat1 }}</representedOrganization>{{/legal_authenticator.organization}}
   </assignedEntity>
   </legalAuthenticator>

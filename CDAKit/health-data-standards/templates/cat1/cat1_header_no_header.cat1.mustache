@@ -1,1 +1,61 @@
-DEFAULT FIXED HEADER
+<author>
+    <time value="{{ date_as_number(nil) }}" />
+    <assignedAuthor>
+        <!-- NPI -->
+        <id extension="UnknownNPI" root="2.16.840.1.113883.4.6" />
+        <addr>
+            <streetAddressLine>123 Fake St.</streetAddressLine>
+            <city>Nowhere</city>
+            <state>NY</state>
+            <postalCode>00000</postalCode>
+            <country>US</country>
+        </addr>
+        <telecom use="WP" value="tel:(000)000-0000" />
+        <assignedAuthoringDevice>
+            <manufacturerModelName>CDAKit</manufacturerModelName>
+            <softwareName>CDAKit</softwareName>
+        </assignedAuthoringDevice>
+    </assignedAuthor>
+</author>
+<custodian>
+    <assignedCustodian>
+        <representedCustodianOrganization>
+            <!-- 2.16.840.1.113883.19.5 is a sample root -->
+            <id root="2.16.840.1.113883.19.5" />
+            <name>CDAKit Sample Header</name>
+            <telecom use="WP" value="tel:(000)000-0000" />
+            <addr>
+                <streetAddressLine>123 Fake St.</streetAddressLine>
+                <city>Nowhere</city>
+                <state>NY</state>
+                <postalCode>00000</postalCode>
+                <country>US</country>
+            </addr>
+        </representedCustodianOrganization>
+    </assignedCustodian>
+</custodian>
+<legalAuthenticator>
+    <time value="{{ date_as_number(nil) }}" />
+    <signatureCode code="S" />
+    <assignedEntity>
+        <id root="{{ UUID_generate(nil) }}" />
+        <addr>
+            <streetAddressLine>202 Burlington Rd.</streetAddressLine>
+            <city>Bedford</city>
+            <state>MA</state>
+            <postalCode>01730</postalCode>
+            <country>US</country>
+        </addr>
+        <telecom use="WP" value="tel:(000)000-0000" />
+        <assignedPerson>
+            <name>
+                <given>Sample_Given_Name</given>
+                <family>Sample_Family_Name</family>
+            </name>
+        </assignedPerson>
+        <representedOrganization>
+            <id root="2.16.840.1.113883.19.5" />
+            <name>CDAKit Sample Org</name>
+        </representedOrganization>
+    </assignedEntity>
+</legalAuthenticator>
