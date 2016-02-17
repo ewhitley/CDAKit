@@ -775,6 +775,9 @@ extension CDAKRecord {
       vals["vital_signs"] = entries
     }
 
+    if let header = header {
+      vals["header"] = Box(header)
+    }
     
     return Box(vals)
   }

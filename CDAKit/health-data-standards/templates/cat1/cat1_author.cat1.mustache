@@ -1,0 +1,27 @@
+<!-- SHALL have 1..* author. MAY be device or person.
+The author of the CDA document in this example is a device at a data submission vendor/registry. -->
+<author>
+<time value="{{ date_as_number(time) }}"/>
+<assignedAuthor>
+<!-- Registry author ID -->
+{{#each(ids)}}{{>cat1_id.cat1 }}{{/}}
+{{#each(addresses)}}{{>cat1_address.cat1 }}{{/}}
+{{#each(telecoms)}}{{>cat1_telecom.cat1 }}{{/}}
+{{#person}}
+  <assignedPerson>
+    <name>
+      {{#person.given_name}}<given>{{.}}</given>{{/person.given_name}}}}
+      {{#person.family_name}}<family>{{.}}</family>{{/person.family_name}}
+      {{#person.title}}<suffix>{{.}}</suffix>{{/person.title}}
+    </name>
+  </assignedPerson>
+{{/person}}
+{{#device}}
+  <assignedAuthoringDevice>
+    <manufacturerModelName>{{device.model}}</manufacturerModelName>
+    <softwareName>{{device.name}}</softwareName>
+  </assignedAuthoringDevice>
+{{/device}}
+{{#each(organization)}}<representedOrganization>{{>cat1_organization.cat1 }}</representedOrganization>{{/}}
+</assignedAuthor>
+</author>

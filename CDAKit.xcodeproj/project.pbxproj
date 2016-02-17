@@ -273,6 +273,13 @@
 		389172F91C6CFD9100A31299 /* risk_category_assessment_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172CF1C6CFD9000A31299 /* risk_category_assessment_fragment.xml */; };
 		389172FA1C6CFD9100A31299 /* symptom_active_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172D01C6CFD9000A31299 /* symptom_active_fragment.xml */; };
 		389172FB1C6CFD9100A31299 /* tobacco_use_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */; };
+		38FCF8D01C74F83A0040979E /* cat1_id.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */; };
+		38FCF8D21C74F8540040979E /* cat1_author.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */; };
+		38FCF8D41C74F8730040979E /* cat1_address.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */; };
+		38FCF8D61C74F8920040979E /* cat1_organization.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D51C74F8920040979E /* cat1_organization.cat1.mustache */; };
+		38FCF8D81C74F8DA0040979E /* cat1_telecom.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D71C74F8DA0040979E /* cat1_telecom.cat1.mustache */; };
+		38FCF8DA1C7503750040979E /* cat1_header.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D91C7503750040979E /* cat1_header.cat1.mustache */; };
+		38FCF8DC1C75039A0040979E /* cat1_header_no_header.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8DB1C75039A0040979E /* cat1_header_no_header.cat1.mustache */; };
 		902E92565FF505C545AB58D8 /* Pods_CDAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FDAC72237DF962DB8F4084C /* Pods_CDAKit.framework */; };
 		B648D91DC0D0A5DA1C8A7861 /* Pods_CDAKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2659CE5B586D31D29E7610E8 /* Pods_CDAKitTests.framework */; };
 /* End PBXBuildFile section */
@@ -561,6 +568,13 @@
 		389172CF1C6CFD9000A31299 /* risk_category_assessment_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = risk_category_assessment_fragment.xml; sourceTree = "<group>"; };
 		389172D01C6CFD9000A31299 /* symptom_active_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = symptom_active_fragment.xml; sourceTree = "<group>"; };
 		389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tobacco_use_fragment.xml; sourceTree = "<group>"; };
+		38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_id.cat1.mustache; sourceTree = "<group>"; };
+		38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_author.cat1.mustache; sourceTree = "<group>"; };
+		38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_address.cat1.mustache; sourceTree = "<group>"; };
+		38FCF8D51C74F8920040979E /* cat1_organization.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_organization.cat1.mustache; sourceTree = "<group>"; };
+		38FCF8D71C74F8DA0040979E /* cat1_telecom.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_telecom.cat1.mustache; sourceTree = "<group>"; };
+		38FCF8D91C7503750040979E /* cat1_header.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_header.cat1.mustache; sourceTree = "<group>"; };
+		38FCF8DB1C75039A0040979E /* cat1_header_no_header.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_header_no_header.cat1.mustache; sourceTree = "<group>"; };
 		5440B6F09B325B25FC518484 /* Pods-CDAKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDAKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-CDAKit/Pods-CDAKit.release.xcconfig"; sourceTree = "<group>"; };
 		7FDAC72237DF962DB8F4084C /* Pods_CDAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CDAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3721CB6B043AD64FC0ED757 /* Pods-CDAKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDAKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CDAKitTests/Pods-CDAKitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -749,6 +763,7 @@
 		389170511C6CD57000A31299 /* templates */ = {
 			isa = PBXGroup;
 			children = (
+				38FCF8CE1C74F7F60040979E /* cat1 */,
 				389170531C6CD57E00A31299 /* c32 */,
 				389170521C6CD57500A31299 /* ccda */,
 			);
@@ -1182,6 +1197,20 @@
 			path = cat1_fragments;
 			sourceTree = "<group>";
 		};
+		38FCF8CE1C74F7F60040979E /* cat1 */ = {
+			isa = PBXGroup;
+			children = (
+				38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */,
+				38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */,
+				38FCF8DB1C75039A0040979E /* cat1_header_no_header.cat1.mustache */,
+				38FCF8D91C7503750040979E /* cat1_header.cat1.mustache */,
+				38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */,
+				38FCF8D51C74F8920040979E /* cat1_organization.cat1.mustache */,
+				38FCF8D71C74F8DA0040979E /* cat1_telecom.cat1.mustache */,
+			);
+			path = cat1;
+			sourceTree = "<group>";
+		};
 		5B9FC1A9C8B5AF523A31543C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1299,9 +1328,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				389171331C6CD8BA00A31299 /* c32_allergies_no_current.c32.mustache in Resources */,
+				38FCF8D41C74F8730040979E /* cat1_address.cat1.mustache in Resources */,
 				3891715C1C6CD8D200A31299 /* ccda_conditions.ccda.mustache in Resources */,
 				389171681C6CD8D200A31299 /* ccda_social_history.ccda.mustache in Resources */,
 				389171391C6CD8BA00A31299 /* c32_encounters.c32.mustache in Resources */,
+				38FCF8DA1C7503750040979E /* cat1_header.cat1.mustache in Resources */,
 				3891713C1C6CD8BA00A31299 /* c32_medications_no_current.c32.mustache in Resources */,
 				3891715B1C6CD8D200A31299 /* ccda_conditions_no_current.ccda.mustache in Resources */,
 				389170601C6CD74500A31299 /* CDAKitDefaultHealthKitTermMap.plist in Resources */,
@@ -1315,19 +1346,24 @@
 				3891715F1C6CD8D200A31299 /* ccda_medical_equipment.ccda.mustache in Resources */,
 				386A14691C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist in Resources */,
 				389171421C6CD8BA00A31299 /* c32_social_history.c32.mustache in Resources */,
+				38FCF8DC1C75039A0040979E /* cat1_header_no_header.cat1.mustache in Resources */,
 				3891704E1C6CD18400A31299 /* LICENSE.txt in Resources */,
 				389171621C6CD8D200A31299 /* ccda_narrative_block.ccda.mustache in Resources */,
 				389171611C6CD8D200A31299 /* ccda_medications.ccda.mustache in Resources */,
 				389171641C6CD8D200A31299 /* ccda_procedures.ccda.mustache in Resources */,
+				38FCF8D61C74F8920040979E /* cat1_organization.cat1.mustache in Resources */,
+				38FCF8D21C74F8540040979E /* cat1_author.cat1.mustache in Resources */,
 				389171581C6CD8D200A31299 /* ccda_allergies.ccda.mustache in Resources */,
 				389171431C6CD8BA00A31299 /* c32_vital_signs.c32.mustache in Resources */,
 				389171361C6CD8BA00A31299 /* c32_code_with_reference.c32.mustache in Resources */,
+				38FCF8D01C74F83A0040979E /* cat1_id.cat1.mustache in Resources */,
 				389171591C6CD8D200A31299 /* ccda_care_goals.ccda.mustache in Resources */,
 				389171341C6CD8BA00A31299 /* c32_allergies.c32.mustache in Resources */,
 				3891713F1C6CD8BA00A31299 /* c32_procedures.c32.mustache in Resources */,
 				389171691C6CD8D200A31299 /* ccda_vital_signs.ccda.mustache in Resources */,
 				389171371C6CD8BA00A31299 /* c32_conditions_no_current.c32.mustache in Resources */,
 				3891715D1C6CD8D200A31299 /* ccda_encounters.ccda.mustache in Resources */,
+				38FCF8D81C74F8DA0040979E /* cat1_telecom.cat1.mustache in Resources */,
 				3891715A1C6CD8D200A31299 /* ccda_code_with_reference.ccda.mustache in Resources */,
 				3891713B1C6CD8BA00A31299 /* c32_medical_equipment.c32.mustache in Resources */,
 				3891713A1C6CD8BA00A31299 /* c32_immunizations.c32.mustache in Resources */,

@@ -63,7 +63,7 @@ extension CDAKCDAIdentifier: MustacheBoxable {
   public var mustacheBox: MustacheBox {
       return Box([
         "root": self.root,
-        "extension_id": self.root,
+        "extension": self.extension_id,
         "as_string": self.as_string
       ])
   }

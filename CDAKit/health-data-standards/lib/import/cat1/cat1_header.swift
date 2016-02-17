@@ -72,7 +72,7 @@ class CDAKImport_cat1_HeaderImporter {
       author.telecoms = assignedAuthor.xpath("./cda:telecom").map({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
       
       if let person_info = assignedAuthor.xpath("./cda:assignedPerson/cda:name").first {
-        author.person = CDAKPerson(given_name: person_info["given"], family_name: person_info["family"])
+        author.person = CDAKPerson(given_name: person_info.xpath("./cda:given").first?.stringValue, family_name: person_info.xpath("./cda:family").first?.stringValue, title: person_info.xpath("./cda:suffix").first?.stringValue)
       }
       if let device_elem = assignedAuthor.xpath("./assignedAuthoringDevice").first {
         author.device = get_device(device_elem)
@@ -103,7 +103,7 @@ class CDAKImport_cat1_HeaderImporter {
       //FIXME: I see no cases of "person" living under assignedCustodian
       // need examples if this is to be found
       if let person_info = custodian_elem.xpath("./cda:representedPerson").first {
-        aCustodian.person = CDAKPerson(given_name: person_info["given"], family_name: person_info["family"])
+        aCustodian.person = CDAKPerson(given_name: person_info.xpath("./cda:given").first?.stringValue, family_name: person_info.xpath("./cda:family").first?.stringValue)
       }
       header.custodian = aCustodian
     }
@@ -125,9 +125,9 @@ class CDAKImport_cat1_HeaderImporter {
         legal.ids = import_ids(assignedEntity)
         legal.addresses = assignedEntity.xpath("./cda:addr").map({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
         legal.telecoms = assignedEntity.xpath("./cda:telecom").map({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
-      }
-      if let org_info = auth_info.xpath("./cda:assignedPerson/cda:name").first {
-        legal.person = CDAKPerson(given_name: org_info["given"], family_name: org_info["family"])
+        if let name_info = assignedEntity.xpath("./cda:assignedPerson/cda:name").first {
+          legal.person = CDAKPerson(given_name: name_info.xpath("./cda:given").first?.stringValue, family_name: name_info.xpath("./cda:family").first?.stringValue, title: name_info.xpath("./cda:suffix").first?.stringValue)
+        }
       }
       if let org_info = auth_info.xpath("./cda:representedOrganization").first {
         if let org = import_organization(org_info) {
