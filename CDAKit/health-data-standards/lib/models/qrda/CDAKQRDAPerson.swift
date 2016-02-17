@@ -11,6 +11,14 @@ import Foundation
 public class CDAKQRDAPerson {
   public var given: String?
   public var family: String?
+  
+  init(){}
+  
+  init(given: String?, family: String?) {
+    self.given = given
+    self.family = family
+  }
+  
 }
 
 extension CDAKQRDAPerson: CustomStringConvertible {

@@ -10,7 +10,7 @@ import Foundation
 
 public class CDAKQRDACustodian {
   public var ids: [CDAKQRDAId] = []
-  public var person: CDAKQRDAPerson?
+  public var person: CDAKQRDAPerson? //I see no cases where this is used in CDA
   public var organization: CDAKQRDAOrganization?
 }
 

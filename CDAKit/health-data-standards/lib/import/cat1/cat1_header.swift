@@ -23,12 +23,16 @@ class CDAKImport_cat1_HeaderImporter {
   }
   
   class func set_header(header: CDAKQRDAHeader, doc: XMLDocument) {
-    set_confidentiality_code(header, doc: doc)
-    set_creation_date(header, doc: doc)
-    set_custodian(header, doc: doc)
-    set_author(header, doc: doc)
-    set_device(header, doc: doc)
-    set_legal_authenticator(header, doc: doc)
+    set_confidentiality_code(header, doc: doc) //done
+    set_creation_date(header, doc: doc) //done
+    set_custodian(header, doc: doc) //done
+    set_authors(header, doc: doc) //done
+    set_legal_authenticator(header, doc: doc) //done
+    
+    if let id_elem = doc.xpath("./cda:id").first {
+      header.identifier = import_ids(id_elem).first
+    }
+    
   }
 
   class func set_creation_date(header: CDAKQRDAHeader, doc: XMLDocument) {
@@ -45,45 +49,82 @@ class CDAKImport_cat1_HeaderImporter {
     }
   }
 
-  class func set_author(header: CDAKQRDAHeader, doc: XMLDocument) {
+  class func set_authors(header: CDAKQRDAHeader, doc: XMLDocument) {
+    header.authors = doc.xpath("./cda:author").map({author in get_authors(author)})
+  }
+  
+  class func get_authors(elem: XMLElement) -> CDAKQRDAAuthor {
+    let author = CDAKQRDAAuthor()
+    
+    if let time = get_time(elem) {
+      author.time = time
+    }
+    if let assignedAuthor = elem.xpath("./cda:assignedAuthor").first {
+      
+      author.ids = import_ids(assignedAuthor)
+      author.addresses = assignedAuthor.xpath("./cda:addr").map({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
+      author.telecoms = assignedAuthor.xpath("./cda:telecom").map({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
+      
+      if let person_info = assignedAuthor.xpath("./cda:assignedPerson/cda:name").first {
+        author.person = CDAKQRDAPerson(given: person_info["given"], family: person_info["family"])
+      }
+      if let device_elem = assignedAuthor.xpath("assignedAuthoringDevice").first {
+        author.device = get_device(device_elem)
+      }
+      if let org = assignedAuthor.xpath("/cda:representedOrganization").first {
+        author.organization = import_organization(org)
+      }
+    }
+    
+    return author
   }
 
+  class func get_device(elem: XMLElement) -> CDAKQRDADevice {
+    let device = CDAKQRDADevice()
+    device.model = elem.xpath("manufacturerModelName").first?.stringValue
+    device.name = elem.xpath("softwareName").first?.stringValue
+    return device
+  }
+  
   class func set_custodian(header: CDAKQRDAHeader, doc: XMLDocument) {
-    //FIXME: not currently pulling in IDs - need an example
-    if let custodian = doc.xpath("/cda:ClinicalDocument/cda:custodian/cda:assignedCustodian/cda:representedCustodianOrganization").first {
+    
+    if let custodian_elem = doc.xpath("/cda:ClinicalDocument/cda:custodian/cda:assignedCustodian").first {
       let aCustodian = CDAKQRDACustodian()
-      aCustodian.organization = import_organization(custodian)
-      //FIXME: may want to go back and figure out where these should really apply.
-      // this is being tagged to the custodian, but that isn't the "organization" - and it feels like it should be
-      if let org = aCustodian.organization {
-        org.ids = import_ids(custodian)
+      aCustodian.ids = import_ids(custodian_elem)
+      if let org = custodian_elem.xpath("/cda:representedCustodianOrganization").first {
+        aCustodian.organization = import_organization(org)
+      }
+      //FIXME: I see no cases of "person" living under assignedCustodian
+      // need examples if this is to be found
+      if let person_info = custodian_elem.xpath("./cda:representedPerson").first {
+        aCustodian.person = CDAKQRDAPerson(given: person_info["given"], family: person_info["family"])
       }
       header.custodian = aCustodian
     }
+    
   }
   
   class func import_ids (elem: XMLElement) -> [CDAKQRDAId] {
-    //<id root="2.16.840.1.113883.19.5" extension="something"/>
     return elem.xpath("./cda:id").map({id_entry in CDAKQRDAId(root: id_entry["root"], extension_id: id_entry["extension"])})
   }
-
-  class func set_device(header: CDAKQRDAHeader, doc: XMLDocument) {
-  }
   
-  class func set_id(header: CDAKQRDAHeader, doc: XMLDocument) {
-  }
-
   class func set_legal_authenticator(header: CDAKQRDAHeader, doc: XMLDocument) {
-    //FIXME: not addressing assignedPerson
-    //https://github.com/chb/sample_ccdas/blob/master/EMERGE/Patient-673.xml#L225
     if let auth_info = doc.xpath("/cda:ClinicalDocument/cda:legalAuthenticator").first {
       let legal = CDAKQRDALegalAuthenticator()
       if let time = get_time(auth_info) {
         legal.time = time
       }
-      if let org_info = auth_info.xpath("./cda:assignedEntity").first {
+      //according to the examples, this seems correct
+      if let assignedEntity = auth_info.xpath("./cda:assignedEntity").first {
+        legal.ids = import_ids(assignedEntity)
+        legal.addresses = assignedEntity.xpath("./cda:addr").map({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
+        legal.telecoms = assignedEntity.xpath("./cda:telecom").map({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
+      }
+      if let org_info = auth_info.xpath("./cda:assignedPerson/cda:name").first {
+        legal.person = CDAKQRDAPerson(given: org_info["given"], family: org_info["family"])
+      }
+      if let org_info = auth_info.xpath("./cda:representedOrganization").first {
         if let org = import_organization(org_info) {
-          org.ids = import_ids(org_info)
           legal.organization = org
         }
       }
@@ -108,6 +149,7 @@ class CDAKImport_cat1_HeaderImporter {
       cdaOrg.addresses = org.addresses
       cdaOrg.name = org.name
       cdaOrg.telecoms = org.telecoms
+      cdaOrg.ids = import_ids(organization_element)
       return cdaOrg
     }
     return nil
