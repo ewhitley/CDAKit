@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Mustache
 
 public class CDAKQRDACustodian {
   public var ids: [CDAKCDAIdentifier] = []
@@ -20,6 +21,19 @@ extension CDAKQRDACustodian: CustomStringConvertible {
   }
 }
 
+extension CDAKQRDACustodian: MustacheBoxable {
+  var boxedValues: [String:MustacheBox] {
+    return [
+      "ids" :  Box(ids),
+      "person" :  Box(person),
+      "organization" :  Box(organization)
+    ]
+  }
+  
+  public var mustacheBox: MustacheBox {
+    return Box(boxedValues)
+  }
+}
 
 extension CDAKQRDACustodian: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {

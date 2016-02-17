@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Mustache
 
 public class CDAKQRDADevice {
   public var name: String?
@@ -19,6 +20,19 @@ extension CDAKQRDADevice: CustomStringConvertible {
   }
 }
 
+
+extension CDAKQRDADevice: MustacheBoxable {
+  var boxedValues: [String:MustacheBox] {
+    return [
+      "name" :  Box(name),
+      "model" :  Box(model)
+    ]
+  }
+  
+  public var mustacheBox: MustacheBox {
+    return Box(boxedValues)
+  }
+}
 
 extension CDAKQRDADevice: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {

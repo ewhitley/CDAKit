@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Mustache
 
 public class CDAKQRDAHeader {
   public var identifier: CDAKCDAIdentifier?
@@ -25,6 +26,43 @@ public class CDAKQRDAHeader {
 extension CDAKQRDAHeader: CustomStringConvertible {
   public var description: String {
     return "CDAKQRDAHeader => identifier:\(identifier), authors:\(authors), custodian:\(custodian), legal_authenticator:\(legal_authenticator), performers:\(performers), time:\(time), confidentiality: \(confidentiality)"
+  }
+}
+
+extension CDAKQRDAHeader: MustacheBoxable {
+  
+  var boxedValues: [String:MustacheBox] {
+    var vals: [String:MustacheBox] = [String:MustacheBox]()
+
+    if let identifier = identifier {
+        vals["identifier"] = Box(identifier)
+    }
+    if authors.count > 0 {
+      vals["authors"] = Box(authors)
+    }
+    if let custodian = custodian {
+      vals["custodian"] = Box(custodian)
+    }
+    if let legal_authenticator = legal_authenticator {
+      vals["legal_authenticator"] = Box(legal_authenticator)
+    }
+    if performers.count > 0 {
+      vals["performers"] = Box(performers)
+    }
+    
+    vals["time"] = Box(time.timeIntervalSince1970)
+    vals["confidentiality"] = Box(confidentiality.rawValue)
+    if let title = title {
+      vals["title"] = Box(title)
+    }
+    
+    
+    return vals
+  }
+  
+  
+  public var mustacheBox: MustacheBox {
+    return Box(boxedValues)
   }
 }
 

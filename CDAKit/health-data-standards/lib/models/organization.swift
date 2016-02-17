@@ -63,7 +63,8 @@ extension CDAKOrganization: MustacheBoxable {
     return [
       "name" :  Box(name),
       "addresses": Box(addresses),
-      "telecoms" : Box(telecoms)
+      "telecoms" : Box(telecoms),
+      "ids": Box(ids)
     ]
   }
   

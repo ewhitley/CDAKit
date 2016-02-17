@@ -29,7 +29,7 @@ class CDAKQRDAHeaderTest: XCTestCase {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
     do {
       let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
-      print(record.header!.json)
+      print(record.json)
 //      if let header = record.cdaHeader {
 //        let info = header.json
 //        print("HEADER : \(info)")

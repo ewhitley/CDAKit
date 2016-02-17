@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Mustache
 
 public class CDAKQRDALegalAuthenticator {
   public var time = NSDate()
@@ -22,6 +23,24 @@ extension CDAKQRDALegalAuthenticator: CustomStringConvertible {
     return "CDAKQRDALegalAuthenticator => time:\(time), ids:\(ids), addresses:\(addresses), telecoms:\(telecoms), person:\(person), organization: \(organization)"
   }
 }
+
+extension CDAKQRDALegalAuthenticator: MustacheBoxable {
+  var boxedValues: [String:MustacheBox] {
+    return [
+      "time" :  Box(time.timeIntervalSince1970),
+      "telecoms" :  Box(telecoms),
+      "ids" :  Box(ids),
+      "addresses" :  Box(addresses),
+      "person" :  Box(person),
+      "organization" :  Box(organization)
+    ]
+  }
+  
+  public var mustacheBox: MustacheBox {
+    return Box(boxedValues)
+  }
+}
+
 
 extension CDAKQRDALegalAuthenticator: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {

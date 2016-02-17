@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Mustache
 
 public class CDAKQRDAAuthor {
   public var time = NSDate()
@@ -24,6 +25,23 @@ extension CDAKQRDAAuthor: CustomStringConvertible {
   }
 }
 
+extension CDAKQRDAAuthor: MustacheBoxable {
+  var boxedValues: [String:MustacheBox] {
+    return [
+      "time" :  Box(time.timeIntervalSince1970),
+      "ids" :  Box(ids),
+      "addresses" :  Box(addresses),
+      "telecoms" :  Box(telecoms),
+      "person" :  Box(person),
+      "device" :  Box(device),
+      "organization" :  Box(organization)
+    ]
+  }
+  
+  public var mustacheBox: MustacheBox {
+    return Box(boxedValues)
+  }
+}
 
 extension CDAKQRDAAuthor: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
