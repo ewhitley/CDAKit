@@ -687,6 +687,115 @@ class GRMustacheTest: XCTestCase {
     return nil
   }
 
+  
+  func testHeaderInC32() {
+    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
+    do {
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+      //record.header = nil
+      let x = record.export(inFormat: .c32)
+      //print(record.json)
+      print(x)
+    }
+    catch {
+    }
+  }
+  
+  func testTemplatesFromDifferentDirectories() {
+    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
+    do {
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+      
+//      print(record.header?.json)
+      
+//      let repo = TemplateRepository(
+//        bundle: CDAKCommonUtility.bundle,
+//        templateExtension: "mustache")
+
+      let repo = TemplateRepository(bundle: CDAKCommonUtility.bundle)
+//      print(CDAKCommonUtility.bundle)
+      
+      
+//      let filemanager:NSFileManager = NSFileManager()
+//      let files = filemanager.enumeratorAtPath(CDAKCommonUtility.bundle.bundlePath)
+//      while let file = files?.nextObject() {
+//        print(file)
+//      }
+
+//      let enumerator = NSFileManager.defaultManager().enumeratorAtPath(CDAKCommonUtility.bundle.bundlePath)
+//      var filePaths = [NSURL]()
+//      
+//      while let filePath = enumerator?.nextObject() as? String {
+//        print(filePath)
+//      }
+
+      
+      
+//      let repo = TemplateRepository(directoryPath: "/health-data-standards/templates")
+
+      //      let repo = TemplateRepository(bundle: NSBundle.mainBundle())
+      
+//      let repo = TemplateRepository(bundle: NSBundle(forClass: self.dynamicType))
+      
+      //NSBundle.mainBundle()
+      
+//      print(repo)
+      
+      let format = "c32"
+      //c32_show.c32.mustache
+//      let template_name = "\(format)_show.\(format).mustache"
+      let template_name = "c32_show.c32"
+      do {
+//        let template = try repo.template(named: "health-data-standards/templates/\(format)/\(format)_show.\(format)")
+        let template = try repo.template(named: template_name)
+        
+        
+        let data = ["patient": record]
+        
+        template.registerInBaseContext("each", Box(StandardLibrary.each))
+        template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
+        template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
+        template.registerInBaseContext("date_as_string", Box(MustacheFilters.DateAsHDSString))
+        template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
+        template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
+        template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
+        template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
+        
+        
+        do {
+          let rendering = try template.render(Box(data))
+          
+          print("trying to render...")
+          print("======================")
+          print(rendering)
+          print("======================")
+          print("rendering complete.")
+        }
+        catch let error as MustacheError {
+          print("Failed to process template. Line \(error.lineNumber) - \(error.kind). Error: \(error.description)")
+        }
+        catch let error as NSError {
+          print(error.localizedDescription)
+        }
+
+        
+      }
+      catch {
+        print("no template found '\(template_name)'")
+      }
+      
+//      let template_helper = CDAKTemplateHelper(template_format: "c32", template_subdir: "c32", template_directory: nil)
+//      let template = template_helper.template("show")
+      
+      
+      
+      
+    }
+    catch {
+      XCTFail()
+    }
+  }
+  
   func testHeaderGeneration() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
     do {
@@ -694,6 +803,8 @@ class GRMustacheTest: XCTestCase {
       
       let template_helper = CDAKTemplateHelper(template_format: "cat1", template_subdir: "cat1", template_directory: nil)
       let template = template_helper.template("header")
+      
+      record.header = nil
       
       let data = ["patient": record]
       

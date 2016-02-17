@@ -7,7 +7,7 @@
   <templateId root="2.16.840.1.113883.10.20.22.1.2"/>
   <id root="2.16.840.1.113883.19.5" extension="{{ patient.id }}" assigningAuthorityName="Cypress Project"/>
   <code code="34133-9" displayName="Summarization of episode note" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
-  <title>Cypress CCDA Patient Test Record: {{ patient.first }} {{ patient.last }}</title>
+  <title>{{#patient.header.title}}{{.}}{{/patient.header.title}}{{^patient.header.title}}CDAKit Generated C32: {{ patient.first }} {{ patient.last }}{{/patient.header.title}}</title>
   <effectiveTime value="{{ date_as_number(nil) }}"/>
   <confidentialityCode code="N"/>
   <languageCode code="en-US"/>
@@ -45,32 +45,7 @@
       </patient>
     </patientRole>
   </recordTarget>
-  <author>
-    <time value="{{ date_as_number(nil) }}"/>
-    <assignedAuthor>
-      <id/>
-      <addr/>
-      <telecom value="tel:+1-781-271-3000"/>
-      <assignedPerson>
-        <name>Auto Generated</name>
-      </assignedPerson>
-    </assignedAuthor>
-  </author>
-  <custodian>
-    <assignedCustodian>
-      <representedCustodianOrganization>
-        <id/>
-        <name>Cypress</name>
-        <telecom value="tel:+1-781-271-3000"/>
-        <addr>
-          <streetAddressLine>202 Burlington Rd.</streetAddressLine>
-          <city>Bedford</city>
-          <state>MA</state>
-          <postalCode>01730</postalCode>
-        </addr>
-      </representedCustodianOrganization>
-    </assignedCustodian>
-  </custodian>
+  {{> cat1_header.cat1}}
   <component>
     <structuredBody>
 
