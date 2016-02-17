@@ -18,7 +18,12 @@ public class CDAKPerson: CDAKPersonable, CDAKJSONInstantiable {
   public var addresses: [CDAKAddress] = [CDAKAddress]()
   public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
-  public init() {
+  public init(title: String? = nil, given_name: String? = nil, family_name: String? = nil, addresses: [CDAKAddress] = [], telecoms: [CDAKTelecom] = []){
+    self.title = title
+    self.given_name = given_name
+    self.family_name = family_name
+    self.addresses = addresses
+    self.telecoms = telecoms
   }
   
   required public init(event: [String:Any?]) {
@@ -40,5 +45,27 @@ extension CDAKPerson: MustacheBoxable {
   
   public var mustacheBox: MustacheBox {
     return Box(boxedValues)
+  }
+}
+
+extension CDAKPerson: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    if let title = title {
+      dict["title"] = title
+    }
+    if let given_name = given_name {
+      dict["given"] = given_name
+    }
+    if let family_name = family_name {
+      dict["family_name"] = family_name
+    }
+    if telecoms.count > 0 {
+      dict["telecoms"] = telecoms.map({$0.jsonDict})
+    }
+    if addresses.count > 0 {
+      dict["addresses"] = addresses.map({$0.jsonDict})
+    }
+    return dict
   }
 }

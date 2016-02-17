@@ -55,3 +55,20 @@ extension CDAKTelecom {
       ])
   }
 }
+
+extension CDAKTelecom: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    if let use = use {
+      dict["use"] = use
+    }
+    if let value = value {
+      dict["value"] = value
+    }
+    if let preferred = preferred {
+      dict["preferred"] = preferred
+    }
+    return dict
+  }
+}
+

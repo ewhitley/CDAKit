@@ -6,8 +6,11 @@
 //  Copyright © 2016 Eric Whitley. All rights reserved.
 //
 
-import Foundation
+//import Foundation
 
+//Removing this class - redundant
+//This class is identical to the existing CDA Identifier class, so I'm getting rid of this one
+/*
 public class CDAKQRDAId {
   public var extension_id: String?
   public var root: String?
@@ -31,4 +34,20 @@ extension CDAKQRDAId: CustomStringConvertible {
     return "CDAKQRDAId => extension_id:\(extension_id), root:\(root)"
   }
 }
+
+extension CDAKQRDAId: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    if let root = root {
+      dict["root"] = root
+    }
+    if let extension_id = extension_id {
+      dict["extension"] = extension_id
+    }
+    return dict
+  }
+}
+*/
+
+
 

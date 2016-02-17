@@ -22,3 +22,32 @@ public class CDAKLabResult: CDAKEntry {
 
   
 }
+
+extension CDAKLabResult {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let reference_range = reference_range {
+      dict["reference_range"] = reference_range
+    }
+    if let reference_range_high = reference_range_high {
+      dict["reference_range_high"] = reference_range_high
+    }
+    if let reference_range_low = reference_range_low {
+      dict["reference_range_low"] = reference_range_low
+    }
+
+    if interpretation.count > 0 {
+      dict["interpretation"] = interpretation.codes.map({$0.jsonDict})
+    }
+    if reaction.count > 0 {
+      dict["reaction"] = reaction.codes.map({$0.jsonDict})
+    }
+    if method.count > 0 {
+      dict["method"] = method.codes.map({$0.jsonDict})
+    }
+
+    
+    return dict
+  }
+}

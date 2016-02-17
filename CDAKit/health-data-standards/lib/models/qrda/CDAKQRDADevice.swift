@@ -18,3 +18,17 @@ extension CDAKQRDADevice: CustomStringConvertible {
     return "CDAKQRDADevice => name:\(name), model:\(model)"
   }
 }
+
+
+extension CDAKQRDADevice: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    if let name = name {
+      dict["name"] = name
+    }
+    if let model = model {
+      dict["model"] = model
+    }
+    return dict
+  }
+}

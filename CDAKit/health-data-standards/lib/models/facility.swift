@@ -24,4 +24,21 @@ public class CDAKFacility: CDAKEntry {
   
 }
 
+extension CDAKFacility {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+
+    if let name = name {
+      dict["name"] = name
+    }
+    if addresses.count > 0 {
+      dict["addresses"] = addresses.map({$0.jsonDict})
+    }
+    if telecoms.count > 0 {
+      dict["telecoms"] = telecoms.map({$0.jsonDict})
+    }
+    
+    return dict
+  }
+}
 

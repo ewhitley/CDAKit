@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+
 public class CDAKReference: CDAKJSONInstantiable {
   
   public var type: String?
@@ -74,5 +76,23 @@ public class CDAKReference: CDAKJSONInstantiable {
         }
       }
     }
+  }
+}
+
+
+extension CDAKReference: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if let type = type {
+      dict["type"] = type
+    }
+    dict["referenced_type"] = referenced_type
+    dict["referenced_id"] = referenced_id
+    if let entry = entry {
+      dict["entry"] = entry.jsonDict
+    }
+    
+    return dict
   }
 }

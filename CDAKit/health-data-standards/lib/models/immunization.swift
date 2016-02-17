@@ -34,3 +34,23 @@ public class CDAKImmunization: CDAKEntry {
 
 }
 
+extension CDAKImmunization {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let series_number = series_number {
+      dict["series_number"] = series_number
+    }
+    if reaction.count > 0 {
+      dict["reaction"] = reaction.codes.map({$0.jsonDict})
+    }
+    if let performer = performer {
+      dict["performer"] = performer.jsonDict
+    }
+    if let medication_product = medication_product {
+      dict["medication_product"] = medication_product.jsonDict
+    }
+    
+    return dict
+  }
+}

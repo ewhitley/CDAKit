@@ -21,6 +21,7 @@
 		384E232A1C73CC96009B9DED /* CDAKConfidentialityCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23291C73CC96009B9DED /* CDAKConfidentialityCodes.swift */; };
 		384E232D1C73CD22009B9DED /* cat1_header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E232C1C73CD22009B9DED /* cat1_header.swift */; };
 		384E232F1C73D89B009B9DED /* CDAKQRDAHeaderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E232E1C73D89B009B9DED /* CDAKQRDAHeaderTest.swift */; };
+		384E23311C74A760009B9DED /* CDAKJSONExportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23301C74A760009B9DED /* CDAKJSONExportable.swift */; };
 		386A14691C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 386A14681C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist */; };
 		389170351C6CC1EE00A31299 /* CDAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 389170341C6CC1EE00A31299 /* CDAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3891703C1C6CC1EE00A31299 /* CDAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 389170311C6CC1EE00A31299 /* CDAKit.framework */; };
@@ -303,6 +304,7 @@
 		384E23291C73CC96009B9DED /* CDAKConfidentialityCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKConfidentialityCodes.swift; sourceTree = "<group>"; };
 		384E232C1C73CD22009B9DED /* cat1_header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cat1_header.swift; sourceTree = "<group>"; };
 		384E232E1C73D89B009B9DED /* CDAKQRDAHeaderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKQRDAHeaderTest.swift; sourceTree = "<group>"; };
+		384E23301C74A760009B9DED /* CDAKJSONExportable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKJSONExportable.swift; sourceTree = "<group>"; };
 		386A14681C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CDAKitDefaultSampleTypeIdentifierSettings.plist; sourceTree = "<group>"; };
 		389170311C6CC1EE00A31299 /* CDAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CDAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		389170341C6CC1EE00A31299 /* CDAKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDAKit.h; sourceTree = "<group>"; };
@@ -815,6 +817,7 @@
 				389171111C6CD8A500A31299 /* NSDate+Formatters.swift */,
 				389171151C6CD8A500A31299 /* CDAKCommonUtility.swift */,
 				384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */,
+				384E23301C74A760009B9DED /* CDAKJSONExportable.swift */,
 			);
 			path = swift_helpers;
 			sourceTree = "<group>";
@@ -1529,6 +1532,7 @@
 				3891709F1C6CD7C800A31299 /* facility.swift in Sources */,
 				389170E61C6CD86D00A31299 /* cda_encounter_importer.swift in Sources */,
 				389170A31C6CD7C800A31299 /* guarantor.swift in Sources */,
+				384E23311C74A760009B9DED /* CDAKJSONExportable.swift in Sources */,
 				3891711D1C6CD8A500A31299 /* NSDate+Formatters.swift in Sources */,
 				389170A41C6CD7C800A31299 /* immunization.swift in Sources */,
 				389170FF1C6CD88A00A31299 /* ccda_care_goal_importer.swift in Sources */,

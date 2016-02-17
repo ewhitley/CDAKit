@@ -11,3 +11,15 @@ import Foundation
 public class CDAKCommunication: CDAKEntry {
   public var direction: String?
 }
+
+extension CDAKCommunication {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let direction = direction {
+      dict["direction"] = direction
+    }
+    
+    return dict
+  }
+}

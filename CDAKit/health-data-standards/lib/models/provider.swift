@@ -234,3 +234,43 @@ extension CDAKProvider: MustacheBoxable {
     return Box(boxedValues)
   }
 }
+
+extension CDAKProvider: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if let title = title {
+      dict["title"] = title
+    }
+    if let given_name = given_name {
+      dict["given_name"] = given_name
+    }
+    if let family_name = family_name {
+      dict["family_name"] = family_name
+    }
+    
+    if telecoms.count > 0 {
+      dict["telecoms"] = telecoms.map({$0.jsonDict})
+    }
+    if addresses.count > 0 {
+      dict["addresses"] = addresses.map({$0.jsonDict})
+    }
+    
+    if let specialty = specialty {
+      dict["specialty"] = specialty
+    }
+    if let phone = phone {
+      dict["phone"] = phone
+    }
+    
+    if let organization = organization {
+      dict["organization"] = organization.jsonDict
+    }
+    
+    if cda_identifiers.count > 0 {
+      dict["cda_identifiers"] = cda_identifiers.map({$0.jsonDict})
+    }
+    
+    return dict
+  }
+}

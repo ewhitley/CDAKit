@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CDAKThingWithCodes: class {
+public protocol CDAKThingWithCodes: class, CDAKJSONExportable {
   var codes: CDAKCodedEntries { get set }
 }
 
@@ -186,4 +186,16 @@ extension CDAKThingWithCodes {
 
 
   
+}
+
+extension CDAKThingWithCodes {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if codes.count > 0 {
+      dict["codes"] = codes.codes.map({$0.jsonDict})
+    }
+    
+    return dict
+  }
 }

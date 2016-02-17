@@ -9,6 +9,9 @@
 import Foundation
 import Mustache
 
+
+
+
 public class CDAKEncounter: CDAKEntry {
   
   public var admitType: CDAKCodedEntries = CDAKCodedEntries() // :admit_type, type: Hash
@@ -101,3 +104,45 @@ extension CDAKEncounter {
     return vals
   }
 }
+
+extension CDAKEncounter {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if admit_type.count > 0 {
+      dict["admit_type"] = admit_type.codes.map({$0.jsonDict})
+    }
+    if discharge_disposition.count > 0 {
+      dict["discharge_disposition"] = discharge_disposition.codes.map({$0.jsonDict})
+    }
+    if let admit_time = admit_time {
+      dict["admit_time"] = admit_time
+    }
+    if let discharge_time = discharge_time {
+      dict["discharge_time"] = discharge_time
+    }
+    
+    if principal_diagnosis.count > 0 {
+      dict["principal_diagnosis"] = principal_diagnosis.codes.map({$0.jsonDict})
+    }
+    if diagnosis.count > 0 {
+      dict["diagnosis"] = diagnosis.codes.map({$0.jsonDict})
+    }
+    
+    if let transfer_to = transfer_to {
+      dict["transfer_to"] = transfer_to.jsonDict
+    }
+    if let transfer_from = transfer_from {
+      dict["transfer_from"] = transfer_from.jsonDict
+    }
+    if let facility = facility {
+      dict["facility"] = facility.jsonDict
+    }
+    if let performer = performer {
+      dict["performer"] = performer.jsonDict
+    }
+    
+    return dict
+  }
+}
+

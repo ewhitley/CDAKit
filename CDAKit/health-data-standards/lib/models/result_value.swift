@@ -24,3 +24,21 @@ public class CDAKResultValue: NSObject, CDAKThingWithTimes {
   
 }
 
+extension CDAKResultValue: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if let time = time {
+      dict["time"] = time
+    }
+    if let start_time = start_time {
+      dict["start_time"] = start_time
+    }
+    if let end_time = end_time {
+      dict["end_time"] = end_time
+    }
+    
+    return dict
+  }
+}
+

@@ -33,3 +33,30 @@ public class CDAKFulfillmentHistory: CDAKEntry {
   }
 
 }
+
+extension CDAKFulfillmentHistory {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let prescription_number = prescription_number {
+      dict["prescription_number"] = prescription_number
+    }
+    if quantity_dispensed.jsonDict.count > 0 {
+      dict["quantity_dispensed"] = quantity_dispensed.jsonDict
+    }
+    if let dispense_date = dispense_date {
+      dict["dispense_date"] = dispense_date
+    }
+    if let fill_number = fill_number {
+      dict["fill_number"] = fill_number
+    }
+    if let fill_status = fill_status {
+      dict["fill_status"] = fill_status
+    }
+    if let provider = provider {
+      dict["provider"] = provider
+    }
+    
+    return dict
+  }
+}

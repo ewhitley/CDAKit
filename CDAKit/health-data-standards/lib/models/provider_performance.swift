@@ -31,3 +31,21 @@ public class CDAKProviderPerformance: CDAKEntry {
   }
   
 }
+
+extension CDAKProviderPerformance {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let start_date = start_date {
+      dict["start_date"] = start_date
+    }
+    if let end_date = end_date {
+      dict["end_date"] = end_date
+    }
+    if let provider = provider {
+      dict["provider"] = provider
+    }
+    
+    return dict
+  }
+}

@@ -26,6 +26,21 @@ public func == (lhs: CDAKCodedTerm, rhs: CDAKCodedTerm) -> Bool {
   return lhs.hashValue == rhs.hashValue
 }
 
+extension CDAKCodedTerm: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    dict["code"] = code
+    if let displayName = displayName {
+      dict["displayName"] = displayName
+    }
+    
+    return dict
+  }
+}
+
+
+
 
 public struct CDAKCodedEntry: CustomStringConvertible, SequenceType, CollectionType, Equatable, Hashable {
   public var codeSystem: String
@@ -168,6 +183,7 @@ public func == (lhs: CDAKCodedEntry, rhs: CDAKCodedEntry) -> Bool {
   return lhs.hashValue == rhs.hashValue
 }
 
+
 extension CDAKCodedEntry: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     return [
@@ -181,6 +197,36 @@ extension CDAKCodedEntry: MustacheBoxable {
   }
 }
 
+
+extension CDAKCodedEntry: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    dict["codeSystem"] = codeSystem
+    if let codeSystemOid = codeSystemOid {
+      dict["codeSystemOid"] = codeSystemOid
+    }
+    if let displayName = displayName {
+      dict["displayName"] = displayName
+    }
+    dict["codes"] = codedTerms.map({$0.jsonDict})
+    
+    return dict
+  }
+}
+
+
+
+extension CDAKCodedEntries: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    //dict["entries"] = entries.map({ce in "\"\(ce.0)\":[\(ce.1.map({$0}))]"})
+    dict["entries"] = codes.map({$0.jsonDict})
+    
+    return dict
+  }
+}
 
 public struct CDAKCodedEntries: CustomStringConvertible, SequenceType, CollectionType, Equatable, Hashable {
   

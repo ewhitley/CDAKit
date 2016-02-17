@@ -25,3 +25,29 @@ public class CDAKMedicalEquipment: CDAKEntry {
   }
   
 }
+
+
+extension CDAKMedicalEquipment {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let manufacturer = manufacturer {
+      dict["manufacturer"] = manufacturer
+    }
+    if let removal_time = removal_time {
+      dict["removal_time"] = removal_time
+    }
+    
+    if anatomical_structure.count > 0 {
+      dict["anatomical_structure"] = anatomical_structure.codes.map({$0.jsonDict})
+    }
+    if anatomical_approach.count > 0 {
+      dict["anatomical_approach"] = anatomical_approach.codes.map({$0.jsonDict})
+    }
+    if reaction.count > 0 {
+      dict["reaction"] = reaction.codes.map({$0.jsonDict})
+    }
+    
+    return dict
+  }
+}

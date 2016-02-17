@@ -50,3 +50,28 @@ public class CDAKAddress: NSObject, CDAKJSONInstantiable {
   }
   
 }
+
+extension CDAKAddress: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    if street.count > 0 {
+      dict["street"] = street
+    }
+    if let city = city {
+      dict["city"] = city
+    }
+    if let state = state {
+      dict["state"] = state
+    }
+    if let zip = zip {
+      dict["zip"] = zip
+    }
+    if let country = country {
+      dict["country"] = country
+    }
+    if let use = use {
+      dict["use"] = use
+    }
+    return dict
+  }
+}

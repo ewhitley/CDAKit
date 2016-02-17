@@ -46,3 +46,17 @@ extension CDAKCareGoal {
   }
 }
 
+extension CDAKCareGoal {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if related_to.count > 0 {
+      dict["related_to"] = related_to
+    }
+    if target_outcome.count > 0 {
+      dict["target_outcome"] = target_outcome
+    }
+    
+    return dict
+  }
+}

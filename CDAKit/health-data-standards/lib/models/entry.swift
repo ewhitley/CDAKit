@@ -512,4 +512,76 @@ extension CDAKEntry {
   }
 }
 
+extension CDAKEntry: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if codes.count > 0 {
+      dict["codes"] = codes.codes.map({$0.jsonDict})
+    }
+    
+    if let cda_identifier = cda_identifier {
+      dict["cda_identifier"] = cda_identifier.jsonDict
+    }
+    if values.count > 0 {
+      dict["values"] = values.map({$0.jsonDict})
+    }
+    if references.count > 0 {
+      dict["references"] = references.map({$0.jsonDict})
+    }
+    if provider_preference.count > 0 {
+      dict["provider_preference"] = provider_preference.map({$0.jsonDict})
+    }
+    if patient_preference.count > 0 {
+      dict["patient_preference"] = patient_preference.map({$0.jsonDict})
+    }
+    if let item_description = item_description {
+      dict["description"] = item_description
+    }
+    if let specifics = specifics {
+      dict["specifics"] = specifics
+    }
+    if let time = time {
+      dict["time"] = time
+    }
+    if let start_time = start_time {
+      dict["start_time"] = start_time
+    }
+    if let end_time = end_time {
+      dict["end_time"] = end_time
+    }
+    
+    if status_code.count > 0 {
+      dict["status_code"] = status_code.codes.map({$0.jsonDict})
+    }
+    dict["mood_code"] = mood_code
+    
+    if let negation_ind = negation_ind {
+      dict["negation_ind"] = negation_ind
+    }
+    
+    if negation_reason.count > 0 {
+      dict["negation_reason"] = negation_reason.codes.map({$0.jsonDict})
+    }
+    
+    if let oid = oid {
+      dict["oid"] = oid
+    }
+    if let reason = reason {
+      dict["reason"] = reason.jsonDict
+    }
+    if let comment = comment {
+      dict["comment"] = comment
+    }
+    dict["version"] = version
+    if let id = id {
+      dict["id"] = id
+    }
+    dict["created_at"] = created_at.description
+    dict["updated_at"] = updated_at.description
+    
+    return dict
+  }
+ }
+
 

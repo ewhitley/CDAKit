@@ -28,8 +28,9 @@ class CDAKImport_cat1_HeaderImporter {
     set_custodian(header, doc: doc) //done
     set_authors(header, doc: doc) //done
     set_legal_authenticator(header, doc: doc) //done
+    set_title(header, doc:doc)
     
-    if let id_elem = doc.xpath("./cda:id").first {
+    if let id_elem = doc.xpath("/cda:ClinicalDocument").first {
       header.identifier = import_ids(id_elem).first
     }
     
@@ -52,6 +53,11 @@ class CDAKImport_cat1_HeaderImporter {
   class func set_authors(header: CDAKQRDAHeader, doc: XMLDocument) {
     header.authors = doc.xpath("./cda:author").map({author in get_authors(author)})
   }
+
+  class func set_title(header: CDAKQRDAHeader, doc: XMLDocument) {
+    header.title = doc.xpath("/cda:ClinicalDocument/cda:title").first?.stringValue
+  }
+
   
   class func get_authors(elem: XMLElement) -> CDAKQRDAAuthor {
     let author = CDAKQRDAAuthor()
@@ -66,12 +72,12 @@ class CDAKImport_cat1_HeaderImporter {
       author.telecoms = assignedAuthor.xpath("./cda:telecom").map({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
       
       if let person_info = assignedAuthor.xpath("./cda:assignedPerson/cda:name").first {
-        author.person = CDAKQRDAPerson(given: person_info["given"], family: person_info["family"])
+        author.person = CDAKPerson(given_name: person_info["given"], family_name: person_info["family"])
       }
-      if let device_elem = assignedAuthor.xpath("assignedAuthoringDevice").first {
+      if let device_elem = assignedAuthor.xpath("./assignedAuthoringDevice").first {
         author.device = get_device(device_elem)
       }
-      if let org = assignedAuthor.xpath("/cda:representedOrganization").first {
+      if let org = assignedAuthor.xpath("./cda:representedOrganization").first {
         author.organization = import_organization(org)
       }
     }
@@ -91,21 +97,21 @@ class CDAKImport_cat1_HeaderImporter {
     if let custodian_elem = doc.xpath("/cda:ClinicalDocument/cda:custodian/cda:assignedCustodian").first {
       let aCustodian = CDAKQRDACustodian()
       aCustodian.ids = import_ids(custodian_elem)
-      if let org = custodian_elem.xpath("/cda:representedCustodianOrganization").first {
+      if let org = custodian_elem.xpath("./cda:representedCustodianOrganization").first {
         aCustodian.organization = import_organization(org)
       }
       //FIXME: I see no cases of "person" living under assignedCustodian
       // need examples if this is to be found
       if let person_info = custodian_elem.xpath("./cda:representedPerson").first {
-        aCustodian.person = CDAKQRDAPerson(given: person_info["given"], family: person_info["family"])
+        aCustodian.person = CDAKPerson(given_name: person_info["given"], family_name: person_info["family"])
       }
       header.custodian = aCustodian
     }
     
   }
   
-  class func import_ids (elem: XMLElement) -> [CDAKQRDAId] {
-    return elem.xpath("./cda:id").map({id_entry in CDAKQRDAId(root: id_entry["root"], extension_id: id_entry["extension"])})
+  class func import_ids (elem: XMLElement) -> [CDAKCDAIdentifier] {
+    return elem.xpath("./cda:id").map({id_entry in CDAKCDAIdentifier(root: id_entry["root"], extension_id: id_entry["extension"])})
   }
   
   class func set_legal_authenticator(header: CDAKQRDAHeader, doc: XMLDocument) {
@@ -121,7 +127,7 @@ class CDAKImport_cat1_HeaderImporter {
         legal.telecoms = assignedEntity.xpath("./cda:telecom").map({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
       }
       if let org_info = auth_info.xpath("./cda:assignedPerson/cda:name").first {
-        legal.person = CDAKQRDAPerson(given: org_info["given"], family: org_info["family"])
+        legal.person = CDAKPerson(given_name: org_info["given"], family_name: org_info["family"])
       }
       if let org_info = auth_info.xpath("./cda:representedOrganization").first {
         if let org = import_organization(org_info) {
@@ -143,9 +149,9 @@ class CDAKImport_cat1_HeaderImporter {
     return nil
   }
   
-  class func import_organization(organization_element: XMLElement) -> CDAKQRDAOrganization? {
+  class func import_organization(organization_element: XMLElement) -> CDAKOrganization? {
     if let org = CDAKImport_CDA_OrganizationImporter.extract_organization(organization_element) {
-      let cdaOrg = CDAKQRDAOrganization()
+      let cdaOrg = CDAKOrganization()
       cdaOrg.addresses = org.addresses
       cdaOrg.name = org.name
       cdaOrg.telecoms = org.telecoms

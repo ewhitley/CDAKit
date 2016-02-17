@@ -25,3 +25,37 @@ public class CDAKSupport: CDAKEntry {
   //# validates_inclusion_of :type, :in => Types
   
 }
+
+extension CDAKSupport {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let address = address {
+      dict["address"] = address.jsonDict
+    }
+    if let telecom = telecom {
+      dict["telecom"] = telecom.jsonDict
+    }
+    
+    if let title = title {
+      dict["title"] = title
+    }
+    if let given_name = given_name {
+      dict["given_name"] = given_name
+    }
+    if let family_name = family_name {
+      dict["family_name"] = family_name
+    }
+    if let mothers_maiden_name = mothers_maiden_name {
+      dict["mothers_maiden_name"] = mothers_maiden_name
+    }
+    if let type = type {
+      dict["type"] = type
+    }
+    if let relationship = relationship {
+      dict["relationship"] = relationship
+    }
+    
+    return dict
+  }
+}

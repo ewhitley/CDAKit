@@ -27,7 +27,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   public var _id: String = NSUUID().UUIDString
   
-  public var cdaHeader: CDAKQRDAHeader?
+  public var header: CDAKQRDAHeader?
 
   // FIXME:  - apparently the JSON has "pregnancies" as its own item
   // that's not on the dx or problem list (which makes sense - sort of)
@@ -846,4 +846,102 @@ extension CDAKRecord {
     self.init(copyFrom: x)
   }
   
+}
+
+
+extension CDAKRecord: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if let title = title {
+      dict["title"] = title
+    }
+    if let first = first {
+      dict["first"] = first
+    }
+    if let last = last {
+      dict["last"] = last
+    }
+    if let gender = gender {
+      dict["gender"] = gender
+    }
+    if let birthdate = birthdate {
+      dict["birthdate"] = birthdate
+    }
+    if let deathdate = deathdate {
+      dict["deathdate"] = deathdate
+    }
+    
+    if religious_affiliation.count > 0 {
+      dict["religious_affiliation"] = religious_affiliation.codes.map({$0.jsonDict})
+    }
+    
+    if let effective_time = effective_time {
+      dict["effective_time"] = effective_time
+    }
+    
+    dict["id"] = _id
+    
+    if let header = header {
+      dict["header"] = header.jsonDict
+    }
+    
+    if pregnancies.count > 0 {
+      dict["pregnancies"] = pregnancies.map({$0.jsonDict})
+    }
+    if race.count > 0 {
+      dict["race"] = race.codes.map({$0.jsonDict})
+    }
+    if ethnicity.count > 0 {
+      dict["ethnicity"] = ethnicity.codes.map({$0.jsonDict})
+    }
+    //dict["languages"] = languages.codes.map({$0.jsonDict})
+    if marital_status.count > 0 {
+      dict["marital_status"] = marital_status.codes.map({$0.jsonDict})
+    }
+    
+    if let medical_record_number = medical_record_number {
+      dict["medical_record_number"] = medical_record_number
+    }
+    
+    if let medical_record_assigner = medical_record_assigner {
+      dict["medical_record_assigner"] = medical_record_assigner
+    }
+    
+    if let expired = expired {
+      dict["expired"] = expired
+    }
+    
+    if let clinicalTrialParticipant = clinicalTrialParticipant {
+      dict["clinicalTrialParticipant"] = clinicalTrialParticipant
+    }
+    
+    if let custodian = custodian {
+      dict["custodian"] = custodian
+    }
+    
+    if allergies.count > 0 { dict["allergies"] = allergies.map({$0.jsonDict}) }
+    if care_goals.count > 0 { dict["care_goals"] = care_goals.map({$0.jsonDict}) }
+    if conditions.count > 0 { dict["conditions"] = conditions.map({$0.jsonDict}) }
+    if encounters.count > 0 { dict["encounters"] = encounters.map({$0.jsonDict}) }
+    if communications.count > 0 { dict["communications"] = communications.map({$0.jsonDict}) }
+    if family_history.count > 0 { dict["family_history"] = family_history.map({$0.jsonDict}) }
+    if immunizations.count > 0 { dict["immunizations"] = immunizations.map({$0.jsonDict}) }
+    if medical_equipment.count > 0 { dict["medical_equipment"] = medical_equipment.map({$0.jsonDict}) }
+    if medications.count > 0 { dict["medications"] = medications.map({$0.jsonDict}) }
+    if procedures.count > 0 { dict["procedures"] = procedures.map({$0.jsonDict}) }
+    if results.count > 0 { dict["results"] = results.map({$0.jsonDict}) }
+    if social_history.count > 0 { dict["social_history"] = social_history.map({$0.jsonDict}) }
+    if vital_signs.count > 0 { dict["vital_signs"] = vital_signs.map({$0.jsonDict}) }
+    if support.count > 0 { dict["support"] = support.map({$0.jsonDict}) }
+    if advance_directives.count > 0 { dict["advance_directives"] = advance_directives.map({$0.jsonDict}) }
+    if insurance_providers.count > 0 { dict["insurance_providers"] = insurance_providers.map({$0.jsonDict}) }
+    if functional_statuses.count > 0 { dict["functional_statuses"] = functional_statuses.map({$0.jsonDict}) }
+    if provider_performances.count > 0 { dict["provider_performances"] = provider_performances.map({$0.jsonDict}) }
+    if addresses.count > 0 { dict["addresses"] = addresses.map({$0.jsonDict}) }
+    if telecoms.count > 0 { dict["telecoms"] = telecoms.map({$0.jsonDict}) }
+
+    
+    return dict
+  }
 }

@@ -12,14 +12,10 @@ import Mustache
 public class CDAKCDAIdentifier: Equatable, Hashable, CDAKJSONInstantiable, CustomStringConvertible {
 
   public var root: String?
-  var extension_id: String?
+  public var extension_id: String?
   
   public var hashValue: Int {
     return "\(root)\(extension_id)".hashValue
-  }
-  
-  init() {
-    
   }
   
   public var description: String {
@@ -35,9 +31,8 @@ public class CDAKCDAIdentifier: Equatable, Hashable, CDAKJSONInstantiable, Custo
       CDAKUtility.setProperty(self, property: key, value: value)
     }
   }
-
   
-  public init(root: String?, extension_id: String? = nil) {
+  public init(root: String? = nil, extension_id: String? = nil) {
     self.root = root
     self.extension_id = extension_id
   }
@@ -71,5 +66,20 @@ extension CDAKCDAIdentifier: MustacheBoxable {
         "extension_id": self.root,
         "as_string": self.as_string
       ])
+  }
+}
+
+extension CDAKCDAIdentifier: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if let root = root {
+      dict["root"] = root
+    }
+    if let extension_id = extension_id {
+      dict["extension"] = extension_id
+    }
+    
+    return dict
   }
 }

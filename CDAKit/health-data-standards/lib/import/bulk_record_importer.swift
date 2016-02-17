@@ -34,13 +34,13 @@ public class CDAKImport_BulkRecordImporter {
             print("Deteremined XML document format as: C32")
             let importer = CDAKImport_C32_PatientImporter()
             let record = importer.parse_c32(doc)
-            record.cdaHeader = CDAKImport_cat1_HeaderImporter.import_header(doc)
+            record.header = CDAKImport_cat1_HeaderImporter.import_header(doc)
             return record
           } else if doc.xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.22.1.2']").count > 0 {
             print("Deteremined XML document format as: CCDA")
             let importer = CDAKImport_CCDA_PatientImporter()
             let record = importer.parse_ccda(doc)
-            record.cdaHeader = CDAKImport_cat1_HeaderImporter.import_header(doc)
+            record.header = CDAKImport_cat1_HeaderImporter.import_header(doc)
             return record
           } else if doc.xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.24.1.2']").count > 0 {
             print("QRDA1 not (yet) supported")
@@ -50,7 +50,7 @@ public class CDAKImport_BulkRecordImporter {
             print("Deteremined XML document format as: Non-Standard CDA. This may or may not import completely.")
             let importer = CDAKImport_CCDA_PatientImporter()
             let record = importer.parse_ccda(doc)
-            record.cdaHeader = CDAKImport_cat1_HeaderImporter.import_header(doc)
+            record.header = CDAKImport_cat1_HeaderImporter.import_header(doc)
             return record
           } else {
             print("Unable to determinate document template/type of CDA document")

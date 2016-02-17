@@ -17,3 +17,20 @@ public class CDAKCodedResultValue: CDAKResultValue, CDAKThingWithCodes {
   }
 
 }
+
+
+extension CDAKCodedResultValue {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let item_description = item_description {
+      dict["description"] = item_description
+    }
+    if codes.count > 0 {
+      dict["codes"] = codes.codes.map({$0.jsonDict})
+    }
+    
+    return dict
+  }
+}
+

@@ -19,3 +19,18 @@ public class CDAKGuarantor: CDAKEntry {
   }
   
 }
+
+extension CDAKGuarantor {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let organization = organization {
+      dict["organization"] = organization.jsonDict
+    }
+    if let person = person {
+      dict["person"] = person.jsonDict
+    }
+    
+    return dict
+  }
+}

@@ -14,3 +14,18 @@ public class CDAKFamilyHistory: CDAKEntry {
   public var onsetAge = [String:String]()
     
 }
+
+extension CDAKFamilyHistory {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if relationshipToPatient.count > 0 {
+      dict["relationshipToPatient"] = relationshipToPatient
+    }
+    if onsetAge.count > 0 {
+      dict["onsetAge"] = onsetAge
+    }
+    
+    return dict
+  }
+}

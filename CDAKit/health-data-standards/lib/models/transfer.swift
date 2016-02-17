@@ -31,3 +31,20 @@ extension CDAKTransfer: MustacheBoxable {
     return Box(boxedValues)
   }
 }
+
+
+extension CDAKTransfer: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if codes.count > 0 {
+      dict["codes"] = codes.codes.map({$0.jsonDict})
+    }
+    
+    if let time = time {
+      dict["time"] = time
+    }
+    
+    return dict
+  }
+}

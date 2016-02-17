@@ -12,7 +12,7 @@ import Mustache
 public class CDAKOrganization: CDAKJSONInstantiable, CustomStringConvertible, Equatable, Hashable {
   
   public var name: String?
-  
+  public var ids: [CDAKCDAIdentifier] = [] //not used in original model. Merged from QRDA ORG model
   public var addresses: [CDAKAddress] = [CDAKAddress]()
   public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
@@ -71,3 +71,25 @@ extension CDAKOrganization: MustacheBoxable {
     return Box(boxedValues)
   }
 }
+
+extension CDAKOrganization: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if let name = name {
+      dict["name"] = name
+    }
+    if ids.count > 0 {
+      dict["ids"] = ids.map({$0.jsonDict})
+    }
+    if telecoms.count > 0 {
+      dict["telecoms"] = telecoms.map({$0.jsonDict})
+    }
+    if addresses.count > 0 {
+      dict["addresses"] = addresses.map({$0.jsonDict})
+    }
+    
+    return dict
+  }
+}
+

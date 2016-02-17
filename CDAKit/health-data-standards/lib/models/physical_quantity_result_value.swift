@@ -63,3 +63,18 @@ extension CDAKPhysicalQuantityResultValue {
   }
   
 }
+
+extension CDAKPhysicalQuantityResultValue {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let scalar = scalar {
+      dict["scalar"] = scalar
+    }
+    if let units = units {
+      dict["units"] = units
+    }
+    
+    return dict
+  }
+}

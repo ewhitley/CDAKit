@@ -34,3 +34,33 @@ public class CDAKInsuranceProvider: CDAKEntry {
 
   
 }
+
+extension CDAKInsuranceProvider {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let payer = payer {
+      dict["payer"] = payer.jsonDict
+    }
+    if guarantors.count > 0 {
+      dict["guarantors"] = guarantors.map({$0.jsonDict})
+    }
+    if let type = type {
+      dict["type"] = type
+    }
+    if let member_id = member_id {
+      dict["member_id"] = member_id
+    }
+    if relationship.count > 0 {
+      dict["relationship"] = relationship.codes.map({$0.jsonDict})
+    }
+    if financial_responsibility_type.count > 0 {
+      dict["financial_responsibility_type"] = financial_responsibility_type.codes.map({$0.jsonDict})
+    }
+    if let name = name {
+      dict["name"] = name
+    }
+
+    return dict
+  }
+}

@@ -13,4 +13,17 @@ public struct CDAKValueAndUnit {
   var unit: String?
 }
 
-
+extension CDAKValueAndUnit: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if let value = value {
+      dict["value"] = value
+    }
+    if let unit = unit {
+      dict["unit"] = unit
+    }
+    
+    return dict
+  }
+}

@@ -43,3 +43,22 @@ extension CDAKAllergy {
     return vals
   }
 }
+
+extension CDAKAllergy {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if type.count > 0 {
+      dict["type"] = type.codes.map({$0.jsonDict})
+    }
+    if reaction.count > 0 {
+      dict["reaction"] = reaction.codes.map({$0.jsonDict})
+    }
+    if severity.count > 0 {
+      dict["severity"] = severity.codes.map({$0.jsonDict})
+    }
+    
+    return dict
+  }
+}
+

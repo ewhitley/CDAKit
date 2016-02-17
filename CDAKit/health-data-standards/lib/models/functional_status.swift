@@ -26,3 +26,18 @@ public class CDAKFunctionalStatus: CDAKEntry {
   public var source = [String:String]() //, type: Hash
   
 }
+
+extension CDAKFunctionalStatus {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let type = type {
+      dict["type"] = type
+    }
+    if source.count > 0 {
+      dict["source"] = source
+    }
+    
+    return dict
+  }
+}

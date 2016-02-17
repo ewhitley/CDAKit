@@ -11,3 +11,15 @@ import Foundation
 public class CDAKTreatingProvider: CDAKEntry {
   public var treatingProviderID: Int?
 }
+
+extension CDAKTreatingProvider {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if let treatingProviderID = treatingProviderID {
+      dict["treatingProviderID"] = treatingProviderID
+    }
+    
+    return dict
+  }
+}

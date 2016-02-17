@@ -8,6 +8,47 @@
 
 import Foundation
 
+public struct CDAKMedicationRestriction {
+  var numerator: CDAKValueAndUnit = CDAKValueAndUnit()
+  var denominator: CDAKValueAndUnit = CDAKValueAndUnit()
+}
+
+extension CDAKMedicationRestriction: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if numerator.jsonDict.count > 0 {
+      dict["numerator"] = numerator.jsonDict
+    }
+    if denominator.jsonDict.count > 0 {
+      dict["denominator"] = denominator.jsonDict
+    }
+    
+    return dict
+  }
+}
+
+
+public struct CDAKMedicationAdministrationTiming {
+  var institution_specified: Bool = false
+  var period: CDAKValueAndUnit = CDAKValueAndUnit()
+  //var period: Int? // only example I have shows this as an Int - probably need to check spec
+}
+
+extension CDAKMedicationAdministrationTiming: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    dict["institution_specified"] = institution_specified
+    if period.jsonDict.count > 0 {
+      dict["period"] = period.jsonDict
+    }
+    
+    return dict
+  }
+}
+
+
 public class CDAKMedication: CDAKEntry {
   public var administration_timing: CDAKMedicationAdministrationTiming = CDAKMedicationAdministrationTiming()
   public var free_text_sig: String?
@@ -43,16 +84,6 @@ public class CDAKMedication: CDAKEntry {
   //      "scalar": 3,
   //      "unit": "d"
   
-  public struct CDAKMedicationRestriction {
-    var numerator: CDAKValueAndUnit = CDAKValueAndUnit()
-    var denominator: CDAKValueAndUnit = CDAKValueAndUnit()
-  }
-  
-  public struct CDAKMedicationAdministrationTiming {
-    var institution_specified: Bool = false
-    var period: CDAKValueAndUnit = CDAKValueAndUnit()
-    //var period: Int? // only example I have shows this as an Int - probably need to check spec
-  }
   
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
@@ -66,4 +97,39 @@ public class CDAKMedication: CDAKEntry {
     }
     
   }  
+}
+
+
+extension CDAKMedication {
+  override public var jsonDict: [String: AnyObject] {
+    var dict = super.jsonDict
+    
+    if fulfillment_history.count > 0 { dict["fulfillment_history"] = fulfillment_history.map({$0.jsonDict}) }
+    if order_information.count > 0 { dict["order_information"] = order_information.map({$0.jsonDict}) }
+    if cumulativeMedicationDuration.count > 0 { dict["cumulativeMedicationDuration"] = cumulativeMedicationDuration }
+    
+    if anatomical_approach.count > 0 { dict["anatomical_approach"] = anatomical_approach.codes.map({$0.jsonDict}) }
+    if delivery_method.count > 0 { dict["delivery_method"] = delivery_method.codes.map({$0.jsonDict}) }
+    if indication.count > 0 { dict["indication"] = indication.codes.map({$0.jsonDict}) }
+    if method.count > 0 { dict["method"] = method.codes.map({$0.jsonDict}) }
+    if product_form.count > 0 { dict["product_form"] = product_form.codes.map({$0.jsonDict}) }
+    if reaction.count > 0 { dict["reaction"] = reaction.codes.map({$0.jsonDict}) }
+    if route.count > 0 { dict["route"] = route.codes.map({$0.jsonDict}) }
+    if status_of_medication.count > 0 { dict["status_of_medication"] = status_of_medication.codes.map({$0.jsonDict}) }
+    if type_of_medication.count > 0 { dict["type_of_medication"] = type_of_medication.codes.map({$0.jsonDict}) }
+    if vehicle.count > 0 { dict["vehicle"] = vehicle.codes.map({$0.jsonDict}) }
+
+    if administration_timing.jsonDict.count > 0 { dict["administration_timing"] = administration_timing.jsonDict }
+    if dose_restriction.jsonDict.count > 0 { dict["dose_restriction"] = dose_restriction.jsonDict }
+    if dose.jsonDict.count > 0 { dict["dose"] = dose.jsonDict }
+    
+    if let active_datetime = active_datetime { dict["active_datetime"] = active_datetime }
+    if let signed_datetime = signed_datetime { dict["signed_datetime"] = signed_datetime }
+    if let dose_indicator = dose_indicator { dict["dose_indicator"] = dose_indicator }
+    if let free_text_sig = free_text_sig { dict["free_text_sig"] = free_text_sig }
+    if let fulfillment_instructions = fulfillment_instructions { dict["fulfillment_instructions"] = fulfillment_instructions }
+    if let patient_instructions = patient_instructions { dict["patient_instructions"] = patient_instructions }
+    
+    return dict
+  }
 }

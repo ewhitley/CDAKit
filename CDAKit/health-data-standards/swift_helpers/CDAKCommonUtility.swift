@@ -207,6 +207,20 @@ class CDAKCommonUtility {
     return ""
   }
   
-  
+  class func jsonStringFromDict(jsonDict: [String:AnyObject]) -> String? {
+    if NSJSONSerialization.isValidJSONObject(jsonDict) { // True
+      do {
+        let rawData = try NSJSONSerialization.dataWithJSONObject(jsonDict, options: .PrettyPrinted)
+        let jsonString = NSString(data: rawData, encoding: NSUTF8StringEncoding) as? String
+        return NSString(data: rawData, encoding: NSUTF8StringEncoding) as? String
+      } catch let error as NSError {
+        print(error)
+      }
+    } else {
+      print("jsonStringFromDict - invalid JSON object")
+    }
+    return nil
+  }
+
   
 }
