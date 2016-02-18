@@ -68,18 +68,14 @@ class ViewHelper {
     
     let preferred_code = entry.preferred_code(pcs, codes_attribute: options_attribute, value_set_map: value_set_map)
     
-//    if String(entry.dynamicType) == "CDAKCondition" {
-//      print("preferred_code_sets = \(preferred_code_sets)")
-//    }
-    
-    
     if let preferred_code = preferred_code {
       let pc = preferred_code.codeSystem
       let code_system_oid = CDAKCodeSystemHelper.oid_for_code_system(pc)
       let tag_name = options["tag_name"] as? String
       let code = preferred_code.codes.first
       let extra_content = options["extra_content"] as? String
-      code_string = "<\(tag_name ?? "") code=\"\(code ?? "")\" codeSystem=\"\(code_system_oid ?? "")\" \(extra_content ?? "")>"
+      let display = preferred_code.displayName != nil ? "displayName=\"\(preferred_code.displayName!)\"" : ""
+      code_string = "<\(tag_name ?? "") code=\"\(code ?? "")\" codeSystemName=\"\(pc)\" codeSystem=\"\(code_system_oid ?? "")\" \(display) \(extra_content ?? "")>"
     } else {      
       let tag_name = options["tag_name"] as? String
       let extra_content = options["extra_content"] as? String
@@ -97,14 +93,10 @@ class ViewHelper {
     // the entry is of type ThingWithCodes... but all entries at that, so....
     if options_attribute == "codes" {
       code_string += "<originalText>\(CDAKCommonUtility.html_escape(entry.item_description))</originalText>"
-      //print("preferred_code_sets = \(preferred_code_sets)")
       for (codeSystem, codes) in entry.translation_codes(preferred_code_sets, value_set_map: value_set_map) {
-//        let code = translation["code"]!
-//        let code_set = translation["code_set"]!
-//        let code = codes.first!
-//        let code_set = codeSystem
+        let display = codes.displayName != nil ? " displayName=\"\(codes.displayName!)\"" : ""
         for code in codes {
-          code_string += "<translation code=\"\(code)\" codeSystem=\"\(CDAKCodeSystemHelper.oid_for_code_system(codeSystem))\"/>\n"
+          code_string += "<translation code=\"\(code)\" codeSystemName=\"\(codeSystem)\" codeSystem=\"\(CDAKCodeSystemHelper.oid_for_code_system(codeSystem))\"\(display)/>\n"
         }
       }
     }

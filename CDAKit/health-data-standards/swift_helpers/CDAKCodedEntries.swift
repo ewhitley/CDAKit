@@ -39,7 +39,17 @@ extension CDAKCodedTerm: CDAKJSONExportable {
   }
 }
 
-
+extension CDAKCodedTerm: MustacheBoxable {
+  var boxedValues: [String:MustacheBox] {
+    return [
+      "code" :  Box(code),
+      "displayName": Box(displayName)
+    ]
+  }
+  public var mustacheBox: MustacheBox {
+    return Box(boxedValues)
+  }
+}
 
 
 public struct CDAKCodedEntry: CustomStringConvertible, SequenceType, CollectionType, Equatable, Hashable {
@@ -189,7 +199,8 @@ extension CDAKCodedEntry: MustacheBoxable {
     return [
       "codeSystem" :  Box(self.codeSystem),
       "codeSystemOid" :  Box(self.codeSystemOid),
-      "codes" :  Box(self.codes)
+      "codes" :  Box(self.codes),
+      "displayName": Box(displayName)
     ]
   }
   public var mustacheBox: MustacheBox {
@@ -216,17 +227,6 @@ extension CDAKCodedEntry: CDAKJSONExportable {
 }
 
 
-
-extension CDAKCodedEntries: CDAKJSONExportable {
-  public var jsonDict: [String: AnyObject] {
-    var dict: [String: AnyObject] = [:]
-    
-    //dict["entries"] = entries.map({ce in "\"\(ce.0)\":[\(ce.1.map({$0}))]"})
-    dict["entries"] = codes.map({$0.jsonDict})
-    
-    return dict
-  }
-}
 
 public struct CDAKCodedEntries: CustomStringConvertible, SequenceType, CollectionType, Equatable, Hashable {
   
@@ -333,6 +333,26 @@ public struct CDAKCodedEntries: CustomStringConvertible, SequenceType, Collectio
   
   public func findIntersectingCodes(forCodeSystem codeSystem: String, matchingCodes codes:[String]) -> [String]? {
     return entries[codeSystem]?.codes.filter({codes.contains($0)})
+  }
+
+  /**
+   Returns a new CDAKCodedEntry
+   Searches all codeded entries for a match of the specified vocabulary and codes
+  */
+  public func findIntersectingCodedEntries(forCodeSystem codeSystem: String, matchingCodes codes:[String]) -> CDAKCodedEntry? {
+    
+    if let anEntry = entries[codeSystem] {
+      if anEntry.codes.filter({codes.contains($0)}).count > 0 {
+        var anOID = anEntry.codeSystemOid
+        if anOID == nil {
+          anOID = CDAKCodeSystemHelper.oid_for_code_system(codeSystem)
+        }
+        let a_new_entry = CDAKCodedEntry(codeSystem: anEntry.codeSystem, codes: codes, codeSystemOid: anOID, displayName: anEntry.displayName)
+        return a_new_entry
+      }
+    }
+    
+    return nil
   }
 
   
@@ -467,6 +487,19 @@ extension CDAKCodedEntries: MustacheBoxable {
 //    ]
 //  }
   public var mustacheBox: MustacheBox {
-    return Box(codeDictionary) // I don't really want the rest of the stuff (yet...)
+    return Box(codes.map({Box($0)}))
+    //return Box(codeDictionary) // I don't really want the rest of the stuff (yet...)
+  }
+}
+
+
+extension CDAKCodedEntries: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    //dict["entries"] = entries.map({ce in "\"\(ce.0)\":[\(ce.1.map({$0}))]"})
+    dict["entries"] = codes.map({$0.jsonDict})
+    
+    return dict
   }
 }

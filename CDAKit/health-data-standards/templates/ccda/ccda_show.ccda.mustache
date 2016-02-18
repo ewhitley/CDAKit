@@ -41,11 +41,11 @@
         <raceCode code="{{ . }}" {{#name}}displayName="{{ name }}"{{/name }} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>{{/.CDC}}{{/patient.race}}
         {{#patient.ethnicity}}{{#.CDC}}
           <ethnicGroupCode code="{{ . }}" {{#name}}displayName="{{ name }}"{{/name }} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>{{/.CDC}}{{/patient.ethnicity}}
-          {{#each(patient.languages)}}{{# each(.)}}
+          {{#each(patient.languages)}}{{#each(.)}}{{#codes}}
           <languageCommunication>
             <languageCode code="{{.}}"/>
           </languageCommunication>
-          {{/}}{{/}}
+          {{/}}{{/}}{{/}}
           {{^patient.languages}}
           <languageCommunication>
             <languageCode code="en-us"/>

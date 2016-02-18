@@ -458,10 +458,21 @@ extension CDAKEntry {
     var entry_preferred_code : CDAKCodedEntry?
     var code_system_oid = ""
     if let a_preferred_code = preferred_code(preferred_code_sets) {
+      //fixme: this whole thing is a mess - legacy Ruby approach
       let code_set = a_preferred_code.codeSystem
       code_system_oid = CDAKCodeSystemHelper.oid_for_code_system(code_set)
-      entry_preferred_code = CDAKCodedEntry(codeSystem: code_set, codes: a_preferred_code.codes, codeSystemOid: code_system_oid)
+      entry_preferred_code = a_preferred_code//CDAKCodedEntry(codeSystem: code_set, codes: a_preferred_code.codes, codeSystemOid: code_system_oid)
+      //print("entry_preferred_code = \(entry_preferred_code)")
     }
+
+    
+    var translation_codes: CDAKCodedEntries?
+    if entry_preferred_code != nil {
+      translation_codes = self.translation_codes(self.preferred_code_sets)
+    }
+    //find a preferred term using a specified vocabulary
+    // pick the first one - the rest can be translations
+    
     
     return [
       "cda_identifier" :  Box(self.cda_identifier),
@@ -495,11 +506,15 @@ extension CDAKEntry {
       "code_display": Box(code_display),
 
       "as_point_in_time" : Box(self.as_point_in_time()),
-      "preferred_code" : entry_preferred_code != nil ? Box(["code":entry_preferred_code!.codes, "code_set":entry_preferred_code!.codeSystem] ) : Box(nil), //need to transform this into a usable struct
       "code_system_oid" : Box(code_system_oid),
-      "translation_codes": Box(self.translation_codes(self.preferred_code_sets).arrayOfFlattenedCodedEntry.map({ce -> [String:String] in
-        return ["code_set": ce.codeSystem, "code": ce.code!]
-      })),
+//      "preferred_code" : entry_preferred_code != nil ? Box(["code":entry_preferred_code!.codes, "code_set":entry_preferred_code!.codeSystem, "displayName": entry_preferred_code!.displayName ?? ""] ) : Box(nil), //need to transform this into a usable struct
+//      "translation_codes": Box(self.translation_codes(self.preferred_code_sets).arrayOfFlattenedCodedEntry.map({ce -> [String:String] in
+//        return ["code_set": ce.codeSystem, "code": ce.code!]
+//      })),
+      "preferred_code": entry_preferred_code != nil ? Box(entry_preferred_code!) : Box(nil),
+      "translation_codes": entry_preferred_code != nil ? Box(self.translation_codes(self.preferred_code_sets)) : Box(nil),
+      
+      
       "codes_to_s" : Box(codes_to_s()),
       "times_to_s" : Box(times_to_s()),
       

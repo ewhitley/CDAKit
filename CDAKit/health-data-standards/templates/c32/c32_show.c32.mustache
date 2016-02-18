@@ -45,13 +45,13 @@
           <raceCode code="{{ . }}" {{#name}}displayName="{{ name }}"{{/name }} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>{{/.CDC}}{{/patient.race}}
         {{#patient.ethnicity}}{{#.CDC}}
           <ethnicGroupCode code="{{ . }}" {{#name}}displayName="{{ name }}"{{/name }} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>{{/.CDC}}{{/patient.ethnicity}}
-          {{#each(patient.languages)}}{{# each(.)}}
+          {{#each(patient.languages)}}{{#each(.)}}{{#codes}}
           <languageCommunication>
             <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
             <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.1" assigningAuthorityName="IHE/PCC"/>
             <languageCode code="{{.}}"/>
           </languageCommunication>
-          {{/}}{{/}}
+          {{/}}{{/}}{{/}}
         {{^patient.languages}}
           <languageCommunication>
             <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>

@@ -65,19 +65,27 @@ extension CDAKThingWithCodes {
           if let somecodes = codes_value[matching_code_set] {
             codes_value_matching_code_set = somecodes.codes
           }
+
           matching_codes = Array(Set(value_set_map.map({ cs in cs.findIntersectingCodes(forCodeSystem: matching_code_set, matchingCodes:codes_value_matching_code_set) }).flatMap({$0}).flatMap({$0})))
 
-          if matching_codes.count > 0 {
-            if let code_set = matching_code_sets.first {
-              return CDAKCodedEntry(codeSystem: code_set, codes: codes_value[code_set]!.first!)
-            }
-          }
+          return codes.findIntersectingCodedEntries(forCodeSystem: matching_code_set, matchingCodes: matching_codes)
+          
+//          matching_codes = Array(Set(value_set_map.map({ cs in cs.findIntersectingCodes(forCodeSystem: matching_code_set, matchingCodes:codes_value_matching_code_set) }).flatMap({$0}).flatMap({$0})))
+//
+//          if matching_codes.count > 0 {
+//            if let code_set = matching_code_sets.first {
+//              return CDAKCodedEntry(codeSystem: code_set, codes: codes_value[code_set]!.first!)
+//            }
+//          }
         }
         //# we did not find a matching preferred code... we cannot write this out to QRDA
         return nil
       } else {
         if let code_set = matching_code_sets.first {
-          return CDAKCodedEntry(codeSystem: code_set, codes: codes_value[code_set]!.first!)
+//          return CDAKCodedEntry(codeSystem: code_set, codes: codes_value[code_set]!.first!)
+          if let matching_codes = codes_value[code_set] {
+            return codes.findIntersectingCodedEntries(forCodeSystem: code_set, matchingCodes: matching_codes.codes)
+          }
         }
       }
       
@@ -111,18 +119,20 @@ extension CDAKThingWithCodes {
   func translation_codes(preferred_code_sets: [String], value_set_map: [CDAKCodedEntries] = []) -> CDAKCodedEntries {
     
     var tx_codes: CDAKCodedEntries = CDAKCodedEntries()
-    var matching_codes: CDAKCodedEntries = CDAKCodedEntries()
+//    var matching_codes: CDAKCodedEntries = CDAKCodedEntries()
     
-    matching_codes = value_set_map.count > 0 ? codes_in_code_set(value_set_map) : codes
-    for (code_set, code_list) in matching_codes {
-      for code in code_list {
-        tx_codes.addCodes(code_set, codes: [code])
-      }
-    }
+    tx_codes = value_set_map.count > 0 ? codes_in_code_set(value_set_map) : codes
+//    matching_codes = value_set_map.count > 0 ? codes_in_code_set(value_set_map) : codes
+//    for (code_set, code_list) in matching_codes {
+//      for code in code_list {
+//        tx_codes.addCodes(code_set, codes: [code])
+//      }
+//    }
     
     var pref_code = CDAKCodedEntries()
     if let somecodes = preferred_code(preferred_code_sets, codes_attribute: "codes", value_set_map: value_set_map) {
-        pref_code.addCodes([somecodes])
+        //pref_code.addCodes([somecodes])
+      pref_code[somecodes.codeSystem] = somecodes
     }
     //translation codes are those NOT in the originating values
     // EX: we pass in SNOMED:123 and check against SNOMED:123 and LOINC:456
@@ -145,22 +155,29 @@ extension CDAKThingWithCodes {
     var matching: CDAKCodedEntries = CDAKCodedEntries()
     
     for code_system in codes.keys {
-      var matching_codes: [String] = []
+      //var matching_codes: [String] = []
       let all_codes_in_system = code_set.filter({set in set["set"]?.first == code_system})
 
-      for codes_in_system in all_codes_in_system {
-        if let values = codes_in_system["values"] {
-          matching_codes.appendContentsOf(values)
-        }
-        if let values = codes[code_system] {
-          matching_codes.appendContentsOf(values)
+      for entries in all_codes_in_system {
+        if let entry = entries[code_system] {
+          if let matchingEntry = codes.findIntersectingCodedEntries(forCodeSystem: code_system, matchingCodes: entry.codes) {
+            matching[code_system] = matchingEntry
+          }
         }
       }
-      matching_codes = Array(Set(matching_codes)) //bad de-dupe
-      matching[code_system] = CDAKCodedEntry(codeSystem: code_system, codes: matching_codes)
-      //NOTE : moving this code down to the bottom - in the original Ruby it's at the top
-      // Ruby will retain the reference between the dictionary entry and the array, so
-      // we're moving this to the bottom since Swift doesn't really do that
+//      for codes_in_system in all_codes_in_system {
+//        if let values = codes_in_system["values"] {
+//          matching_codes.appendContentsOf(values)
+//        }
+//        if let values = codes[code_system] {
+//          matching_codes.appendContentsOf(values)
+//        }
+//      }
+//      matching_codes = Array(Set(matching_codes)) //bad de-dupe
+//      matching[code_system] = CDAKCodedEntry(codeSystem: code_system, codes: matching_codes)
+//      //NOTE : moving this code down to the bottom - in the original Ruby it's at the top
+//      // Ruby will retain the reference between the dictionary entry and the array, so
+//      // we're moving this to the bottom since Swift doesn't really do that
     }
     
     return matching
