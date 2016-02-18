@@ -36,7 +36,9 @@ class ViewHelperTest: XCTestCase {
 
     XCTAssert(!code_xml.containsString("bacon > cheese"))
     XCTAssert(code_xml.containsString("bacon &gt; cheese"))
-    XCTAssertEqual(code_xml, "<code nullFlavor=\"UNK\" ><originalText>bacon &gt; cheese</originalText><translation code=\"1234\" codeSystem=\"2.16.840.1.113883.6.12\"/>\n</code>")
+    //Original test case.  Changing the test case because I want to have codeSystemName in entries
+    //XCTAssertEqual(code_xml, "<code nullFlavor=\"UNK\" ><originalText>bacon &gt; cheese</originalText><translation code=\"1234\" codeSystem=\"2.16.840.1.113883.6.12\"/>\n</code>")
+    XCTAssertEqual(code_xml, "<code nullFlavor=\"UNK\" ><originalText>bacon &gt; cheese</originalText><translation code=\"1234\" codeSystemName=\"CPT\" codeSystem=\"2.16.840.1.113883.6.12\"/>\n</code>")
     
   }
   
