@@ -338,14 +338,14 @@ public class CDAKHealthKitBridge {
   
    This feature uses HKHealthStore.  It is assumed all authorizations will be managed by your application.
    
-   NOTE: This functionality modifies the HealthKit samples - NOT the native CDA data stored in the CDAKRecord.  You must set the unit preferences BEFORE you export a HKRecord (exportAsHDSRecord).  Once exported to a CDAKRecord, any changes to the bridge's unit types will not be reflected.  CDA unit types are fixed strings.
+   NOTE: This functionality modifies the HealthKit samples - NOT the native CDA data stored in the CDAKRecord.  You must set the unit preferences BEFORE you export a HKRecord (exportAsCDAKRecord).  Once exported to a CDAKRecord, any changes to the bridge's unit types will not be reflected.  CDA unit types are fixed strings.
    
    - parameter store: HKHealthStore that that will allow access to preferredUnitsForQuantityTypes
 
    - Version: iOS 8.2 and above
    
    */
-  public func setHDSUnitTypesWithUserSettings(store: HKHealthStore) {
+  public func setCDAKUnitTypesWithUserSettings(store: HKHealthStore) {
     //https://developer.apple.com/library/watchos/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:
     //really nice example implementation at: http://ambracode.com/index/show/1610009
     for sampleType in supportedHKQuantityTypes {
@@ -476,8 +476,8 @@ public class CDAKHealthKitBridge {
     for (identifierKey, entryData) in plist {
       //"identifierKey" will be something like  "HKQuantityTypeIdentifierBloodGlucose"
       if let identifierKey = identifierKey as? String, entryData = entryData as? NSDictionary {
-        CDAKHKTypeConceptsImport[identifierKey] = restoreHDSCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["import", "both"])
-        CDAKHKTypeConceptsExport[identifierKey] = restoreHDSCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["export", "both"])
+        CDAKHKTypeConceptsImport[identifierKey] = restoreCDAKCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["import", "both"])
+        CDAKHKTypeConceptsExport[identifierKey] = restoreCDAKCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["export", "both"])
       }
     }
   }
@@ -508,7 +508,7 @@ public class CDAKHealthKitBridge {
   //  }
   
   //forMapDirection - >
-  private func restoreHDSCodedEntriesFromPList(usingPlist dictEntry: NSDictionary, forMapDirection direction: [String]) -> CDAKCodedEntries {
+  private func restoreCDAKCodedEntriesFromPList(usingPlist dictEntry: NSDictionary, forMapDirection direction: [String]) -> CDAKCodedEntries {
     var codedEntries = CDAKCodedEntries()
     
     for (vocabulary, codes) in dictEntry {
@@ -557,7 +557,7 @@ public class CDAKHKRecord: CustomStringConvertible {
   public var metadata: [String:AnyObject] = [:]
   
   
-  public func exportAsHDSRecord() -> CDAKRecord {
+  public func exportAsCDAKRecord() -> CDAKRecord {
     
     let aRecord = CDAKRecord()
     aRecord.title = title
@@ -581,11 +581,11 @@ public class CDAKHKRecord: CustomStringConvertible {
         switch type {
           case "vital":
           let entry = CDAKVitalSign()
-          setHDSDataFromSample(sample, forEntry: entry)
+          setCDAKDataFromSample(sample, forEntry: entry)
           aRecord.vital_signs.append(entry)
         case "result":
           let entry = CDAKLabResult()
-          setHDSDataFromSample(sample, forEntry: entry)
+          setCDAKDataFromSample(sample, forEntry: entry)
           aRecord.results.append(entry)
         default:
           break
@@ -597,19 +597,19 @@ public class CDAKHKRecord: CustomStringConvertible {
     
   }
   
-  private func setHDSDataFromSample(sample: HKQuantitySample, forEntry entry: CDAKEntry) {
+  private func setCDAKDataFromSample(sample: HKQuantitySample, forEntry entry: CDAKEntry) {
     entry.start_time = sample.startDate.timeIntervalSince1970
     entry.end_time = sample.endDate.timeIntervalSince1970
     if let codes = CDAKHealthKitBridge.sharedInstance.CDAKHKTypeConceptsExport[sample.sampleType.identifier] {
       entry.codes = codes
     }
-    if let aValue = getHDSValueFromSample(sample) {
+    if let aValue = getCDAKValueFromSample(sample) {
       entry.values.append(aValue)
       entry.item_description = CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDescriptions[sample.sampleType.identifier]
     }
   }
   
-  private func getHDSValueFromSample(sample: HKQuantitySample) -> CDAKPhysicalQuantityResultValue? {
+  private func getCDAKValueFromSample(sample: HKQuantitySample) -> CDAKPhysicalQuantityResultValue? {
     
     let sampleType = sample.sampleType.identifier
     
@@ -620,7 +620,7 @@ public class CDAKHKRecord: CustomStringConvertible {
       if sample.quantity.isCompatibleWithUnit(defaultUnit) {
         return CDAKPhysicalQuantityResultValue(scalar: sample.quantity.doubleValueForUnit(defaultUnit), units: defaultUnit.unitString)
       } else {
-        print("exportAsHDSRecord() - Cannot sample values for sample of type '\(HKQuantityTypeIdentifierBodyMassIndex)' using unit type '\(defaultUnit)'")
+        print("exportAsCDAKRecord() - Cannot sample values for sample of type '\(HKQuantityTypeIdentifierBodyMassIndex)' using unit type '\(defaultUnit)'")
       }
       
     }
@@ -628,7 +628,7 @@ public class CDAKHKRecord: CustomStringConvertible {
     return nil
   }
   
-  public init(fromHDSRecord patient: CDAKRecord, withHKMetadata metadata: [String:AnyObject] = [:]) {
+  public init(fromCDAKRecord patient: CDAKRecord, withHKMetadata metadata: [String:AnyObject] = [:]) {
     
     
     first = patient.first

@@ -36,18 +36,18 @@ do {
   //append our height to our record
   record.vital_signs.append(aVital)
 
-  //OK, let's convert our HDS record to HealthKit
-  let hkRecord = CDAKHKRecord(fromHDSRecord: record)
+  //OK, let's convert our CDAK record to HealthKit
+  let hkRecord = CDAKHKRecord(fromCDAKRecord: record)
 
   //let's explicitly set our preferred units to metric for a few things
   CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits[.HKQuantityTypeIdentifierHeight] = "cm"
   CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits[.HKQuantityTypeIdentifierBodyMass] = "kg"
 
   //now let's convert back from HealthKit to our model
-  let hdsRecord = hkRecord.exportAsHDSRecord()
+  let cdakRecord = hkRecord.exportAsCDAKRecord()
 
   //render from our model to CDA - format set to .ccda (could also do .c32)
-  print(hdsRecord.export(inFormat: .ccda))
+  print(cdakRecord.export(inFormat: .ccda))
 }
 catch {
   //do something
@@ -57,9 +57,10 @@ catch {
 
 ## Installation
 
-###
+### Requirements
 - iOS 8+
 - Xcode 7
+- Swift 2.1
 
 ### Using CocoaPods
 CDAKit is currently distributed through [CocoaPods]. To install `CDAKit`, add it to your to your `Podfile`:
@@ -140,7 +141,7 @@ The formats are enumerated
 * .ccda
 
 ```swift
-let myOutboundCDAXML = hdsRecord.export(inFormat: .ccda)
+let myOutboundCDAXML = cdakRecord.export(inFormat: .ccda)
 print(myOutboundCDAXML)
 ```
 
@@ -184,8 +185,8 @@ do {
   //try to import some CDA XML
   let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
 
-  //OK, let's convert our HDS record to HealthKit
-  let hkRecord = CDAKHKRecord(fromHDSRecord: record)
+  //OK, let's convert our CDAK record to HealthKit
+  let hkRecord = CDAKHKRecord(fromCDAKRecord: record)
 
   for sample in hkRecord.samples {
     print(sample)//these are all HKQuantitySamples
@@ -210,7 +211,7 @@ let hkHeight = HKQuantitySample(type: aQtyType!, quantity: aQty, startDate: NSDa
 hkRecord.samples.append(hkHeight)
 
 //convert the HealthKit record to CDAKRecord
-let hdsRecord = hkRecord.exportAsCDAKRecord()
+let cdakRecord = hkRecord.exportAsCDAKRecord()
 ```
 
 ### Overriding CDA-Based Units Explicitly
@@ -221,6 +222,9 @@ let hdsRecord = hkRecord.exportAsCDAKRecord()
 ### Overriding Unit Based on User Preference
 ```swift
 ```
+
+### Vocabulary Mappings
+stuff
 
 
 ### Searching for HealthKit Samples Imported from CDA
