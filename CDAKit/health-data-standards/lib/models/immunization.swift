@@ -10,7 +10,7 @@ import Foundation
 
 public class CDAKImmunization: CDAKEntry {
   
-  public var seriesNumber: Int? //, type: Integer
+  public var series_number: Int? //, type: Integer
   public var reaction: CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
   
   public var performer: CDAKProvider?
@@ -25,11 +25,6 @@ public class CDAKImmunization: CDAKEntry {
   public var refusal_reason: CDAKCodedEntries {
     get {return negation_reason }
     set (value) {negation_reason = value}
-  }
-
-  public var series_number: Int? {
-    get {return seriesNumber }
-    set (value) {seriesNumber = value}
   }
 
 }

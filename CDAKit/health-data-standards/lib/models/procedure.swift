@@ -12,7 +12,7 @@ import Foundation
 
 public class CDAKProcedure: CDAKEntry {
   
-  public var incisionTime : Double? //,        type: Integer,      as: :incision_time
+  public var incision_time : Double? //,        type: Integer,      as: :incision_time
   public var ordinality: CDAKCodedEntries = CDAKCodedEntries() //,          type: Hash
   public var source: CDAKCodedEntries = CDAKCodedEntries() //,              type: Hash
   public var anatomical_approach: CDAKCodedEntries = CDAKCodedEntries() //
@@ -30,14 +30,9 @@ public class CDAKProcedure: CDAKEntry {
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
 
-    if let incisionTime = incisionTime {
-      self.incisionTime = incisionTime + date_diff
+    if let incision_time = incision_time {
+      self.incision_time = incision_time + date_diff
     }
-  }
-  
-  public var incision_time: Double? {
-    get {return incisionTime }
-    set {incisionTime = newValue}
   }
 
 }

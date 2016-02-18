@@ -11,27 +11,8 @@ import Mustache
 
 public class CDAKCareGoal: CDAKEntry {
 
-  var relatedTo: [String:String] = [String:String]()
-  var targetOutcome: [String:String] = [String:String]()
-
-  public var related_to: [String:String] {
-    get {
-      return relatedTo
-    }
-    set(value) {
-      relatedTo = value
-    }
-  }
-
-  public var target_outcome: [String:String] {
-    get {
-      return targetOutcome
-    }
-    set(value) {
-      targetOutcome = value
-    }
-  }
-
+  var related_to: [String:String] = [String:String]()
+  var target_outcome: [String:String] = [String:String]()
   
 }
 
