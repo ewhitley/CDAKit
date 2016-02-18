@@ -51,6 +51,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   //NOT IN MODEL
   var clinicalTrialParticipant: Bool? //NOT in model, but in Mongo JSON (probably for QRDA)
   var custodian: String? //NOT in model, but in Mongo JSON (probably for QRDA)
+  var identifiers: [CDAKCDAIdentifier] = [] // NOT in the orignal model, but we want to have these on hand
   
   // I don't know a better way to do this, so ...
   // For a given entry we create, we need a way to point back to this parent Record
@@ -699,6 +700,8 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     theCopy.provider_performances = self.provider_performances
     theCopy.addresses = self.addresses
     theCopy.telecoms = self.telecoms
+    theCopy.clinicalTrialParticipant = self.clinicalTrialParticipant
+    theCopy.custodian = self.custodian
     
     return theCopy
   }
@@ -735,6 +738,11 @@ extension CDAKRecord {
       "telecoms": Box(self.telecoms)
     ]
 
+    if identifiers.count > 0 {
+      vals["identifiers"] = Box(self.identifiers)
+    }
+
+    
     // we can't pass locals into mustache like we can with erb, so we're cheating
     //  when we marshall the data, we're setting up template block values here instead
     //  you can use template values from here
@@ -778,6 +786,7 @@ extension CDAKRecord {
     if let header = header {
       vals["header"] = Box(header)
     }
+    
     
     return Box(vals)
   }
@@ -841,6 +850,10 @@ extension CDAKRecord {
     self.provider_performances = record.provider_performances
     self.addresses = record.addresses
     self.telecoms = record.telecoms
+    self.identifiers = record.identifiers
+    self.custodian = record.custodian
+    self.clinicalTrialParticipant = record.clinicalTrialParticipant
+
   }
 
   //I don't think I'm doing this right
@@ -855,6 +868,10 @@ extension CDAKRecord {
 extension CDAKRecord: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
+    
+    if identifiers.count > 0 {
+      dict["identifiers"] = identifiers.map({$0.jsonDict})
+    }
     
     if let title = title {
       dict["title"] = title
@@ -898,7 +915,11 @@ extension CDAKRecord: CDAKJSONExportable {
     if ethnicity.count > 0 {
       dict["ethnicity"] = ethnicity.codes.map({$0.jsonDict})
     }
-    //dict["languages"] = languages.codes.map({$0.jsonDict})
+    
+    if languages.count > 0 {
+      dict["languages"] = languages.map({$0.jsonDict})
+    }
+    
     if marital_status.count > 0 {
       dict["marital_status"] = marital_status.codes.map({$0.jsonDict})
     }

@@ -101,6 +101,10 @@ class CDAKImport_C32_PatientImporter {
   func parse_c32(doc: XMLDocument) -> CDAKRecord {
     let c32_patient = CDAKRecord()
     get_demographics(c32_patient, doc: doc)
+    if let patient_role_element = doc.xpath("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole").first {
+      c32_patient.identifiers = get_ids(patient_role_element)
+    }
+
     create_c32_hash(c32_patient, doc: doc)
     check_for_cause_of_death(c32_patient)
 
@@ -161,6 +165,11 @@ class CDAKImport_C32_PatientImporter {
 
     }
   }
+  
+  func get_ids (elem: XMLElement) -> [CDAKCDAIdentifier] {
+    return elem.xpath("./cda:id").map({id_entry in CDAKCDAIdentifier(root: id_entry["root"], extension_id: id_entry["extension"])})
+  }
+
   
   /**
     Inspects a C32 document and populates the patient Hash with first name, last name, birth date, gender and the effectiveTime.

@@ -9,7 +9,8 @@
   <templateId root="2.16.840.1.113883.3.88.10.20.3" assigningAuthorityName="HITSP/C32"/>
  
   <templateId root="2.16.840.1.113883.3.88.11.32.1" assigningAuthorityName="HITSP/C32"/>
-  <id root="2.16.840.1.113883.19.5" extension="{{ patient.id }}" assigningAuthorityName="Cypress Project"/>
+  {{#donotActivate}}<id root="2.16.840.1.113883.19.5" extension="{{ patient.id }}" assigningAuthorityName="Cypress Project"/>{{/donotActivate}}
+  <id root="{{ UUID_generate(nil) }}"/>
   <code code="34133-9" displayName="Summarization of episode note" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
   <title>{{#patient.header.title}}{{.}}{{/patient.header.title}}{{^patient.header.title}}CDAKit Generated C32: {{ patient.first }} {{ patient.last }}{{/patient.header.title}}</title>
   <effectiveTime value="{{ date_as_number(nil) }}"/>
@@ -17,7 +18,8 @@
   <languageCode code="nn-CC"/>
   <recordTarget>
     <patientRole>
-      <id root="Cypress" extension="{{ patient.id }}"/>
+      {{^patient.identifiers}}<id root="Cypress" extension="{{ patient.id }}"/>{{/patient.identifiers}}
+      {{#each(patient.identifiers)}}{{>cat1_id.cat1 }}{{/}}
       {{#patient.addresses }}
       <addr {{#use }}use="{{use}}"{{/use}}>
         {{#street }}
@@ -43,13 +45,13 @@
           <raceCode code="{{ . }}" {{#name}}displayName="{{ name }}"{{/name }} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>{{/.CDC}}{{/patient.race}}
         {{#patient.ethnicity}}{{#.CDC}}
           <ethnicGroupCode code="{{ . }}" {{#name}}displayName="{{ name }}"{{/name }} codeSystemName="CDC Race and Ethnicity" codeSystem="2.16.840.1.113883.6.238"/>{{/.CDC}}{{/patient.ethnicity}}
-        {{#patient.languages}}
+          {{#each(patient.languages)}}{{# each(.)}}
           <languageCommunication>
             <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
             <templateId root="1.3.6.1.4.1.19376.1.5.3.1.2.1" assigningAuthorityName="IHE/PCC"/>
-            <languageCode code="{{ .IETF }}"/>
+            <languageCode code="{{.}}"/>
           </languageCommunication>
-        {{/patient.languages}}
+          {{/}}{{/}}
         {{^patient.languages}}
           <languageCommunication>
             <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
