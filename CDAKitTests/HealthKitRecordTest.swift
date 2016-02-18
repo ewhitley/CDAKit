@@ -30,6 +30,47 @@ class HealthKitRecordTest: XCTestCase {
 
   }
 
+  
+  func testCCDAToHealthKitToCCDAWithUnitConversion() {
+    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
+    do {
+      
+      //let's try to import from CDA
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+      
+      //let's create a new vital
+      // use the coded values to govern "meaning" (height, weight, BMI, BP items, etc.)
+      let aVital = CDAKVitalSign()
+      aVital.codes.addCodes("LOINC", codes: ["3141-9"]) //weight
+      aVital.values.append(CDAKPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
+      aVital.start_time = NSDate().timeIntervalSince1970
+      aVital.end_time = NSDate().timeIntervalSince1970
+
+      //append our height to our record
+      record.vital_signs.append(aVital)
+
+      //OK, let's convert our HDS record to HealthKit
+      let hkRecord = CDAKHKRecord(fromHDSRecord: record)
+      
+      //let's explicitly set our preferred units to metric for a few things
+      CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits[.HKQuantityTypeIdentifierHeight] = "cm"
+      CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits[.HKQuantityTypeIdentifierBodyMass] = "kg"
+      
+      for sample in hkRecord.samples {
+        print(sample.metadata)
+      }
+      
+      //now let's convert back from HealthKit to our model
+      let hdsRecord = hkRecord.exportAsHDSRecord()
+      
+      //render from our model to CDA - format set to .ccda (could also do .c32)
+      //print(hdsRecord.export(inFormat: .ccda))
+    }
+    catch {
+      XCTFail()
+    }
+  }
+  
   func testRoundTrip() {
     let aRecord = CDAKRecord()
     aRecord.title = "Mr."
@@ -50,25 +91,25 @@ class HealthKitRecordTest: XCTestCase {
     
     let hkRecord = CDAKHKRecord(fromHDSRecord: aRecord)
     
-    XCTAssertEqual(hkRecord.healthKitSamples.count, aRecord.vital_signs.count)
+    XCTAssertEqual(hkRecord.samples.count, aRecord.vital_signs.count)
     
     //HKQuantityTypeIdentifierHeight
     let aUnit = HKUnit(fromString: "in")
     let aQty = HKQuantity(unit: aUnit, doubleValue: 72 )
     let aQtyType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)
     let hkHeight = HKQuantitySample(type: aQtyType!, quantity: aQty, startDate: NSDate(), endDate: NSDate())
-    hkRecord.healthKitSamples.append(hkHeight)
+    hkRecord.samples.append(hkHeight)
     //print(hkRecord)
     
     //NOTE: for now you need to make sure you set the units before you import the record
     // the unit types, etc. are set on the way _in_
-    CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits["HKQuantityTypeIdentifierHeight"] = "cm"
+    CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits[.HKQuantityTypeIdentifierHeight] = "cm"
     let aSecondRecord = hkRecord.exportAsHDSRecord()
     //CDAKHKQuantityTypeDefaultUnits
     //CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits)
-    print(aSecondRecord.export(inFormat: .c32))
+    print(aSecondRecord.export(inFormat: .ccda))
     
-    XCTAssertEqual(hkRecord.healthKitSamples.count, aSecondRecord.vital_signs.count)
+    XCTAssertEqual(hkRecord.samples.count, aSecondRecord.vital_signs.count)
   }
   
   //trying our failable HKUnit constructor for weird CDA string variants
@@ -95,7 +136,7 @@ class HealthKitRecordTest: XCTestCase {
     do {
       let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
       let hkRecord = CDAKHKRecord(fromHDSRecord: record)
-      print(hkRecord.healthKitSamplesDescription)
+      print(hkRecord.samplesDescription)
       
       let hdsRecord = hkRecord.exportAsHDSRecord()
       print(hdsRecord)
@@ -113,7 +154,7 @@ class HealthKitRecordTest: XCTestCase {
     do {
       let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
       let hkRecord = CDAKHKRecord(fromHDSRecord: record)
-      print(hkRecord.healthKitSamplesDescription)
+      print(hkRecord.samplesDescription)
       
       let hdsRecord = hkRecord.exportAsHDSRecord()
       print(hdsRecord)
@@ -134,7 +175,7 @@ class HealthKitRecordTest: XCTestCase {
       //print(record)
       //  print(CDAKHealthKitBridge.sharedInstance.CDAKHKTypeConceptsImport["HKQuantityTypeIdentifierBodyMassIndex"])
       let hkRecord = CDAKHKRecord(fromHDSRecord: record)
-      print(hkRecord.healthKitSamplesDescription)
+      print(hkRecord.samplesDescription)
       
       let hdsRecord = hkRecord.exportAsHDSRecord()
       print(hdsRecord)
