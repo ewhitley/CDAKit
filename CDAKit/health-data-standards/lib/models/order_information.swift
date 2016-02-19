@@ -9,17 +9,29 @@
 import Foundation
 
 //NOTE: Changing class to CDAKEntry
+/**
+Order information
+*/
 public class CDAKOrderInformation: CDAKEntry {
   
+  
+  // MARK: CDA properties
+  ///order number
   public var order_number: String? //, as: :order_number, type: String
+  ///number of filles
   public var fills: Int? //, type: Integer
+  ///number of units ordered
   public var quantity_ordered = CDAKValueAndUnit()
+  ///date/time of order expiration
   public var order_expiration_date_time: Double? //, as: :order_expiration_date_time, type: Integer
+  ///date/time of creation of order
   public var order_date_time: Double? //, as: :order_date_time, type: Integer
   
-  //FIXME: - handle getting order_information by CDAKProvider
+  ///ordering provider
   public var provider: CDAKProvider?
   
+  // MARK: Health-Data-Standards Functions
+  ///Offset all dates by specified double
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
     
@@ -33,7 +45,9 @@ public class CDAKOrderInformation: CDAKEntry {
   
 }
 
+// MARK: - JSON Generation
 extension CDAKOrderInformation {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

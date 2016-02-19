@@ -9,18 +9,31 @@
 import Foundation
 
 //NOTE: making this an CDAKEntry subclass - This is a change to the Ruby code
+/**
+CDA Guarantor.
+Individual legally responsible for all patient charges
+*/
 public class CDAKGuarantor: CDAKEntry {
+
+  // MARK: CDA properties
   
+  ///Organization
   public var organization: CDAKOrganization?
+  ///Person
   public var person: CDAKPerson?
   
+
+  // MARK: Standard properties
+  ///Debugging description
   override public var description: String {
     return super.description + " person: \(person), organization: \(organization)"
   }
   
 }
 
+// MARK: - JSON Generation
 extension CDAKGuarantor {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

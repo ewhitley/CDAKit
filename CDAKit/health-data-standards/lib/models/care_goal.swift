@@ -15,8 +15,8 @@ Represents a Care Goal.  May be any of a variety of entries.
 public class CDAKCareGoal: CDAKEntry {
 
   // MARK: CDA properties
-  var related_to: [String:String] = [String:String]()
-  var target_outcome: [String:String] = [String:String]()
+  var related_to: CDAKCodedEntries = CDAKCodedEntries()
+  var target_outcome: CDAKCodedEntries = CDAKCodedEntries()
   
 }
 
@@ -39,10 +39,10 @@ extension CDAKCareGoal {
     var dict = super.jsonDict
     
     if related_to.count > 0 {
-      dict["related_to"] = related_to
+      dict["related_to"] = related_to.jsonDict
     }
     if target_outcome.count > 0 {
-      dict["target_outcome"] = target_outcome
+      dict["target_outcome"] = target_outcome.jsonDict
     }
     
     return dict

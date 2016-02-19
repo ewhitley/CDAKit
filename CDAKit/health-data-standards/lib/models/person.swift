@@ -9,15 +9,24 @@
 import Foundation
 import Mustache
 
+/**
+ Person.  Generic person container.  Should not use for a provider.
+*/
 public class CDAKPerson: CDAKPersonable, CDAKJSONInstantiable {
   
+  // MARK: CDA properties
+  ///Title (Mrs., MD., etc.)
   public var title: String?
+  ///First / given name
   public var given_name: String?
+  ///Family / last name
   public var family_name: String?
-  
+  ///addresses
   public var addresses: [CDAKAddress] = [CDAKAddress]()
+  ///telecoms
   public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
+  // MARK: - Initializers
   public init(title: String? = nil, given_name: String? = nil, family_name: String? = nil, addresses: [CDAKAddress] = [], telecoms: [CDAKTelecom] = []){
     self.title = title
     self.given_name = given_name
@@ -26,12 +35,14 @@ public class CDAKPerson: CDAKPersonable, CDAKJSONInstantiable {
     self.telecoms = telecoms
   }
   
+  ///do not use - will be removed
   required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
   
 }
 
+// MARK: - Mustache marshalling
 extension CDAKPerson: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     return [
@@ -48,7 +59,9 @@ extension CDAKPerson: MustacheBoxable {
   }
 }
 
+// MARK: - JSON Generation
 extension CDAKPerson: CDAKJSONExportable {
+  ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     if let title = title {

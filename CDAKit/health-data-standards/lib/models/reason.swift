@@ -13,7 +13,9 @@ import Mustache
 // this was NOT an CDAKEntry.  Needed to do this for the generalized importer
 // it was treating everything like an entry because it had similar-ish fields
 //CDAKJSONInstantiable, CustomStringConvertible
-
+/**
+  Reason
+*/
 public class CDAKReason: CDAKEntry {
   override public var description: String {
     return "CDAKReason => description: \(item_description), codes: \(codes)"

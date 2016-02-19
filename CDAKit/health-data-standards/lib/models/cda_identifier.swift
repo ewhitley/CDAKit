@@ -27,28 +27,6 @@ public class CDAKCDAIdentifier: Equatable, Hashable, CDAKJSONInstantiable, Custo
     return "\(root)\(extension_id)".hashValue
   }
   
-  // MARK: Standard properties
-  ///Debugging description
-  public var description: String {
-    return "CDAKCDAIdentifier => root: \(root), extension_id: \(extension_id)"
-  }
-  
-  // MARK: - Initializers
-  required public init(event: [String:Any?]) {
-    initFromEventList(event)
-  }
-  
-  private func initFromEventList(event: [String:Any?]) {
-    for (key, value) in event {
-      CDAKUtility.setProperty(self, property: key, value: value)
-    }
-  }
-  
-  public init(root: String? = nil, extension_id: String? = nil) {
-    self.root = root
-    self.extension_id = extension_id
-  }
-  
   // MARK: CDA properties
   ///Attempts to return a simplified compound version of the Root and Extension
   public var as_string: String {
@@ -64,6 +42,32 @@ public class CDAKCDAIdentifier: Equatable, Hashable, CDAKJSONInstantiable, Custo
       return "\(r)\(r.characters.count > 0 && e.characters.count > 0 ? " " : "")\(e)"
     }
   }
+  
+  // MARK: Standard properties
+  ///Debugging description
+  public var description: String {
+    return "CDAKCDAIdentifier => root: \(root), extension_id: \(extension_id)"
+  }
+  
+  // MARK: - Initializers
+  public init(root: String? = nil, extension_id: String? = nil) {
+    self.root = root
+    self.extension_id = extension_id
+  }
+
+  ///do not use - will be removed
+  required public init(event: [String:Any?]) {
+    initFromEventList(event)
+  }
+  
+  ///do not use - will be removed
+  private func initFromEventList(event: [String:Any?]) {
+    for (key, value) in event {
+      CDAKUtility.setProperty(self, property: key, value: value)
+    }
+  }
+  
+  
   
 }
 

@@ -16,6 +16,3 @@ protocol CDAKDateShiftable {
   func shift_dates(date_diff: Double)
 }
 
-protocol CDAKPropertyQueryable {
-  
-}

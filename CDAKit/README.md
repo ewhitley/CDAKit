@@ -12,13 +12,18 @@ CDAKit's models, importer, and exporter are based on the Ruby [Health-Data-Stand
 
 CDAKit provides the ability to bridge CDA content with HealthKit so you convert between HealthKit and CDA XML using HealthKit samples.
 
-You can read more about some of the rationale behind CDAKit on my [LinkedIn posts](https://www.linkedin.com/pulse/connecting-ios-your-emr-using-healthkit-cda-part-one-eric-whitley).  
+You can read more about some of the rationale behind CDAKit here: [LinkedIn posts](https://www.linkedin.com/pulse/connecting-ios-your-emr-using-healthkit-cda-part-one-eric-whitley).  
+
+### The CDAKit Team
+
+* [Eric Whitley](http://linkedin.com/in/ericwhitley)
+* [Dr. Sarita Keni](https://www.linkedin.com/in/saritakeni)
 
 ## Features
 
 * Create CDA documents (C32 and CCDA)
 * Import CDA documents (C32 and CCDA)
-* Bridge to HealthKit (for CDA import and export)
+* Bridge to/from HealthKit (for CDA import and export)
 
 ## The Fast Track
 ```swift

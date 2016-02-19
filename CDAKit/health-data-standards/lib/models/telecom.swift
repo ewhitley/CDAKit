@@ -28,11 +28,13 @@ public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
     self.preferred = preferred
   }
   
+  ///do not use - will be removed
   public required init(event: [String:Any?]) {
     super.init()
     initFromEventList(event)
   }
   
+  ///do not use - will be removed
   private func initFromEventList(event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)

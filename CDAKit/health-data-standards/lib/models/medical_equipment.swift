@@ -7,15 +7,27 @@
 //
 
 import Foundation
-
+/**
+CDA Medical Equipment
+*/
 public class CDAKMedicalEquipment: CDAKEntry {
   
+  ///Dictionary for JSON data
+
+  ///Device manufacturer
   public var manufacturer: String?
+  ///Anatomical Structure
   public var anatomical_structure: CDAKCodedEntries = CDAKCodedEntries() //, as: :anatomical_structure, type: Hash
+  ///Time of device removal
   public var removal_time: Double? //, as: :removal_time, type: Integer
+  ///Anatomical approach
   public var anatomical_approach: CDAKCodedEntries = CDAKCodedEntries()
+  ///Reaction
   public var reaction: CDAKCodedEntries = CDAKCodedEntries()
   
+
+  // MARK: Health-Data-Standards Functions
+  ///Offset all dates by specified double
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
 
@@ -27,7 +39,9 @@ public class CDAKMedicalEquipment: CDAKEntry {
 }
 
 
+// MARK: - JSON Generation
 extension CDAKMedicalEquipment {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

@@ -9,60 +9,42 @@
 import Foundation
 import Mustache
 
+/**
+Represents a care provider
+*/
+
 public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equatable, CustomStringConvertible {
-  
-  //  include CDAKPersonable
-  public var title: String?
-  public var given_name: String?
-  public var family_name: String?
-  
-  public var addresses: [CDAKAddress] = [CDAKAddress]()
-  public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
   static let NPI_OID = "2.16.840.1.113883.4.6"
   static let NPI_OID_C83 = "2.16.840.1.113883.3.72.5.2"
   //NPI_OID_C83: Added this because there's a weird "ordering" condition that occurs in the XML import
   // it's possible to overwrite the NPI using the original Ruby code - check on find_or_create_provider()
-
   static let TAX_ID_OID = "2.16.840.1.113883.4.2"
-  
+
+  // MARK: CDA properties
+  ///Title
+  public var title: String?
+  ///Given / First name
+  public var given_name: String?
+  ///Family / Last name
+  public var family_name: String?
+  ///addresses
+  public var addresses: [CDAKAddress] = [CDAKAddress]()
+  ///telecoms
+  public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
+  ///provider specialty
   public var specialty: String?
+  ///provider phone
   public var phone: String?
-  
+  ///provider organization
   public var organization: CDAKOrganization?
-  
+  ///CDA identifiers.  Contains NPI if supplied.
   public var cda_identifiers: [CDAKCDAIdentifier] = [CDAKCDAIdentifier]()
-  
-  public init() {
-    CDAKGlobals.sharedInstance.CDAKProviders.append(self) //INSTANCE WORK-AROUND
-  }
-  
-  required public init(event: [String:Any?]) {
-    initFromEventList(event)
-    CDAKGlobals.sharedInstance.CDAKProviders.append(self) //INSTANCE WORK-AROUND
-  }
-  
-  deinit {
-    CDAKProvider.removeProvider(self)
-  }
-  
-  //scope :by_npi, ->(an_npi){ where("cda_identifiers.root" => NPI_OID, "cda_identifiers.extension" => an_npi)}
-  class func by_npi(an_npi: String?) -> CDAKProvider? {
-    //FIXME: - so foul
-    for prov in CDAKGlobals.sharedInstance.CDAKProviders {
-      for cda in prov.cda_identifiers {
-        if (cda.root == CDAKProvider.NPI_OID) && cda.extension_id == an_npi {
-          return prov
-        }
-      }
-    }
-    
-    return nil
-  }
   
   // Update the CDA identifier references for NPI
   // NOTE there are actually two ways to refer to NPI (two OIDs)
   // please refer to the provider importer and tests for examples where this occurs
+  ///Allows you to quickly set or retrieve the NPI without specifying OID
   public var npi : String? {
     get {
       let cda_id_npi = cda_identifiers.filter({ $0.root == CDAKProvider.NPI_OID }).first
@@ -76,7 +58,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
       }
     }
   }
-  
+  ///Allows you to quickly set or retrive TIN (Tax ID Number) without specifying OID
   public var tin: String? {
     get {
       let cda_id_tin = cda_identifiers.filter({ $0.root == CDAKProvider.TAX_ID_OID }).first
@@ -87,10 +69,43 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
     }
   }
   
-  func records(effective_date: String? = nil) {
-    //TODO: need to do this, but doesn't have a purpose given our needs right now
-    //CDAKRecord.by_provider(self, effective_date)
+  // MARK: - Initializers
+  public init() {
+    CDAKGlobals.sharedInstance.CDAKProviders.append(self) //INSTANCE WORK-AROUND
   }
+  
+  ///do not use - will be removed
+  required public init(event: [String:Any?]) {
+    initFromEventList(event)
+    CDAKGlobals.sharedInstance.CDAKProviders.append(self) //INSTANCE WORK-AROUND
+  }
+  
+  deinit {
+    CDAKProvider.removeProvider(self)
+  }
+  
+  
+  //scope :by_npi, ->(an_npi){ where("cda_identifiers.root" => NPI_OID, "cda_identifiers.extension" => an_npi)}
+  ///searches for a provider by NPI. Queries the external provider collection.
+  class func by_npi(an_npi: String?) -> CDAKProvider? {
+    for prov in CDAKGlobals.sharedInstance.CDAKProviders {
+      for cda in prov.cda_identifiers {
+        if (cda.root == CDAKProvider.NPI_OID) && cda.extension_id == an_npi {
+          return prov
+        }
+      }
+    }
+    
+    return nil
+  }
+  
+
+  // MARK: Health-Data-Standards Functions
+  
+//  func records(effective_date: String? = nil) {
+//    //: need to do this, but doesn't have a purpose given our needs right now
+//    //CDAKRecord.by_provider(self, effective_date)
+//  }
   
   /**
    Validate the NPI, should be 10 or 15 digits total with the final digit being a checksum using the Luhn algorithm with additional special handling as described in
@@ -162,6 +177,10 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
     }
   }
   
+  
+  
+  // MARK: Standard properties
+  ///Debugging description
   public var description: String {
     return "Provider => title: \(title), given_name: \(given_name), family_name: \(family_name), npi: \(npi), specialty: \(specialty), phone: \(phone), organization: \(organization), cda_identifiers: \(cda_identifiers), addresses: \(addresses), telecoms: \(telecoms)"
   }
@@ -170,8 +189,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
 }
 
 extension CDAKProvider {
-  
-  
+  ///Removed a given provider from the global collection
   class func removeProvider(provider: CDAKProvider) {
     var matching_idx: Int?
     for (i, p) in CDAKGlobals.sharedInstance.CDAKProviders.enumerate() {
@@ -186,7 +204,8 @@ extension CDAKProvider {
 }
 
 extension CDAKProvider {
-  //FIXME: - not using the hash - just using native properties
+  //NOTE: - not using the hash - just using native properties
+  ///Generates a hash value for object comparisons
   public var hashValue: Int {
     
     var hv: Int
@@ -215,6 +234,7 @@ public func == (lhs: CDAKProvider, rhs: CDAKProvider) -> Bool {
 }
 
 
+// MARK: - Mustache marshalling
 extension CDAKProvider: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     return [
@@ -235,7 +255,9 @@ extension CDAKProvider: MustacheBoxable {
   }
 }
 
+// MARK: - JSON Generation
 extension CDAKProvider: CDAKJSONExportable {
+  ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     

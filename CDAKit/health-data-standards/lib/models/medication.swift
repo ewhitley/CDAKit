@@ -8,83 +8,77 @@
 
 import Foundation
 
-public struct CDAKMedicationRestriction {
-  var numerator: CDAKValueAndUnit = CDAKValueAndUnit()
-  var denominator: CDAKValueAndUnit = CDAKValueAndUnit()
-}
 
-extension CDAKMedicationRestriction: CDAKJSONExportable {
-  public var jsonDict: [String: AnyObject] {
-    var dict: [String: AnyObject] = [:]
-    
-    if numerator.jsonDict.count > 0 {
-      dict["numerator"] = numerator.jsonDict
-    }
-    if denominator.jsonDict.count > 0 {
-      dict["denominator"] = denominator.jsonDict
-    }
-    
-    return dict
-  }
-}
-
-
-public struct CDAKMedicationAdministrationTiming {
-  var institution_specified: Bool = false
-  var period: CDAKValueAndUnit = CDAKValueAndUnit()
-  //var period: Int? // only example I have shows this as an Int - probably need to check spec
-}
-
-extension CDAKMedicationAdministrationTiming: CDAKJSONExportable {
-  public var jsonDict: [String: AnyObject] {
-    var dict: [String: AnyObject] = [:]
-    
-    dict["institution_specified"] = institution_specified
-    if period.jsonDict.count > 0 {
-      dict["period"] = period.jsonDict
-    }
-    
-    return dict
-  }
-}
-
-
+/**
+Medication
+*/
 public class CDAKMedication: CDAKEntry {
+  ///Timing of medication administration
   public var administration_timing: CDAKMedicationAdministrationTiming = CDAKMedicationAdministrationTiming()
+  ///Free text signature or text
   public var free_text_sig: String?
+  ///Dosage information
   public var dose = CDAKValueAndUnit()
+  ///Type of medication
   public var type_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :type_of_medication  // type: Hash
+  ///Status of medication
   public var status_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :status_of_medication  // type: Hash
+  ///Fulfillment history (multiple possible)
   public var fulfillment_history = [CDAKFulfillmentHistory]()  // class_name: 'CDAKFulfillmentHistory'
+  ///Order information (multiplepossible)
   public var order_information = [CDAKOrderInformation]()  // class_name: 'CDAKOrderInformation'
   
+  ///Route of administration
   public var route: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  ///Anatomical approach
   public var anatomical_approach: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
   
   //go take a look at the CDA CDAKMedication importer - it appears this is a hash of numerator / denominator entries that then have futher scalar value entries inside
   // not entirely clear what we'd really do with these except for far more complex inpatient examples
+  ///Dosage restriction
   public var dose_restriction: CDAKMedicationRestriction = CDAKMedicationRestriction()
   
+  ///Fulfillment instructions (if supplied)
   public var fulfillment_instructions: String?  // as: :fulfillment_instructions  // type: String
+  ///Indication
   public var indication: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  ///Product form
   public var product_form: CDAKCodedEntries = CDAKCodedEntries()  // as: :product_form  // type: Hash
+  ///Product vehicle
   public var vehicle: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  ///Reaction to medication or administration
   public var reaction: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  ///Delivery method
   public var delivery_method: CDAKCodedEntries = CDAKCodedEntries()  // as: :delivery_method  // type: Hash
+  ///Patient instructions
   public var patient_instructions: String?  // as: :patient_instructions  // type: String
+  ///Dose indicator
   public var dose_indicator: String?  // as: :dose_indicator  // type: String
-  
+  ///method
   public var method: CDAKCodedEntries = CDAKCodedEntries()   //   type: Hash
+  ///Date as of which medication was active
   public var active_datetime: Double?   //  type: Integer
+  ///Date medication signed
   public var signed_datetime: Double?   //  type: Integer
   
-  /// There are currently no importers that support this field.
-  /// It is expected to be a scalar and value  // such as 7 days
-  public var cumulativeMedicationDuration = [String:String]()
-  //      "scalar": 3,
-  //      "unit": "d"
+
+  /**
+    There are currently no importers that support this field.
+    It is expected to be a scalar and value   such as 7 days
   
+    Refer to CMS guidelines on calculating cumulative duration. This can be complex if you are representing administration with multiple starts and stops over a long inpatient encounnter.
   
+    "scalar": 3,
+    "unit": "d"
+  
+    [Discussion](https://jira.oncprojectracking.org/browse/CQM-612)
+  
+  */
+  public var cumulativeMedicationDuration: CDAKValueAndUnit? // = [String:String]()
+
+  
+  // MARK: Health-Data-Standards Functions
+  ///Offset all dates by specified double
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
 
@@ -99,14 +93,17 @@ public class CDAKMedication: CDAKEntry {
   }  
 }
 
-
+// MARK: - JSON Generation
 extension CDAKMedication {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     
     if fulfillment_history.count > 0 { dict["fulfillment_history"] = fulfillment_history.map({$0.jsonDict}) }
     if order_information.count > 0 { dict["order_information"] = order_information.map({$0.jsonDict}) }
-    if cumulativeMedicationDuration.count > 0 { dict["cumulativeMedicationDuration"] = cumulativeMedicationDuration }
+    if let cumulativeMedicationDuration = cumulativeMedicationDuration {
+      dict["cumulativeMedicationDuration"] = cumulativeMedicationDuration.jsonDict
+    }
     
     if anatomical_approach.count > 0 { dict["anatomical_approach"] = anatomical_approach.codes.map({$0.jsonDict}) }
     if delivery_method.count > 0 { dict["delivery_method"] = delivery_method.codes.map({$0.jsonDict}) }
@@ -129,6 +126,57 @@ extension CDAKMedication {
     if let free_text_sig = free_text_sig { dict["free_text_sig"] = free_text_sig }
     if let fulfillment_instructions = fulfillment_instructions { dict["fulfillment_instructions"] = fulfillment_instructions }
     if let patient_instructions = patient_instructions { dict["patient_instructions"] = patient_instructions }
+    
+    return dict
+  }
+}
+
+// MARK: - Supporting structs - medication restriction
+
+///Medication restriction
+public struct CDAKMedicationRestriction {
+  ///numerator
+  var numerator: CDAKValueAndUnit = CDAKValueAndUnit()
+  ///denominator
+  var denominator: CDAKValueAndUnit = CDAKValueAndUnit()
+}
+
+// MARK: - JSON Generation
+extension CDAKMedicationRestriction: CDAKJSONExportable {
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    if numerator.jsonDict.count > 0 {
+      dict["numerator"] = numerator.jsonDict
+    }
+    if denominator.jsonDict.count > 0 {
+      dict["denominator"] = denominator.jsonDict
+    }
+    
+    return dict
+  }
+}
+
+// MARK: - Supporting structs - medication administration timing
+///Medication administration timing
+public struct CDAKMedicationAdministrationTiming {
+  ///Instition specified indicator
+  var institution_specified: Bool = false
+  ///Period
+  var period: CDAKValueAndUnit = CDAKValueAndUnit()
+  //var period: Int? // only example I have shows this as an Int - probably need to check spec
+}
+
+// MARK: - JSON Generation
+extension CDAKMedicationAdministrationTiming: CDAKJSONExportable {
+  ///Dictionary for JSON data
+  public var jsonDict: [String: AnyObject] {
+    var dict: [String: AnyObject] = [:]
+    
+    dict["institution_specified"] = institution_specified
+    if period.jsonDict.count > 0 {
+      dict["period"] = period.jsonDict
+    }
     
     return dict
   }

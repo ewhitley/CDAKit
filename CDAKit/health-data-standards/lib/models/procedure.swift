@@ -8,25 +8,38 @@
 
 import Foundation
 
-
-
+/**
+ Medical procedure.  Commonly used for things like surgical procedures.
+*/
 public class CDAKProcedure: CDAKEntry {
   
+  // MARK: CDA properties
+  ///date/time of first incision. NOT start of case.  First incision.
   public var incision_time : Double? //,        type: Integer,      as: :incision_time
+  ///ordinality
   public var ordinality: CDAKCodedEntries = CDAKCodedEntries() //,          type: Hash
+  ///source
   public var source: CDAKCodedEntries = CDAKCodedEntries() //,              type: Hash
+  ///anatomical approach
   public var anatomical_approach: CDAKCodedEntries = CDAKCodedEntries() //
+  ///anatomical target
   public var anatomical_target: CDAKCodedEntries = CDAKCodedEntries() //
+  ///method
   public var method: CDAKCodedEntries = CDAKCodedEntries() //
+  ///reaction
   public var reaction: CDAKCodedEntries = CDAKCodedEntries() //
-  
+  ///radiation dost
   public var radiation_dose: CDAKCodedEntries = CDAKCodedEntries() //this is probably wrong
+  ///radiation duration.  It is currently unclear how this should be represented
   public var radiation_duration: CDAKCodedEntries = CDAKCodedEntries() //this is probably wrong
-  
+  ///facility where procedure occurred
   public var facility: CDAKFacility?
-  
+  ///provider who was primary actor
   public var performer: CDAKProvider?
   
+
+  // MARK: Health-Data-Standards Functions
+  ///Offset all dates by specified double
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
 
@@ -37,7 +50,9 @@ public class CDAKProcedure: CDAKEntry {
 
 }
 
+// MARK: - JSON Generation
 extension CDAKProcedure {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

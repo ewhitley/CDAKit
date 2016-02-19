@@ -23,7 +23,7 @@ public class CDAKFunctionalStatus: CDAKEntry {
   public var type: String?
   
   /// A coded value. Like a code for patient supplied.
-  public var source = [String:String]() //, type: Hash
+  public var source: CDAKCodedEntries = CDAKCodedEntries()
   
 }
 
@@ -38,7 +38,7 @@ extension CDAKFunctionalStatus {
       dict["type"] = type
     }
     if source.count > 0 {
-      dict["source"] = source
+      dict["source"] = source.jsonDict
     }
     
     return dict

@@ -7,15 +7,28 @@
 //
 
 import Foundation
-
+/**
+CDA template for "result-like" things.  Primarily lab results.
+*/
 public class CDAKLabResult: CDAKEntry {
-  public var reference_range: String? //as reference_range
-  public var reference_range_high: String? //as reference_range_high
-  public var reference_range_low: String? //as reference_range_low
-  public var interpretation: CDAKCodedEntries = CDAKCodedEntries()
-  public var reaction: CDAKCodedEntries = CDAKCodedEntries()
-  public var method: CDAKCodedEntries = CDAKCodedEntries()
   
+  // MARK: CDA properties
+  ///reference range for the result
+  public var reference_range: String? //as reference_range
+  ///fixed reference high
+  public var reference_range_high: String? //as reference_range_high
+  ///fixed reference low
+  public var reference_range_low: String? //as reference_range_low
+  ///Interpretation (coded form)
+  public var interpretation: CDAKCodedEntries = CDAKCodedEntries()
+  ///Reaction
+  public var reaction: CDAKCodedEntries = CDAKCodedEntries()
+  ///Method
+  public var method: CDAKCodedEntries = CDAKCodedEntries()
+
+  
+  // MARK: Standard properties
+  ///Debugging description
   override public var description: String {
     return super.description + " reference_range: \(reference_range), reference_range_high: \(reference_range_high), reference_range_low: \(reference_range_low), interpretation: \(interpretation), reaction: \(reaction), method: \(method)"
   }
@@ -23,7 +36,9 @@ public class CDAKLabResult: CDAKEntry {
   
 }
 
+// MARK: - JSON Generation
 extension CDAKLabResult {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

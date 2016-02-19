@@ -14,19 +14,35 @@ public struct code_and_name {
   var name: String
 }
 
+/**
+Primary container for all patient data that is to be represented with CDA
+ 
+ When creating this record, you may wish to supply a custom header (CDAKQRDAHeader) or during CDA XML generation a default boilerplate header will be applied
+*/
 public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
 
+  // MARK: CDA properties
+  ///patient title
   public var title: String?
+  ///patient first / given name
   public var first: String?
+  ///patient last / family name
   public var last: String?
+  ///patient gender. Please consider using an HL7 Administrative Gender
   public var gender: String?
+  ///birthdate (using time since 1970)
   public var birthdate: Double?
+  ///date of death (using time since 1970)
   public var deathdate: Double?
+  ///religious affiliation(s)
   public var religious_affiliation: CDAKCodedEntries = CDAKCodedEntries()
+  ///effective time for record (not date created - date last valid)
   public var effective_time: Double?
   
+  ///global unique identifier for record. Defaulted.
   public var _id: String = NSUUID().UUIDString
   
+  ///When creating this record, you may wish to supply a custom header (CDAKQRDAHeader) or during CDA XML generation a default boilerplate header will be applied
   public var header: CDAKQRDAHeader?
 
   // FIXME:  - apparently the JSON has "pregnancies" as its own item
@@ -34,29 +50,62 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   // but this isn't relfected in the base model
   // figure out where this is coming from and how to handle
   // for now, making it an "entry"
+  ///any known patient pregnancies
   public var pregnancies: [CDAKEntry] = []
   
-  // FIXME: - race / ethnicity really should be a multi-value fields
+  // CHANGED: - race / ethnicity really should be a multi-value fields. Original did NOT do this
   // MU2 allows for multiple
+  ///patient race (coded)
   public var race: CDAKCodedEntries = CDAKCodedEntries()
+  ///patient ethnicities (coded)
   public var ethnicity: CDAKCodedEntries = CDAKCodedEntries()
-  
+  ///patient languages (coded)
   public var languages: [CDAKCodedEntries] = [] //Array, default: []
-
+  ///patient martial status (coded)
   public var marital_status: CDAKCodedEntries = CDAKCodedEntries()
+  ///patient medical record number
   public var medical_record_number: String?
+  ///patient medical record assigner
   public var medical_record_assigner: String?
+  ///is patient expired? (deceased)
   public var expired: Bool?
   
   //NOT IN MODEL
+  ///is this patient a clinical trial participant? Please refer to CMS guidance on implications
   var clinicalTrialParticipant: Bool? //NOT in model, but in Mongo JSON (probably for QRDA)
+  ///name of record custodian?
   var custodian: String? //NOT in model, but in Mongo JSON (probably for QRDA)
+  ///any patient identifiers.  This may include collections of MRNs if you use multiple EMRs, etc.  Could conceivably include identifiers like SSN
   var identifiers: [CDAKCDAIdentifier] = [] // NOT in the orignal model, but we want to have these on hand
+  
+  ///Determines whether patient is currently over the age of 18
+  public var over_18: Bool {
+    //Time.at(birthdate) < Time.now.years_ago(18)
+    guard let birthdate = birthdate else {
+      return false
+    }
+    
+    //http://stackoverflow.com/questions/24723431/swift-days-between-two-nsdates
+    let start_date = NSDate(timeIntervalSince1970: NSTimeInterval(birthdate))
+    let end_date = NSDate() //now
+    
+    let cal = NSCalendar.currentCalendar()
+    let year_unit : NSCalendarUnit = NSCalendarUnit.Year
+    let components = cal.components(year_unit, fromDate: start_date, toDate: end_date, options: [])
+    
+    if components.year >= 18 {
+      return true
+    }
+    
+    return false
+  }
   
   // I don't know a better way to do this, so ...
   // For a given entry we create, we need a way to point back to this parent Record
   // When we create an entry and append it to the entry array(s), we create a reference back to this Record
+
   private var _allergies = [CDAKAllergy]()
+  ///Allergies collection
   public var allergies: [CDAKAllergy] {
     get {return _allergies}
     set {
@@ -80,6 +129,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
 
   private var _conditions = [CDAKCondition]()
+  ///conditions collection
   public var conditions: [CDAKCondition] {
     get {return _conditions}
     set {
@@ -91,6 +141,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _encounters = [CDAKEncounter]()
+  ///encounters collection
   public var encounters: [CDAKEncounter] {
     get {return _encounters}
     set {
@@ -102,6 +153,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _communications = [CDAKCommunication]()
+  ///communications collection
   public var communications: [CDAKCommunication] {
     get {return _communications}
     set {
@@ -113,6 +165,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
 
   private var _family_history = [CDAKFamilyHistory]()
+  ///family history collection
   public var family_history: [CDAKFamilyHistory] {
     get {return _family_history}
     set {
@@ -124,6 +177,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _immunizations = [CDAKImmunization]()
+  ///immunizations collection
   public var immunizations: [CDAKImmunization] {
     get {return _immunizations}
     set {
@@ -135,6 +189,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _medical_equipment = [CDAKMedicalEquipment]()
+  ///medical equipment collection
   public var medical_equipment: [CDAKMedicalEquipment] {
     get {return _medical_equipment}
     set {
@@ -147,6 +202,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
 
   
   private var _medications = [CDAKMedication]()
+  ///medications collection
   public var medications: [CDAKMedication] {
     get {return _medications}
     set {
@@ -158,6 +214,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _procedures = [CDAKProcedure]()
+  ///procedures collection
   public var procedures: [CDAKProcedure] {
     get {return _procedures}
     set {
@@ -169,6 +226,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _results = [CDAKLabResult]()//, class_name: "CDAKLabResult"
+  ///lab results collection
   public var results: [CDAKLabResult] {
     get {return _results}
     set {
@@ -180,6 +238,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _socialhistories = [CDAKSocialHistory]() //, class_name: "CDAKEntry"
+  ///social histories collection
   public var social_history: [CDAKSocialHistory] {
     get { return socialhistories }
     set { socialhistories = newValue }
@@ -195,6 +254,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
 
   private var _vital_signs = [CDAKVitalSign]()
+  ///vital signs collection
   public var vital_signs: [CDAKVitalSign] {
     get {return _vital_signs}
     set {
@@ -206,6 +266,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _support = [CDAKSupport]()
+  ///support collection
   public var support: [CDAKSupport] {
     get {return _support}
     set {
@@ -217,6 +278,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
 
   private var _advance_directives = [CDAKEntry]() //, class_name: "CDAKEntry"
+  ///advance directives collection
   public var advance_directives: [CDAKEntry] {
     get {return _advance_directives}
     set {
@@ -228,6 +290,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _insurance_providers = [CDAKInsuranceProvider]()
+  ///insurance providers collection
   public var insurance_providers: [CDAKInsuranceProvider] {
     get {return _insurance_providers}
     set {
@@ -239,6 +302,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _functional_statuses = [CDAKFunctionalStatus]()
+  ///functional status collection
   public var functional_statuses: [CDAKFunctionalStatus] {
     get {return _functional_statuses}
     set {
@@ -251,6 +315,10 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   //FIXME: - I think "provider_performances" shoud be handled differently here
   private var _provider_performances = [CDAKProviderPerformance]()
+  /**
+  provider performances collection
+   This is really only relevant for QRDA III
+   */
   public var provider_performances: [CDAKProviderPerformance] {
     get {return _provider_performances}
     set {
@@ -262,6 +330,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _addresses = [CDAKAddress]() //, as: :locatable
+  ///patient addresses
   public var addresses: [CDAKAddress] {
     get {return _addresses}
     set {
@@ -273,6 +342,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   private var _telecoms = [CDAKTelecom]() //, as: :contactable
+  ///patient telecoms
   public var telecoms: [CDAKTelecom] {
     get {return _telecoms}
     set {
@@ -283,12 +353,14 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
 
+  //MARK: Legacy Ruby
   
-  public var Sections = ["allergies", "care_goals", "conditions", "encounters", "immunizations", "medical_equipment",
+  ///list of section identifiers. Legacy Ruby
+  var Sections = ["allergies", "care_goals", "conditions", "encounters", "immunizations", "medical_equipment",
     "medications", "procedures", "results", "communications", "family_history", "social_history", "vital_signs", "support", "advance_directives",
     "insurance_providers", "functional_statuses"]
   
-  
+  ///Legacy Ruby. Search for record(s) by provider.
   class func by_provider(provider: CDAKProvider, effective_date: Double?) -> [CDAKRecord] {
     // FIXME: this is a mess
     var records = [CDAKRecord]()
@@ -317,6 +389,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   //scope :by_patient_id, ->(id) { where(:medical_record_number => id) }
+  ///Legacy Ruby. Searches for a patient record by patient MRN
   class func by_patient_id(id: String) -> [CDAKRecord] {
     //FIXME: Should this return just one record?
     var records = [CDAKRecord]()
@@ -328,7 +401,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     return records
   }
   
-  
+  ///Legacy Ruby. Determines if a record exists already in the record collection
   class func update_or_create(data: CDAKRecord) -> CDAKRecord {
     //existing = CDAKRecord.where(medical_record_number: data.medical_record_number).first
     var existing: CDAKRecord?
@@ -348,31 +421,13 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  public func providers() -> [CDAKProvider] {
+  ///Legacy Ruby. Returns all providers contained in provider performances
+  func providers() -> [CDAKProvider] {
     return provider_performances.filter({pp in pp.provider != nil}).map({pp in pp.provider!})
   }
 
-  public var over_18: Bool {
-    //Time.at(birthdate) < Time.now.years_ago(18)
-    guard let birthdate = birthdate else {
-      return false
-    }
-    
-    //http://stackoverflow.com/questions/24723431/swift-days-between-two-nsdates
-    let start_date = NSDate(timeIntervalSince1970: NSTimeInterval(birthdate))
-    let end_date = NSDate() //now
-    
-    let cal = NSCalendar.currentCalendar()
-    let year_unit : NSCalendarUnit = NSCalendarUnit.Year
-    let components = cal.components(year_unit, fromDate: start_date, toDate: end_date, options: [])
 
-    if components.year >= 18 {
-      return true
-    }
-    
-    return false
-  }
-  
+    ///returns a specific set of patient entry records based on the supplied section name (if found)
   func getSection(section: String) -> [CDAKEntry] {
     //FIXME: move this into the CDAK helper stuff
     switch section {
@@ -397,6 +452,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
+  ///based on the supplied section name (if found), replaces entries with supplied collection
   func setSection(section: String, entries: [CDAKEntry]) {
       switch section {
       case "allergies" :  allergies = (entries as! [CDAKAllergy])
@@ -420,7 +476,8 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
       }
   }
   
-  public func entries_for_oid(oid: String) -> [CDAKEntry] {
+  ///For a given OID, searches all entries and returns entries with matching OID
+  private func entries_for_oid(oid: String) -> [CDAKEntry] {
     //OK, so this appears to be sort of reflecting on the Ruby attributes by "section"
     // EX: section string "allergies" -> looks at object property "allergies"
     // I don't want to start doing wonky things to work around reflection challenges, so I'm just going to 
@@ -438,8 +495,8 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     return matching_entries_by_section
   }
   
-  
-  public var entries: [CDAKEntry] {
+  ///Combines all entries into a single collection and returns them
+  private var entries: [CDAKEntry] {
     var all_entries = [CDAKEntry]()
     for section in Sections {
       let entries = getSection(section)
@@ -447,10 +504,6 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
     return all_entries
   }
-  
-  //memoize :entries_for_oid
-  //FIXME: - later address lazy + caching
-  
   
   /**
   Remove duplicate entries from a section based on cda_identifier or id.
@@ -495,8 +548,13 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
       setSection(section, entries: unique_entries)
   }
   
-  //marked as mutating / dangerous in Ruby
+  //
   // yup - this code is even worse than the above - similar, but worse
+  /**
+    Marked as mutating / dangerous in Ruby
+  
+  Attempts to determine if there are duplicate entries in the Record and removes any extras.
+  */
   func dedup_section_merging_codes_and_values(section: String) {
     var unique_entries = [String:CDAKEntry]()
               
@@ -520,14 +578,15 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     setSection(section, entries: Array(unique_entries.values))
   }
   
-  func mergeCodes(var ar1: CDAKCodedEntries, ar2: CDAKCodedEntries) -> CDAKCodedEntries {
+  ///DO NOT USE.  Alternate method exists in Coded Entries. Merges codes between two sets of coded entries
+  private func mergeCodes(var ar1: CDAKCodedEntries, ar2: CDAKCodedEntries) -> CDAKCodedEntries {
     for (_, CDAKCodedEntry) in ar2 {
       ar1.addCodes(CDAKCodedEntry)
     }
     return ar1
   }
   
-  func dedup_section(section: String) {
+  private func dedup_section(section: String) {
     if ["encounters", "procedures", "results"].contains(section) {
       dedup_section_merging_codes_and_values(section)
     } else {
@@ -535,13 +594,14 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  func dedup_record() {
+  private func dedup_record() {
     for section in Sections {
       dedup_section(section)
     }
   }
   
-  
+  // MARK: Health-Data-Standards Functions
+  ///Offset all dates by specified double
   func shift_dates(date_diff: Double) {
     
     if let birthdate = birthdate {
@@ -565,7 +625,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   
-  class func provider_queries(provider_id: String, effective_date: Double) -> CDAKProvider? {
+  private class func provider_queries(provider_id: String, effective_date: Double) -> CDAKProvider? {
     //FIXME: - review implementation for accuracy
     //Making the (probably bad) assumption these return a single value - provider_id assumed to be unique
     // see warning about NPI vs. provider_id on provider_query
@@ -582,7 +642,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     return nil
   }
 
-  class func provider_query(provider_id: String, start_before: Double?, end_before: Double?) -> CDAKProvider? {
+  private class func provider_query(provider_id: String, start_before: Double?, end_before: Double?) -> CDAKProvider? {
     //FIXME: - review implementation for accuracy
     // because we're not using Mongo here we don't really have a "provider_id" the way it's looking for here...
     // I'm going to do a "bad thing" and use NPI for the moment since it's all I've got
@@ -601,6 +661,8 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     return nil
   }
   
+  // MARK: - Initializers
+
   required override public init() { // <== Need "required" because we need to call dynamicType() below
     //FIXME: Shady
     // this is so hacky it hurts
@@ -618,6 +680,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   
+  ///do not use - will be removed
   required public init(event: [String:Any?]) {
     
     super.init()
@@ -707,6 +770,8 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   
+  // MARK: Standard properties
+  ///Debugging description
   override public var description : String {
     return "CDAKRecord => title: \(title), first: \(first), last: \(last), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), religious_affiliation: \(religious_affiliation), effective_time: \(effective_time), race: \(race), ethnicity: \(ethnicity), languages = \(languages), marital_status: \(marital_status), medical_record_number: \(medical_record_number), medical_record_assigner: \(medical_record_assigner), expired: \(expired), clinicalTrialParticipant: \(clinicalTrialParticipant), allergies: \(allergies), care_goals: \(care_goals), conditions: \(conditions), encounters: \(encounters), communications: \(communications), family_history: \(family_history), immunizations: \(immunizations), medical_equipment: \(medical_equipment), medications: \(medications), procedures: \(procedures), results: \(results), social_history: \(social_history), vital_signs: \(vital_signs), advance_directives: \(advance_directives), insurance_providers: \(insurance_providers), functional_statuses: \(functional_statuses), provider_performances: \(provider_performances), addresses: \(addresses), telecoms: \(telecoms)"
   }
@@ -714,6 +779,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
 }
 
 
+// MARK: - Mustache marshalling
 extension CDAKRecord {
   override public var mustacheBox: MustacheBox {
     var vals: [String:MustacheBox] = [String:MustacheBox]()
@@ -808,11 +874,28 @@ extension CDAKRecord {
 
 
 extension CDAKRecord {
-  
+  //MARK: Primary CDA import / export Methods
+  /**
+  Master public convenience method for exporting record to CDA
+   
+   Formats defined in: CDAKExport.CDAKExportFormat
+   
+   EX: .ccda or .c32
+   
+   */
   public func export(inFormat format: CDAKExport.CDAKExportFormat) -> String {
     return CDAKExport.export(patientRecord: self, inFormat: format)
   }
-  
+
+  /**
+   Creates a new record from CDA XML
+   */
+  public convenience init(fromXML doc: String) throws   {
+    let x = try CDAKImport_BulkRecordImporter.importRecord(doc)
+    self.init(copyFrom: x)
+  }
+
+  //MARK: Convenience copying
   public convenience init(copyFrom record: CDAKRecord) {
     self.init()
     self.title = record.title
@@ -856,16 +939,13 @@ extension CDAKRecord {
 
   }
 
-  //I don't think I'm doing this right
-  public convenience init(fromXML doc: String) throws   {
-    let x = try CDAKImport_BulkRecordImporter.importRecord(doc)
-    self.init(copyFrom: x)
-  }
   
 }
 
 
+// MARK: - JSON Generation
 extension CDAKRecord: CDAKJSONExportable {
+  ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     

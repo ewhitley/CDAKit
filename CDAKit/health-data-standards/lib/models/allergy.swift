@@ -34,6 +34,7 @@ public class CDAKAllergy: CDAKEntry {
     super.init()
   }
   
+  ///do not use - will be removed
   public required init(event: [String : Any?]) {
      super.init(event: event)
   }

@@ -9,7 +9,9 @@
 import Foundation
 
 
-protocol CDAKJSONInstantiable {
+///do not use - will be removed
+internal protocol CDAKJSONInstantiable {
+  ///do not use - will be removed
   init(event: [String:Any?])
 }
 

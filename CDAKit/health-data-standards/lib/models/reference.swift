@@ -34,10 +34,12 @@ public class CDAKReference: CDAKJSONInstantiable {
     self.entry = entry
   }
 
+  ///do not use - will be removed
   required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
   
+  ///do not use - will be removed
   private func initFromEventList(event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)

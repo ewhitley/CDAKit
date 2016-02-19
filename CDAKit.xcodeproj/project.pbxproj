@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		380A41091C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380A41081C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift */; };
 		384E23111C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml in Resources */ = {isa = PBXBuildFile; fileRef = 384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */; };
 		384E23141C738E4E009B9DED /* CDAKJSONInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */; };
 		384E23171C73C517009B9DED /* MetadataImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23161C73C517009B9DED /* MetadataImporter.swift */; };
@@ -297,6 +298,7 @@
 /* Begin PBXFileReference section */
 		2659CE5B586D31D29E7610E8 /* Pods_CDAKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CDAKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3584B78321E453821B9F825B /* Pods-CDAKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDAKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CDAKitTests/Pods-CDAKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		380A41081C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKVocabularyStructs.swift; sourceTree = "<group>"; };
 		384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "170.314(b)(1)InPt_Discharge Summary CED Type.xml"; sourceTree = "<group>"; };
 		384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKJSONInstantiable.swift; sourceTree = "<group>"; };
 		384E23161C73C517009B9DED /* MetadataImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataImporter.swift; sourceTree = "<group>"; };
@@ -876,6 +878,7 @@
 			isa = PBXGroup;
 			children = (
 				389170BE1C6CD7FF00A31299 /* code_system_helper.swift */,
+				380A41081C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift */,
 				389170BF1C6CD7FF00A31299 /* hl7_helper.swift */,
 			);
 			path = util;
@@ -1645,6 +1648,7 @@
 				389170611C6CD74500A31299 /* CDAKitHealthKitBridge.swift in Sources */,
 				389170C71C6CD81900A31299 /* view_helper.swift in Sources */,
 				389170691C6CD7A500A31299 /* change_info.swift in Sources */,
+				380A41091C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift in Sources */,
 				389170A91C6CD7C800A31299 /* order_information.swift in Sources */,
 				3891709D1C6CD7C800A31299 /* encounter.swift in Sources */,
 				389170BD1C6CD7C800A31299 /* vital_sign.swift in Sources */,

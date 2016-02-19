@@ -9,16 +9,23 @@
 import Foundation
 
 //NOTE: changing type to CDAKEntry
+/**
+  Performance entry for provider
+
+NOTE: we're never going to use this. It's for QRDA III and we have no measure engine, no measures, etc. so this is never going to be utilized.
+*/
 public class CDAKProviderPerformance: CDAKEntry {
-  
+
+  ///start date for period
   public var start_date: Double?
+  ///end date for period
   public var end_date: Double?
-  
-  //FIXME: - model relationship issues here
-  //belongs_to :provider
-  //embedded_in :record
+  ///provider
   public var provider: CDAKProvider?
+
   
+  // MARK: Health-Data-Standards Functions
+  ///Offset all dates by specified double
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
 
@@ -32,7 +39,9 @@ public class CDAKProviderPerformance: CDAKEntry {
   
 }
 
+// MARK: - JSON Generation
 extension CDAKProviderPerformance {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

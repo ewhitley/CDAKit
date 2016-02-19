@@ -9,26 +9,40 @@
 import Foundation
 import Mustache
 
+/**
+Organization
+*/
 public class CDAKOrganization: CDAKJSONInstantiable, CustomStringConvertible, Equatable, Hashable {
   
+  // MARK: CDA properties
+  ///organization name
   public var name: String?
+  ///OIds etc. for organization
   public var ids: [CDAKCDAIdentifier] = [] //not used in original model. Merged from QRDA ORG model
+  ///physical address
   public var addresses: [CDAKAddress] = [CDAKAddress]()
+  ///telecoms
   public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
+  
+  // MARK: - Initializers
   public init() {
   }
   
+  ///do not use - will be removed
   required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
   
+  ///do not use - will be removed
   private func initFromEventList(event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)
     }
   }
   
+  // MARK: Standard properties
+  ///Debugging description
   public var description: String {
     return "CDAKOrganization => name: \(name), addresses: \(addresses), telecoms: \(telecoms)"
   }

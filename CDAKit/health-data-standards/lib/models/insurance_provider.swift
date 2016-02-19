@@ -7,19 +7,33 @@
 //
 
 import Foundation
-
+/**
+Insurance Provider
+*/
 public class CDAKInsuranceProvider: CDAKEntry {
 
+  // MARK: CDA properties
+
+  ///Payer (insurance provider)
   public var payer: CDAKOrganization? //, class_name: "CDAKOrganization"
+  ///Insurance guarantor
   public var guarantors = [CDAKGuarantor]()//, class_name: "CDAKGuarantor"
+  ///Insurance subscriber
   public var subscriber: CDAKPerson? //, class_name: "CDAKPerson"
   
+  ///Type
   public var type: String?
+  ///Member ID
   public var member_id: String?
+  ///Relationship
   public var relationship : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
+  ///Financial responsibility type
   public var financial_responsibility_type : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
+  ///Name
   public var name: String?
   
+  // MARK: Health-Data-Standards Functions
+  ///Offset all dates by specified double
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
 
@@ -28,6 +42,8 @@ public class CDAKInsuranceProvider: CDAKEntry {
     }
   }
   
+  // MARK: Standard properties
+  ///Debugging description
   override public var description: String {
     return super.description + ", name: \(name), type: \(type), member_id: \(member_id), relationship: \(relationship), financial_responsibility_type: \(financial_responsibility_type), financial_responsibility_type: \(financial_responsibility_type), payer: \(payer), guarantors: \(guarantors), subscriber: \(subscriber)"
   }
@@ -35,7 +51,9 @@ public class CDAKInsuranceProvider: CDAKEntry {
   
 }
 
+// MARK: - JSON Generation
 extension CDAKInsuranceProvider {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

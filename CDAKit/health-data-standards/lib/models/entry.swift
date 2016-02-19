@@ -229,11 +229,13 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     super.init()
   }
   
+  ///do not use - will be removed
   public required init(event: [String:Any?]) {
     super.init()
     initFromEventList(event)
   }
   
+  ///do not use - will be removed
   init(from_hash event: [String:Any?]) {
     super.init()
     initFromEventList(event)
@@ -352,37 +354,6 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     }
   }
   
-  // MARK: Standard properties
-  ///Internal object hash value
-  override public var hashValue: Int {
-    //FIXME: - not using the hash - just using native properties
-    
-    var hv: Int
-    
-    hv = "\(codes)".hashValue
-      
-    if values.count > 0 {
-      hv = hv ^ "\(values)".hashValue
-    }
-    if let start_time = start_time, end_time = end_time {
-      hv = hv ^ start_time.hashValue
-      hv = hv ^ end_time.hashValue
-    } else {
-      hv = hv ^ "\(time)".hashValue
-    }
-    
-    if let status = status {
-      hv = hv ^ status.hashValue
-    }
-    if let specifics = specifics {
-      hv = hv ^ specifics.hashValue
-    }
-    
-    //should we not include the class name?
-    
-    return hv
-  }
-  
 
   /**
    DO NOT USE - legacy Ruby
@@ -454,8 +425,37 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     return ""
   }
 
-
   // MARK: Standard properties
+  ///Internal object hash value
+  override public var hashValue: Int {
+    //FIXME: - not using the hash - just using native properties
+    
+    var hv: Int
+    
+    hv = "\(codes)".hashValue
+    
+    if values.count > 0 {
+      hv = hv ^ "\(values)".hashValue
+    }
+    if let start_time = start_time, end_time = end_time {
+      hv = hv ^ start_time.hashValue
+      hv = hv ^ end_time.hashValue
+    } else {
+      hv = hv ^ "\(time)".hashValue
+    }
+    
+    if let status = status {
+      hv = hv ^ status.hashValue
+    }
+    if let specifics = specifics {
+      hv = hv ^ specifics.hashValue
+    }
+    
+    //should we not include the class name?
+    
+    return hv
+  }
+  
   ///Debugging description
   override public var description : String {
     return "\(self.dynamicType) => codes: \(codes), cda_identifier: \(identifier_as_string), values: \(values), references: \(references), provider_preference: \(provider_preference), patient_preference: \(patient_preference), item_description: \(item_description), specifics: \(specifics), time: \(time), start_time: \(start_time), end_time: \(end_time), status_code: \(status_code), mood_code: \(mood_code), negation_ind: \(negation_ind), negation_reason: \(negation_reason), oid: \(oid), reason: \(reason), version: \(version), id: \(id), created_at: \(created_at), updated_at: \(updated_at)"
@@ -481,6 +481,7 @@ func == (lhs: CDAKEntry, rhs: CDAKEntry) -> Bool {
 
 extension CDAKEntry {
   
+  //MARK: Additional properties to help with code sets
   var preferred_code_sets: [String] {
     switch String(self.dynamicType) {
     case "CDAKAllergy": return ["RxNorm"]

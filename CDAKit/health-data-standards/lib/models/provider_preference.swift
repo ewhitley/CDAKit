@@ -8,6 +8,7 @@
 
 import Foundation
 
+///Empty
 public class CDAKProviderPreference {
   //nothing here...
 }

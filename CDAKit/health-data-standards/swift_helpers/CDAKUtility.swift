@@ -17,7 +17,8 @@ Warning - This class is due for removal.  DO NOT USE.
  Yes.  The code is foul.  Don't look at it or you might burn your eyes.
 */
 
-protocol CDAKPropertyAddressable {
+ ///do not use - will be removed
+internal protocol CDAKPropertyAddressable {
   init(event: [String:Any?])
 }
 
