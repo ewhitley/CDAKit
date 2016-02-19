@@ -8,25 +8,40 @@
 
 import Foundation
 
+/**
+ Support
+*/
 public class CDAKSupport: CDAKEntry {
-  
+
+  // MARK: CDA properties
+
+  ///types of support available
   public static let Types = ["Guardian", "Next of Kin", "Caregiver", "Emergency Contact"]
   
+  ///address
   public var address: CDAKAddress?
+  ///telecom
   public var telecom: CDAKTelecom?
-  
+  ///title
   public var title: String?
+  ///first / given name
   public var given_name: String?
+  ///family / past name
   public var family_name: String?
+  ///mother's maiden name
   public var mothers_maiden_name: String?
+  ///type (see types)
   public var type: String?
+  ///relationship
   public var relationship: String?
   
   //# validates_inclusion_of :type, :in => Types
   
 }
 
+// MARK: - JSON Generation
 extension CDAKSupport {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

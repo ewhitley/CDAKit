@@ -356,12 +356,12 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   //MARK: Legacy Ruby
   
   ///list of section identifiers. Legacy Ruby
-  var Sections = ["allergies", "care_goals", "conditions", "encounters", "immunizations", "medical_equipment",
+  private var Sections = ["allergies", "care_goals", "conditions", "encounters", "immunizations", "medical_equipment",
     "medications", "procedures", "results", "communications", "family_history", "social_history", "vital_signs", "support", "advance_directives",
     "insurance_providers", "functional_statuses"]
   
   ///Legacy Ruby. Search for record(s) by provider.
-  class func by_provider(provider: CDAKProvider, effective_date: Double?) -> [CDAKRecord] {
+  internal class func by_provider(provider: CDAKProvider, effective_date: Double?) -> [CDAKRecord] {
     // FIXME: this is a mess
     var records = [CDAKRecord]()
     if let effective_date = effective_date {
@@ -390,7 +390,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   //scope :by_patient_id, ->(id) { where(:medical_record_number => id) }
   ///Legacy Ruby. Searches for a patient record by patient MRN
-  class func by_patient_id(id: String) -> [CDAKRecord] {
+  internal class func by_patient_id(id: String) -> [CDAKRecord] {
     //FIXME: Should this return just one record?
     var records = [CDAKRecord]()
     for record in CDAKGlobals.sharedInstance.CDAKRecords {
@@ -402,7 +402,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   ///Legacy Ruby. Determines if a record exists already in the record collection
-  class func update_or_create(data: CDAKRecord) -> CDAKRecord {
+  internal class func update_or_create(data: CDAKRecord) -> CDAKRecord {
     //existing = CDAKRecord.where(medical_record_number: data.medical_record_number).first
     var existing: CDAKRecord?
     for record in CDAKGlobals.sharedInstance.CDAKRecords {
@@ -422,13 +422,13 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   ///Legacy Ruby. Returns all providers contained in provider performances
-  func providers() -> [CDAKProvider] {
+  internal func providers() -> [CDAKProvider] {
     return provider_performances.filter({pp in pp.provider != nil}).map({pp in pp.provider!})
   }
 
 
     ///returns a specific set of patient entry records based on the supplied section name (if found)
-  func getSection(section: String) -> [CDAKEntry] {
+  private func getSection(section: String) -> [CDAKEntry] {
     //FIXME: move this into the CDAK helper stuff
     switch section {
     case "allergies" : return allergies
@@ -453,7 +453,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   ///based on the supplied section name (if found), replaces entries with supplied collection
-  func setSection(section: String, entries: [CDAKEntry]) {
+  private func setSection(section: String, entries: [CDAKEntry]) {
       switch section {
       case "allergies" :  allergies = (entries as! [CDAKAllergy])
       case "care_goals" :  care_goals = entries
@@ -477,7 +477,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   ///For a given OID, searches all entries and returns entries with matching OID
-  private func entries_for_oid(oid: String) -> [CDAKEntry] {
+  internal func entries_for_oid(oid: String) -> [CDAKEntry] {
     //OK, so this appears to be sort of reflecting on the Ruby attributes by "section"
     // EX: section string "allergies" -> looks at object property "allergies"
     // I don't want to start doing wonky things to work around reflection challenges, so I'm just going to 
@@ -496,7 +496,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   ///Combines all entries into a single collection and returns them
-  private var entries: [CDAKEntry] {
+  internal var entries: [CDAKEntry] {
     var all_entries = [CDAKEntry]()
     for section in Sections {
       let entries = getSection(section)
@@ -512,7 +512,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   Warning: Marked as mutating / "dangerous" in Ruby
   */
-  func dedup_section_ignoring_content(section: String) {
+  internal func dedup_section_ignoring_content(section: String) {
     // http://stackoverflow.com/questions/612189/why-are-exclamation-marks-used-in-ruby-methods
     // In general, methods that end in ! indicate that the method will modify the object it's called on. Ruby calls these "dangerous methods" because they change state that someone else might have a reference to.
 
@@ -555,7 +555,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   Attempts to determine if there are duplicate entries in the Record and removes any extras.
   */
-  func dedup_section_merging_codes_and_values(section: String) {
+  internal func dedup_section_merging_codes_and_values(section: String) {
     var unique_entries = [String:CDAKEntry]()
               
     let entries = getSection(section)
@@ -586,7 +586,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     return ar1
   }
   
-  private func dedup_section(section: String) {
+  internal func dedup_section(section: String) {
     if ["encounters", "procedures", "results"].contains(section) {
       dedup_section_merging_codes_and_values(section)
     } else {
@@ -594,7 +594,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private func dedup_record() {
+  internal func dedup_record() {
     for section in Sections {
       dedup_section(section)
     }

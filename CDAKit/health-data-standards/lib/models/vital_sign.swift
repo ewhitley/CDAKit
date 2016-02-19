@@ -8,8 +8,14 @@
 
 import Foundation
 
+/**
+Vital signs
+ Inherits all members and methods from CDAKLabResult
+*/
 public class CDAKVitalSign: CDAKLabResult {
   
+  // MARK: Standard properties
+  ///Debugging description
   override public var description: String {
     return super.description
   }

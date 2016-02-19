@@ -359,7 +359,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
    DO NOT USE - legacy Ruby
    Returns the hash object, calculating it if not already done
    */
-  var hash_object : [String:Any] {
+  internal var hash_object : [String:Any] {
     // FIXME: - do as lazy?
     // EWW: not doing this as lazy just now
     return to_hash()
@@ -370,7 +370,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
    Creates a Hash for this CDAKEntry
   - returns: A Hash representing the CDAKEntry
   */
-  func to_hash() -> [String:Any] {
+  internal func to_hash() -> [String:Any] {
     
     var entry_hash: [String:Any] = [:]
 

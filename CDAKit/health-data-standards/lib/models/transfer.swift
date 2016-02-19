@@ -9,16 +9,25 @@
 import Foundation
 import Mustache
 
+/**
+Represents a transfer event.  EX: "transferred to federal holding"
+*/
 public class CDAKTransfer: CDAKThingWithCodes, CustomStringConvertible {
   
+  // MARK: CDA properties
+  ///time of transfer
   public var time: Double?
+  ///codes that define transfer
   public var codes = CDAKCodedEntries()
 
+  // MARK: Standard properties
+  ///Debugging description
   public var description : String {
     return "CDAKTransfer => time: \(time), codes: \(codes)"
   }
 }
 
+// MARK: - Mustache marshalling
 extension CDAKTransfer: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     return [
@@ -33,7 +42,9 @@ extension CDAKTransfer: MustacheBoxable {
 }
 
 
+// MARK: - JSON Generation
 extension CDAKTransfer: CDAKJSONExportable {
+  ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     

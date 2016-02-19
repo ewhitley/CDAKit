@@ -8,7 +8,9 @@
 
 import Foundation
 
-//this is in here so we can type this as something more explicit - so we can govern the preferred code sets ,etc.
+/**
+this is in here so we can type this as something more explicit - so we can govern the preferred code sets ,etc.
+*/
 public class CDAKSocialHistory: CDAKEntry {
 }
 

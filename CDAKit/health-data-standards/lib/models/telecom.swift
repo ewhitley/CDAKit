@@ -9,14 +9,22 @@
 import Foundation
 import Mustache
 
+/**
+ Telephone
+*/
 public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
   
+  // MARK: CDA properties
   var record: CDAKRecord?
 
+  ///phone use type
   public var use: String?
+  ///phone number
   public var value: String?
+  ///is this the preferred phone?
   public var preferred: Bool?
   
+  // MARK: - Initializers
   public override init(){
     super.init()
   }
@@ -41,6 +49,8 @@ public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
     }
   }
 
+  // MARK: Standard properties
+  ///Debugging description
   public override var description: String {
     return "CDAKTelecom => use: \(use), value: \(value), preferred: \(preferred)"
   }
@@ -48,6 +58,7 @@ public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
   
 }
 
+// MARK: - Mustache marshalling
 extension CDAKTelecom {
   override public var mustacheBox: MustacheBox {
     return Box([
@@ -58,7 +69,9 @@ extension CDAKTelecom {
   }
 }
 
+// MARK: - JSON Generation
 extension CDAKTelecom: CDAKJSONExportable {
+  ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     if let use = use {

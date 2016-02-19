@@ -9,16 +9,20 @@
 import Foundation
 
 
-
+/**
+CDA Reference
+*/
 public class CDAKReference: CDAKJSONInstantiable {
   
+  ///type
   public var type: String?
+  ///referenced type
   public var referenced_type: String = ""
+  ///reference
   public var referenced_id: String = ""
-  
+  ///Entry
   public var entry: CDAKEntry?
-  
-  //FIXME: Can't resolve any of this since it's using Mongo
+
   public init(entry: CDAKEntry) {
     self.entry = entry
   }
@@ -47,11 +51,7 @@ public class CDAKReference: CDAKJSONInstantiable {
   }
 
   
-  
-  // this is a problem...
-  //  I can't tell if this returns one entry or multiple
-  //  Appears to be one...
-  func resolve_reference() -> CDAKEntry? {
+  internal func resolve_reference() -> CDAKEntry? {
     var an_entry: CDAKEntry?
     
     if let entry = self.entry {
@@ -66,7 +66,7 @@ public class CDAKReference: CDAKJSONInstantiable {
   }
 
   
-  func resolve_referenced_id()  {
+  internal func resolve_referenced_id()  {
     if let entry = self.entry {
       if let record = entry.record {
         let resolved_reference = (record.entries.filter({ e in
@@ -82,7 +82,10 @@ public class CDAKReference: CDAKJSONInstantiable {
 }
 
 
+
+// MARK: - JSON Generation
 extension CDAKReference: CDAKJSONExportable {
+  ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     
