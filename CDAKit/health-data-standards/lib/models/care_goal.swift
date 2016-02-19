@@ -9,13 +9,18 @@
 import Foundation
 import Mustache
 
+/**
+Represents a Care Goal.  May be any of a variety of entries.
+*/
 public class CDAKCareGoal: CDAKEntry {
 
+  // MARK: CDA properties
   var related_to: [String:String] = [String:String]()
   var target_outcome: [String:String] = [String:String]()
   
 }
 
+// MARK: - Mustache marshalling
 extension CDAKCareGoal {
   override var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
@@ -27,7 +32,9 @@ extension CDAKCareGoal {
   }
 }
 
+// MARK: - JSON Generation
 extension CDAKCareGoal {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

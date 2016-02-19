@@ -336,7 +336,7 @@ class CDAKUtility {
       switch property {
       case "admit_time", "admitTime": obj.admit_time = doubleValue(value)
       case "discharge_time", "dischargeTime": obj.discharge_time = doubleValue(value)
-      //MARK: FIXME - apparently the Mongo JSON just uses a single string like "Home" ?
+      //FIXME: - apparently the Mongo JSON just uses a single string like "Home" ?
         // look at "dischargeDisp"
       case "discharge_disposition", "dischargeDisposition", "dischargeDisp": obj.discharge_disposition = dictionaryStringArray(value)
       case "admit_type", "admitType": obj.admit_type = dictionaryStringArray(value)

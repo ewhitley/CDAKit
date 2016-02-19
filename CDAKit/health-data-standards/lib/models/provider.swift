@@ -48,7 +48,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   
   //scope :by_npi, ->(an_npi){ where("cda_identifiers.root" => NPI_OID, "cda_identifiers.extension" => an_npi)}
   class func by_npi(an_npi: String?) -> CDAKProvider? {
-    //MARK: FIXME - so foul
+    //FIXME: - so foul
     for prov in CDAKGlobals.sharedInstance.CDAKProviders {
       for cda in prov.cda_identifiers {
         if (cda.root == CDAKProvider.NPI_OID) && cda.extension_id == an_npi {
@@ -186,7 +186,7 @@ extension CDAKProvider {
 }
 
 extension CDAKProvider {
-  //MARK: FIXME - not using the hash - just using native properties
+  //FIXME: - not using the hash - just using native properties
   public var hashValue: Int {
     
     var hv: Int

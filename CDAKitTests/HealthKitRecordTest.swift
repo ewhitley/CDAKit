@@ -24,11 +24,6 @@ class HealthKitRecordTest: XCTestCase {
       super.tearDown()
   }
   
-  func testHealthKitTermMap() {
-    
-    //CDAKHealthKitBridge.sharedInstance.loadHealthKitTermMap(withPlist: <#T##NSDictionary#>)
-
-  }
 
   
   func testCCDAToHealthKitToCCDAWithUnitConversion() {
@@ -78,7 +73,7 @@ class HealthKitRecordTest: XCTestCase {
     aRecord.last = "Jones"
     
     let anAllergy = CDAKAllergy()
-    anAllergy.codes.addCodes("LOINC", codes: ["abc123"])
+    anAllergy.codes.addCodes(CDAKVocabularyKeys.LOINC, codes: ["abc123"])
     
     let aVital = CDAKVitalSign()
     aVital.codes.addCodes("LOINC", codes: ["3141-9"]) //weight

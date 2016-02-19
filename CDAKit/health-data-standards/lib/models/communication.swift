@@ -8,11 +8,19 @@
 
 import Foundation
 
+/**
+ Communication
+ Could represent provider to patient, etc.
+*/
 public class CDAKCommunication: CDAKEntry {
+  // MARK: CDA properties
+  ///Direction of communication
   public var direction: String?
 }
 
+// MARK: - JSON Generation
 extension CDAKCommunication {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

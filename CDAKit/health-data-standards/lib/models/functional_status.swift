@@ -27,7 +27,10 @@ public class CDAKFunctionalStatus: CDAKEntry {
   
 }
 
+
+// MARK: - JSON Generation
 extension CDAKFunctionalStatus {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

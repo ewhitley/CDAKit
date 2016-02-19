@@ -11,23 +11,43 @@ import Mustache
 
 
 
-
+/**
+CDA Condition
+ 
+Most frequently considerd a "problem" or "diagnosis."
+ 
+*/
 public class CDAKCondition: CDAKEntry {
   
+  // MARK: CDA properties
+  ///Type
   public var type          : String?
+  ///Was this the cause of death?
   public var cause_of_death  : Bool? = false
+  ///Time of death
   public var time_of_death : Double?
+  ///Priority, if available.  "Primary," "Secondary," etc. in numeric form
   public var priority      : Int?
+  ///Name of condition
   public var name          : String?
+  ///Ordinality
   public var ordinality    : CDAKCodedEntries = CDAKCodedEntries()
+  ///Severity
   public var severity      : CDAKCodedEntries = CDAKCodedEntries() //# Currently unsupported by any importers
+  ///Laterality
   public var laterality    : CDAKCodedEntries = CDAKCodedEntries()
+  ///Anatomical Taret
   public var anatomical_target : CDAKCodedEntries = CDAKCodedEntries()
+  ///Anatomical Location
   public var anatomical_location : CDAKCodedEntries = CDAKCodedEntries()
+  ///Age at onset (if documented)
   public var age_at_onset: Int? //an actual age - like "20"
   
+  ///Treating provider (if documented)
   public var treating_provider: [CDAKProvider] = [CDAKProvider]()
   
+  // MARK: Health-Data-Standards Functions
+  ///Offset all dates
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
     if let time_of_death = time_of_death {
@@ -35,6 +55,8 @@ public class CDAKCondition: CDAKEntry {
     }
   }
   
+  // MARK: Standard properties
+  ///Debugging description
   override public var description: String {
     return super.description + " name: \(name), type: \(type), cause_of_death: \(cause_of_death), time_of_death: \(time_of_death), priority: \(priority), ordinality: \(ordinality), severity: \(severity), laterality: \(laterality), anatomical_target: \(anatomical_target), anatomical_location: \(anatomical_location)"
   }

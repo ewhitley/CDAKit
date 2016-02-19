@@ -10,25 +10,43 @@ import Foundation
 import Mustache
 
 
-
-
+/**
+Represents a CDA Encounter
+ 
+[Reference](http://www.cdapro.com/know/26178)
+*/
 public class CDAKEncounter: CDAKEntry {
-  
+
+  // MARK: CDA properties
+  /**
+  CDA priorityCode
+  [Reference](http://www.cdapro.com/know/25039)
+  */
   public var admit_type: CDAKCodedEntries = CDAKCodedEntries() // :admit_type, type: Hash
+  ///CDA dischargeDispositionCode
   public var discharge_disposition: CDAKCodedEntries = CDAKCodedEntries() // :discharge_disposition, type: Hash
+  ///Time of admission
   public var admit_time: Double? // , as: :admit_time, type: Integer
+  ///Time of discharge
   public var discharge_time: Double? // :discharge_time, type: Integer
+  ///Principal diagnosis
   public var principal_diagnosis: CDAKCodedEntries = CDAKCodedEntries() //:principal_diagnosis, type: Hash
+  ///Diagnosis
   public var diagnosis: CDAKCodedEntries = CDAKCodedEntries()
   
+  ///Transfer to
   public var transfer_to: CDAKTransfer?//, class_name: "CDAKTransfer"
+  ///Transfer from
   public var transfer_from: CDAKTransfer?//, class_name: "CDAKTransfer"
   
+  ///Facility
   public var facility: CDAKFacility?
   
-  //belongs_to :performer, class_name: "Provider"
+  ///Performer
   public var performer: CDAKProvider?
 
+  // MARK: Health-Data-Standards Functions
+  ///Offset all dates by specified double
   override func shift_dates(date_diff: Double) {
     super.shift_dates(date_diff)
 
@@ -44,12 +62,15 @@ public class CDAKEncounter: CDAKEntry {
     }
   }
   
+  // MARK: Standard properties
+  ///Debugging description
   override public var description: String {
     return super.description + " , admit_type: \(admit_type), discharge_disposition: \(discharge_disposition), admit_time: \(admit_time), discharge_time: \(discharge_time), principal_diagnosis: \(principal_diagnosis), transfer_to: \(transfer_to), transfer_from: \(transfer_from), facility: \(facility), performer: \(performer)"
   }
   
 }
 
+// MARK: - Mustache marshalling
 extension CDAKEncounter {
   override var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
@@ -68,7 +89,9 @@ extension CDAKEncounter {
   }
 }
 
+// MARK: - JSON Generation
 extension CDAKEncounter {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

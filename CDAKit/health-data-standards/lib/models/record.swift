@@ -249,7 +249,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  //MARK: FIXME - I think "provider_performances" shoud be handled differently here
+  //FIXME: - I think "provider_performances" shoud be handled differently here
   private var _provider_performances = [CDAKProviderPerformance]()
   public var provider_performances: [CDAKProviderPerformance] {
     get {return _provider_performances}
@@ -449,7 +449,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   //memoize :entries_for_oid
-  //MARK: FIXME - later address lazy + caching
+  //FIXME: - later address lazy + caching
   
   
   /**

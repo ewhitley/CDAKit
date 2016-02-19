@@ -9,14 +9,15 @@
 import Foundation
 import Fuzi
 
+public enum CDAKImportError : ErrorType {
+  case NotImplemented
+  case UnableToDetermineFormat
+  case NoClinicalDocumentElement
+  case InvalidXML
+}
+
+
 public class CDAKImport_BulkRecordImporter {
-  
-  public enum Error : ErrorType {
-    case NotImplemented
-    case UnableToDetermineFormat
-    case NoClinicalDocumentElement
-    case InvalidXML
-  }
   
   public class func importRecord(XMLString: String, providier_map:[String:CDAKProvider] = [:]) throws -> CDAKRecord {
     
@@ -44,7 +45,7 @@ public class CDAKImport_BulkRecordImporter {
             return record
           } else if doc.xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.24.1.2']").count > 0 {
             print("QRDA1 not (yet) supported")
-            throw CDAKImport_BulkRecordImporter.Error.NotImplemented
+            throw CDAKImportError.NotImplemented
           } else if doc.xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.22.1.1']").count > 0 && CDAKGlobals.sharedInstance.attemptNonStandardCDAImport == true {
             //last ditch "we have a general US header, but that's about it"
             print("Deteremined XML document format as: Non-Standard CDA. This may or may not import completely.")
@@ -54,14 +55,14 @@ public class CDAKImport_BulkRecordImporter {
             return record
           } else {
             print("Unable to determinate document template/type of CDA document")
-            throw CDAKImport_BulkRecordImporter.Error.UnableToDetermineFormat
+            throw CDAKImportError.UnableToDetermineFormat
           }
         } else {
           print("XML does not appear to be a valid ClinicalDocument")
-          throw CDAKImport_BulkRecordImporter.Error.NoClinicalDocumentElement
+          throw CDAKImportError.NoClinicalDocumentElement
         }
       } else {
-        throw CDAKImport_BulkRecordImporter.Error.InvalidXML
+        throw CDAKImportError.InvalidXML
       }
     } catch let error as XMLError {
       switch error {
@@ -70,7 +71,7 @@ public class CDAKImport_BulkRecordImporter {
       case .LibXMLError(let code, let message):
         print("libxml error code: \(code), message: \(message)")
       }
-      throw CDAKImport_BulkRecordImporter.Error.InvalidXML
+      throw CDAKImportError.InvalidXML
       
     }
   }

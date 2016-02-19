@@ -9,19 +9,31 @@
 import Foundation
 import Mustache
 
+/**
+CDA Identifier
+ 
+Usually takes the form of a "root" (required) and an "extension" (identifier) (optional).
+ 
+[Additional information](http://www.cdapro.com/know/24985)
+*/
 public class CDAKCDAIdentifier: Equatable, Hashable, CDAKJSONInstantiable, CustomStringConvertible {
 
+  ///CDA Root
   public var root: String?
+  ///CDA Extension
   public var extension_id: String?
   
   public var hashValue: Int {
     return "\(root)\(extension_id)".hashValue
   }
   
+  // MARK: Standard properties
+  ///Debugging description
   public var description: String {
     return "CDAKCDAIdentifier => root: \(root), extension_id: \(extension_id)"
   }
   
+  // MARK: - Initializers
   required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
@@ -37,6 +49,8 @@ public class CDAKCDAIdentifier: Equatable, Hashable, CDAKJSONInstantiable, Custo
     self.extension_id = extension_id
   }
   
+  // MARK: CDA properties
+  ///Attempts to return a simplified compound version of the Root and Extension
   public var as_string: String {
     get {
       var r = ""
@@ -58,7 +72,7 @@ public func == (lhs: CDAKCDAIdentifier, rhs: CDAKCDAIdentifier) -> Bool {
   //self.root == comparison_object.root && self.extension == comparison_object.extension
 }
 
-
+// MARK: - Mustache marshalling
 extension CDAKCDAIdentifier: MustacheBoxable {
   public var mustacheBox: MustacheBox {
       return Box([
@@ -69,7 +83,9 @@ extension CDAKCDAIdentifier: MustacheBoxable {
   }
 }
 
+// MARK: - JSON Generation
 extension CDAKCDAIdentifier: CDAKJSONExportable {
+  ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     

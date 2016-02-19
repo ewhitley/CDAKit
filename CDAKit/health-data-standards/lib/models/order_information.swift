@@ -17,7 +17,7 @@ public class CDAKOrderInformation: CDAKEntry {
   public var order_expiration_date_time: Double? //, as: :order_expiration_date_time, type: Integer
   public var order_date_time: Double? //, as: :order_date_time, type: Integer
   
-  //MARK: FIXME - handle getting order_information by CDAKProvider
+  //FIXME: - handle getting order_information by CDAKProvider
   public var provider: CDAKProvider?
   
   override func shift_dates(date_diff: Double) {

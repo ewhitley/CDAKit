@@ -8,18 +8,33 @@
 
 import Foundation
 
+/**
+Represents a physical address
+*/
 public class CDAKAddress: NSObject, CDAKJSONInstantiable {
   
+  ///Pointer back to parent record
   var record: CDAKRecord?
   
+  // MARK: CDA properties
+  ///Street
   public var street: [String] = [String]()
+  ///City
   public var city: String?
+  ///State
   public var state: String?
+  ///Zip code
   public var zip: String?
+  ///Country code
   public var country: String?
+  /**
+   HL7 Address Use codes
+   HL7 OID: 2.16.840.1.113883.5.1119
+   [Reference] (https://www.hl7.org/fhir/v3/AddressUse/index.html)
+  */
   public var use: String?
   
-  
+  // MARK: - Initializers
   public override init(){
     super.init()
   }
@@ -45,13 +60,17 @@ public class CDAKAddress: NSObject, CDAKJSONInstantiable {
     }
   }
 
+  // MARK: Standard properties
+  ///Debugging description
   override public var description: String {
     return "CDAKAddress => street: \(street), city: \(city), state: \(state), zip: \(zip), country: \(country), use: \(use)"
   }
   
 }
 
+// MARK: - JSON Generation
 extension CDAKAddress: CDAKJSONExportable {
+  ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     if street.count > 0 {

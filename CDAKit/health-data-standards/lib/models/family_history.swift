@@ -8,14 +8,22 @@
 
 import Foundation
 
+/**
+CDA Family History
+*/
 public class CDAKFamilyHistory: CDAKEntry {
   
+  // MARK: CDA properties
+  ///CDA relationship to patient
   public var relationshipToPatient = [String:String]()
+  ///CDA onset age
   public var onsetAge = [String:String]()
     
 }
 
+// MARK: - JSON Generation
 extension CDAKFamilyHistory {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

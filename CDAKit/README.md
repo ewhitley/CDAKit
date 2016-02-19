@@ -1,14 +1,18 @@
-<img src="./github_assets/cdakit.png" srcset="/github_assets/cdakit@2x.png 2x, /github_assets/cdakit@3x.png 3x" alt="CDAKit">
+<!--img src="./github_assets/cdakit.png" srcset="/github_assets/cdakit@2x.png 2x, /github_assets/cdakit@3x.png 3x" alt="CDAKit"-->
+
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/CDAKit.svg)](https://cocoapods.org/pods/CDAKit)
+[![License](https://img.shields.io/cocoapods/l/CDAKit.svg?style=flat&color=gray)](https://opensource.org/licenses/Apache-2.0)
+
 
 # CDAKit
 
 **Helping you quickly manage CDA-structured health data** 
 
-You can read more about some of the rationale behind CDAKit on my [LinkedIn posts](https://www.linkedin.com/pulse/connecting-ios-your-emr-using-healthkit-cda-part-one-eric-whitley).  
-
 CDAKit's models, importer, and exporter are based on the Ruby [Health-Data-Standards] project, which was funded by the US Office of the National Coordinator for Health Information Technology([ONC]) and built primarily by MITRE Corporation([MITRE]). 
 
 CDAKit provides the ability to bridge CDA content with HealthKit so you convert between HealthKit and CDA XML using HealthKit samples.
+
+You can read more about some of the rationale behind CDAKit on my [LinkedIn posts](https://www.linkedin.com/pulse/connecting-ios-your-emr-using-healthkit-cda-part-one-eric-whitley).  
 
 ## Features
 
@@ -83,6 +87,7 @@ $ pod install
 ### Dependencies
 
 CDAKit proudly uses the following projects:
+
 * [Fuzi] - "_A fast & lightweight XML & HTML parser in Swift with XPath & CSS support_" Used for all XPath-based parsing of inbound CDA XML.
 * [GRMustache] - "_Flexible Mustache templates for Swift_" Swift version of the Mustache templating engine.  Used for CDA XML generation.
 * [Try] - "_Handle Objective-C Exceptions with Swift's error handling system_" There is one specific place (attempting to create an HKUnit from string) where we need to use the more traditional "try" (with failure) to handle exceptions that Swift can't yet address.
@@ -92,6 +97,7 @@ CDAKit proudly uses the following projects:
 ## Usage
 
 Reference CDAKit in your app
+
 ```swift
 import CDAKit
 ```
@@ -114,7 +120,36 @@ CDAKit uses a core "Record" object (`CDAKRecord`) that represents the core CDA d
 * **CDAKPhysicalQuantityResultValue**: A pairing of a unit of measure (lb, in, mm, etc.) and an associated value (1, 2.3, 75, etc). 
 
 ### Coded Data
-Entries often contain `codes` which represent vocabulary-encoded concept codes.  A "BMI," for example, can be represented with LOINC:39156-5 (Body mass index (BMI) [Ratio]). In the absence of coded data, the concept is effectively "meaningless" for the purposes of interoperability.  While you and I may be able to read a textual "BMI" description, coded vocabulary entries are essential for machines to interpret the _intended_ meaning of a piece of information.
+Entries can contain `codes` which represent vocabulary-encoded concept codes.  A "BMI," for example, can be represented with LOINC:39156-5 (Body mass index (BMI) [Ratio]). In the absence of coded data, the concept is effectively "meaningless" for the purposes of interoperability.  While you and I may be able to read a textual "BMI" description, coded vocabulary entries are essential for machines to interpret the _intended_ meaning of a piece of information.
+
+Adding coded data to an Entry
+
+```swift
+  let aVital = CDAKVitalSign()
+  aVital.codes.addCodes("LOINC", codes: ["3141-9"]) //weight
+```
+
+The vocabulary keys are flexible, but there are some fixed keys to help ensure concepts that have "preferred" vocabularies are able to resolve the choice of preferred vs. translation entries.
+
+The list of known, commonly-used keys is available through `CDAKVocabularyKeys`.
+
+You could then use these constants as follows:
+
+```swift
+      let aVital = CDAKVitalSign()
+      aVital.codes.addCodes(CDAKVocabularyKeys.LOINC, codes: ["3141-9"]) //weight
+```
+
+This is probably preferred just to ensure consistency and ensure any associated OID lookups succeed.
+
+You can also supply an optional descriptive `displayName` which would appear in the finalized coded results.
+
+```swift
+      let aVital = CDAKVitalSign()
+      aVital.codes.addCodes(CDAKVocabularyKeys.LOINC, codes: ["3141-9"], displayName: "Body Weight") //weight
+```
+
+
 
 ## Basic Methods
 
@@ -133,10 +168,27 @@ catch {
 }
 ```
 
+CDA parsing-specific errors may be of a few types, all defined in `CDAKImportError`
+
+```swift
+public enum CDAKImportError : ErrorType {
+  case NotImplemented
+  case UnableToDetermineFormat
+  case NoClinicalDocumentElement
+  case InvalidXML
+}
+```
+
+* **NotImplemented**: This is a known CDA document type, but the importer doesn't (yet) handle the format
+* **UnableToDetermineFormat**: This appears to be a valid XML file and also a valid `ClinicalDocument`, but contains no known template OIDs.
+* **NoClinicalDocumentElement**: Could not find a `ClinicalDocument` root element
+* **InvalidXML**: No XML header
+
 ### Exporting to CDA XML
 Once your CDAKRecord is populated you can export it to one of the supported CDA XML formats.
 
 The formats are enumerated
+
 * .c32
 * .ccda
 
@@ -145,13 +197,14 @@ let myOutboundCDAXML = cdakRecord.export(inFormat: .ccda)
 print(myOutboundCDAXML)
 ```
 
-### Enabling Support for "Indeterminate" CDA Formats
+### Importing: Enabling Support for "Indeterminate" CDA Formats
 CDAKit uses the `templateId` OIDs within the XML file's `ClinicalDocument` header to determine format (found in `bulk_record_importer`).
+
 * **C32**: 2.16.840.1.113883.3.88.11.32.1
 * **CCDA**: 2.16.840.1.113883.10.20.22.1.2
 * **QRDA1**: 2.16.840.1.113883.10.20.24.1.2 (_Not yet supported and will intentinoally throw an error_)
 
-By default, failing to detect any of those OIDs will result in a document parsing exception.  Some document templates may contain valid CDA, but will not use one of those OIDs.  They might, instead, use the "US General Realm" header.
+By default, failing to detect any of those OIDs will result in a document parsing exception.  Some document templates may contain valid CDA, but will not use one of those OIDs.  They might, instead, use only the "US General Realm" header.
 
 * **"MAYBE"**: 2.16.840.1.113883.10.20.22.1.1 (US General Realm header)
 
@@ -162,6 +215,7 @@ CDAKGlobals.sharedInstance.attemptNonStandardCDAImport = true
 ```
 
 From there you can then attempt to import an unspecified CDA file
+
 ```swift
 let myCDAXMLWithoutTheRightType:String = ((Get some non-standard CDA XML))
 CDAKGlobals.sharedInstance.attemptNonStandardCDAImport = true //enable wider support
@@ -175,7 +229,10 @@ catch {
 
 ## HealthKit Bridge
 
-You can also communicate between the CDA models and HealthKit.  An extended discussion of the principles can be found (here](https://www.linkedin.com/pulse/connecting-ios-your-emr-using-healthkit-cda-part-one-eric-whitley).
+You can also communicate between the CDA models and HealthKit.  An extended discussion of the approach can be found [here](https://www.linkedin.com/pulse/connecting-ios-your-emr-using-healthkit-cda-part-one-eric-whitley).
+
+This process uses an intermediate `CDAKHKRecord` model to house the HealthKit samples.  If you have existing HealthKit samples, just just need to add them to the `samples` collection.  Ideally, you're also able to provide some basic name and gender information.
+
 
 ### CDA to HealthKit
 
@@ -240,7 +297,7 @@ public enum CDAKHKMetadataKeys: String {
 * CDAKMetadataRecordIDRoot: the root (if found) from the source CDA XML file
 * CDAKMetadataEntryHash: the hash value from the CDA entry
 
-
+You can also supply your own Swift `[String:AnyObject]` dictionary to add additional custom metadata.
 
 
 

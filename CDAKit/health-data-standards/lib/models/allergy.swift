@@ -9,12 +9,20 @@
 import Foundation
 import Mustache
 
-
+/**
+Represents an Allergy entry
+*/
 public class CDAKAllergy: CDAKEntry {
+
+  // MARK: CDA properties
+  ///type
   public var type: CDAKCodedEntries = CDAKCodedEntries()
+  ///reaction
   public var reaction: CDAKCodedEntries = CDAKCodedEntries() //flat code list
+  ///severity
   public var severity: CDAKCodedEntries = CDAKCodedEntries() //flat code list
   
+  // MARK: - Initializers
   public init(type:CDAKCodedEntries, reaction: CDAKCodedEntries = CDAKCodedEntries(), severity: CDAKCodedEntries = CDAKCodedEntries()) {
     super.init()
     self.type = type
@@ -32,6 +40,7 @@ public class CDAKAllergy: CDAKEntry {
   
 }
 
+// MARK: - Mustache marshalling
 extension CDAKAllergy {
   override var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
@@ -44,7 +53,9 @@ extension CDAKAllergy {
   }
 }
 
+// MARK: - JSON Generation
 extension CDAKAllergy {
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

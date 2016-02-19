@@ -174,7 +174,7 @@ class CDAKImport_CDA_SectionImporter {
   }
 
   func extract_value(parent_element: XMLElement, value_element: XMLElement?, entry: CDAKEntry) {
-    //MARK: FIXME - I had to comment some of this out... not the type I was expecting
+    //FIXME: - I had to comment some of this out... not the type I was expecting
     if let value_element = value_element {
       if let value = value_element["value"] {
         let unit = value_element["unit"]

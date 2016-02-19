@@ -8,7 +8,11 @@
 
 import Foundation
 
+/**
+Protocol for date shifting functions
+*/
 protocol CDAKDateShiftable {
+  ///Offset all dates by specified double
   func shift_dates(date_diff: Double)
 }
 

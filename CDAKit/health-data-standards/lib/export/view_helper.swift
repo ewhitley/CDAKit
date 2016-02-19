@@ -17,7 +17,7 @@ class ViewHelper {
   // {"tag_name"=>"value", "extra_content"=>"xsi:type=\"CD\"", "preferred_code_sets"=>["SNOMED-CT"]}
   // {"preferred_code_sets"=>["LOINC", "SNOMED-CT"]}
   // looks like the value of the dictionary can be a string or an array of values
-  // MARK: FIXME - issue with :codes here
+  // FIXME: - issue with :codes here
   class func code_display(entry: CDAKEntry, var options:[String:Any] = [:]) -> String {
     
     if options["tag_name"] == nil { options["tag_name"] = "code" }
@@ -140,7 +140,7 @@ class ViewHelper {
   
   //take an Int representing time since 1970 -> format into date
   // using Ruby Time:: :number format ('%Y%m%d%H%M%S')
-  // MARK: FIXME - this isn't doing something right..
+  // FIXME: - this isn't doing something right..
   /*
     value_or_null_flavor(946702800) -> not right
     //Swift: 2000 12 31 23 00 00
@@ -205,7 +205,7 @@ class ViewHelper {
     return ["true","false"].contains(str != nil ? str!.lowercaseString : "")
   }
 
-  //MARK: FIXME - this isn't going to work for our custom objects right now
+  //FIXME: - this isn't going to work for our custom objects right now
   // and I can't make them CustomStringConvertible without impacting the "description" property
 //  class func identifier_for(value: [CustomStringConvertible]) -> String {
 //    return String(value).hnk_MD5String()
@@ -213,7 +213,7 @@ class ViewHelper {
   
   //EX: field -> "severity"
   //    codes -> {"SNOMED-CT"=>["6736007"]}
-  //MARK: FIXME - finish the implementation. As best I can tell, this is only used by the HTML export. Deal with it then.
+  //FIXME: - finish the implementation. As best I can tell, this is only used by the HTML export. Deal with it then.
   // output can be a few different things, but most often seems to be a string like...
   // SNOMED-CT: 6736007
 //  func convert_field_to_hash(field: String, codes: Any) {

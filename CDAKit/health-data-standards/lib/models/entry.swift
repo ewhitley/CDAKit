@@ -9,6 +9,9 @@
 import Foundation
 import Mustache
 
+/**
+Root type of generic CDA Entry.  All other "entry-like" types inherit from CDAKEntry
+*/
 
 public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, CDAKJSONInstantiable, CDAKThingWithTimes {
   
@@ -19,36 +22,73 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   //the original code makes use of the ability to point back to the containing record
   // adding a weak reference here since the record actually contains the entry (self)
   
+  // MARK: CDA properties
   //ThingWithCodes
+  /** 
+  Core coded entries that represent any "meaning" behind the entry
+  These will be in the format of...
+    ClinicalVocabulary:ConceptID
+  Like
+    LOINC:12345
+  */
   public var codes: CDAKCodedEntries = CDAKCodedEntries()
   
+  ///Type of CDA Entry if available
   public var cda_identifier: CDAKCDAIdentifier? //, class_name: "CDAKCDAIdentifier", as: :cda_identifiable
-  //MARK: FIXME - I changed the class to PhysicalQuantityResultValue here
+  //FIXME: - I changed the class to PhysicalQuantityResultValue here
   // the test cases all made it appear we're using that and not ResultValue
+  /**
+  Any associated result values. 
+  
+  Specific entries may contain "result," often in the form of a physical quantity result value, etc.
+  
+  EX: Result of "Weight" is 160 lbs.
+  */
   public var values = [CDAKResultValue]() //, class_name: "ResultValue"... and yet... it wants PhysicalQuantityResultValue - but in other places... ResultValue (PhysicalQuantityResultValue is a subclass of ResultValue)
+  ///CDA Reference
   public var references = [CDAKReference]() //
+  ///CDA Provider preference
   public var provider_preference = [CDAKEntry]() //, class_name: "CDAKEntry"
+  ///CDA patient preference
   public var patient_preference = [CDAKEntry]() //, class_name: "CDAKEntry"
   
+  ///CDA Description
   public var item_description: String?
+  ///CDA specifics
   public var specifics: String?
+  ///A generalized "time" associated with the entry
   public var time: Double?
+  ///A start time associated with this entry
   public var start_time: Double?
+  ///an end time associated with this entry
   public var end_time: Double?
   
+  ///CDA status code
   public var status_code : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
+  /**
+  CDA moodCode.  Defaulted to "EVN"
+  [Reference](http://www.cdapro.com/know/25027)
+  */
   public var mood_code: String = "EVN" //, type: String, default: "EVN"
+  ///CDA negation indicator.  Is this a "negation" of the act?
   public var negation_ind: Bool? = false //, as: :negation_ind, type: Boolean
+  ///CDA negation reason
   public var negation_reason : CDAKCodedEntries = CDAKCodedEntries()//, as: :negation_reason, type: Hash
+  ///CDA OID
   public var oid: String? //, type: String
+  ///CDA Reason
   public var reason: CDAKReason?//, type: Hash
   
-  
+  ///Comments support
   public var comment: String? // not in original model, but found in some other CDAKEntry items like pregnancies
   
+  ///Version of entry
   public var version: Int = 1
+  ///id
   public var id: String?
+  ///Date of entry creation
   public var created_at = NSDate()
+  ///Date of last entry update
   public var updated_at = NSDate()
 
   
@@ -63,6 +103,8 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
   
   
+  // MARK: Health-Data-Standards Functions
+  ///Convert times to CDA strings
   func times_to_s(nil_string: String = "UNK") -> String {
     
     var ret = ""
@@ -79,6 +121,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     return ret
   }
   
+  ///Convert times to CDA strings
   class func time_to_s(input_time: Double) -> String {
     //original code
     //Time.at(input_time).utc.to_formatted_s(:long_ordinal)
@@ -129,6 +172,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   //http://stackoverflow.com/questions/5398919/what-does-the-equal-symbol-do-when-put-after-the-method-name-in-a-method-d
   // I realize this is ugly - I'm trying to retain the initial code as much as possible, even where not "Swifty"
   
+  ///CDA status string
   public var status: String? {
   
     get { return status_legacy() }
@@ -180,6 +224,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
 
   
+  // MARK: - Initializers
   public override required init() {
     super.init()
   }
@@ -230,13 +275,13 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
   
   public init(cda_identifier: CDAKCDAIdentifier, codes: CDAKCodedEntries, values: [CDAKPhysicalQuantityResultValue]) {
-    //MARK: FIXME - changed values from ResultValue to PhysicalQuantityResultValue
+    //FIXME: - changed values from ResultValue to PhysicalQuantityResultValue
     self.cda_identifier = cda_identifier
     self.codes = codes
     self.values = values
   }
 
-  
+  // MARK: Health-Data-Standards Functions
   /**
  Checks if a code is in the list of possible codes
   
@@ -293,10 +338,8 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     }
     return false
   }
-  
-  
-  
-  
+
+  ///Offset all dates by specified double
   func shift_dates(date_diff: Double) {
     if let start_time = start_time {
       self.start_time = start_time + date_diff
@@ -309,8 +352,10 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     }
   }
   
+  // MARK: Standard properties
+  ///Internal object hash value
   override public var hashValue: Int {
-    //MARK: FIXME - not using the hash - just using native properties
+    //FIXME: - not using the hash - just using native properties
     
     var hv: Int
     
@@ -340,16 +385,18 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   
 
   /**
-   Returns the hash value, calculating it if not already done
+   DO NOT USE - legacy Ruby
+   Returns the hash object, calculating it if not already done
    */
   var hash_object : [String:Any] {
-    // MARK: FIXME - do as lazy?
+    // FIXME: - do as lazy?
     // EWW: not doing this as lazy just now
     return to_hash()
   }
   
   /**
- Creates a Hash for this CDAKEntry
+   DO NOT USE - legacy Ruby
+   Creates a Hash for this CDAKEntry
   - returns: A Hash representing the CDAKEntry
   */
   func to_hash() -> [String:Any] {
@@ -385,9 +432,9 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     return entry_hash
   }
   
-  
+  ///Returns CDA identifier or fixed id if not present
   public var identifier: AnyObject? {
-    //MARK: FIXME - not sure this whole "identifier" business is right here
+    //FIXME: - not sure this whole "identifier" business is right here
     if let cda_identifier = cda_identifier {
       return cda_identifier
     } else {
@@ -395,8 +442,9 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     }
   }
 
+  ///Converts CDA identifier to string for use
   public var identifier_as_string: String {
-    //MARK: FIXME: this is a bad placeholder to deal with typing - I just need an "identifier" I can use as a key
+    //FIXME:: this is a bad placeholder to deal with typing - I just need an "identifier" I can use as a key
     if let cda_identifier = cda_identifier {
       return cda_identifier.as_string
     }
@@ -407,6 +455,8 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
 
 
+  // MARK: Standard properties
+  ///Debugging description
   override public var description : String {
     return "\(self.dynamicType) => codes: \(codes), cda_identifier: \(identifier_as_string), values: \(values), references: \(references), provider_preference: \(provider_preference), patient_preference: \(patient_preference), item_description: \(item_description), specifics: \(specifics), time: \(time), start_time: \(start_time), end_time: \(end_time), status_code: \(status_code), mood_code: \(mood_code), negation_ind: \(negation_ind), negation_reason: \(negation_reason), oid: \(oid), reason: \(reason), version: \(version), id: \(id), created_at: \(created_at), updated_at: \(updated_at)"
   }
@@ -454,6 +504,7 @@ extension CDAKEntry {
     return ViewHelper.code_display(self, options: ["preferred_code_sets":self.preferred_code_sets])
   }
   
+  // MARK: - Mustache marshalling
   var boxedValues: [String:MustacheBox] {
     var entry_preferred_code : CDAKCodedEntry?
     var code_system_oid = ""
@@ -507,10 +558,6 @@ extension CDAKEntry {
 
       "as_point_in_time" : Box(self.as_point_in_time()),
       "code_system_oid" : Box(code_system_oid),
-//      "preferred_code" : entry_preferred_code != nil ? Box(["code":entry_preferred_code!.codes, "code_set":entry_preferred_code!.codeSystem, "displayName": entry_preferred_code!.displayName ?? ""] ) : Box(nil), //need to transform this into a usable struct
-//      "translation_codes": Box(self.translation_codes(self.preferred_code_sets).arrayOfFlattenedCodedEntry.map({ce -> [String:String] in
-//        return ["code_set": ce.codeSystem, "code": ce.code!]
-//      })),
       "preferred_code": entry_preferred_code != nil ? Box(entry_preferred_code!) : Box(nil),
       "translation_codes": entry_preferred_code != nil ? Box(self.translation_codes(self.preferred_code_sets)) : Box(nil),
       
@@ -527,7 +574,9 @@ extension CDAKEntry {
   }
 }
 
+ // MARK: - JSON Generation
 extension CDAKEntry: CDAKJSONExportable {
+  ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     
