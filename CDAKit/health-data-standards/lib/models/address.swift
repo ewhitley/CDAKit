@@ -13,8 +13,8 @@ Represents a physical address
 */
 public class CDAKAddress: NSObject, CDAKJSONInstantiable {
   
-  ///Pointer back to parent record
-  var record: CDAKRecord?
+  //Pointer back to parent record
+  weak var record: CDAKRecord?
   
   // MARK: CDA properties
   ///Street

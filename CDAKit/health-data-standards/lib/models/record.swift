@@ -643,9 +643,6 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
 
   private class func provider_query(provider_id: String, start_before: Double?, end_before: Double?) -> CDAKProvider? {
-    //FIXME: - review implementation for accuracy
-    // because we're not using Mongo here we don't really have a "provider_id" the way it's looking for here...
-    // I'm going to do a "bad thing" and use NPI for the moment since it's all I've got
     for record in CDAKGlobals.sharedInstance.CDAKRecords {
       for perf in record.provider_performances {
         if let provider = perf.provider {
@@ -664,10 +661,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   // MARK: - Initializers
 
   required override public init() { // <== Need "required" because we need to call dynamicType() below
-    //FIXME: Shady
-    // this is so hacky it hurts
     super.init()
-    CDAKGlobals.sharedInstance.CDAKRecords.append(self)
+    //disabling auto-appending this record to the wrapping collection
+    //CDAKGlobals.sharedInstance.CDAKRecords.append(self)
   }
   
   deinit {
@@ -718,7 +714,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
       }
     }
     
-    CDAKGlobals.sharedInstance.CDAKRecords.append(self)
+    //CDAKGlobals.sharedInstance.CDAKRecords.append(self)
     
   }
   

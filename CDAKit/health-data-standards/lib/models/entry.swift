@@ -269,7 +269,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
   
   public init(record: CDAKRecord) {
-    self.record = record
+    //self.record = record
   }
   
   public init(cda_identifier: CDAKCDAIdentifier) {

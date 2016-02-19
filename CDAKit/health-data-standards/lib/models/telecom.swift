@@ -15,7 +15,7 @@ import Mustache
 public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
   
   // MARK: CDA properties
-  var record: CDAKRecord?
+  weak var record: CDAKRecord?
 
   ///phone use type
   public var use: String?
