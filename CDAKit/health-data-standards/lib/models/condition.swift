@@ -46,6 +46,11 @@ public class CDAKCondition: CDAKEntry {
   ///Treating provider (if documented)
   public var treating_provider: [CDAKProvider] = [CDAKProvider]()
   
+  ///renders display version of code based on preferred code set
+  override public var code_display : String {
+    return ViewHelper.code_display(self, options: ["preferred_code_sets":self.preferred_code_sets, "tag_name": "value", "extra_content": "xsi:type=\"CD\""])
+  }
+  
   // MARK: Health-Data-Standards Functions
   ///Offset all dates
   override func shift_dates(date_diff: Double) {
@@ -64,11 +69,7 @@ public class CDAKCondition: CDAKEntry {
 }
 
 extension CDAKCondition {
-  
-  override public var code_display : String {
-    return ViewHelper.code_display(self, options: ["preferred_code_sets":self.preferred_code_sets, "tag_name": "value", "extra_content": "xsi:type=\"CD\""])
-  }
-  
+  // MARK: - Mustache marshalling
   override public var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
     
@@ -89,6 +90,8 @@ extension CDAKCondition {
 }
 
 extension CDAKCondition {
+  // MARK: - JSON Generation
+  ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     

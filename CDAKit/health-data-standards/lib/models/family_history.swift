@@ -21,8 +21,8 @@ public class CDAKFamilyHistory: CDAKEntry {
     
 }
 
-// MARK: - JSON Generation
 extension CDAKFamilyHistory {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

@@ -9,22 +9,32 @@
 import Foundation
 import Mustache
 
-
+/**
+ Primary CDA export class
+*/
 public class CDAKExport {
   
+  /**
+   Provides list of known CDA export types
+   
+   - ccda
+   - c32
+  */
   public enum CDAKExportFormat: String {
     case ccda  = "ccda"
     case c32 = "c32"
   }
   
-
+  /**
+   Exports provided record to CDA XML in requested format
+   
+   - parameter record: CDAKRecord you wish to export to XML
+   - parameter format: Specified format (from CDAKExportFormat). (.c32, .ccda)
+  */
   public class func export(patientRecord record: CDAKRecord, inFormat format: CDAKExportFormat) -> String {
     
     var rendering = ""
     
-//    let template_helper = CDAKTemplateHelper(template_format: format.rawValue, template_subdir: format.rawValue, template_directory: nil)
-//    let template = template_helper.template("show")
-
     let repo = TemplateRepository(bundle: CDAKCommonUtility.bundle)
     do {
       let template = try repo.template(named: "\(format)_show.\(format)")

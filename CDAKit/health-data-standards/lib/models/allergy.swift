@@ -34,15 +34,16 @@ public class CDAKAllergy: CDAKEntry {
     super.init()
   }
   
-  ///do not use - will be removed
+  // MARK: - Deprecated - Do not use
+  ///Do not use - will be removed. Was used in HDS Ruby.
   public required init(event: [String : Any?]) {
      super.init(event: event)
   }
   
 }
 
-// MARK: - Mustache marshalling
 extension CDAKAllergy {
+  // MARK: - Mustache marshalling
   override var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
     
@@ -54,8 +55,8 @@ extension CDAKAllergy {
   }
 }
 
-// MARK: - JSON Generation
 extension CDAKAllergy {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

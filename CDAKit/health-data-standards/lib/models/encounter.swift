@@ -70,8 +70,8 @@ public class CDAKEncounter: CDAKEntry {
   
 }
 
-// MARK: - Mustache marshalling
 extension CDAKEncounter {
+  // MARK: - Mustache marshalling
   override var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
     
@@ -89,8 +89,8 @@ extension CDAKEncounter {
   }
 }
 
-// MARK: - JSON Generation
 extension CDAKEncounter {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

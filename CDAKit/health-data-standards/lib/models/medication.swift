@@ -13,6 +13,9 @@ import Foundation
 Medication
 */
 public class CDAKMedication: CDAKEntry {
+  
+  // MARK: CDA properties
+
   ///Timing of medication administration
   public var administration_timing: CDAKMedicationAdministrationTiming = CDAKMedicationAdministrationTiming()
   ///Free text signature or text
@@ -93,8 +96,8 @@ public class CDAKMedication: CDAKEntry {
   }  
 }
 
-// MARK: - JSON Generation
 extension CDAKMedication {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

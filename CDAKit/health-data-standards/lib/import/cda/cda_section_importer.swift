@@ -174,7 +174,7 @@ class CDAKImport_CDA_SectionImporter {
   }
 
   func extract_value(parent_element: XMLElement, value_element: XMLElement?, entry: CDAKEntry) {
-    //FIXME: - I had to comment some of this out... not the type I was expecting
+    //FIX_ME: - I had to comment some of this out... not the type I was expecting
     if let value_element = value_element {
       if let value = value_element["value"] {
         let unit = value_element["unit"]
@@ -223,7 +223,7 @@ class CDAKImport_CDA_SectionImporter {
   }
 
   func extract_negation(parent_element: XMLElement, entry: CDAKEntry) {
-    //FIXME: does not appear to pull translations
+    //FIX_ME: does not appear to pull translations
     if let negation_indicator = parent_element["negationInd"] {
       entry.negation_ind = negation_indicator.lowercaseString == "true"
       if entry.negation_ind == true {

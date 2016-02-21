@@ -73,15 +73,16 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   public init() {
     CDAKGlobals.sharedInstance.CDAKProviders.append(self) //INSTANCE WORK-AROUND
   }
-  
-  ///do not use - will be removed
+
+  deinit {
+    CDAKProvider.removeProvider(self)
+  }
+
+  // MARK: - Deprecated - Do not use
+  ///Do not use - will be removed. Was used in HDS Ruby.
   required public init(event: [String:Any?]) {
     initFromEventList(event)
     CDAKGlobals.sharedInstance.CDAKProviders.append(self) //INSTANCE WORK-AROUND
-  }
-  
-  deinit {
-    CDAKProvider.removeProvider(self)
   }
   
   
@@ -234,8 +235,8 @@ public func == (lhs: CDAKProvider, rhs: CDAKProvider) -> Bool {
 }
 
 
-// MARK: - Mustache marshalling
 extension CDAKProvider: MustacheBoxable {
+  // MARK: - Mustache marshalling
   var boxedValues: [String:MustacheBox] {
     return [
       "title" :  Box(title),
@@ -255,8 +256,8 @@ extension CDAKProvider: MustacheBoxable {
   }
 }
 
-// MARK: - JSON Generation
 extension CDAKProvider: CDAKJSONExportable {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]

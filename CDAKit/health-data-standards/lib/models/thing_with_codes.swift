@@ -12,6 +12,8 @@ import Foundation
  Defines whether this contains "codes" (CodedEntries set)
 */
 public protocol CDAKThingWithCodes: class, CDAKJSONExportable {
+  // MARK: CDA properties
+  /// primary storage for all coded entry vaues EX: LOINC:12345
   var codes: CDAKCodedEntries { get set }
 }
 
@@ -38,7 +40,7 @@ extension CDAKThingWithCodes {
   internal func preferred_code(var preferred_code_sets: [String], codes_attribute: String? = "codes", value_set_map: [CDAKCodedEntries] = []) -> CDAKCodedEntry?//[String:String]?
   {
 
-    //FIXME: - likely issues here with send() and the way I'm pulling this in
+    //FIX_ME: - likely issues here with send() and the way I'm pulling this in
     // count here doesn't really make sense relative to nil, but...
     // I can't think of another way to do this...
     // I can't reference "codes" in the function header
@@ -59,7 +61,7 @@ extension CDAKThingWithCodes {
     
     let matching_code_sets = Array(Set(preferred_code_sets).intersect(codes_value.keys))
 
-    //FIXME: - this is all definitely wrong, but I'm flying blind
+    //FIX_ME: - this is all definitely wrong, but I'm flying blind
     if matching_code_sets.count > 0 {
       if value_set_map.count > 0 {
         for matching_code_set in matching_code_sets {
@@ -178,8 +180,8 @@ extension CDAKThingWithCodes {
   
 }
 
-// MARK: - JSON Generation
 extension CDAKThingWithCodes {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]

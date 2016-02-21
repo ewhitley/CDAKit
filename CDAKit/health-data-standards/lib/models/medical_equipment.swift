@@ -12,7 +12,7 @@ CDA Medical Equipment
 */
 public class CDAKMedicalEquipment: CDAKEntry {
   
-  ///Dictionary for JSON data
+  // MARK: CDA properties
 
   ///Device manufacturer
   public var manufacturer: String?
@@ -39,8 +39,8 @@ public class CDAKMedicalEquipment: CDAKEntry {
 }
 
 
-// MARK: - JSON Generation
 extension CDAKMedicalEquipment {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

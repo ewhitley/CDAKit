@@ -35,15 +35,16 @@ public class CDAKPerson: CDAKPersonable, CDAKJSONInstantiable {
     self.telecoms = telecoms
   }
   
-  ///do not use - will be removed
+  // MARK: - Deprecated - Do not use
+  ///Do not use - will be removed. Was used in HDS Ruby.
   required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
   
 }
 
-// MARK: - Mustache marshalling
 extension CDAKPerson: MustacheBoxable {
+  // MARK: - Mustache marshalling
   var boxedValues: [String:MustacheBox] {
     return [
       "title" :  Box(title),
@@ -59,8 +60,8 @@ extension CDAKPerson: MustacheBoxable {
   }
 }
 
-// MARK: - JSON Generation
 extension CDAKPerson: CDAKJSONExportable {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]

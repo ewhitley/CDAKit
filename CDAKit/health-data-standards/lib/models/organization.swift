@@ -29,12 +29,13 @@ public class CDAKOrganization: CDAKJSONInstantiable, CustomStringConvertible, Eq
   public init() {
   }
   
-  ///do not use - will be removed
+  // MARK: - Deprecated - Do not use
+  ///Do not use - will be removed. Was used in HDS Ruby.
   required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
   
-  ///do not use - will be removed
+  ///Do not use - will be removed. Was used in HDS Ruby.
   private func initFromEventList(event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)
@@ -73,6 +74,7 @@ public func == (lhs: CDAKOrganization, rhs: CDAKOrganization) -> Bool {
 
 
 extension CDAKOrganization: MustacheBoxable {
+  // MARK: - Mustache marshalling
   var boxedValues: [String:MustacheBox] {
     return [
       "name" :  Box(name),
@@ -88,6 +90,8 @@ extension CDAKOrganization: MustacheBoxable {
 }
 
 extension CDAKOrganization: CDAKJSONExportable {
+  // MARK: - JSON Generation
+  ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     

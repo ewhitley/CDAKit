@@ -10,18 +10,25 @@ import Foundation
 
 
 
-
+/**
+Stores and manages all cross-record data and settings for CDA import and export
+*/
 public class CDAKGlobals {
 
+  ///allows access to all global properties
   public static let sharedInstance = CDAKGlobals()
   
   private init() {
-    CDAKDefaultMetadata = CDAKQRDAHeader()
-    CDAKDefaultMetadata.confidentiality = .Normal
+    //CDAKDefaultMetadata = CDAKQRDAHeader()
+    //CDAKDefaultMetadata.confidentiality = .Normal
   }
 
-  
-  public var CDAKDefaultMetadata: CDAKQRDAHeader
+  /**
+   If you'd like to globally apply organizational metadata to your CDA headers for all CDA documents you can inject that metadata here.
+   
+   If Record-specific metadata is found, that will be used instead.
+  */
+  public var CDAKDefaultMetadata: CDAKQRDAHeader?
 
   
   /**
@@ -47,8 +54,10 @@ public class CDAKGlobals {
 
   /**
    Returns all records imported during all sessions
+   
+   NOTE: this should really be removed, but right now legacy Ruby logic relies on it
   */
-  public var allRecords: [CDAKRecord] {
+  internal var allRecords: [CDAKRecord] {
     get {
       return CDAKRecords
     }
@@ -64,6 +73,8 @@ public class CDAKGlobals {
 
    During import this will be automatically extended to incorporate new types that are not in the original Ruby version of HDS.
    
+   
+   You can inject any custom code systems and OIDs here
    */
   public var CDAK_EXTENDED_CODE_SYSTEMS: [String:String] = CDAKCodeSystemHelper.CODE_SYSTEMS
   

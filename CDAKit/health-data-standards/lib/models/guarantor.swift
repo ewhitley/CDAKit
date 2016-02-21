@@ -31,8 +31,8 @@ public class CDAKGuarantor: CDAKEntry {
   
 }
 
-// MARK: - JSON Generation
 extension CDAKGuarantor {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

@@ -10,7 +10,7 @@ import Foundation
 import Mustache
 
 
-//FIXME: this needs serious clean-up. A lot of rendundant and "chatty" stuff going on.
+//FIX_ME: this needs serious clean-up. A lot of rendundant and "chatty" stuff going on.
 
 public struct CDAKCodedTerm: Equatable, Hashable {
   var code: String
@@ -478,7 +478,7 @@ public func == (lhs: CDAKCodedEntries, rhs: CDAKCodedEntries) -> Bool {
   return lhs.hashValue == rhs.hashValue
 }
 
-//FIXME: - this is probably wrong - resolve after other fixes
+//FIX_ME: - this is probably wrong - resolve after other fixes
 // see if we can just return the actual boxed values from self
 extension CDAKCodedEntries: MustacheBoxable {
 //  var boxedValues: [String:MustacheBox] {

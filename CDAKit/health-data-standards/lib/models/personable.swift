@@ -12,6 +12,8 @@ import Foundation
 Defines basic "person-like" attributes shared by Person and Provider objects
 */
 protocol CDAKPersonable {
+  // MARK: CDA properties
+  
   ///title
   var title: String? { get set }
   ///Given / First name

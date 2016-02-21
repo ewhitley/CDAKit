@@ -29,8 +29,8 @@ public class CDAKCodedResultValue: CDAKResultValue, CDAKThingWithCodes {
 }
 
 
-// MARK: - JSON Generation
 extension CDAKCodedResultValue {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

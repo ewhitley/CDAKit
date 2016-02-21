@@ -510,6 +510,28 @@ public struct CDAKConceptHelpers {
     public static let NotHispanicOrLatino = "2186-5"
   }
   
+  /**
+   8 standard SNOMED CT smoking status codes as mandated by US Meaningful Use
+  */
+  public struct SNOMEDCTSmokingStatus {
+    /// Current Heavy tobacco smoker
+    public static let CurrentHeavyTobaccoSmoker = "428071000124103"
+    /// Current Light tobacco smoker
+    public static let CurrentLightTobaccoSmoker = "428061000124105"
+    /// Current some day smoker
+    public static let CurrentSomeDaySmoker = "428041000124106"
+    /// Ex-smoker (finding) - Ex-smoker
+    public static let ExSmoker_Finding = "8517006"
+    /// Never smoked tobacco (finding) - Never smoked tobacco
+    public static let NeverSmokedTobacco_Finding = "266919005"
+    /// Smoker (finding) - Smoker
+    public static let Smoker_Finding = "77176002"
+    /// Smokes tobacco daily (finding) - Smokes tobacco daily
+    public static let SmokesTobaccoDaily_Finding = "449868002"
+    /// Tobacco smoking consumption unknown (finding) - Tobacco smoking consumption unknown
+    public static let TobaccoSmokingConsumptionUnknown_Finding = "266927001"
+  }
+  
 }
 
 

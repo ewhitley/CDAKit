@@ -9,9 +9,10 @@
 import Foundation
 
 
-///do not use - will be removed
+///Do not use - will be removed. Was used in HDS Ruby.
 internal protocol CDAKJSONInstantiable {
-  ///do not use - will be removed
+  // MARK: - Deprecated - Do not use
+  ///Do not use - will be removed. Was used in HDS Ruby.
   init(event: [String:Any?])
 }
 

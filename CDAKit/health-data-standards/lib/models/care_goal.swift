@@ -15,13 +15,15 @@ Represents a Care Goal.  May be any of a variety of entries.
 public class CDAKCareGoal: CDAKEntry {
 
   // MARK: CDA properties
-  var related_to: CDAKCodedEntries = CDAKCodedEntries()
-  var target_outcome: CDAKCodedEntries = CDAKCodedEntries()
+  ///Relaeted To (coded)
+  public var related_to: CDAKCodedEntries = CDAKCodedEntries()
+  ///Target Outcome (coded)
+  public var target_outcome: CDAKCodedEntries = CDAKCodedEntries()
   
 }
 
-// MARK: - Mustache marshalling
 extension CDAKCareGoal {
+  // MARK: - Mustache marshalling
   override var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
     
@@ -32,8 +34,8 @@ extension CDAKCareGoal {
   }
 }
 
-// MARK: - JSON Generation
 extension CDAKCareGoal {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

@@ -114,7 +114,7 @@ public class CDAKHealthKitBridge {
     return eventDate.timeIntervalSince1970
   }
   
-  func administrativeGender(biologicalSex:HKBiologicalSex?)-> (code:String, displayName:String)
+  public func administrativeGender(biologicalSex:HKBiologicalSex?)-> (code:String, displayName:String)
   {
     //gender -> M, F, UN
     //<administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGenderCode" displayName="Male"/>
@@ -140,7 +140,7 @@ public class CDAKHealthKitBridge {
     return (genderCode, genderDisplayName);
   }
 
-  func administrativeGender(genderCode:String?)-> HKBiologicalSex
+  public func administrativeGender(genderCode:String?)-> HKBiologicalSex
   {
     if let genderCode = genderCode {
       switch genderCode {
@@ -185,7 +185,7 @@ public class CDAKHealthKitBridge {
     
   }
 
-  func sampleForEntry(entry: CDAKEntry, forSampleType sampleType: CDAKHKQuantityIdentifiers, withHKMetadata meta: [String:AnyObject] = [:]) -> HKQuantitySample? {
+  public func sampleForEntry(entry: CDAKEntry, forSampleType sampleType: CDAKHKQuantityIdentifiers, withHKMetadata meta: [String:AnyObject] = [:]) -> HKQuantitySample? {
     return sampleForEntryValue(entry, allowedCodeList:
       CDAKHealthKitBridge.sharedInstance.CDAKHKTypeConceptsImport[sampleType.rawValue], quantityTypeIdentifier: sampleType.rawValue, withHKMetadata: meta)
   }
@@ -255,7 +255,7 @@ public class CDAKHealthKitBridge {
    
    - returns: Optional HKUnit. If one can be created, it will be populated.
    */
-  func unitForCDAString(var unit_string: String?, forQuantityTypeIdentifier typeIdentifier: String? = nil) -> HKUnit? {
+  public func unitForCDAString(var unit_string: String?, forQuantityTypeIdentifier typeIdentifier: String? = nil) -> HKUnit? {
 
     
     if let cdaStringUnitFinder = cdaStringUnitFinder {

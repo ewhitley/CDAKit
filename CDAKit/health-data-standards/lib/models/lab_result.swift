@@ -36,8 +36,8 @@ public class CDAKLabResult: CDAKEntry {
   
 }
 
-// MARK: - JSON Generation
 extension CDAKLabResult {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

@@ -18,6 +18,36 @@ public struct code_and_name {
 Primary container for all patient data that is to be represented with CDA
  
  When creating this record, you may wish to supply a custom header (CDAKQRDAHeader) or during CDA XML generation a default boilerplate header will be applied
+ 
+ 
+ ```swift
+ 
+ let doc = ((supply your CDA XML string))
+ 
+ do {
+   //let's try to import from CDA
+   let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+ 
+   //let's create a new vital
+   // use the coded values to govern "meaning" (height, weight, BMI, BP items, etc.)
+   let aVital = CDAKVitalSign()
+   aVital.codes.addCodes("LOINC", codes: ["3141-9"]) //weight
+   aVital.values.append(CDAKPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
+   aVital.start_time = NSDate().timeIntervalSince1970
+   aVital.end_time = NSDate().timeIntervalSince1970
+ 
+   //append our height to our record
+   record.vital_signs.append(aVital)
+ 
+   //render from our model to CDA - format set to .ccda (could also do .c32)
+   print(record(inFormat: .ccda))
+ }
+ catch {
+   //do something
+ }
+ 
+ ```
+ 
 */
 public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
 
@@ -42,10 +72,33 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   ///global unique identifier for record. Defaulted.
   public var _id: String = NSUUID().UUIDString
   
-  ///When creating this record, you may wish to supply a custom header (CDAKQRDAHeader) or during CDA XML generation a default boilerplate header will be applied
-  public var header: CDAKQRDAHeader?
+  /**
+  When creating this record, you may wish to supply a custom header (CDAKQRDAHeader) or during CDA XML generation a default boilerplate header will be applied
 
-  // FIXME:  - apparently the JSON has "pregnancies" as its own item
+    Should you wish to apply a header across all records, you can specify one in `CDAKGlobals.sharedInstance.CDAKDefaultMetadata`
+   
+   Optionally, you can disable the global header import by toggling `disableGlobalHeader`
+   */
+  public var header: CDAKQRDAHeader? {
+    get {
+      if let local_header = _header {
+        return local_header
+      }
+      if disableGlobalHeader == true {
+        return nil
+      }
+      return CDAKGlobals.sharedInstance.CDAKDefaultMetadata
+    }
+    set {
+      _header = newValue
+    }
+  }
+  private var _header: CDAKQRDAHeader?
+
+  ///Allows you to toggle whether the global header is completely disabled for this record
+  public var disableGlobalHeader = false
+  
+  // FIX_ME:  - apparently the JSON has "pregnancies" as its own item
   // that's not on the dx or problem list (which makes sense - sort of)
   // but this isn't relfected in the base model
   // figure out where this is coming from and how to handle
@@ -72,11 +125,36 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   //NOT IN MODEL
   ///is this patient a clinical trial participant? Please refer to CMS guidance on implications
-  var clinicalTrialParticipant: Bool? //NOT in model, but in Mongo JSON (probably for QRDA)
+  public var clinicalTrialParticipant: Bool? //NOT in model, but in Mongo JSON (probably for QRDA)
   ///name of record custodian?
-  var custodian: String? //NOT in model, but in Mongo JSON (probably for QRDA)
+  public var custodian: String? //NOT in model, but in Mongo JSON (probably for QRDA)
   ///any patient identifiers.  This may include collections of MRNs if you use multiple EMRs, etc.  Could conceivably include identifiers like SSN
-  var identifiers: [CDAKCDAIdentifier] = [] // NOT in the orignal model, but we want to have these on hand
+  public var identifiers: [CDAKCDAIdentifier] = [] // NOT in the orignal model, but we want to have these on hand
+  
+  private var _addresses = [CDAKAddress]() //, as: :locatable
+  ///patient addresses
+  public var addresses: [CDAKAddress] {
+    get {return _addresses}
+    set {
+//      for c in newValue {
+//        c.record = self
+//      }
+      _addresses = newValue
+    }
+  }
+  
+  private var _telecoms = [CDAKTelecom]() //, as: :contactable
+  ///patient telecoms
+  public var telecoms: [CDAKTelecom] {
+    get {return _telecoms}
+    set {
+//      for c in newValue {
+//        c.record = self
+//      }
+      _telecoms = newValue
+    }
+  }
+
   
   ///Determines whether patient is currently over the age of 18
   public var over_18: Bool {
@@ -104,6 +182,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   // For a given entry we create, we need a way to point back to this parent Record
   // When we create an entry and append it to the entry array(s), we create a reference back to this Record
 
+  // MARK: - Collections of child Entries for CDA Sections
   private var _allergies = [CDAKAllergy]()
   ///Allergies collection
   public var allergies: [CDAKAllergy] {
@@ -313,7 +392,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  //FIXME: - I think "provider_performances" shoud be handled differently here
+  //FIX_ME: - I think "provider_performances" shoud be handled differently here
   private var _provider_performances = [CDAKProviderPerformance]()
   /**
   provider performances collection
@@ -329,29 +408,6 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _addresses = [CDAKAddress]() //, as: :locatable
-  ///patient addresses
-  public var addresses: [CDAKAddress] {
-    get {return _addresses}
-    set {
-      for c in newValue {
-        c.record = self
-      }
-      _addresses = newValue
-    }
-  }
-  
-  private var _telecoms = [CDAKTelecom]() //, as: :contactable
-  ///patient telecoms
-  public var telecoms: [CDAKTelecom] {
-    get {return _telecoms}
-    set {
-      for c in newValue {
-        c.record = self
-      }
-      _telecoms = newValue
-    }
-  }
 
   //MARK: Legacy Ruby
   
@@ -362,7 +418,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   ///Legacy Ruby. Search for record(s) by provider.
   internal class func by_provider(provider: CDAKProvider, effective_date: Double?) -> [CDAKRecord] {
-    // FIXME: this is a mess
+    // FIX_ME: this is a mess
     var records = [CDAKRecord]()
     if let effective_date = effective_date {
       var a_provider: CDAKProvider?
@@ -391,7 +447,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   //scope :by_patient_id, ->(id) { where(:medical_record_number => id) }
   ///Legacy Ruby. Searches for a patient record by patient MRN
   internal class func by_patient_id(id: String) -> [CDAKRecord] {
-    //FIXME: Should this return just one record?
+    //FIX_ME: Should this return just one record?
     var records = [CDAKRecord]()
     for record in CDAKGlobals.sharedInstance.CDAKRecords {
       if record.medical_record_number == id {
@@ -411,7 +467,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
       }
     }
     if var existing = existing {
-      //FIXME: this is just horribly dangerous
+      //FIX_ME: this is just horribly dangerous
       //kludgy (and probably wrong) work-around for Ruby's being able to just magically copy
       //existing.update_attributes!(data.attributes.except('_id'))
       existing = data.copy() as! CDAKRecord
@@ -429,7 +485,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
 
     ///returns a specific set of patient entry records based on the supplied section name (if found)
   private func getSection(section: String) -> [CDAKEntry] {
-    //FIXME: move this into the CDAK helper stuff
+    //FIX_ME: move this into the CDAK helper stuff
     switch section {
     case "allergies" : return allergies
     case "care_goals" : return care_goals
@@ -626,7 +682,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   
   private class func provider_queries(provider_id: String, effective_date: Double) -> CDAKProvider? {
-    //FIXME: - review implementation for accuracy
+    //FIX_ME: - review implementation for accuracy
     //Making the (probably bad) assumption these return a single value - provider_id assumed to be unique
     // see warning about NPI vs. provider_id on provider_query
     if let provider = provider_query(provider_id, start_before: effective_date, end_before: effective_date) {
@@ -676,7 +732,8 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   
-  ///do not use - will be removed
+  // MARK: - Deprecated - Do not use
+  ///Do not use - will be removed. Was used in HDS Ruby.
   required public init(event: [String:Any?]) {
     
     super.init()
@@ -775,8 +832,8 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
 }
 
 
-// MARK: - Mustache marshalling
 extension CDAKRecord {
+  // MARK: - Mustache marshalling
   override public var mustacheBox: MustacheBox {
     var vals: [String:MustacheBox] = [String:MustacheBox]()
     vals = [
@@ -939,8 +996,8 @@ extension CDAKRecord {
 }
 
 
-// MARK: - JSON Generation
 extension CDAKRecord: CDAKJSONExportable {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]

@@ -18,8 +18,8 @@ public class CDAKCommunication: CDAKEntry {
   public var direction: String?
 }
 
-// MARK: - JSON Generation
 extension CDAKCommunication {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

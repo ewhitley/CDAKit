@@ -34,8 +34,8 @@ public class CDAKResultValue: NSObject, CDAKThingWithTimes {
   
 }
 
-// MARK: - JSON Generation
 extension CDAKResultValue: CDAKJSONExportable {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]

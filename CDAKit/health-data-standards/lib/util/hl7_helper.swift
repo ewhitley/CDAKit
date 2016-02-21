@@ -8,11 +8,16 @@
 
 import Foundation
 
+/**
+Assistive functions to help conform to HL7 formats
+*/
 public class HL7Helper {
   
-  //  # Converts an HL7 timestamp into an Integer
-  //  # @param [String] timestamp the HL7 timestamp. Expects YYYYMMDD format
-  //  # @return [Integer] Date in seconds since the epoch
+  /**
+  Converts an HL7 timestamp into an Integer
+   - parameter timestamp: [String] the HL7 timestamp. Expects YYYYMMDD format
+   - returns: [Integer] Date in seconds since the epoch
+  */
   public class func timestamp_to_integer(timestamp: String?) -> Double? {
     
     if let timestamp = timestamp {

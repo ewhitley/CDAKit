@@ -50,8 +50,8 @@ public class CDAKProcedure: CDAKEntry {
 
 }
 
-// MARK: - JSON Generation
 extension CDAKProcedure {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

@@ -15,7 +15,7 @@ public class CDAKQRDAHeader {
   public var custodian: CDAKQRDACustodian?
   public var legal_authenticator: CDAKQRDALegalAuthenticator?
   public var performers: [CDAKProvider] = []
-  //FIXME: For now, ignore this.  This is probably coming from the record that contains the header and the performers (providers) related to this record. I'm not sure how they do this in Mongo, but I can't find any direct cases of this being explicilty populated in the header. This is really only used for QRDA3 right now, so let's just defer doing this.
+  //FIX_ME: For now, ignore this.  This is probably coming from the record that contains the header and the performers (providers) related to this record. I'm not sure how they do this in Mongo, but I can't find any direct cases of this being explicilty populated in the header. This is really only used for QRDA3 right now, so let's just defer doing this.
   public var time = NSDate()
   
   //NOTE: not originally in QRDA header.  Adding because we want to be able to vary this

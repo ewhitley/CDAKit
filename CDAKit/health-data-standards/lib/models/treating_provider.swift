@@ -12,12 +12,15 @@ import Foundation
 Information about provider who rendered care
 */
 public class CDAKTreatingProvider: CDAKEntry {
+  
+  // MARK: CDA properties
+
   ///identifier
   public var treatingProviderID: Int?
 }
 
-// MARK: - JSON Generation
 extension CDAKTreatingProvider {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

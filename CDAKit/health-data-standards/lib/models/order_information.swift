@@ -45,8 +45,8 @@ public class CDAKOrderInformation: CDAKEntry {
   
 }
 
-// MARK: - JSON Generation
 extension CDAKOrderInformation {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

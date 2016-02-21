@@ -100,7 +100,7 @@ class CDAKImport_cat1_HeaderImporter {
       if let org = custodian_elem.xpath("./cda:representedCustodianOrganization").first {
         aCustodian.organization = import_organization(org)
       }
-      //FIXME: I see no cases of "person" living under assignedCustodian
+      //FIX_ME: I see no cases of "person" living under assignedCustodian
       // need examples if this is to be found
       if let person_info = custodian_elem.xpath("./cda:representedPerson").first {
         aCustodian.person = CDAKPerson(given_name: person_info.xpath("./cda:given").first?.stringValue, family_name: person_info.xpath("./cda:family").first?.stringValue)

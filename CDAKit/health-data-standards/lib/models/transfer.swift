@@ -27,8 +27,8 @@ public class CDAKTransfer: CDAKThingWithCodes, CustomStringConvertible {
   }
 }
 
-// MARK: - Mustache marshalling
 extension CDAKTransfer: MustacheBoxable {
+  // MARK: - Mustache marshalling
   var boxedValues: [String:MustacheBox] {
     return [
       "time" :  Box(time),
@@ -42,8 +42,8 @@ extension CDAKTransfer: MustacheBoxable {
 }
 
 
-// MARK: - JSON Generation
 extension CDAKTransfer: CDAKJSONExportable {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]

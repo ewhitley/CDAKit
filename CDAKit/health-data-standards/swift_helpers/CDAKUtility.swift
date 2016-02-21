@@ -17,8 +17,9 @@ Warning - This class is due for removal.  DO NOT USE.
  Yes.  The code is foul.  Don't look at it or you might burn your eyes.
 */
 
- ///do not use - will be removed
+ ///Do not use - will be removed. Was used in HDS Ruby.
 internal protocol CDAKPropertyAddressable {
+  // MARK: - Deprecated - Do not use
   init(event: [String:Any?])
 }
 
@@ -337,7 +338,7 @@ class CDAKUtility {
       switch property {
       case "admit_time", "admitTime": obj.admit_time = doubleValue(value)
       case "discharge_time", "dischargeTime": obj.discharge_time = doubleValue(value)
-      //FIXME: - apparently the Mongo JSON just uses a single string like "Home" ?
+      //FIX_ME: - apparently the Mongo JSON just uses a single string like "Home" ?
         // look at "dischargeDisp"
       case "discharge_disposition", "dischargeDisposition", "dischargeDisp": obj.discharge_disposition = dictionaryStringArray(value)
       case "admit_type", "admitType": obj.admit_type = dictionaryStringArray(value)

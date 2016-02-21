@@ -12,8 +12,8 @@ import Mustache
 /**
 Root type of generic CDA Entry.  All other "entry-like" types inherit from CDAKEntry
 */
-
-public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, CDAKJSONInstantiable, CDAKThingWithTimes {
+ 
+public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, CDAKThingWithTimes, CDAKJSONInstantiable {
   
   //Equatable, Hashable,
   
@@ -35,7 +35,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   
   ///Type of CDA Entry if available
   public var cda_identifier: CDAKCDAIdentifier? //, class_name: "CDAKCDAIdentifier", as: :cda_identifiable
-  //FIXME: - I changed the class to PhysicalQuantityResultValue here
+  //FIX_ME: - I changed the class to PhysicalQuantityResultValue here
   // the test cases all made it appear we're using that and not ResultValue
   /**
   Any associated result values. 
@@ -223,73 +223,12 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     self.values.append(pq_value)
   }
 
-  
-  // MARK: - Initializers
-  public override required init() {
-    super.init()
-  }
-  
-  ///do not use - will be removed
-  public required init(event: [String:Any?]) {
-    super.init()
-    initFromEventList(event)
-  }
-  
-  ///do not use - will be removed
-  init(from_hash event: [String:Any?]) {
-    super.init()
-    initFromEventList(event)
-  }
-  
-  private func initFromEventList(event: [String:Any?]) {
-    let ignore_props: [String] = ["code", "code_set", "value", "unit"]
-
-    //in some cases we'll have key-value PAIRS like...
-    // code_set / code
-    // value / unit
-    // these won't work for the single key-value entries
-    if let code = event["code"], code_set = event["code_set"] as? String {
-      add_code(code, code_system: code_set)
-    }
-
-    if let value = event["value"] {
-      var unit: String?
-      if let a_unit = event["unit"] as? String {
-        unit = a_unit
-      }
-      set_value(value, units: unit)
-    }
-    
-    for (key, value) in event {
-      //ignore the ones we're handling differnetly above
-      if !ignore_props.contains(key) {
-        CDAKUtility.setProperty(self, property: key, value: value)
-      }
-    }
-  }
-  
-  public init(record: CDAKRecord) {
-    //self.record = record
-  }
-  
-  public init(cda_identifier: CDAKCDAIdentifier) {
-    self.cda_identifier = cda_identifier
-  }
-  
-  public init(cda_identifier: CDAKCDAIdentifier, codes: CDAKCodedEntries, values: [CDAKPhysicalQuantityResultValue]) {
-    //FIXME: - changed values from ResultValue to PhysicalQuantityResultValue
-    self.cda_identifier = cda_identifier
-    self.codes = codes
-    self.values = values
-  }
-
-  // MARK: Health-Data-Standards Functions
   /**
- Checks if a code is in the list of possible codes
-  
-  - parameter code_set: array of CodedEntries. Describe the values for code sets
-  - returns: true / false whether the code is in the list of desired codes
- */
+   Checks if a code is in the list of possible codes
+   
+   - parameter code_set: array of CodedEntries. Describe the values for code sets
+   - returns: true / false whether the code is in the list of desired codes
+   */
   func is_in_code_set(code_set: [CDAKCodedEntries]) -> Bool {
     for entries in code_set {
       for (key, entry) in entries {
@@ -320,10 +259,10 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
   
   /**
- Checks to see if this CDAKEntry can be used as a date range
-  
-  - returns: true / false If the CDAKEntry has a start and end time returns true, false otherwise.
-  */
+   Checks to see if this CDAKEntry can be used as a date range
+   
+   - returns: true / false If the CDAKEntry has a start and end time returns true, false otherwise.
+   */
   var is_date_range : Bool {
     if start_time != nil && end_time != nil {
       return true
@@ -332,15 +271,15 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
   
   /**
- Checks to see if this CDAKEntry is usable for measure calculation. This means that it contains at least one code and has one of its time properties set (start, end or time)
- */
+   Checks to see if this CDAKEntry is usable for measure calculation. This means that it contains at least one code and has one of its time properties set (start, end or time)
+   */
   func usable() -> Bool {
     if codes.count > 0 && (start_time != nil || end_time != nil || time != nil) {
       return true
     }
     return false
   }
-
+  
   ///Offset all dates by specified double
   func shift_dates(date_diff: Double) {
     if let start_time = start_time {
@@ -354,13 +293,13 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     }
   }
   
-
+  
   /**
    DO NOT USE - legacy Ruby
    Returns the hash object, calculating it if not already done
    */
   internal var hash_object : [String:Any] {
-    // FIXME: - do as lazy?
+    // FIX_ME: - do as lazy?
     // EWW: not doing this as lazy just now
     return to_hash()
   }
@@ -368,12 +307,12 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   /**
    DO NOT USE - legacy Ruby
    Creates a Hash for this CDAKEntry
-  - returns: A Hash representing the CDAKEntry
-  */
+   - returns: A Hash representing the CDAKEntry
+   */
   internal func to_hash() -> [String:Any] {
     
     var entry_hash: [String:Any] = [:]
-
+    
     //we want something like
     // yes - this removes the OID
     // we want a straight up dictionary of [code_system: [codes]]
@@ -389,7 +328,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     } else {
       entry_hash["time"] = as_point_in_time()
     }
-
+    
     if let status = status {
       entry_hash["status"] = status
     }
@@ -405,17 +344,17 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   
   ///Returns CDA identifier or fixed id if not present
   public var identifier: AnyObject? {
-    //FIXME: - not sure this whole "identifier" business is right here
+    //FIX_ME: - not sure this whole "identifier" business is right here
     if let cda_identifier = cda_identifier {
       return cda_identifier
     } else {
       return id
     }
   }
-
+  
   ///Converts CDA identifier to string for use
   public var identifier_as_string: String {
-    //FIXME:: this is a bad placeholder to deal with typing - I just need an "identifier" I can use as a key
+    //FIX_ME:: this is a bad placeholder to deal with typing - I just need an "identifier" I can use as a key
     if let cda_identifier = cda_identifier {
       return cda_identifier.as_string
     }
@@ -424,11 +363,11 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     }
     return ""
   }
-
+  
   // MARK: Standard properties
   ///Internal object hash value
   override public var hashValue: Int {
-    //FIXME: - not using the hash - just using native properties
+    //FIX_ME: - not using the hash - just using native properties
     
     var hv: Int
     
@@ -455,7 +394,71 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     
     return hv
   }
+
   
+  // MARK: - Initializers
+  public override required init() {
+    super.init()
+  }
+  
+  public init(record: CDAKRecord) {
+    //self.record = record
+  }
+  
+  public init(cda_identifier: CDAKCDAIdentifier) {
+    self.cda_identifier = cda_identifier
+  }
+  
+  public init(cda_identifier: CDAKCDAIdentifier, codes: CDAKCodedEntries, values: [CDAKPhysicalQuantityResultValue]) {
+    //FIX_ME: - changed values from ResultValue to PhysicalQuantityResultValue
+    self.cda_identifier = cda_identifier
+    self.codes = codes
+    self.values = values
+  }
+
+  
+  // MARK: - Deprecated - Do not use
+  ///Do not use - will be removed. Was used in HDS Ruby.
+  public required init(event: [String:Any?]) {
+    super.init()
+    initFromEventList(event)
+  }
+  
+  ///Do not use - will be removed. Was used in HDS Ruby.
+  internal init(from_hash event: [String:Any?]) {
+    super.init()
+    initFromEventList(event)
+  }
+  
+  ///Do not use - will be removed. Was used in HDS Ruby.
+  private func initFromEventList(event: [String:Any?]) {
+    let ignore_props: [String] = ["code", "code_set", "value", "unit"]
+    
+    //in some cases we'll have key-value PAIRS like...
+    // code_set / code
+    // value / unit
+    // these won't work for the single key-value entries
+    if let code = event["code"], code_set = event["code_set"] as? String {
+      add_code(code, code_system: code_set)
+    }
+    
+    if let value = event["value"] {
+      var unit: String?
+      if let a_unit = event["unit"] as? String {
+        unit = a_unit
+      }
+      set_value(value, units: unit)
+    }
+    
+    for (key, value) in event {
+      //ignore the ones we're handling differnetly above
+      if !ignore_props.contains(key) {
+        CDAKUtility.setProperty(self, property: key, value: value)
+      }
+    }
+  }
+  
+  // MARK: Standard properties
   ///Debugging description
   override public var description : String {
     return "\(self.dynamicType) => codes: \(codes), cda_identifier: \(identifier_as_string), values: \(values), references: \(references), provider_preference: \(provider_preference), patient_preference: \(patient_preference), item_description: \(item_description), specifics: \(specifics), time: \(time), start_time: \(start_time), end_time: \(end_time), status_code: \(status_code), mood_code: \(mood_code), negation_ind: \(negation_ind), negation_reason: \(negation_reason), oid: \(oid), reason: \(reason), version: \(version), id: \(id), created_at: \(created_at), updated_at: \(updated_at)"
@@ -510,7 +513,7 @@ extension CDAKEntry {
     var entry_preferred_code : CDAKCodedEntry?
     var code_system_oid = ""
     if let a_preferred_code = preferred_code(preferred_code_sets) {
-      //fixme: this whole thing is a mess - legacy Ruby approach
+      //FIX_ME: this whole thing is a mess - legacy Ruby approach
       let code_set = a_preferred_code.codeSystem
       code_system_oid = CDAKCodeSystemHelper.oid_for_code_system(code_set)
       entry_preferred_code = a_preferred_code//CDAKCodedEntry(codeSystem: code_set, codes: a_preferred_code.codes, codeSystemOid: code_system_oid)
@@ -575,8 +578,8 @@ extension CDAKEntry {
   }
 }
 
- // MARK: - JSON Generation
 extension CDAKEntry: CDAKJSONExportable {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]

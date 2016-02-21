@@ -14,6 +14,8 @@ CDA Reference
 */
 public class CDAKReference: CDAKJSONInstantiable {
   
+  // MARK: CDA properties
+
   ///type
   public var type: String?
   ///referenced type
@@ -38,12 +40,13 @@ public class CDAKReference: CDAKJSONInstantiable {
     self.entry = entry
   }
 
-  ///do not use - will be removed
+  // MARK: - Deprecated - Do not use
+  ///Do not use - will be removed. Was used in HDS Ruby.
   required public init(event: [String:Any?]) {
     initFromEventList(event)
   }
   
-  ///do not use - will be removed
+  ///Do not use - will be removed. Was used in HDS Ruby.
   private func initFromEventList(event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)
@@ -51,6 +54,7 @@ public class CDAKReference: CDAKJSONInstantiable {
   }
 
   
+  // MARK: Health-Data-Standards Functions
   internal func resolve_reference() -> CDAKEntry? {
     var an_entry: CDAKEntry?
     
@@ -82,9 +86,8 @@ public class CDAKReference: CDAKJSONInstantiable {
 }
 
 
-
-// MARK: - JSON Generation
 extension CDAKReference: CDAKJSONExportable {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]

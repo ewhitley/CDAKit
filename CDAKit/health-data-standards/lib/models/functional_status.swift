@@ -19,6 +19,8 @@ To avoid this, the patient sumamry style functional status has been "flattened" 
 */
 public class CDAKFunctionalStatus: CDAKEntry {
   
+  // MARK: CDA properties
+
   /// Either "condition" or "result"
   public var type: String?
   
@@ -28,8 +30,8 @@ public class CDAKFunctionalStatus: CDAKEntry {
 }
 
 
-// MARK: - JSON Generation
 extension CDAKFunctionalStatus {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

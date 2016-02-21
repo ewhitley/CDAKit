@@ -57,9 +57,8 @@ public func == (lhs: CDAKPhysicalQuantityResultValue, rhs: CDAKPhysicalQuantityR
 
 
 
-// MARK: - Mustache marshalling
 extension CDAKPhysicalQuantityResultValue {
-  
+  // MARK: - Mustache marshalling  
   var boxedValues: [String:MustacheBox] {
     return [
       "scalar" :  Box(scalar),
@@ -73,8 +72,8 @@ extension CDAKPhysicalQuantityResultValue {
   
 }
 
-// MARK: - JSON Generation
 extension CDAKPhysicalQuantityResultValue {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

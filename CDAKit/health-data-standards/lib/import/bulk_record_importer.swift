@@ -17,9 +17,9 @@ public enum CDAKImportError : ErrorType {
 }
 
 
-public class CDAKImport_BulkRecordImporter {
+internal class CDAKImport_BulkRecordImporter {
   
-  public class func importRecord(XMLString: String, providier_map:[String:CDAKProvider] = [:]) throws -> CDAKRecord {
+  internal class func importRecord(XMLString: String, providier_map:[String:CDAKProvider] = [:]) throws -> CDAKRecord {
     
     do {
       let doc = try XMLDocument(string: XMLString, encoding: NSUTF8StringEncoding)

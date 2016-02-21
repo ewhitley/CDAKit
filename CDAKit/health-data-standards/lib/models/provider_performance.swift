@@ -16,6 +16,9 @@ NOTE: we're never going to use this. It's for QRDA III and we have no measure en
 */
 public class CDAKProviderPerformance: CDAKEntry {
 
+
+  // MARK: CDA properties
+
   ///start date for period
   public var start_date: Double?
   ///end date for period
@@ -39,8 +42,8 @@ public class CDAKProviderPerformance: CDAKEntry {
   
 }
 
-// MARK: - JSON Generation
 extension CDAKProviderPerformance {
+  // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict

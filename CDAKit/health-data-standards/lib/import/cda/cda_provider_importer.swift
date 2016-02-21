@@ -20,7 +20,7 @@ class CDAKImport_CDA_ProviderImporter {
   */
   class func extract_providers(doc: XMLDocument, patient:CDAKPerson? = nil) -> [CDAKProviderPerformance] {
     
-    //FIXME: - go back and re-read / test the original Ruby - this seems odd
+    //FIX_ME: - go back and re-read / test the original Ruby - this seems odd
 
     let performers = doc.xpath("//cda:documentationOf/cda:serviceEvent/cda:performer")
     var performances: [CDAKProviderPerformance] = []
@@ -71,7 +71,7 @@ class CDAKImport_CDA_ProviderImporter {
       provider_data["organization"] = CDAKImport_CDA_OrganizationImporter.extract_organization(entity.xpath("./cda:representedOrganization").first)
       provider_data["specialty"]    = extract_data(entity, query: "./cda:code/@code")
 
-      //FIXME: - look at original CDAK code - note how it's performer.xpath(performer...) - ?????
+      //FIX_ME: - look at original CDAK code - note how it's performer.xpath(performer...) - ?????
       //let time                 = performer.xpath(performer, "./cda:time")
       if let time = performer.xpath("./cda:time").first {
         if use_dates == true {
