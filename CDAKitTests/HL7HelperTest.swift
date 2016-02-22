@@ -25,7 +25,7 @@ class HL7HelperTest: XCTestCase {
   func test_timestamp_to_integer() {
     let dateString = "20100821"
     
-    let ts = HL7Helper.timestamp_to_integer(dateString)
+    let ts = CDAKHL7Helper.timestamp_to_integer(dateString)
     
     let dateStringFormatter = NSDateFormatter()
     dateStringFormatter.dateFormat = "yyyyMMdd"
@@ -38,13 +38,13 @@ class HL7HelperTest: XCTestCase {
   }
   
   func test_timestamp_to_integer_when_nil() {
-    XCTAssertEqual(nil, HL7Helper.timestamp_to_integer(nil))
+    XCTAssertEqual(nil, CDAKHL7Helper.timestamp_to_integer(nil))
   }
 
   func test_timestamp_to_integer_when_just_month_and_year() {
     let dateString = "201008"
     
-    let ts = HL7Helper.timestamp_to_integer(dateString)
+    let ts = CDAKHL7Helper.timestamp_to_integer(dateString)
 
     let dateStringFormatter = NSDateFormatter()
     dateStringFormatter.dateFormat = "yyyyMM"
@@ -59,7 +59,7 @@ class HL7HelperTest: XCTestCase {
   func test_timestamp_to_integer_down_to_seconds() {
     let dateString = "20100821123022"
     
-    let ts = HL7Helper.timestamp_to_integer(dateString)
+    let ts = CDAKHL7Helper.timestamp_to_integer(dateString)
 
     let dateStringFormatter = NSDateFormatter()
     dateStringFormatter.dateFormat = "yyyyMMddHHmmss"

@@ -14,56 +14,42 @@ import Fuzi
 /**
  This class is the central location for taking a HITSP C32 XML document and converting it into the processed form we store in MongoDB. The class does this by running each measure independently on the XML document
  
+ Creates a new PatientImporter with the following XPath expressions used to find content in a HITSP C32:
+ 
+ * CDAKEncounter entries
+   * //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter
+ * Procedure entries
+   * //cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']
+ * Result entries - There seems to be some confusion around the correct templateId, so the code checks for both
+   * //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']
+ * Vital sign entries
+   * //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']
+ * Medication entries
+   * //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration
+ * Codes for medications are found in the substanceAdministration with the following relative XPath
+   * ./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code
+ * Condition entries
+   * //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation
+ 
+ Codes for conditions are determined by examining the value child element as opposed to the code child element
+
+ * Social History entries (non-C32 section, specified in the HL7 CCD)
+   * //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']
+ * Care Goal entries(non-C32 section, specified in the HL7 CCD)
+   * //cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']
+ * CDAKAllergy entries
+   * //cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']
+ * CDAKImmunization entries
+   * //cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']
+ * Codes for immunizations are found in the substanceAdministration with the following relative XPath
+   * ./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code
+ 
 */
 class CDAKImport_C32_PatientImporter {
-  // This class is a Singleton. It should be accessed by calling PatientImporter.instance
-
+  // Original Ruby: This class is a Singleton. It should be accessed by calling PatientImporter.instance
   
-  
-  //# Creates a new PatientImporter with the following XPath expressions used to find content in
-  //# a HITSP C32:
-  //#
-  //# CDAKEncounter entries
-  //#    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter
-  //#
-  //# Procedure entries
-  //#    //cda:procedure[cda:templateId/@root='2.16.840.1.113883.10.20.1.29']
-  //#
-  //# Result entries - There seems to be some confusion around the correct templateId, so the code checks for both
-  //#    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15.1'] | //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.15']
-  //#
-  //# Vital sign entries
-  //#    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.14']
-  //#
-  //# Medication entries
-  //#    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration
-  //#
-  //# Codes for medications are found in the substanceAdministration with the following relative XPath
-  //#    ./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code
-  //#
-  //# Condition entries
-  //#    //cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.103']/cda:entry/cda:act/cda:entryRelationship/cda:observation
-  //#
-  //# Codes for conditions are determined by examining the value child element as opposed to the code child element
-  //#
-  //# Social History entries (non-C32 section, specified in the HL7 CCD)
-  //#    //cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.19']
-  //#
-  //# Care Goal entries(non-C32 section, specified in the HL7 CCD)
-  //#    //cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.25']
-  //#
-  //# CDAKAllergy entries
-  //#    //cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.18']
-  //#
-  //# CDAKImmunization entries
-  //#    //cda:substanceAdministration[cda:templateId/@root='2.16.840.1.113883.10.20.1.24']
-  //#
-  //# Codes for immunizations are found in the substanceAdministration with the following relative XPath
-  //#    ./cda:consumable/cda:manufacturedProduct/cda:manufacturedMaterial/cda:code
-
   var section_importers: [String:CDAKImport_CDA_SectionImporter] = [:]
 
-  
   init(check_usable: Bool = true) {
     
     section_importers["encounters"] = CDAKImport_CDA_EncounterImporter()
@@ -179,7 +165,7 @@ class CDAKImport_C32_PatientImporter {
   */
   func get_demographics(patient: CDAKRecord, doc: XMLDocument) {
     let effective_date = doc.xpath("/cda:ClinicalDocument/cda:effectiveTime").first?["value"]
-    patient.effective_time = HL7Helper.timestamp_to_integer(effective_date)
+    patient.effective_time = CDAKHL7Helper.timestamp_to_integer(effective_date)
     
     guard let patient_role_element = doc.xpath("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole").first else {
       return
@@ -193,7 +179,7 @@ class CDAKImport_C32_PatientImporter {
     patient.last = patient_element.xpath("cda:name/cda:family").first?.stringValue
 
     if let birthdate_in_hl7ts_node = patient_element.xpath("cda:birthTime").first, birthdate_in_hl7ts = birthdate_in_hl7ts_node["value"] {
-      patient.birthdate = HL7Helper.timestamp_to_integer(birthdate_in_hl7ts)
+      patient.birthdate = CDAKHL7Helper.timestamp_to_integer(birthdate_in_hl7ts)
     }
 
     if let gender_node = patient_element.xpath("cda:administrativeGenderCode").first {
@@ -205,50 +191,16 @@ class CDAKImport_C32_PatientImporter {
 
     //# parse race, ethnicity, and spoken language
     // NOTE: changing this from original CDAK Ruby to support multiple races, ethnicities, and languages
-//    var races: [String:[String]] = [:]
-//    var some_races : [String] = []
     for race_node in patient_element.xpath("cda:raceCode") {
-//      if let an_entry = CDAKImport_C32_PatientImporter.getCodedEntryForElement(race_node, replaceCodeSystemWith: "CDC-RE") {
-//        patient.race.addCodes(an_entry)
-//      }
       if let an_entry = CDAKImport_CDA_SectionImporter.extract_code(race_node, code_xpath: ".", code_system: "CDC Race") {
         patient.race.addCodes(an_entry)
       }
-
-//      if let race_code = race_node["code"] {
-//        some_races.append(race_code)
-//      }
     }
-//    if some_races.count > 0 {
-//      //races["CDC-RE"] = some_races
-//      for race in some_races {
-//        patient.race.addCodes("CDC-RE", code: race)
-//      }
-//      //patient.race = CDAKCodedEntries(entries: races)
-//    }
-
-//    var ethnicities: [String:[String]] = [:]
-//    var some_ethnicities : [String] = []
     for ethnicity_node in patient_element.xpath("cda:ethnicGroupCode") {
-//      if let an_entry = CDAKImport_C32_PatientImporter.getCodedEntryForElement(ethnicity_node, replaceCodeSystemWith: "CDC-RE") {
-//        patient.ethnicity.addCodes(an_entry)
-//      }
-
       if let an_entry = CDAKImport_CDA_SectionImporter.extract_code(ethnicity_node, code_xpath: ".", code_system: "CDC Race") {
         patient.ethnicity.addCodes(an_entry)
       }
-
-      //      if let ethnicity_code = ethnicity_node["code"] {
-//        some_ethnicities.append(ethnicity_code)
-//      }
     }
-//    if some_ethnicities.count > 0 {
-//      //ethnicities["CDC-RE"] = some_ethnicities
-//      //patient.ethnicity = CDAKCodedEntries(entries: ethnicities)
-//      for eth in some_ethnicities {
-//        patient.ethnicity.addCodes("CDC-RE", code: eth)
-//      }
-//    }
 
     if let marital_status_node = patient_element.xpath("./cda:maritalStatusCode").first, code = marital_status_node["code"] {
       patient.marital_status = CDAKCodedEntries(codeSystem: "HL7 Marital Status", code: code)
@@ -275,20 +227,5 @@ class CDAKImport_C32_PatientImporter {
     patient.addresses = patient_role_element.xpath("./cda:addr").map({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
     patient.telecoms = patient_role_element.xpath("./cda:telecom").map({telecom in CDAKImport_CDA_LocatableImportUtils.import_telecom(telecom)})
   }
-  
-  
-//  class func getCodedEntryForElement(elem: XMLElement, replaceCodeSystemWith codeSystemAlt: String? = nil) -> CDAKCodedEntry? {
-//    let codeSystem = codeSystemAlt ?? elem["codeSystem"]
-//    let codeSystemOID = elem["codeSystemOID"]
-//    let code = elem["code"]
-//    let displayName = elem["displayName"]
-//    
-//    if let code = code, codeSystem = codeSystem {
-//      CDAKCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOID)
-//      return CDAKCodedEntry(codeSystem: codeSystem, code: code, codeSystemOid: codeSystemOID, displayName: displayName)
-//    }
-//    
-//    return nil
-//  }
   
 }

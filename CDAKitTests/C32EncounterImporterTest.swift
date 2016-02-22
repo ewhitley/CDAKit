@@ -51,7 +51,7 @@ class C32EncounterImporterTest: XCTestCase {
       XCTAssertEqual(encounter.admit_type.containsCode(withCodeSystem: "CPT", andCode: "xyzzy"), true)
       XCTAssertEqual(encounter.facility?.codes.codeSystems.contains("HL7 Healthcare Service Location"), true)
       
-      XCTAssertEqual(encounter.facility?.start_time, HL7Helper.timestamp_to_integer("20000407000000"))
+      XCTAssertEqual(encounter.facility?.start_time, CDAKHL7Helper.timestamp_to_integer("20000407000000"))
 
       XCTAssertEqual(encounter.facility?.codes.containsCode(withCodeSystem: "HL7 Healthcare Service Location", andCode: "1117-1"), true)
 

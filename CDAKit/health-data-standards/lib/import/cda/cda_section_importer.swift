@@ -85,8 +85,6 @@ class CDAKImport_CDA_SectionImporter {
 
   
 
-  
-
   func extract_description(parent_element: XMLElement, entry: CDAKEntry, nrh: CDAKImport_CDA_NarrativeReferenceHandler) {
     let orig_text_ref_element = parent_element.xpath(description_xpath).first
     let desc_ref_element = parent_element.xpath("./cda:text/cda:reference").first
@@ -101,18 +99,7 @@ class CDAKImport_CDA_SectionImporter {
 
   func extract_status(parent_element: XMLElement, entry: CDAKEntry) {
     if let status_xpath = status_xpath, status_element = parent_element.xpath(status_xpath).first {
-//      if let code_system_oid = status_element["codeSystem"], code = status_element["code"]{
-//        if let codeSystemName = status_element["codeSystemName"] {
-//          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
-//        }
-//        let codeSystem = CDAKCodeSystemHelper.code_system_for(code_system_oid)
-//        entry.status_code.addCodes(<#T##codeSystem: String##String#>, code: <#T##String#>)// = CDAKCodedEntries(entries: [codeSystem:[code]])
-//      }
-//      if let an_entry = CDAKImport_C32_PatientImporter.getCodedEntryForElement(status_element) {
-//        entry.status_code.addCodes(an_entry)
-//      }
       entry.status_code.addCodes(CDAKImport_CDA_SectionImporter.extract_code(status_element, code_xpath: "."))
-
     }
   }
 
@@ -146,38 +133,21 @@ class CDAKImport_CDA_SectionImporter {
   }
 
   func add_code_if_present(code_element: XMLElement, entry: CDAKThingWithCodes) {
-
-//    if let an_entry = CDAKImport_C32_PatientImporter.getCodedEntryForElement(code_element) {
-//      entry.codes.addCodes(an_entry)
-//    }
-//    
     entry.codes.addCodes(CDAKImport_CDA_SectionImporter.extract_code(code_element, code_xpath: "."))
-
-    
-    //        CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
-
-    
-//    if let code_system_oid = code_element["codeSystem"], code = code_element["code"] {
-//      let display_name = code_element["displayName"]
-//      if let codeSystemName = code_element["codeSystemName"] {
-//        CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
-//      }
-//      entry.add_code(code, code_system: CDAKCodeSystemHelper.code_system_for(code_system_oid), code_system_oid: code_system_oid, display_name: display_name)
-//    }
   }
 
   func extract_dates(parent_element: XMLElement, entry: CDAKThingWithTimes, element_name: String = "effectiveTime") {
     if let elem = parent_element.xpath("cda:\(element_name)/@value").first {
-      entry.time = HL7Helper.timestamp_to_integer(elem.stringValue)
+      entry.time = CDAKHL7Helper.timestamp_to_integer(elem.stringValue)
     }
     if let elem = parent_element.xpath("cda:\(element_name)/cda:low").first {
-      entry.start_time = HL7Helper.timestamp_to_integer(elem["value"])
+      entry.start_time = CDAKHL7Helper.timestamp_to_integer(elem["value"])
     }
     if let elem = parent_element.xpath("cda:\(element_name)/cda:high").first {
-      entry.end_time = HL7Helper.timestamp_to_integer(elem["value"])
+      entry.end_time = CDAKHL7Helper.timestamp_to_integer(elem["value"])
     }
     if let elem = parent_element.xpath("cda:\(element_name)/cda:center").first {
-      entry.time = HL7Helper.timestamp_to_integer(elem["value"])
+      entry.time = CDAKHL7Helper.timestamp_to_integer(elem["value"])
     }
   }
 
@@ -244,21 +214,7 @@ class CDAKImport_CDA_SectionImporter {
       entry.negation_ind = negation_indicator.lowercaseString == "true"
       if entry.negation_ind == true {
         if let negation_reason_element = parent_element.xpath("./cda:entryRelationship[@typeCode='RSON']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.88']/cda:value | ./cda:entryRelationship[@typeCode='RSON']/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.1.27']/cda:code").first {
-          //so apparently we're not pulling the translations, etc.?
-//          if let ces = CDAKImport_C32_PatientImporter.getCodedEntryForElement(negation_reason_element) {
-//            entry.negation_reason.addCodes(ces)
-//          }
-
           entry.negation_reason.addCodes(CDAKImport_CDA_SectionImporter.extract_code(negation_reason_element, code_xpath: "."))
-
-          //          if let code_system_oid = negation_reason_element["codeSystem"], let code = negation_reason_element["code"] {
-//            if let codeSystemName = negation_reason_element["codeSystemName"] {
-//              CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
-//            }
-//
-//            let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
-//            entry.negation_reason = CDAKCodedEntries(entries: [code_system:[code]])
-//          }
         }
       }
     }

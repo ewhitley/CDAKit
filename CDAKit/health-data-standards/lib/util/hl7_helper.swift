@@ -11,7 +11,7 @@ import Foundation
 /**
 Assistive functions to help conform to HL7 formats
 */
-public class HL7Helper {
+public class CDAKHL7Helper {
   
   /**
   Converts an HL7 timestamp into an Integer

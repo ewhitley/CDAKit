@@ -13,6 +13,7 @@ import Fuzi
 // mimic-ing their approach to get the CDA header information
 
 //something.heaer = CDAKImport_cat1_HeaderImporter.import_header(doc: doc)
+// FIX_ME: rename methods - naming is confusing
 
 class CDAKImport_cat1_HeaderImporter {
   
@@ -38,7 +39,7 @@ class CDAKImport_cat1_HeaderImporter {
 
   class func set_creation_date(header: CDAKQRDAHeader, doc: XMLDocument) {
     let effective_date = doc.xpath("/cda:ClinicalDocument/cda:effectiveTime").first?["value"]
-    if let a_time = HL7Helper.timestamp_to_integer(effective_date) {
+    if let a_time = CDAKHL7Helper.timestamp_to_integer(effective_date) {
       header.time = NSDate(timeIntervalSince1970: a_time)
     }
   }
@@ -142,7 +143,7 @@ class CDAKImport_cat1_HeaderImporter {
     if let time_info = elem.xpath("./cda:time").first?["value"] {
       //20130418090000+0500 ... ewwwwwwwww
       //https://github.com/chb/sample_ccdas/blob/master/EMERGE/Patient-673.xml#L226
-      if let a_time = HL7Helper.timestamp_to_integer(time_info) {
+      if let a_time = CDAKHL7Helper.timestamp_to_integer(time_info) {
         return NSDate(timeIntervalSince1970: a_time)
       }
     }

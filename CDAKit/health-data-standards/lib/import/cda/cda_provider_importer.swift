@@ -20,8 +20,6 @@ class CDAKImport_CDA_ProviderImporter {
   */
   class func extract_providers(doc: XMLDocument, patient:CDAKPerson? = nil) -> [CDAKProviderPerformance] {
     
-    //FIX_ME: - go back and re-read / test the original Ruby - this seems odd
-
     let performers = doc.xpath("//cda:documentationOf/cda:serviceEvent/cda:performer")
     var performances: [CDAKProviderPerformance] = []
     for performer in performers {
@@ -43,11 +41,6 @@ class CDAKImport_CDA_ProviderImporter {
     return performances
   }
   
-  //NOTE: this doesn't return a CDAKProvider in the original Ruby CDAK - it returns a hash of [String:Any]
-  // I'm changing it
-  //  we need to return start date, end date, and provider data
-  //  Instead... I'm going to return a whole new CDAKProvider instead
-  //  start, end, provider
   class func extract_provider_data(performer:XMLElement, use_dates:Bool = true, entity_path: String = "./cda:assignedEntity") -> [String:Any] {
     
     var provider_data: [String:Any] = [:]

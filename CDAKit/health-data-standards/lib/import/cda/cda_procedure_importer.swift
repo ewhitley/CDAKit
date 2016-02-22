@@ -38,31 +38,7 @@ class CDAKImport_CDA_ProcedureImporter: CDAKImport_CDA_SectionImporter {
   
   private func extract_ordinality(parent_element: XMLElement, procedure: CDAKProcedure) {
     if let ordinality_element = parent_element.xpath(ordinality_xpath).first {
-      /*
-      Original Ruby
-      Looks like there's issues with inconsistent use of the code_system / codeSystemName hash, so they're flooding
-      the hash with keys
-      {
-        "code" => ordinality_element['code'], 
-        "code_system" => CDAKCodeSystemHelper.code_system_for(ordinality_element['codeSystem']), 
-        "codeSystemName" => CDAKCodeSystemHelper.code_system_for(ordinality_element['codeSystem']),
-        CDAKCodeSystemHelper.code_system_for(ordinality_element['codeSystem']) => [ordinality_element['code']]
-      }
-      */
-      //procedure.ordinality.addCodes(CDAKImport_C32_PatientImporter.getCodedEntryForElement(ordinality_element))
-      
       procedure.ordinality.addCodes(CDAKImport_CDA_SectionImporter.extract_code(ordinality_element, code_xpath: "."))
-
-      
-//      if let code = ordinality_element["code"], code_system_oid = ordinality_element["codeSystem"] {
-//        if let codeSystemName = ordinality_element["codeSystemName"] {
-//          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
-//        }
-//        let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
-//        let ce = CDAKCodedEntries(entries: CDAKCodedEntry(codeSystem: code_system, codes: code))
-//          procedure.ordinality = ce
-//      }
-      
     }
   }
   

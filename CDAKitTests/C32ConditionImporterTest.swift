@@ -40,7 +40,7 @@ class C32HDSConditionImporterTest: XCTestCase {
       XCTAssertEqual(false, condition.cause_of_death)
       XCTAssertEqual(condition.codes.containsCode(withCodeSystem: "SNOMED-CT", andCode: "195967001"), true)
 
-      XCTAssertEqual(condition.start_time, HL7Helper.timestamp_to_integer("19500101000000"))
+      XCTAssertEqual(condition.start_time, CDAKHL7Helper.timestamp_to_integer("19500101000000"))
 
       XCTAssertEqual(1, condition.priority)
       XCTAssertEqual(condition.ordinality.codeSystems.contains("SNOMED-CT"), true)

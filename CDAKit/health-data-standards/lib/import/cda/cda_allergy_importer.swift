@@ -23,7 +23,7 @@ class CDAKImport_CDA_AllergyImporter: CDAKImport_CDA_SectionImporter {
     status_xpath   = "./cda:entryRelationship[@typeCode='REFR']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.39']/cda:value"
     entry_class = CDAKAllergy.self
 
-    //NOTE: this took ages to sort out, but... in Ruby the original code does NOT call super.init()
+    //NOTE: this took ages to sort out (code blindness on my part), but... in Ruby the original code does NOT call super.init()
     // I should probably NOT be doing this, but instead just go back to the way the Ruby code was originally set up
     check_for_usable = false
   }

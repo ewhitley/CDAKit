@@ -508,48 +508,48 @@ class GRMustacheTest: XCTestCase {
     }
   }
   
-  func testWithTemplateGenerator() {
-    
-    let template_helper = CDAKTemplateHelper(template_format: "c32", template_subdir: "c32", template_directory: nil)
-    let template = template_helper.template("show")
-
-    let data = ["patient": bigTestRecord]
-    
-    // USE: telecoms:{{#each(patient.telecoms)}} hi {{value}} {{use}} {{/}}
-    template.registerInBaseContext("each", Box(StandardLibrary.each))
-    // USE: {{ UUID_generate(nil) }}
-    template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
-    // USE: {{ date_as_number(z) }}, nil: {{ date_as_number(nil) }}
-    template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
-    // USE: {{ value_or_null_flavor(entry.as_point_in_time) }}
-    template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
-    template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
-    template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
-    template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
-
-
-    do {
-      let rendering = try template.render(Box(data))
-      
-      print("trying to render...")
-      print("======================")
-      print(rendering)
-      print("======================")
-      print("rendering complete.")
-    }
-    catch let error as MustacheError {
-      print("Failed to process template. Line \(error.lineNumber) - \(error.kind). Error: \(error.description)")
-    }
-    catch let error as NSError {
-      print(error.localizedDescription)
-    }
-    
-//    let str = "{\"name\":\"James\"}"
+//  func testWithTemplateGenerator() {
 //    
-//    let result = convertStringToDictionary(str) // ["name": "James"]
-
-    
-  }
+//    let template_helper = CDAKTemplateHelper(template_format: "c32", template_subdir: "c32", template_directory: nil)
+//    let template = template_helper.template("show")
+//
+//    let data = ["patient": bigTestRecord]
+//    
+//    // USE: telecoms:{{#each(patient.telecoms)}} hi {{value}} {{use}} {{/}}
+//    template.registerInBaseContext("each", Box(StandardLibrary.each))
+//    // USE: {{ UUID_generate(nil) }}
+//    template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
+//    // USE: {{ date_as_number(z) }}, nil: {{ date_as_number(nil) }}
+//    template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
+//    // USE: {{ value_or_null_flavor(entry.as_point_in_time) }}
+//    template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
+//    template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
+//    template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
+//    template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
+//
+//
+//    do {
+//      let rendering = try template.render(Box(data))
+//      
+//      print("trying to render...")
+//      print("======================")
+//      print(rendering)
+//      print("======================")
+//      print("rendering complete.")
+//    }
+//    catch let error as MustacheError {
+//      print("Failed to process template. Line \(error.lineNumber) - \(error.kind). Error: \(error.description)")
+//    }
+//    catch let error as NSError {
+//      print(error.localizedDescription)
+//    }
+//    
+////    let str = "{\"name\":\"James\"}"
+////    
+////    let result = convertStringToDictionary(str) // ["name": "James"]
+//
+//    
+//  }
   
   func transformAnyObjectDict(dict: [String:AnyObject]) -> [String:Any?] {
     var otherJson: [String:Any?] = [:]
@@ -578,69 +578,69 @@ class GRMustacheTest: XCTestCase {
     return otherJson
   }
   
-  func testLoadFileFromPath() {
-    
-    let json_files : [String] = [
-//      "506afdf87042f9e32c000069", //Mary Berry
-//      "506afdf87042f9e32c000001", //Barry Berry
-      "4dcbecdb431a5f5878000004" //Rosa Vasquez
-    ]
-
-    let format = "c32"
-    
-    for json_file in json_files {
-      let json = loadJSONFromBundleFile(json_file)
-      if let json = json {
-        
-        var otherJson: [String:Any?] = [:]
-        otherJson = transformAnyObjectDict(json)
-        let test_record = CDAKRecord(event: otherJson)
-//        print(test_record)
-        
-        
-        
-        let template_helper = CDAKTemplateHelper(template_format: format, template_subdir: format, template_directory: nil)
-        let template = template_helper.template("show")
-        
-        let data = ["patient": test_record]
-        
-        // USE: telecoms:{{#each(patient.telecoms)}} hi {{value}} {{use}} {{/}}
-        template.registerInBaseContext("each", Box(StandardLibrary.each))
-        // USE: {{ UUID_generate(nil) }}
-        template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
-        // USE: {{ date_as_number(z) }}, nil: {{ date_as_number(nil) }}
-        template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
-        template.registerInBaseContext("date_as_string", Box(MustacheFilters.DateAsHDSString))
-        
-        // USE: {{ value_or_null_flavor(entry.as_point_in_time) }}
-        template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
-        template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
-        template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
-        template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
-        
-        
-        do {
-          let rendering = try template.render(Box(data))
-          
-          print("trying to render...")
-          print("======================")
-          print(rendering)
-          print("======================")
-          print("rendering complete.")
-        }
-        catch let error as MustacheError {
-          print("Failed to process template. Line \(error.lineNumber) - \(error.kind). Error: \(error.description)")
-        }
-        catch let error as NSError {
-          print(error.localizedDescription)
-        }
-
-        
-        
-      }
-    }
-    
-  }
+//  func testLoadFileFromPath() {
+//    
+//    let json_files : [String] = [
+////      "506afdf87042f9e32c000069", //Mary Berry
+////      "506afdf87042f9e32c000001", //Barry Berry
+//      "4dcbecdb431a5f5878000004" //Rosa Vasquez
+//    ]
+//
+//    let format = "c32"
+//    
+//    for json_file in json_files {
+//      let json = loadJSONFromBundleFile(json_file)
+//      if let json = json {
+//        
+//        var otherJson: [String:Any?] = [:]
+//        otherJson = transformAnyObjectDict(json)
+//        let test_record = CDAKRecord(event: otherJson)
+////        print(test_record)
+//        
+//        
+//        
+//        let template_helper = CDAKTemplateHelper(template_format: format, template_subdir: format, template_directory: nil)
+//        let template = template_helper.template("show")
+//        
+//        let data = ["patient": test_record]
+//        
+//        // USE: telecoms:{{#each(patient.telecoms)}} hi {{value}} {{use}} {{/}}
+//        template.registerInBaseContext("each", Box(StandardLibrary.each))
+//        // USE: {{ UUID_generate(nil) }}
+//        template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
+//        // USE: {{ date_as_number(z) }}, nil: {{ date_as_number(nil) }}
+//        template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
+//        template.registerInBaseContext("date_as_string", Box(MustacheFilters.DateAsHDSString))
+//        
+//        // USE: {{ value_or_null_flavor(entry.as_point_in_time) }}
+//        template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
+//        template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
+//        template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
+//        template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
+//        
+//        
+//        do {
+//          let rendering = try template.render(Box(data))
+//          
+//          print("trying to render...")
+//          print("======================")
+//          print(rendering)
+//          print("======================")
+//          print("rendering complete.")
+//        }
+//        catch let error as MustacheError {
+//          print("Failed to process template. Line \(error.lineNumber) - \(error.kind). Error: \(error.description)")
+//        }
+//        catch let error as NSError {
+//          print(error.localizedDescription)
+//        }
+//
+//        
+//        
+//      }
+//    }
+//    
+//  }
   
   func loadJSONFromBundleFile(filename: String) -> [String:AnyObject]? {
     
@@ -859,51 +859,51 @@ class GRMustacheTest: XCTestCase {
     }
   }
   
-  func testHeaderGeneration() {
-    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
-    do {
-      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
-      
-      let template_helper = CDAKTemplateHelper(template_format: "cat1", template_subdir: "cat1", template_directory: nil)
-      let template = template_helper.template("header")
-      
-      record.header = nil
-      
-      let data = ["patient": record]
-      
-      template.registerInBaseContext("each", Box(StandardLibrary.each))
-      template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
-      template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
-      template.registerInBaseContext("date_as_string", Box(MustacheFilters.DateAsHDSString))
-      template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
-      template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
-      template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
-      template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
-      
-      
-      do {
-        let rendering = try template.render(Box(data))
-        
-        print("trying to render...")
-        print("======================")
-        print(rendering)
-        print("======================")
-        print("rendering complete.")
-      }
-      catch let error as MustacheError {
-        print("Failed to process template. Line \(error.lineNumber) - \(error.kind). Error: \(error.description)")
-      }
-      catch let error as NSError {
-        print(error.localizedDescription)
-      }
-
-      
-      
-    }
-    catch {
-      XCTFail()
-    }
-  }
+//  func testHeaderGeneration() {
+//    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
+//    do {
+//      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+//      
+//      let template_helper = CDAKTemplateHelper(template_format: "cat1", template_subdir: "cat1", template_directory: nil)
+//      let template = template_helper.template("header")
+//      
+//      record.header = nil
+//      
+//      let data = ["patient": record]
+//      
+//      template.registerInBaseContext("each", Box(StandardLibrary.each))
+//      template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
+//      template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
+//      template.registerInBaseContext("date_as_string", Box(MustacheFilters.DateAsHDSString))
+//      template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
+//      template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
+//      template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
+//      template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
+//      
+//      
+//      do {
+//        let rendering = try template.render(Box(data))
+//        
+//        print("trying to render...")
+//        print("======================")
+//        print(rendering)
+//        print("======================")
+//        print("rendering complete.")
+//      }
+//      catch let error as MustacheError {
+//        print("Failed to process template. Line \(error.lineNumber) - \(error.kind). Error: \(error.description)")
+//      }
+//      catch let error as NSError {
+//        print(error.localizedDescription)
+//      }
+//
+//      
+//      
+//    }
+//    catch {
+//      XCTFail()
+//    }
+//  }
 
   
   

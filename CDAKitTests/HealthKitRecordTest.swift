@@ -59,7 +59,7 @@ class HealthKitRecordTest: XCTestCase {
       let hdsRecord = hkRecord.exportAsCDAKRecord()
       
       //render from our model to CDA - format set to .ccda (could also do .c32)
-      //print(hdsRecord.export(inFormat: .ccda))
+      print(hdsRecord.export(inFormat: .ccda))
     }
     catch {
       XCTFail()

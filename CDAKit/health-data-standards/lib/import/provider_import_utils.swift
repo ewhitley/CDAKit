@@ -9,7 +9,7 @@
 import Foundation
 import Fuzi
 
-//putting this here - it's NOT here in the original Ruby - it's just its own module
+//putting this here - it's NOT here in the original Ruby - it's just its own module.
 
 class CDAKImport_ProviderImportUtils {
   
@@ -18,7 +18,6 @@ class CDAKImport_ProviderImportUtils {
     return find_or_create_provider(provider_data)
   }
 
-  //
   class func find_or_create_provider(provider_hash: [String:Any], patient: CDAKPerson? = nil) -> CDAKProvider {
 
     //see if we can find our provider by NPI
@@ -43,7 +42,6 @@ class CDAKImport_ProviderImportUtils {
           p.title == provider_hash["title"] as? String
             && p.given_name == provider_hash["given_name"] as? String
             && p.family_name == provider_hash["family_name"] as? String
-//          && p.specialty == provider.specialty
       }).filter({p in p.specialty == provider_hash["specialty"] as? String}).first {
         return a_provider
       }
@@ -84,8 +82,6 @@ class CDAKImport_ProviderImportUtils {
       //we're APPENDING since we don't want to remove the NPI CDA identifiers
       provider.cda_identifiers.appendContentsOf(filteredValues)
     }
-
-    
     
     if let addresses = provider_hash["addresses"] as? [CDAKAddress] {
       provider.addresses = addresses

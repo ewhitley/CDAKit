@@ -21,7 +21,6 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
     
   override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEncounter? {
     
-    
     if let encounter = super.create_entry(entry_element, nrh: nrh) as? CDAKEncounter {
       
       extract_performer(entry_element, encounter: encounter)
@@ -54,12 +53,7 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
       
       facility.addresses = participant_element.xpath("./cda:addr").map { ae in CDAKImport_CDA_LocatableImportUtils.import_address(ae)}
       facility.telecoms = participant_element.xpath("./cda:telecom").map { te in CDAKImport_CDA_LocatableImportUtils.import_telecom(te)}
-      
-      //facility.codes = CDAKCodedEntries(entries: extract_code(participant_element, code_xpath: "./cda:code"))
-      
-      facility.codes.addCodes(CDAKImport_CDA_SectionImporter.extract_code(participant_element, code_xpath: "./cda:code"))
-      
-      //does this actually work? can we refer back out to the parent from an inner child like this?
+      facility.codes.addCodes(CDAKImport_CDA_SectionImporter.extract_code(participant_element, code_xpath: "./cda:code"))      
       if let parent = participant_element.parent {
         extract_dates(parent, entry: facility, element_name: "time")
       }

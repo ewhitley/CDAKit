@@ -75,7 +75,7 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
         fulfillment_history.provider = import_actor(actor_element)
       }
       if let hl7_timestamp = fh_element.xpath("./cda:effectiveTime").first?["value"] {
-        fulfillment_history.dispense_date = HL7Helper.timestamp_to_integer(hl7_timestamp)
+        fulfillment_history.dispense_date = CDAKHL7Helper.timestamp_to_integer(hl7_timestamp)
       }
       if let quantity_dispensed = extract_scalar(fh_element, scalar_xpath: "./cda:quantity") {
         fulfillment_history.quantity_dispensed = quantity_dispensed

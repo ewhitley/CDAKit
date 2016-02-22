@@ -34,19 +34,7 @@ class CDAKImport_CDA_ResultImporter: CDAKImport_CDA_SectionImporter {
   
   private func extract_interpretation(parent_element: XMLElement, result: CDAKLabResult) {
     if let interpretation_element = parent_element.xpath("./cda:interpretationCode").first {
-//      result.interpretation.addCodes(CDAKImport_C32_PatientImporter.getCodedEntryForElement(interpretation_element))
-
       result.interpretation.addCodes(CDAKImport_CDA_SectionImporter.extract_code(interpretation_element, code_xpath: "."))
-
-      
-//      if let code = interpretation_element["code"], code_system_oid = interpretation_element["codeSystem"] {
-//        if let codeSystemName = interpretation_element["codeSystemName"] {
-//          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
-//        }
-//        let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
-//        let ce = CDAKCodedEntries(entries: CDAKCodedEntry(codeSystem: code_system, codes: code))
-//        result.interpretation = ce
-//      }
     }
   }
 

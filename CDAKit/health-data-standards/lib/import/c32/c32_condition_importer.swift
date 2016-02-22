@@ -45,12 +45,12 @@ class CDAKImport_C32_ConditionImporter: CDAKImport_CDA_ConditionImporter {
       condition.cause_of_death = true
     }
     if let time_of_death = entry_element.xpath(time_of_death_xpath).first?.stringValue {
-      condition.time_of_death = HL7Helper.timestamp_to_integer(time_of_death)
+      condition.time_of_death = CDAKHL7Helper.timestamp_to_integer(time_of_death)
     }
     
   }
 
-  //we should move this out of here
+  //we should move this out of here. Having these reference codes here seems restrictive.
   private func extract_type(entry_element: XMLElement, condition: CDAKCondition) {
     if let code_element = entry_element.xpath("./cda:code").first, code = code_element["code"] {
       switch code {

@@ -22,18 +22,18 @@ class CDAKTemplateHelperTest: XCTestCase {
       super.tearDown()
   }
   
-  func test_template_finding() {
-
-    let template_helper = CDAKTemplateHelper(template_format: "c32", template_subdir: "c32", template_directory: nil)
-    let erb = template_helper.template("show")
-    
-//    template_helper = HealthDataStandards::Export::TemplateHelper.new('c32', 'c32')
-//    erb = @template_helper.template 'show'
-//    assert erb
-//    assert erb.filename.match(/.*show.c32.erb/)
-//    assert erb.src.length > 0
-//    assert erb.src.include? 'ClinicalDocument'
-    
-  }
+//  func test_template_finding() {
+//
+//    let template_helper = CDAKTemplateHelper(template_format: "c32", template_subdir: "c32", template_directory: nil)
+//    let erb = template_helper.template("show")
+//    
+////    template_helper = HealthDataStandards::Export::TemplateHelper.new('c32', 'c32')
+////    erb = @template_helper.template 'show'
+////    assert erb
+////    assert erb.filename.match(/.*show.c32.erb/)
+////    assert erb.src.length > 0
+////    assert erb.src.include? 'ClinicalDocument'
+//    
+//  }
   
 }

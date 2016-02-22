@@ -10,14 +10,10 @@ import Foundation
 
 class ViewHelper {
   
-  //code_display
-  //preferred_code_sets
-  
-  //options = 
+  //options =
   // {"tag_name"=>"value", "extra_content"=>"xsi:type=\"CD\"", "preferred_code_sets"=>["SNOMED-CT"]}
   // {"preferred_code_sets"=>["LOINC", "SNOMED-CT"]}
   // looks like the value of the dictionary can be a string or an array of values
-  // FIX_ME: - issue with :codes here
   class func code_display(entry: CDAKEntry, var options:[String:Any] = [:]) -> String {
     
     if options["tag_name"] == nil { options["tag_name"] = "code" }
@@ -27,8 +23,6 @@ class ViewHelper {
     if let attr = options["attribute"] as? String {
       options_attribute = attr
     }
-    // :codes -> go look at ThingWithCodes -> preferred_code
-    //options['attribute'] ||= :codes
 
     var options_exclude_null_flavor = false
     if let opt = options["exclude_null_flavor"] as? Bool {
@@ -112,27 +106,18 @@ class ViewHelper {
       case "inactive": return "73425007"
       case "resolved": return "413322009"
       default: return nil
-      //default: fatalError("status_code_for() - invalid status (\(status)) for CDAKEntry")
       }
     }
     return nil
-    //fatalError("status_code_for() - no status for CDAKEntry")
   }
   
-//  class func fulfillment_quantity(codes: CDAKCodedEntries, fulfillmentHistory: CDAKFulfillmentHistory, dose:[String:String]) -> String {
   class func fulfillment_quantity(codes: CDAKCodedEntries, fulfillmentHistory: CDAKFulfillmentHistory, dose: CDAKValueAndUnit) -> String {
     if codes["RxNorm"]?.count > 0 {
       if let qty = fulfillmentHistory.quantity_dispensed.value, dose_value = dose.value {
         let doses = Int(qty / dose_value)
         return "value=\"\(doses)\""
-//        if let qty = Double(qty), dose_value = Double(dose_value) {
-//          let doses = Int(qty / dose_value)
-//          return "value=\"\(doses)\""
-//        }
       }
     }
-//    let qty = fulfillmentHistory.quantity_dispensed["value"] != nil ? fulfillmentHistory.quantity_dispensed["value"]! : ""
-//    let unit = fulfillmentHistory.quantity_dispensed["unit"] != nil ? fulfillmentHistory.quantity_dispensed["unit"]! : ""
     let qty = fulfillmentHistory.quantity_dispensed.value != nil ? String(fulfillmentHistory.quantity_dispensed.value!) : ""
     let unit = fulfillmentHistory.quantity_dispensed.unit != nil ? String(fulfillmentHistory.quantity_dispensed.unit!) : ""
     return "value=\"\(qty)\" unit=\"\(unit)\""
@@ -154,12 +139,7 @@ class ViewHelper {
     if let time = time {
       //:number => '%Y%m%d%H%M%S'
       //return "value='#{Time.at(time).utc.to_formatted_s(:number)}'"
-      
       let d = NSDate(timeIntervalSince1970: NSTimeInterval(time))
-//      let dateFormat = NSDateFormatter()
-//      dateFormat.dateFormat = "YYYYMMddHHmmss"
-//      let dateString = dateFormat.stringFromDate(d)
-
       return "value=\"\(d.stringFormattedAsHDSDateNumber)\""
     } else {
       return "nullFlavor='UNK'"
@@ -178,7 +158,6 @@ class ViewHelper {
 
   
   class func time_if_not_nil(args: [Int?]?) -> NSDate? {
-    //args.compact.map {|t| Time.at(t).utc}.first
     if let args = args {
       return args.filter({$0 != nil}).map({t in NSDate(timeIntervalSince1970: NSTimeInterval(t!))}).first
     }
@@ -188,7 +167,6 @@ class ViewHelper {
   }
 
   class func time_if_not_nil(args: Int?...) -> NSDate? {
-    //args.compact.map {|t| Time.at(t).utc}.first
       return args.filter({$0 != nil}).map({t in NSDate(timeIntervalSince1970: NSTimeInterval(t!))}).first
   }
 
@@ -204,37 +182,5 @@ class ViewHelper {
   class func is_bool(str: String?) -> Bool {
     return ["true","false"].contains(str != nil ? str!.lowercaseString : "")
   }
-
-  //FIX_ME: - this isn't going to work for our custom objects right now
-  // and I can't make them CustomStringConvertible without impacting the "description" property
-//  class func identifier_for(value: [CustomStringConvertible]) -> String {
-//    return String(value).hnk_MD5String()
-//  }
-  
-  //EX: field -> "severity"
-  //    codes -> {"SNOMED-CT"=>["6736007"]}
-  //FIX_ME: - finish the implementation. As best I can tell, this is only used by the HTML export. Deal with it then.
-  // output can be a few different things, but most often seems to be a string like...
-  // SNOMED-CT: 6736007
-//  func convert_field_to_hash(field: String, codes: Any) {
-//    if let codes = codes as? [CDAKCodedEntries] {
-//      //return codes.collect{ |code| convert_field_to_hash(field, convert_field_to_hash(field, code))}.join("<br>")
-//      let x = codes.map({
-//        (code) in
-//        
-//      })
-//    }
-//    
-////    let x = "hello".capitalizedString
-//    
-//    if let codes = codes as? CDAKCodedEntries {
-//      
-//    } else {
-//      
-//    }
-//    
-//  }
-  
-  
   
 }

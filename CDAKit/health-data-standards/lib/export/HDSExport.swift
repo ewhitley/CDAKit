@@ -41,6 +41,9 @@ public class CDAKExport {
 
       let data = ["patient": record]
       
+      
+      // we need to register our Mustache helpers
+      //---------
       // USE: telecoms:{{#each(patient.telecoms)}} hi {{value}} {{use}} {{/}}
       template.registerInBaseContext("each", Box(StandardLibrary.each))
       // USE: {{ UUID_generate(nil) }}
