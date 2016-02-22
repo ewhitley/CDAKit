@@ -33,10 +33,43 @@ import HealthKit
 import Try
 
 
+/**
+Provides HealthKit bridging with CDA structures.
+ 
+ You can create HealthKit samples and convert them to CDA or take CDA objects and convert them to HealthKit samples.
+
+ Right now HealthKit exposes samples for things that are "like" some vitals and laboratory results.  These can be inferred by reviewing the associated CDA vocabulary code entries and the individual result values.
+ 
+ NOTE: some common HealthKit samples do not yet universally accepted vocabulary concepts.  These includes concepts `HKQuantityTypeIdentifierStepCount`, which do not yet have LOINC (or SNOMED CT) codes.
+ 
+ We have provided default curated mappings for some codes.  These can be found in the `CDAKitDefaultHealthKitTermMap` plist file.
+ 
+ 
+ Possible future Concepts and codes:
+ ---
+ **Fitness Identifiers**
+
+ LOINC has begun to track some of this, but it's in "trial" mode
+ 
+ * [http://r.details.loinc.org/LOINC/62812-3.html?sections=Comprehensive](http://r.details.loinc.org/LOINC/62812-3.html?sections=Comprehensive)
+ 
+ There is also a more generalized "Exercise tracking panel" that includes distances and durations
+ 
+ * [http://r.details.loinc.org/LOINC/55409-7.html?sections=Comprehensive](http://r.details.loinc.org/LOINC/55409-7.html?sections=Comprehensive)
+
+ 
+*/
 public class CDAKHealthKitBridge {
   
+  //MARK: Primary Singleton accessor
+  /**
+   Singleton for all shared properties and methods.
+  */
   public static let sharedInstance = CDAKHealthKitBridge()
   
+  /**
+   Primary class initializer - PRIVATE
+  */
   private init() {
     loadDefaultHealthKitTermMap()
     loadDefaultHKQuantityTypeInfo()
@@ -48,14 +81,80 @@ public class CDAKHealthKitBridge {
   var CDAKHKTypeConceptsImport: [String:CDAKCodedEntries] = [:]
   var CDAKHKTypeConceptsExport: [String:CDAKCodedEntries] = [:]
   
-  // placeholder for non-localized descriptions
+  //MARK: Primary configuration collections
+  
+  /**
+  Placeholder for non-localized HealthKit quantity identifier descriptions.
+  
+  Example: ["HKQuantityTypeIdentifierBasalBodyTemperature", "Basal Body Temperature"]
+  
+  This is initially loaded from the local `CDAKitDefaultSampleTypeIdentifierSettings` resource file in CDAKit.
+
+   The plist uses the `displayName` key and associated `string` value
+
+   ```
+   <key>HKQuantityTypeIdentifierBasalBodyTemperature</key>
+   <dict>
+   <key>displayName</key>
+   <string>Basal Body Temperature</string>
+   ```
+
+  */
   public var CDAKHKQuantityTypeDescriptions: [String:String] = [:]
   // placeholder for preferredUnitsForQuantityTypes from user's HealthKitStore
   // https://developer.apple.com/library/prerelease/ios/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:
+  /**
+  Default preferred units for a given set of quantity types.
+  
+  Example: ["HKQuantityTypeIdentifierBasalBodyTemperature", "degF"]
+  
+  This is initially loaded from the local `CDAKitDefaultSampleTypeIdentifierSettings` resource file in CDAKit.
+  
+  The plist uses the `unit` key and associated `string` value
+
+  ```
+  <key>HKQuantityTypeIdentifierBasalBodyTemperature</key>
+  <dict>
+  <key>unit</key>
+  <string>degF</string>
+  ```
+  
+  You can, instead, use the individual user's preferred unit settings from their Health App settings. If you wish to do so, use the `setCDAKUnitTypesWithUserSettings` method
+  
+  [preferredUnitsForQuantityTypes](https://developer.apple.com/library/prerelease/ios/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:)
+  */
   public var CDAKHKQuantityTypeDefaultUnits: [CDAKHKQuantityIdentifiers:String] = [:]
+  /**
+   Default classification for a specified quantity type identifier.
+   
+   Two primary groups as of version 1.0:
+   
+   * vital
+   * result
+   
+   These attempt to tie the HealthKit concepts to a given CDA section for convenience (vitals or lab results).
+   
+   Example: ["HKQuantityTypeIdentifierBasalBodyTemperature", "vital"]
+   
+   This is initially loaded from the local `CDAKitDefaultSampleTypeIdentifierSettings` resource file in CDAKit.
+   
+   The plist uses the `type` key and associated `string` value
+   
+   ```
+   <key>HKQuantityTypeIdentifierBasalBodyTemperature</key>
+   <dict>
+   <key>type</key>
+   <string>vital</string>
+   ```
+   
+   */
   public var CDAKHKQuantityTypeDefaultTypes: [String:String] = [:]
 
-  
+  //MARK: Convenience Enumerations
+
+  /**
+   Convenience enumeration of all HealthKit quantity identifiers
+  */
   public enum CDAKHKQuantityIdentifiers: String {
     
     //  enum BodyMeasurements : String {
@@ -114,11 +213,25 @@ public class CDAKHealthKitBridge {
     return eventDate.timeIntervalSince1970
   }
   
+  //MARK: HealthKit : CDA Gender Converters
+
+  /**
+   For a given HealthKit biologicalSex, returns a tuple of the CDA code and displayName.
+   
+   - parameter biologicalSex: HKBiologicalSex
+   - returns: tuple of the CDA code and displayName EX: ("F", "Female)
+   
+   Reference: [https://www.hl7.org/fhir/v3/AdministrativeGender/index.html](https://www.hl7.org/fhir/v3/AdministrativeGender/index.html)
+   
+   Example CDA element:
+   
+   ```
+   <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGenderCode" displayName="Male"/>
+   ```
+  */
   public func administrativeGender(biologicalSex:HKBiologicalSex?)-> (code:String, displayName:String)
   {
-    //gender -> M, F, UN
-    //<administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGenderCode" displayName="Male"/>
-    //https://www.hl7.org/fhir/v3/AdministrativeGender/index.html
+    
 
     var genderCode = "UN" //Undifferentiated
     var genderDisplayName = "Undifferentiated"
@@ -140,7 +253,21 @@ public class CDAKHealthKitBridge {
     return (genderCode, genderDisplayName);
   }
 
-  public func administrativeGender(genderCode:String?)-> HKBiologicalSex
+  
+  /**
+   For a given CDA HL7 gender code, returns an HKBiologicalSex.
+   
+   - parameter genderCode: (String) HL7 gender code
+   - returns: HKBiologicalSex if match found for HL7 code
+   
+   Reference: [https://www.hl7.org/fhir/v3/AdministrativeGender/index.html](https://www.hl7.org/fhir/v3/AdministrativeGender/index.html)
+   
+   Example CDA element:
+   
+   ```
+   <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGenderCode" displayName="Male"/>
+   ```
+   */  public func administrativeGender(genderCode:String?)-> HKBiologicalSex
   {
     if let genderCode = genderCode {
       switch genderCode {
@@ -185,9 +312,39 @@ public class CDAKHealthKitBridge {
     
   }
 
-  public func sampleForEntry(entry: CDAKEntry, forSampleType sampleType: CDAKHKQuantityIdentifiers, withHKMetadata meta: [String:AnyObject] = [:]) -> HKQuantitySample? {
-    return sampleForEntryValue(entry, allowedCodeList:
-      CDAKHealthKitBridge.sharedInstance.CDAKHKTypeConceptsImport[sampleType.rawValue], quantityTypeIdentifier: sampleType.rawValue, withHKMetadata: meta)
+  //MARK: HealthKit Sample Generation
+  /**
+   Attempts to converts a CDA entry to a HealthKit quantity sample.
+
+  This method relies *completely* on both the concept and unit mapping functions.
+  
+  Concepts are matched/found based on coded entries bound to HealthKit sample identifier types. These can be found in the `CDAKitDefaultHealthKitTermMap` plist file.  You can inject your own input/output concept mappings through the `loadHealthKitTermMap` method.
+
+  Units are matched based on a function that reviews units against known formats. If you wish to change it (you probably will), you can do so by supplying your own closure.  Just update `cdaStringUnitFinder` and all unit matching logic will be changed at runtime.
+  
+   - parameter entry: CDAKEntry - the CDA entry you wish to convert to a HealthKit sample.
+   - parameter forSampleType: Optional (ENUM) CDAKHKQuantityIdentifiers - The type of HealthKit sample you'd like to create.  If you do not specify a sample type, the function will attempt to choose a compatible sample type for you
+   - parameter withHKMetadata: [String:AnyObject] - Custom metadata you may wish to apply to HealthKit samples
+  
+   */
+  public func sampleForEntry(entry: CDAKEntry, forSampleType sampleType: CDAKHKQuantityIdentifiers? = nil, withHKMetadata meta: [String:AnyObject] = [:]) -> HKQuantitySample? {
+
+    print("evaluating entry \(entry.dynamicType) with codes \(entry.codes) and value \(entry.values.first)")
+
+    if let sampleType = sampleType {
+      return sampleForEntryValue(entry, allowedCodeList:
+        CDAKHealthKitBridge.sharedInstance.CDAKHKTypeConceptsImport[sampleType.rawValue], quantityTypeIdentifier: sampleType.rawValue, withHKMetadata: meta)
+    } else {
+      for sampleType in CDAKHealthKitBridge.CDAKHKQuantityIdentifiers.allValues {
+        if let sample = sampleForEntryValue(entry, allowedCodeList:
+          CDAKHealthKitBridge.sharedInstance.CDAKHKTypeConceptsImport[sampleType.rawValue], quantityTypeIdentifier: sampleType.rawValue, withHKMetadata: meta) {
+            print("generated sample \(sample)")
+            return sample
+        }
+      }
+    }
+    return nil
+
   }
 
   func sampleForEntryValue(entry: CDAKEntry, allowedCodeList: CDAKCodedEntries?, quantityTypeIdentifier: String, var withHKMetadata meta: [String:AnyObject] = [:]) -> HKQuantitySample? {
@@ -338,43 +495,51 @@ public class CDAKHealthKitBridge {
    
    NOTE: This functionality modifies the HealthKit samples - NOT the native CDA data stored in the CDAKRecord.  You must set the unit preferences BEFORE you export a HKRecord (exportAsCDAKRecord).  Once exported to a CDAKRecord, any changes to the bridge's unit types will not be reflected.  CDA unit types are fixed strings.
    
+   NOTE: HealthKit does this on a background thread, so be careful how you handle things on the UI
+   
    - parameter store: HKHealthStore that that will allow access to preferredUnitsForQuantityTypes
 
    - Version: iOS 8.2 and above
    
+   [preferredUnitsForQuantityTypes](https://developer.apple.com/library/prerelease/ios/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:)
+
    */
   public func setCDAKUnitTypesWithUserSettings(store: HKHealthStore) {
-    //https://developer.apple.com/library/watchos/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:
-    //really nice example implementation at: http://ambracode.com/index/show/1610009
-    for sampleType in supportedHKQuantityTypes {
-      //doing this one by one as I don't know what happens if we request all identifiers at once and don't have
-      // have access to a subset
-      if #available(iOS 8.2, *) {
-          store.preferredUnitsForQuantityTypes(Set([sampleType])) { (preferredUnits: [HKQuantityType : HKUnit], error: NSError?) -> Void in
-            if error == nil {
-              if let unit: HKUnit = preferredUnits[sampleType] {
-                if let id = CDAKHKQuantityIdentifiers(rawValue: sampleType.identifier) {
-                  self.CDAKHKQuantityTypeDefaultUnits[id] = unit.unitString
+      for sampleType in supportedHKQuantityTypes {
+        //doing this one by one as I don't know what happens if we request all identifiers at once and don't have access to a subset
+        if #available(iOS 8.2, *) {
+            store.preferredUnitsForQuantityTypes(Set([sampleType])) { (preferredUnits: [HKQuantityType : HKUnit], error: NSError?) -> Void in
+              if error == nil {
+                if let unit: HKUnit = preferredUnits[sampleType] {
+                  if let id = CDAKHKQuantityIdentifiers(rawValue: sampleType.identifier) {
+                    self.CDAKHKQuantityTypeDefaultUnits[id] = unit.unitString
+                    print("Set default sample unit type for '\(sampleType.identifier)' to '\(unit.unitString)'")
+                  }
                 }
-              }
-            } else {
-              switch error!.code {
-              case 5:
-                if let id = CDAKHKQuantityIdentifiers(rawValue: sampleType.identifier) {
-                  print("Access to sample \(sampleType.identifier) denied - using default unit \(self.CDAKHKQuantityTypeDefaultUnits[id])")
+              } else {
+                switch error!.code {
+                case 5:
+                  if let id = CDAKHKQuantityIdentifiers(rawValue: sampleType.identifier) {
+                    print("Access to sample \(sampleType.identifier) denied - using default unit \(self.CDAKHKQuantityTypeDefaultUnits[id])")
+                  }
+                default:
+                  print("Error accessing user sample types. \(error?.localizedDescription)")
                 }
-              default:
-                print("Error accessing user sample types. \(error?.localizedDescription)")
               }
             }
-          }
-      } else {
-          print("This version of iOS does not support preferredUnitsForQuantityTypes")
+        } else {
+            print("This version of iOS does not support preferredUnitsForQuantityTypes")
+        }
       }
-    }
     
   }
   
+  /**
+   Allows you to specify the type of unit that should be preferred for a particular HealthKit quantity type identifier
+   
+   - parameter preferredUnitString: unit string (EX: "cm")
+   - parameter forHKQuantityTypeIdentifier: the type identifier
+  */
   public func setPreferedUnitForSampleType(preferredUnitString unit: String, forHKQuantityTypeIdentifier type: String) {
     if let id = CDAKHKQuantityIdentifiers(rawValue: type) {
       CDAKHKQuantityTypeDefaultUnits[id] = unit
@@ -383,6 +548,7 @@ public class CDAKHealthKitBridge {
   
   
   private var _supportedHKQuantityTypes: Set<HKQuantityType>?
+  ///Supplies a list of all supported HealthKit quantity types
   public var supportedHKQuantityTypes: Set<HKQuantityType> {
     get {
       
@@ -402,6 +568,7 @@ public class CDAKHealthKitBridge {
   }
   
   private var _supportedHKQuantityTypeIdentifiers: Set<String>?
+  ///Supplies a list of all supported HealthKit sample type identiifers
   public var supportedHKQuantityTypeIdentifiers: Set<String> {
     get {
       
@@ -439,7 +606,34 @@ public class CDAKHealthKitBridge {
     }
   }
   
-  public func loadHealthKitQuantityTypeMetadata(withPlist plist: NSDictionary) {
+
+  /**
+   Allows you to tell the sample generator how it should classify a specificy type of sample and what it should use for default units (works in tandem with the unit match closure).
+   
+   * The primary key is HealthKit sample type identifier you wish to bind. (EX: "HKQuantityTypeIdentifierActiveEnergyBurned")
+   * `unit` is the default unit (EX: "cal")
+   * `displayName` is the display name you wish to use for the sample (EX: "Active Energy Burned")
+   * `type` defines how you want to classify the sample.  These attempt to tie the HealthKit concepts to a given CDA section for convenience (vitals or lab results).
+
+   Two primary `type` groups as of version 1.0:
+   
+   * vital
+   * result
+   
+   
+   ```
+   <key>HKQuantityTypeIdentifierActiveEnergyBurned</key>
+   <dict>
+     <key>unit</key>
+     <string>cal</string>
+     <key>displayName</key>
+     <string>Active Energy Burned</string>
+     <key>type</key>
+     <string>vital</string>
+   </dict>
+   ```
+   
+   */  public func loadHealthKitQuantityTypeMetadata(withPlist plist: NSDictionary) {
     for (identifierKey, entryData) in plist {
       if let identifierKey = identifierKey as? String, entryData = entryData as? NSDictionary {
         if supportedHKQuantityTypeIdentifiers.contains(identifierKey) {
@@ -469,7 +663,39 @@ public class CDAKHealthKitBridge {
       print("Failed to find term map file (CDAKitDefaultHealthKitTermMap).  This will make it impossible to import or generate CDA using HealthKit ")
     }
   }
-  
+
+  /**
+   Allows you to inject your own HealthKit sample type mappings to CDA vocabulary entries.  These mappings are the core of what drives the linkage between the two.
+   
+   The mappings must specify a direction:
+   
+   * `import` : used exclusively when importing values from CDA to HealthKit
+   * `export` : used exclusively when exporting values from HealthKit to CDA
+   * `both` : used for import and export
+   
+   * The primary key is HealthKit sample type identifier you wish to bind.
+   * Within this, there is a child array bound to the key/tag CDAKit uses to map to a vocabulary.  EX: "LOINC" or "SNOMED-CT".  This declares that all following coded entries within the array will be of that specified vocabulary.
+   * Details for `code`, `displayName`, and mapping restriction.  `code` is the vocabulary concept code (EX: 39156-5) for the associated `displayName` (EX: "Body mass index (BMI) [Ratio]").
+   
+   ```
+   <key>HKQuantityTypeIdentifierBodyMassIndex</key>
+   <dict>
+			<key>LOINC</key>
+			<array>
+   <dict>
+   <key>code</key>
+   <string>39156-5</string>
+   <key>displayName</key>
+   <string>Body mass index (BMI) [Ratio]</string>
+   <key>mapRestriction</key>
+   <string>both</string>
+   </dict>
+			</array>
+   ... (more vocabularies)
+   </dict>
+   ```
+   
+   */
   public func loadHealthKitTermMap(withPlist plist: NSDictionary) {
     for (identifierKey, entryData) in plist {
       //"identifierKey" will be something like  "HKQuantityTypeIdentifierBloodGlucose"
@@ -532,29 +758,52 @@ public class CDAKHealthKitBridge {
   
 }
 
+/**
+ The HealthKit metadata keys used by CDAKits metadata injection during HealthKit sample creation.
+*/
 public enum CDAKHKMetadataKeys: String {
+  ///The "root" ID from the parent CDA item (if found)
   case CDAKMetadataRecordIDRoot
-  case CDAKMetadataRecordHash
+  //The calculated record entry hash value.  You can use this to look up or compare entries you create in the HealthKit store later
+  //case CDAKMetadataRecordHash
+  ///The calculated CDA entry hash value.  You can use this to look up or compare entries you create in the HealthKit store later
   case CDAKMetadataEntryHash
 }
 
-
+/**
+ Primary bridging record to connect our CDA models with HealthKit
+*/
 public class CDAKHKRecord: CustomStringConvertible {
   
+  //Mark: Basic profile and demographics
+  ///Person's title
   public var title: String?
+  ///Person's first / given name
   public var first: String?
+  ///Person's last / family name
   public var last: String?
+  ///Person's biological sex / gender
   public var gender: HKBiologicalSex?
 
+  ///Birth date
   public var birthdate: NSDate?
+  ///Deceased date
   public var deathdate: NSDate? //probably not interested in this one...
-  
+  ///Effective time of record
   public var effective_time: NSDate?
+
+  //Mark: HealthKit samples
+  ///All HealthKit samples
   public var samples: [HKQuantitySample] = []
 
+  ///Any metadata you may wish to inject into HealthKit when it samples are created
   public var metadata: [String:AnyObject] = [:]
   
-  
+  /**
+   Export this HealthKit-based record to a CDA-based representation
+   
+   This can then be used to add more information or export to CDA XML.
+  */
   public func exportAsCDAKRecord() -> CDAKRecord {
     
     let aRecord = CDAKRecord()
@@ -626,6 +875,13 @@ public class CDAKHKRecord: CustomStringConvertible {
     return nil
   }
   
+  //MARK: Initializers
+  /**
+   For a given CDA-based record (and associated metadata), attempts to inspect that supplied record and convert the contents to HealthKit samples.
+  
+  - parameter fromCDAKRecord: The primary CDAKRecord from which you wish to create the patient demographics and samples
+  - parameter withHKMetadata: [String:AnyObject] Any custom metadata you might wish to inject into the HealthKit samples
+   */
   public init(fromCDAKRecord patient: CDAKRecord, withHKMetadata metadata: [String:AnyObject] = [:]) {
     
     
@@ -639,12 +895,12 @@ public class CDAKHKRecord: CustomStringConvertible {
     if let root = patient.header?.identifier?.root {
       self.metadata[CDAKHKMetadataKeys.CDAKMetadataRecordIDRoot.rawValue] = root
     }
-    
-    for sampleType in CDAKHealthKitBridge.CDAKHKQuantityIdentifiers.allValues {
-      samples.appendContentsOf( patient.vital_signs.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, forSampleType: sampleType, withHKMetadata: self.metadata)} ) )
-      samples.appendContentsOf( patient.results.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, forSampleType: sampleType, withHKMetadata: self.metadata)} ) )
-      samples.appendContentsOf( patient.procedures.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, forSampleType: sampleType, withHKMetadata: self.metadata)} ) )
-    }
+
+    //For now we're just going to manually choose which entries we add
+    samples.appendContentsOf( patient.vital_signs.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, withHKMetadata: self.metadata)} ) )
+    samples.appendContentsOf( patient.results.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, withHKMetadata: self.metadata)} ) )
+    samples.appendContentsOf( patient.procedures.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, withHKMetadata: self.metadata)} ) )
+
     
     
     if let birthdate = patient.birthdate {
@@ -656,10 +912,20 @@ public class CDAKHKRecord: CustomStringConvertible {
     
   }
   
+  /**
+   Basic empty initializer
+  */
+  init() {
+    
+  }
+  
+  // MARK: Standard properties
+  ///Quick description of the included HealthKit samples
   public var samplesDescription : String {
     return samples.map({"\($0.sampleType) \($0.description)"}).joinWithSeparator(", ")
   }
   
+  ///Debugging description
   public var description: String {
     return "CDAKHKRecord => title: \(title), first: \(first), last: \(last), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), samples: \(samplesDescription) "
   }

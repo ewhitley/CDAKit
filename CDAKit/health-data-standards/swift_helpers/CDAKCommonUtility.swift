@@ -12,14 +12,17 @@ class CDAKCommonUtility {
 
   static let podName = "CDAKit"
   static var bundle: NSBundle {
+    
     let frameworkBundle = NSBundle(forClass: CDAKCommonUtility.self)
     //if we're in a pod, look for our own bundle in the parent project
     if let bundlePath = frameworkBundle.pathForResource(podName, ofType: "bundle") {
       if let myBundle = NSBundle.init(path: bundlePath) {
+        //print("CDAKCommonUtility -> myBundle.bundlePath = '\(myBundle.bundlePath)'")
         return myBundle
       }
     }
     //otherwise, try to just return ourselves like this
+    //print("CDAKCommonUtility -> frameworkBundle = '\(frameworkBundle.bundlePath)'")
     return frameworkBundle
   }
   

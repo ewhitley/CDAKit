@@ -10,6 +10,9 @@
 		380A41091C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380A41081C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift */; };
 		38359E041C7B576800CCC036 /* ccda_performer.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38359E031C7B576800CCC036 /* ccda_performer.ccda.mustache */; };
 		38359E061C7B5DD400CCC036 /* c32_performer.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38359E051C7B5DD400CCC036 /* c32_performer.c32.mustache */; };
+		38359E0A1C7B774400CCC036 /* CDAKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 38359E071C7B774400CCC036 /* CDAKit.podspec */; };
+		38359E0B1C7B774400CCC036 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38359E081C7B774400CCC036 /* LICENSE.txt */; };
+		38359E0C1C7B774400CCC036 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 38359E091C7B774400CCC036 /* Podfile */; };
 		384E23111C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml in Resources */ = {isa = PBXBuildFile; fileRef = 384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */; };
 		384E23141C738E4E009B9DED /* CDAKJSONInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */; };
 		384E23171C73C517009B9DED /* MetadataImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23161C73C517009B9DED /* MetadataImporter.swift */; };
@@ -29,7 +32,6 @@
 		389170351C6CC1EE00A31299 /* CDAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 389170341C6CC1EE00A31299 /* CDAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3891703C1C6CC1EE00A31299 /* CDAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 389170311C6CC1EE00A31299 /* CDAKit.framework */; };
 		389170411C6CC1EE00A31299 /* CDAKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170401C6CC1EE00A31299 /* CDAKitTests.swift */; };
-		3891704E1C6CD18400A31299 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3891704D1C6CD18400A31299 /* LICENSE.txt */; };
 		389170601C6CD74500A31299 /* CDAKitDefaultHealthKitTermMap.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3891705E1C6CD74500A31299 /* CDAKitDefaultHealthKitTermMap.plist */; };
 		389170611C6CD74500A31299 /* CDAKitHealthKitBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3891705F1C6CD74500A31299 /* CDAKitHealthKitBridge.swift */; };
 		389170671C6CD7A500A31299 /* author.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170621C6CD7A500A31299 /* author.swift */; };
@@ -303,6 +305,9 @@
 		380A41081C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKVocabularyStructs.swift; sourceTree = "<group>"; };
 		38359E031C7B576800CCC036 /* ccda_performer.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_performer.ccda.mustache; sourceTree = "<group>"; };
 		38359E051C7B5DD400CCC036 /* c32_performer.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_performer.c32.mustache; sourceTree = "<group>"; };
+		38359E071C7B774400CCC036 /* CDAKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CDAKit.podspec; sourceTree = "<group>"; };
+		38359E081C7B774400CCC036 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		38359E091C7B774400CCC036 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "170.314(b)(1)InPt_Discharge Summary CED Type.xml"; sourceTree = "<group>"; };
 		384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKJSONInstantiable.swift; sourceTree = "<group>"; };
 		384E23161C73C517009B9DED /* MetadataImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataImporter.swift; sourceTree = "<group>"; };
@@ -325,8 +330,6 @@
 		3891703B1C6CC1EE00A31299 /* CDAKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CDAKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		389170401C6CC1EE00A31299 /* CDAKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDAKitTests.swift; sourceTree = "<group>"; };
 		389170421C6CC1EE00A31299 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3891704B1C6CCD2200A31299 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		3891704D1C6CD18400A31299 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		3891705E1C6CD74500A31299 /* CDAKitDefaultHealthKitTermMap.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CDAKitDefaultHealthKitTermMap.plist; sourceTree = "<group>"; };
 		3891705F1C6CD74500A31299 /* CDAKitHealthKitBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKitHealthKitBridge.swift; sourceTree = "<group>"; };
 		389170621C6CD7A500A31299 /* author.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = author.swift; sourceTree = "<group>"; };
@@ -671,6 +674,9 @@
 		389170271C6CC1EE00A31299 = {
 			isa = PBXGroup;
 			children = (
+				38359E071C7B774400CCC036 /* CDAKit.podspec */,
+				38359E081C7B774400CCC036 /* LICENSE.txt */,
+				38359E091C7B774400CCC036 /* Podfile */,
 				389170331C6CC1EE00A31299 /* CDAKit */,
 				3891703F1C6CC1EE00A31299 /* CDAKitTests */,
 				389170321C6CC1EE00A31299 /* Products */,
@@ -695,8 +701,6 @@
 				3891704F1C6CD55100A31299 /* HealthKitBridge */,
 				389170341C6CC1EE00A31299 /* CDAKit.h */,
 				389170361C6CC1EE00A31299 /* Info.plist */,
-				3891704B1C6CCD2200A31299 /* README.md */,
-				3891704D1C6CD18400A31299 /* LICENSE.txt */,
 				3891716A1C6CDA4900A31299 /* CDAKit-Bridging-Header.h */,
 			);
 			path = CDAKit;
@@ -1346,6 +1350,7 @@
 				3891713C1C6CD8BA00A31299 /* c32_medications_no_current.c32.mustache in Resources */,
 				3891715B1C6CD8D200A31299 /* ccda_conditions_no_current.ccda.mustache in Resources */,
 				389170601C6CD74500A31299 /* CDAKitDefaultHealthKitTermMap.plist in Resources */,
+				38359E0C1C7B774400CCC036 /* Podfile in Resources */,
 				389171631C6CD8D200A31299 /* ccda_procedures_no_current.ccda.cda in Resources */,
 				389171571C6CD8D200A31299 /* ccda_allergies_no_current.ccda.mustache in Resources */,
 				3891713E1C6CD8BA00A31299 /* c32_narrative_block.c32.mustache in Resources */,
@@ -1357,7 +1362,6 @@
 				386A14691C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist in Resources */,
 				389171421C6CD8BA00A31299 /* c32_social_history.c32.mustache in Resources */,
 				38FCF8DC1C75039A0040979E /* cat1_header_no_header.cat1.mustache in Resources */,
-				3891704E1C6CD18400A31299 /* LICENSE.txt in Resources */,
 				389171621C6CD8D200A31299 /* ccda_narrative_block.ccda.mustache in Resources */,
 				389171611C6CD8D200A31299 /* ccda_medications.ccda.mustache in Resources */,
 				38359E041C7B576800CCC036 /* ccda_performer.ccda.mustache in Resources */,
@@ -1379,11 +1383,13 @@
 				3891713B1C6CD8BA00A31299 /* c32_medical_equipment.c32.mustache in Resources */,
 				3891713A1C6CD8BA00A31299 /* c32_immunizations.c32.mustache in Resources */,
 				389171411C6CD8BA00A31299 /* c32_show.c32.mustache in Resources */,
+				38359E0A1C7B774400CCC036 /* CDAKit.podspec in Resources */,
 				389171351C6CD8BA00A31299 /* c32_care_goals.c32.mustache in Resources */,
 				3891715E1C6CD8D200A31299 /* ccda_immunizations.ccda.mustache in Resources */,
 				3891713D1C6CD8BA00A31299 /* c32_medications.c32.mustache in Resources */,
 				389171401C6CD8BA00A31299 /* c32_results.c32.mustache in Resources */,
 				389171671C6CD8D200A31299 /* ccda_show.ccda.mustache in Resources */,
+				38359E0B1C7B774400CCC036 /* LICENSE.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
