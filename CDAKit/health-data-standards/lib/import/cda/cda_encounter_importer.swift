@@ -55,7 +55,9 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
       facility.addresses = participant_element.xpath("./cda:addr").map { ae in CDAKImport_CDA_LocatableImportUtils.import_address(ae)}
       facility.telecoms = participant_element.xpath("./cda:telecom").map { te in CDAKImport_CDA_LocatableImportUtils.import_telecom(te)}
       
-      facility.codes = CDAKCodedEntries(entries: extract_code(participant_element, code_xpath: "./cda:code"))
+      //facility.codes = CDAKCodedEntries(entries: extract_code(participant_element, code_xpath: "./cda:code"))
+      
+      facility.codes.addCodes(CDAKImport_CDA_SectionImporter.extract_code(participant_element, code_xpath: "./cda:code"))
       
       //does this actually work? can we refer back out to the parent from an inner child like this?
       if let parent = participant_element.parent {
@@ -78,12 +80,12 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
   }
   
   private func extract_admission(parent_element: XMLElement, encounter: CDAKEncounter) {
-    encounter.admit_type = CDAKCodedEntries(entries: extract_code(parent_element, code_xpath: "./cda:priorityCode"))
+    encounter.admit_type.addCodes(CDAKImport_CDA_SectionImporter.extract_code(parent_element, code_xpath: "./cda:priorityCode"))
   }
   
   private func extract_discharge_disposition(parent_element: XMLElement, encounter: CDAKEncounter) {
     encounter.discharge_time = encounter.end_time
-    encounter.discharge_disposition = CDAKCodedEntries(entries: extract_code(parent_element, code_xpath: "./sdtc:dischargeDispositionCode"))
+    encounter.discharge_disposition.addCodes(CDAKImport_CDA_SectionImporter.extract_code(parent_element, code_xpath: "./sdtc:dischargeDispositionCode"))
   }
   
   private func extract_transfers(parent_element: XMLElement, encounter: CDAKEncounter) {
@@ -95,8 +97,7 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
         transfer_from.time = Double(time_value)
       }
       if let transfer_from_subelement = transfer_from_element.xpath("./cda:participantRole[@classCode='LOCE']").first {
-        let raw_tf_code = extract_code(transfer_from_subelement, code_xpath: "./cda:code")
-        transfer_from.codes = CDAKCodedEntries(entries: raw_tf_code)
+        transfer_from.codes.addCodes(CDAKImport_CDA_SectionImporter.extract_code(transfer_from_subelement, code_xpath: "./cda:code"))
       }
       encounter.transfer_from = transfer_from
     }
@@ -107,8 +108,7 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
         transfer_to.time = Double(time_value)
       }
       if let transfer_from_subelement = transfer_to_element.xpath("./cda:participantRole[@classCode='LOCE']").first {
-        let raw_tf_code = extract_code(transfer_from_subelement, code_xpath: "./cda:code")
-        transfer_to.codes = CDAKCodedEntries(entries: raw_tf_code)
+        transfer_to.codes.addCodes(CDAKImport_CDA_SectionImporter.extract_code(transfer_from_subelement, code_xpath: "./cda:code"))
       }
       encounter.transfer_to = transfer_to
     }

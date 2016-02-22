@@ -49,14 +49,19 @@ class CDAKImport_CDA_ProcedureImporter: CDAKImport_CDA_SectionImporter {
         CDAKCodeSystemHelper.code_system_for(ordinality_element['codeSystem']) => [ordinality_element['code']]
       }
       */
-      if let code = ordinality_element["code"], code_system_oid = ordinality_element["codeSystem"] {
-        if let codeSystemName = ordinality_element["codeSystemName"] {
-          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
-        }
-        let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
-        let ce = CDAKCodedEntries(entries: CDAKCodedEntry(codeSystem: code_system, codes: code))
-          procedure.ordinality = ce
-      }
+      //procedure.ordinality.addCodes(CDAKImport_C32_PatientImporter.getCodedEntryForElement(ordinality_element))
+      
+      procedure.ordinality.addCodes(CDAKImport_CDA_SectionImporter.extract_code(ordinality_element, code_xpath: "."))
+
+      
+//      if let code = ordinality_element["code"], code_system_oid = ordinality_element["codeSystem"] {
+//        if let codeSystemName = ordinality_element["codeSystemName"] {
+//          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
+//        }
+//        let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
+//        let ce = CDAKCodedEntries(entries: CDAKCodedEntry(codeSystem: code_system, codes: code))
+//          procedure.ordinality = ce
+//      }
       
     }
   }
@@ -68,7 +73,7 @@ class CDAKImport_CDA_ProcedureImporter: CDAKImport_CDA_SectionImporter {
   }
 
   private func extract_anatomical_target(parent_element: XMLElement, procedure: CDAKProcedure) {
-    procedure.anatomical_target = CDAKCodedEntries(entries: extract_code(parent_element, code_xpath: "./cda:targetSiteCode"))
+    procedure.anatomical_target.addCodes(CDAKImport_CDA_SectionImporter.extract_code(parent_element, code_xpath: "./cda:targetSiteCode"))
   }
 
   private func extract_scalar(parent_element: XMLElement, procedure: CDAKProcedure) {

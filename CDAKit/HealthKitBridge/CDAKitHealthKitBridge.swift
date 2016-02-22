@@ -192,22 +192,20 @@ public class CDAKHealthKitBridge {
 
   func sampleForEntryValue(entry: CDAKEntry, allowedCodeList: CDAKCodedEntries?, quantityTypeIdentifier: String, var withHKMetadata meta: [String:AnyObject] = [:]) -> HKQuantitySample? {
     if let allowedCodeList = allowedCodeList {
-      for (codeSystem, codes) in allowedCodeList {
-        if let matching_codes = entry.codes.findIntersectingCodes(forCodeSystem: codeSystem, matchingCodes: codes.codes) where matching_codes.count > 0 {
-          //we have a matching code reference, so let's go ahead and try to return this entry
-          if let r_val = entry.values.first as? CDAKPhysicalQuantityResultValue {
-            let times = getDatesForResult(entry, value: r_val)
-            if let scalar = r_val.scalar, hr = Double(scalar), start_date = times.start_date, end_date = times.end_date, unit = unitForCDAString(r_val.units, forQuantityTypeIdentifier: quantityTypeIdentifier) {
-              if let qtyType = HKQuantityType.quantityTypeForIdentifier(quantityTypeIdentifier) {
-                if qtyType.isCompatibleWithUnit(unit) {
-                  meta[CDAKHKMetadataKeys.CDAKMetadataEntryHash.rawValue] = entry.hashValue
-                  let qty: HKQuantity = HKQuantity(unit: unit, doubleValue: hr)
-                  let qtySample: HKQuantitySample = HKQuantitySample(type: qtyType
-                    , quantity: qty, startDate: start_date, endDate: end_date, metadata: meta)
-                  return qtySample
-                } else {
-                  print("sampleForEntryValue() - Cannot create sample of type '\(quantityTypeIdentifier)' using unit type '\(unit)'.  Unit is not compatible.")
-                }
+      if let matching_codes = entry.codes.findIntersectingCodedEntries(forCodedEntries: allowedCodeList) where matching_codes.count > 0 {
+        //we have a matching code reference, so let's go ahead and try to return this entry
+        if let r_val = entry.values.first as? CDAKPhysicalQuantityResultValue {
+          let times = getDatesForResult(entry, value: r_val)
+          if let scalar = r_val.scalar, hr = Double(scalar), start_date = times.start_date, end_date = times.end_date, unit = unitForCDAString(r_val.units, forQuantityTypeIdentifier: quantityTypeIdentifier) {
+            if let qtyType = HKQuantityType.quantityTypeForIdentifier(quantityTypeIdentifier) {
+              if qtyType.isCompatibleWithUnit(unit) {
+                meta[CDAKHKMetadataKeys.CDAKMetadataEntryHash.rawValue] = entry.hashValue
+                let qty: HKQuantity = HKQuantity(unit: unit, doubleValue: hr)
+                let qtySample: HKQuantitySample = HKQuantitySample(type: qtyType
+                  , quantity: qty, startDate: start_date, endDate: end_date, metadata: meta)
+                return qtySample
+              } else {
+                print("sampleForEntryValue() - Cannot create sample of type '\(quantityTypeIdentifier)' using unit type '\(unit)'.  Unit is not compatible.")
               }
             }
           }
@@ -521,7 +519,7 @@ public class CDAKHealthKitBridge {
               if let a_displayName = a_code["displayName"] as? String {
                 displayName = a_displayName
               }
-              codedEntries.addCodes(vocabulary, codes: code, codeSystemOid: CDAKCodeSystemHelper.oid_for_code_system(vocabulary), displayName: displayName)
+              codedEntries.addCodes(vocabulary, code: code, codeSystemOid: CDAKCodeSystemHelper.oid_for_code_system(vocabulary), displayName: displayName)
             }
           }
         }

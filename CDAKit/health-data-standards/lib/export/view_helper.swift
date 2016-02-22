@@ -72,7 +72,7 @@ class ViewHelper {
       let pc = preferred_code.codeSystem
       let code_system_oid = CDAKCodeSystemHelper.oid_for_code_system(pc)
       let tag_name = options["tag_name"] as? String
-      let code = preferred_code.codes.first
+      let code = preferred_code.code
       let extra_content = options["extra_content"] as? String
       let display = preferred_code.displayName != nil ? "displayName=\"\(preferred_code.displayName!)\"" : ""
       code_string = "<\(tag_name ?? "") code=\"\(code ?? "")\" codeSystemName=\"\(pc)\" codeSystem=\"\(code_system_oid ?? "")\" \(display) \(extra_content ?? "")>"
@@ -94,9 +94,9 @@ class ViewHelper {
     if options_attribute == "codes" {
       code_string += "<originalText>\(CDAKCommonUtility.html_escape(entry.item_description))</originalText>"
       for (codeSystem, codes) in entry.translation_codes(preferred_code_sets, value_set_map: value_set_map) {
-        let display = codes.displayName != nil ? " displayName=\"\(codes.displayName!)\"" : ""
         for code in codes {
-          code_string += "<translation code=\"\(code)\" codeSystemName=\"\(codeSystem)\" codeSystem=\"\(CDAKCodeSystemHelper.oid_for_code_system(codeSystem))\"\(display)/>\n"
+          let display = code.displayName != nil ? " displayName=\"\(code.displayName!)\"" : ""
+          code_string += "<translation code=\"\(code.code)\" codeSystemName=\"\(codeSystem)\" codeSystem=\"\(CDAKCodeSystemHelper.oid_for_code_system(codeSystem))\"\(display)/>\n"
         }
       }
     }

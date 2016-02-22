@@ -23,17 +23,17 @@ class TestRecord {
   
   func allergy(sequence: Int = 1) -> CDAKAllergy {
     let _allergy = CDAKAllergy()
-    _allergy.codes = CDAKCodedEntries(entries: ["RxNorm": ["70618"]])
+    _allergy.codes = CDAKCodedEntries(codeSystem: "RxNorm", code: "70618")
     _allergy.start_time = 1264529050
-    _allergy.type = CDAKCodedEntries(entries: ["SNOMED-CT": ["416098002"]])
-    _allergy.reaction = CDAKCodedEntries(entries: ["SNOMED-CT": ["24484000"]])
-    _allergy.severity = CDAKCodedEntries(entries: ["SNOMED-CT": ["39579001"]])
+    _allergy.type = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "416098002")
+    _allergy.reaction = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "24484000")
+    _allergy.severity = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "39579001")
     return _allergy
   }
   
   func condition(sequence: Int = 1) -> CDAKCondition {
     let _condition = CDAKCondition()
-    _condition.codes = CDAKCodedEntries(entries: ["SNOMED-CT": ["16356006"]])
+    _condition.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "16356006")
     _condition.cause_of_death = false
     _condition.start_time = 1269776601
     _condition.end_time = 1270776601
@@ -45,11 +45,11 @@ class TestRecord {
   
   func encounter(sequence: Int = 1) -> CDAKEncounter {
     let _encounter = CDAKEncounter()
-    _encounter.codes = CDAKCodedEntries(entries: ["CPT": ["16356006"]])
+    _encounter.codes = CDAKCodedEntries(codeSystem: "CPT", code: "16356006")
     _encounter.start_time = 1267322332
     _encounter.end_time = 1267323432
-    _encounter.admit_type = CDAKCodedEntries(entries: ["NUBC": ["12345678"]])
-    _encounter.discharge_disposition = CDAKCodedEntries(entries: ["NUBC": ["23456789"]])
+    _encounter.admit_type = CDAKCodedEntries(codeSystem: "NUBC", code: "12345678")
+    _encounter.discharge_disposition = CDAKCodedEntries(codeSystem: "NUBC", code: "23456789")
     _encounter.item_description = "Sample Encounter"
     
     //MARK: FIXME - not sure if the test is bad or I did this incorrectly
@@ -61,7 +61,7 @@ class TestRecord {
   
   func entry(sequence: Int = 1) -> CDAKEntry {
     let _entry = CDAKEntry()
-    _entry.codes = CDAKCodedEntries(entries: ["CPT": ["99201"]])
+    _entry.codes = CDAKCodedEntries(codeSystem: "CPT", code: "99201")
     _entry.start_time = 1267322332
     _entry.end_time = 1267323432
     return _entry
@@ -69,7 +69,7 @@ class TestRecord {
   
   func medical_equipment(sequence: Int = 1) -> CDAKMedicalEquipment {
     let _medical_equipment = CDAKMedicalEquipment()
-    _medical_equipment.codes = CDAKCodedEntries(entries: ["SNOMED-CT": ["598721"]])
+    _medical_equipment.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "598721")
     _medical_equipment.start_time = 1267322332
     _medical_equipment.end_time = 1267323432
     _medical_equipment.values = [physical_quantity_result_value()]
@@ -140,13 +140,13 @@ class TestRecord {
     //the code does seem to state pretty clearly that this is an "CDAKEntry"
     // I'm going to assume I've either botched CDAKEntry or this test case dat isn't valid
     // I can't find any refernce to this ever being utilized
-    _social_history.codes = CDAKCodedEntries(entries: ["SNOMED-CT": ["398705004"]])
+    _social_history.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "398705004")
     return _social_history
   }
   
   func advance_directive(sequence: Int = 1) -> CDAKEntry {
     let _advance_directive = CDAKEntry()
-    _advance_directive.codes = CDAKCodedEntries(entries: ["SNOMED-CT": ["4234322"]])
+    _advance_directive.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "4234322")
     
     let components: NSDateComponents = NSDateComponents()
     components.setValue(-1, forComponent: NSCalendarUnit.Month)
@@ -163,11 +163,11 @@ class TestRecord {
   
   func immunization(sequence: Int = 1) -> CDAKImmunization {
     let _immunization = CDAKImmunization()
-    _immunization.codes = CDAKCodedEntries(entries: ["RxNorm": ["854931"]])
+    _immunization.codes = CDAKCodedEntries(codeSystem: "RxNorm", code: "854931")
     _immunization.time = 1264529050
     _immunization.item_description = "Pneumonia Vaccine"
     _immunization.refusal_ind = true
-    _immunization.refusal_reason = CDAKCodedEntries(entries: ["HL7 ActNoImmunicationReason": ["RELIG"]])
+    _immunization.refusal_reason = CDAKCodedEntries(codeSystem: "HL7 ActNoImmunicationReason", code: "RELIG")
     _immunization.series_number = 1
     
     return _immunization
@@ -181,7 +181,7 @@ class TestRecord {
   
   func medication(sequence: Int = 1) -> CDAKMedication {
     let _medication = CDAKMedication()
-    _medication.codes = CDAKCodedEntries(entries: ["RxNorm" : ["105075"]])
+    _medication.codes = CDAKCodedEntries(codeSystem: "RxNorm", code: "105075")
     _medication.item_description = "Tobacco Cessation Agent"
     _medication.start_time = 1267332332
     _medication.end_time = 1267333332
@@ -200,20 +200,20 @@ class TestRecord {
     _medication.dose.unit = "Strips"
     
     _medication.status = "complete"
-    _medication.type_of_medication = CDAKCodedEntries(entries: ["SNOMED-CT" : ["12345"]])
-    _medication.status_of_medication = CDAKCodedEntries(entries: ["SNOMED-CT" : ["12345"]])
-    _medication.route = CDAKCodedEntries(entries: ["NCI Thesaurus" : ["12345"]])
-    _medication.anatomical_approach = CDAKCodedEntries(entries: ["SNOMED-CT" : ["12345"]])
+    _medication.type_of_medication = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "12345")
+    _medication.status_of_medication = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "12345")
+    _medication.route = CDAKCodedEntries(codeSystem: "NCI Thesaurus", code: "12345")
+    _medication.anatomical_approach = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "12345")
     
     //NOTE - I can't imagine how this would work - the restrictions appear to be in the form of high/low
     // refer back to the C32 example (only one I can find)
 //    _medication.dose_restriction = CDAKCodedEntries(entries: ["RxNorm" : ["12345"]])
     _medication.fulfillment_instructions = "Fulfillment Instructions"
-    _medication.indication = CDAKCodedEntries(entries: ["SNOMED-CT" : ["12345"]])
-    _medication.vehicle = CDAKCodedEntries(entries: ["SNOMED-CT" : ["12345"]])
-    _medication.reaction = CDAKCodedEntries(entries: ["RxNorm" : ["12345"]])
-    _medication.product_form = CDAKCodedEntries(entries: ["FDA" : ["12345"]])
-    _medication.delivery_method = CDAKCodedEntries(entries: ["RxNorm" : ["12345"]])
+    _medication.indication = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "12345")
+    _medication.vehicle = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "12345")
+    _medication.reaction = CDAKCodedEntries(codeSystem: "RxNorm", code: "12345")
+    _medication.product_form = CDAKCodedEntries(codeSystem: "FDA", code: "12345")
+    _medication.delivery_method = CDAKCodedEntries(codeSystem: "RxNorm", code: "12345")
     _medication.patient_instructions = "Take with Water"
     _medication.fulfillment_history = [fulfillment_history()]
     _medication.order_information = [orderInformation()]
@@ -233,10 +233,10 @@ class TestRecord {
   
   func procedure(sequence: Int = 1) -> CDAKProcedure {
     let _procedure = CDAKProcedure()
-    _procedure.codes = CDAKCodedEntries(entries: ["SNOMED-CT" : ["171055003"]])
+    _procedure.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "171055003")
     _procedure.start_time = 1257901150
     _procedure.end_time  = 1258901150
-    _procedure.anatomical_target = CDAKCodedEntries(entries: ["SNOMED-CT" : ["12341234"]])
+    _procedure.anatomical_target = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "12341234")
     
     return _procedure
   }
@@ -262,13 +262,17 @@ class TestRecord {
   
   func vital_sign(sequence: Int = 1) -> CDAKVitalSign {
     let _vital_sign = CDAKVitalSign()
-    _vital_sign.codes = CDAKCodedEntries(entries: ["SNOMED-CT" : ["225171007"]])
+    _vital_sign.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "225171007")
     _vital_sign.time = 1266664414
     _vital_sign.item_description = "BMI"
     
     return _vital_sign
   }
   
+  //disabling these, but leaving them here for reference
+  // these were the original Ruby HDS metadata tests for Record import
+  // In reviewing the code, these weren't really used when handling XML generation, so I opted to remove them and instead replace them with the QRDA I headers.  They should be _identical_.
+  /*
   func link_info(sequence: Int = 1) -> CDAKMetadataLinkInfo {
     let _link_info = CDAKMetadataLinkInfo()
     _link_info.href = "http://t1.x.y.com"
@@ -302,5 +306,6 @@ class TestRecord {
     
     return _metadata
   }
+  */
   
 }

@@ -49,14 +49,18 @@ class CDAKImport_CDA_MedicalEquipmentImporter: CDAKImport_CDA_SectionImporter {
 
   private func extract_anatomical_structure(entry_element: XMLElement, entry: CDAKMedicalEquipment) {
     if let site = entry_element.xpath(anatomical_xpath).first {
-      if let code = site["code"], code_system_oid = site["codeSystem"] {
-        if let codeSystemName = site["codeSystemName"] {
-          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
-        }
-        let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
-        let ce = CDAKCodedEntries(entries: CDAKCodedEntry(codeSystem: code_system, codes: code))
-        entry.anatomical_structure = ce
-      }
+//      entry.anatomical_structure.addCodes(CDAKImport_C32_PatientImporter.getCodedEntryForElement(site))
+
+      entry.anatomical_structure.addCodes(CDAKImport_CDA_SectionImporter.extract_code(site, code_xpath: "."))
+
+//      if let code = site["code"], code_system_oid = site["codeSystem"] {
+//        if let codeSystemName = site["codeSystemName"] {
+//          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
+//        }
+//        let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
+//        let ce = CDAKCodedEntries(entries: CDAKCodedEntry(codeSystem: code_system, codes: code))
+//        entry.anatomical_structure = ce
+//      }
     }
   }
   

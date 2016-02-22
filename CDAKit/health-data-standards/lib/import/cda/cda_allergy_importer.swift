@@ -34,15 +34,9 @@ class CDAKImport_CDA_AllergyImporter: CDAKImport_CDA_SectionImporter {
 
       extract_negation(entry_element, entry: allergy)
 
-      if let types = extract_code(entry_element, code_xpath: type_xpath) {
-        allergy.type = CDAKCodedEntries(entries: types)
-      }
-      if let reactions = extract_code(entry_element, code_xpath: reaction_xpath) {
-        allergy.reaction = CDAKCodedEntries(entries: reactions)
-      }
-      if let severity = extract_code(entry_element, code_xpath: severity_xpath) {
-        allergy.severity = CDAKCodedEntries(entries: severity)
-      }
+      allergy.type.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: type_xpath))
+      allergy.reaction.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: reaction_xpath))
+      allergy.severity.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: severity_xpath))
       
       return allergy
     }

@@ -41,14 +41,15 @@ class CDASectionImporterTest: XCTestCase {
     let entries = si.create_entries(doc)
     let entry = entries[1]
     XCTAssertEqual(1026777600, entry.time)
-    XCTAssert(entry.codes["SNOMED-CT"]?.codes.contains("314443004") == true)
+    
+    XCTAssert(entry.codes.containsCode(withCodeSystem: "SNOMED-CT", andCode: "314443004") == true)
   }
   
   func test_create_entries_with_date_values() {
     let entries = si.create_entries(doc)
     let entry = entries[2]
     XCTAssertEqual(1026777600, entry.time)
-    XCTAssert(entry.codes["SNOMED-CT"]?.codes.contains("314443004") == true)
+    XCTAssert(entry.codes.containsCode(withCodeSystem: "SNOMED-CT", andCode: "314443004") == true)
     XCTAssertEqual("eleventeen", (entry.values.first as? CDAKPhysicalQuantityResultValue)?.scalar)
     XCTAssertEqual("active", entry.status)
   }
@@ -65,7 +66,7 @@ class CDASectionImporterTest: XCTestCase {
     let entries = si.create_entries(doc)
     let entry = entries[1]
     XCTAssertEqual(1026777600, entry.time)
-    XCTAssert(entry.codes["SNOMED-CT"]?.codes.contains("12345") == true)
+    XCTAssert(entry.codes.containsCode(withCodeSystem: "SNOMED-CT", andCode: "12345") == true)
   }
   
   func test_dealing_with_center_times() {

@@ -36,7 +36,7 @@ class HealthKitRecordTest: XCTestCase {
       //let's create a new vital
       // use the coded values to govern "meaning" (height, weight, BMI, BP items, etc.)
       let aVital = CDAKVitalSign()
-      aVital.codes.addCodes("LOINC", codes: ["3141-9"]) //weight
+      aVital.codes.addCodes("LOINC", code: "3141-9") //weight
       aVital.values.append(CDAKPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
       aVital.start_time = NSDate().timeIntervalSince1970
       aVital.end_time = NSDate().timeIntervalSince1970
@@ -73,10 +73,10 @@ class HealthKitRecordTest: XCTestCase {
     aRecord.last = "Jones"
     
     let anAllergy = CDAKAllergy()
-    anAllergy.codes.addCodes(CDAKVocabularyKeys.LOINC, codes: ["abc123"])
+    anAllergy.codes.addCodes(CDAKVocabularyKeys.LOINC, code: "abc123", displayName: "Not a real code")
     
     let aVital = CDAKVitalSign()
-    aVital.codes.addCodes("LOINC", codes: ["3141-9"]) //weight
+    aVital.codes.addCodes("LOINC", code: "3141-9", displayName: "Weight") //weight
     aVital.values.append(CDAKPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
     aVital.start_time = NSDate().timeIntervalSince1970
     aVital.end_time = NSDate().timeIntervalSince1970
@@ -198,7 +198,7 @@ class HealthKitRecordTest: XCTestCase {
       hds_hrEntry.start_time = x
       hds_hrEntry.end_time = x
       hds_hrEntry.values.append(CDAKPhysicalQuantityResultValue(scalar: 86, units: "count/min"))
-      hds_hrEntry.codes.addCodes("LOINC", codes: "8867-4")
+      hds_hrEntry.codes.addCodes("LOINC", code: "8867-4")
       patient.vital_signs.append(hds_hrEntry)
     }
     
@@ -233,7 +233,7 @@ class HealthKitRecordTest: XCTestCase {
     hds_hrEntry.start_time = 1390666620
     hds_hrEntry.end_time = 1390666620
     hds_hrEntry.values.append(CDAKPhysicalQuantityResultValue(scalar: 86, units: "count/min"))
-    hds_hrEntry.codes.addCodes("LOINC", codes: "8867-4")
+    hds_hrEntry.codes.addCodes("LOINC", code: "8867-4")
     
     //let hk_hrEntry = CDAKHealthKitBridge.heartRate(hds_hrEntry)
     let hk_hrEntry = CDAKHealthKitBridge.sharedInstance.sampleForEntry(hds_hrEntry, forSampleType: CDAKHealthKitBridge.CDAKHKQuantityIdentifiers.HKQuantityTypeIdentifierHeartRate)
@@ -270,7 +270,7 @@ class HealthKitRecordTest: XCTestCase {
     hds_hrEntry.start_time = 1390666620
     hds_hrEntry.end_time = 1390666620
     hds_hrEntry.values.append(CDAKPhysicalQuantityResultValue(scalar: 86, units: "beats"))//count/min
-    hds_hrEntry.codes.addCodes("LOINC", codes: "8867-4")
+    hds_hrEntry.codes.addCodes("LOINC", code: "8867-4")
     
     let hk_hrEntry_nil = CDAKHealthKitBridge.sharedInstance.sampleForEntry(hds_hrEntry, forSampleType: CDAKHealthKitBridge.CDAKHKQuantityIdentifiers.HKQuantityTypeIdentifierHeartRate)
 

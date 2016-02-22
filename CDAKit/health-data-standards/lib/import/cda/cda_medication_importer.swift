@@ -37,21 +37,21 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
 
       extract_administration_timing(entry_element, medication: medication)
       
-      medication.route = CDAKCodedEntries(entries: extract_code(entry_element, code_xpath: "./cda:routeCode"))
+      medication.route.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: "./cda:routeCode"))
       if let a_dose = extract_scalar(entry_element, scalar_xpath: "./cda:doseQuantity") {
         medication.dose = a_dose
       }
-      medication.anatomical_approach = CDAKCodedEntries(entries: extract_code(entry_element, code_xpath: "./cda:approachSiteCode", code_system: "SNOMED-CT"))
+      medication.anatomical_approach.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: "./cda:approachSiteCode", code_system: "SNOMED-CT"))
       
       extract_dose_restriction(entry_element, medication: medication)
       
-      medication.product_form = CDAKCodedEntries(entries: extract_code(entry_element, code_xpath: "./cda:administrationUnitCode", code_system: "NCI Thesaurus"))
-      medication.delivery_method = CDAKCodedEntries(entries: extract_code(entry_element, code_xpath: "./cda:code", code_system: "SNOMED-CT"))
+      medication.product_form.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: "./cda:administrationUnitCode", code_system: "NCI Thesaurus"))
+      medication.delivery_method.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: "./cda:code", code_system: "SNOMED-CT"))
       if let type_of_med_xpath = type_of_med_xpath {
-        medication.type_of_medication = CDAKCodedEntries(entries: extract_code(entry_element, code_xpath: type_of_med_xpath, code_system: "SNOMED-CT"))
+        medication.type_of_medication.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: type_of_med_xpath, code_system: "SNOMED-CT"))
       }
-      medication.indication = CDAKCodedEntries(entries: extract_code(entry_element, code_xpath: indication_xpath, code_system: "SNOMED-CT"))
-      medication.vehicle = CDAKCodedEntries(entries: extract_code(entry_element, code_xpath: vehicle_xpath, code_system: "SNOMED-CT"))
+      medication.indication.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: indication_xpath, code_system: "SNOMED-CT"))
+      medication.vehicle.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: vehicle_xpath, code_system: "SNOMED-CT"))
       
       extract_order_information(entry_element, medication: medication)
       

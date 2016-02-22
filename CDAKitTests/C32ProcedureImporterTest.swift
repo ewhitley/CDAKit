@@ -35,18 +35,18 @@ class C32ProcedureImporterTest: XCTestCase {
       
       let procedure0 = patient.procedures[0]
       XCTAssertTrue(procedure0.negation_ind == false) //check on this...
-      XCTAssertTrue(procedure0.codes.containsCode("SNOMED-CT", withCode: "52734007"))
+      XCTAssertTrue(procedure0.codes.containsCode(withCodeSystem: "SNOMED-CT", andCode: "52734007"))
       XCTAssertEqual(procedure0.performer?.title, "Dr.")
       XCTAssertEqual(procedure0.performer?.family_name, "Kildare")
-      XCTAssertTrue(procedure0.anatomical_target.containsCode("SNOMED-CT", withCode: "1234567"))
+      XCTAssertTrue(procedure0.anatomical_target.containsCode(withCodeSystem: "SNOMED-CT", andCode: "1234567"))
 
       let procedure1 = patient.procedures[1]
       XCTAssertTrue(procedure1.negation_ind == true)  // check on this, too...
       XCTAssertEqual("PATOBJ", procedure1.negation_reason.codes.first?.code)
-      XCTAssertTrue(procedure1.codes.containsCode("SNOMED-CT", withCode: "52734007"))
+      XCTAssertTrue(procedure1.codes.containsCode(withCodeSystem: "SNOMED-CT", andCode: "52734007"))
       XCTAssertEqual(procedure1.performer?.title, "Dr.")
       XCTAssertEqual(procedure1.performer?.family_name, "Watson")
-      XCTAssertTrue(procedure1.anatomical_target.containsCode("SNOMED-CT", withCode: "1234567"))
+      XCTAssertTrue(procedure1.anatomical_target.containsCode(withCodeSystem: "SNOMED-CT", andCode: "1234567"))
       
     } catch {
       print("boom")

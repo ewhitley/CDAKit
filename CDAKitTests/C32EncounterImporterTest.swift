@@ -37,18 +37,23 @@ class C32EncounterImporterTest: XCTestCase {
       let patient = pi.parse_c32(doc)
       
       let encounter = patient.encounters[0]
-      XCTAssertEqual(encounter.codes.containsCode("CPT", withCode: "99241"), true)
+      
+      print("condition.codes = \(patient.conditions.map({$0.codes}))")
+      
+      print("encounter.codes = \(encounter.codes)")
+      
+      XCTAssertEqual(encounter.codes.containsCode(withCodeSystem: "CPT", andCode: "99241"), true)
       XCTAssertEqual(encounter.performer?.title, "Dr.")
       XCTAssertEqual(encounter.performer?.family_name, "Kildare")
       XCTAssertEqual(encounter.facility?.name, "Good Health Clinic")
-      XCTAssertEqual(encounter.reason?.codes.containsCode("SNOMED-CT", withCode: "308292007"), true)
+      XCTAssertEqual(encounter.reason?.codes.containsCode(withCodeSystem: "SNOMED-CT", andCode: "308292007"), true)
 
-      XCTAssertEqual(encounter.admit_type.containsCode("CPT", withCode: "xyzzy"), true)
+      XCTAssertEqual(encounter.admit_type.containsCode(withCodeSystem: "CPT", andCode: "xyzzy"), true)
       XCTAssertEqual(encounter.facility?.codes.codeSystems.contains("HL7 Healthcare Service Location"), true)
       
       XCTAssertEqual(encounter.facility?.start_time, HL7Helper.timestamp_to_integer("20000407000000"))
 
-      XCTAssertEqual(encounter.facility?.codes.containsCode("HL7 Healthcare Service Location", withCode: "1117-1"), true)
+      XCTAssertEqual(encounter.facility?.codes.containsCode(withCodeSystem: "HL7 Healthcare Service Location", andCode: "1117-1"), true)
 
       
     } catch {

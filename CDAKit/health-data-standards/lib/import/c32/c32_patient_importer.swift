@@ -205,29 +205,50 @@ class CDAKImport_C32_PatientImporter {
 
     //# parse race, ethnicity, and spoken language
     // NOTE: changing this from original CDAK Ruby to support multiple races, ethnicities, and languages
-    var races: [String:[String]] = [:]
-    var some_races : [String] = []
+//    var races: [String:[String]] = [:]
+//    var some_races : [String] = []
     for race_node in patient_element.xpath("cda:raceCode") {
-      if let race_code = race_node["code"] {
-        some_races.append(race_code)
+//      if let an_entry = CDAKImport_C32_PatientImporter.getCodedEntryForElement(race_node, replaceCodeSystemWith: "CDC-RE") {
+//        patient.race.addCodes(an_entry)
+//      }
+      if let an_entry = CDAKImport_CDA_SectionImporter.extract_code(race_node, code_xpath: ".", code_system: "CDC-RE") {
+        patient.race.addCodes(an_entry)
       }
-    }
-    if some_races.count > 0 {
-      races["CDC-RE"] = some_races
-      patient.race = CDAKCodedEntries(entries: races)
-    }
 
-    var ethnicities: [String:[String]] = [:]
-    var some_ethnicities : [String] = []
+//      if let race_code = race_node["code"] {
+//        some_races.append(race_code)
+//      }
+    }
+//    if some_races.count > 0 {
+//      //races["CDC-RE"] = some_races
+//      for race in some_races {
+//        patient.race.addCodes("CDC-RE", code: race)
+//      }
+//      //patient.race = CDAKCodedEntries(entries: races)
+//    }
+
+//    var ethnicities: [String:[String]] = [:]
+//    var some_ethnicities : [String] = []
     for ethnicity_node in patient_element.xpath("cda:ethnicGroupCode") {
-      if let ethnicity_code = ethnicity_node["code"] {
-        some_ethnicities.append(ethnicity_code)
+//      if let an_entry = CDAKImport_C32_PatientImporter.getCodedEntryForElement(ethnicity_node, replaceCodeSystemWith: "CDC-RE") {
+//        patient.ethnicity.addCodes(an_entry)
+//      }
+
+      if let an_entry = CDAKImport_CDA_SectionImporter.extract_code(ethnicity_node, code_xpath: ".", code_system: "CDC-RE") {
+        patient.ethnicity.addCodes(an_entry)
       }
+
+      //      if let ethnicity_code = ethnicity_node["code"] {
+//        some_ethnicities.append(ethnicity_code)
+//      }
     }
-    if some_ethnicities.count > 0 {
-      ethnicities["CDC-RE"] = some_ethnicities
-      patient.ethnicity = CDAKCodedEntries(entries: ethnicities)
-    }
+//    if some_ethnicities.count > 0 {
+//      //ethnicities["CDC-RE"] = some_ethnicities
+//      //patient.ethnicity = CDAKCodedEntries(entries: ethnicities)
+//      for eth in some_ethnicities {
+//        patient.ethnicity.addCodes("CDC-RE", code: eth)
+//      }
+//    }
 
     if let marital_status_node = patient_element.xpath("./cda:maritalStatusCode").first, code = marital_status_node["code"] {
       patient.marital_status = CDAKCodedEntries(codeSystem: "HL7 Marital Status", code: code)
@@ -243,14 +264,31 @@ class CDAKImport_C32_PatientImporter {
         //NOTE - I'm making up the code system here... 
         // I'm also throwing in displayName
         let displayName = lc.xpath("cda:languageCode").first?["displayName"]
-        let lang = CDAKCodedEntry(codeSystem: "RFC_4646", codes: code, displayName: displayName)
-        patient.languages.append(CDAKCodedEntries(entries: lang))
+        let lang = CDAKCodedEntry(codeSystem: "RFC_4646", code: code, displayName: displayName)
+        var entries = CDAKCodedEntries()
+        entries.addCodes(lang)
+        patient.languages.append(entries)
       }
     }
 
 
     patient.addresses = patient_role_element.xpath("./cda:addr").map({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
     patient.telecoms = patient_role_element.xpath("./cda:telecom").map({telecom in CDAKImport_CDA_LocatableImportUtils.import_telecom(telecom)})
-}
+  }
+  
+  
+//  class func getCodedEntryForElement(elem: XMLElement, replaceCodeSystemWith codeSystemAlt: String? = nil) -> CDAKCodedEntry? {
+//    let codeSystem = codeSystemAlt ?? elem["codeSystem"]
+//    let codeSystemOID = elem["codeSystemOID"]
+//    let code = elem["code"]
+//    let displayName = elem["displayName"]
+//    
+//    if let code = code, codeSystem = codeSystem {
+//      CDAKCodeSystemHelper.addCodeSystem(codeSystem, oid: codeSystemOID)
+//      return CDAKCodedEntry(codeSystem: codeSystem, code: code, codeSystemOid: codeSystemOID, displayName: displayName)
+//    }
+//    
+//    return nil
+//  }
   
 }

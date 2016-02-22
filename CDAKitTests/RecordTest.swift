@@ -99,16 +99,24 @@ class CDAKRecordTest: XCTestCase {
     //NOTE: altering the test case.  The original test case uses Ruby hashes (:codes) for the test case
     // This is difficult to do in Swift and in reviewing the code, it appears this is only ever a [String:[String]]
     // type - I am changing the test cases to better conform with this assumption
-    record.encounters.append(CDAKEncounter(cda_identifier: identifier, codes: CDAKCodedEntries(entries: ["x":["y", "z"]]), values: [value_a]))
-    record.encounters.append(CDAKEncounter(cda_identifier: identifier, codes: CDAKCodedEntries(entries: ["a":["b"], "x":["y"]]), values: [value_b]))
+    var ce = CDAKCodedEntries()
+    ce.addCodes("x", code: "y")
+    ce.addCodes("x", code: "z")
+    record.encounters.append(CDAKEncounter(cda_identifier: identifier, codes: ce, values: [value_a]))
+    var ce2 = CDAKCodedEntries()
+    ce2.addCodes("a", code: "b")
+    ce2.addCodes("x", code: "y")
+    record.encounters.append(CDAKEncounter(cda_identifier: identifier, codes: ce2, values: [value_b]))
 
     XCTAssertEqual(2, record.encounters.count)
 
     record.dedup_section("encounters")
     
     XCTAssertEqual(1, record.encounters.count)
-
-    XCTAssertEqual(CDAKCodedEntries(entries: ["x":["y", "z"], "a":["b"]]), record.encounters[0].codes)
+    var ces3 = ce
+    ces3.addCodes("a", code: "b")
+    
+    XCTAssertEqual(ces3, record.encounters[0].codes)
 
     let z: [CDAKPhysicalQuantityResultValue] = [value_a, value_b]
     XCTAssertEqual(z, record.encounters[0].values as! [CDAKPhysicalQuantityResultValue])
@@ -124,8 +132,18 @@ class CDAKRecordTest: XCTestCase {
     let value_a = CDAKPhysicalQuantityResultValue(scalar: 10)
     let value_b = CDAKPhysicalQuantityResultValue(scalar: 20)
     
-    record.procedures.append(CDAKProcedure(cda_identifier: identifier, codes: CDAKCodedEntries(entries:["x":["y", "z"]]), values: [value_a]))
-    record.procedures.append(CDAKProcedure(cda_identifier: identifier, codes: CDAKCodedEntries(entries:["a":["b"], "x":["y"]]), values: [value_b]))
+//    record.procedures.append(CDAKProcedure(cda_identifier: identifier, codes: CDAKCodedEntries(entries:["x":["y", "z"]]), values: [value_a]))
+//    record.procedures.append(CDAKProcedure(cda_identifier: identifier, codes: CDAKCodedEntries(entries:["a":["b"], "x":["y"]]), values: [value_b]))
+
+    var ce = CDAKCodedEntries()
+    ce.addCodes("x", code: "y")
+    ce.addCodes("x", code: "z")
+    record.procedures.append(CDAKProcedure(cda_identifier: identifier, codes: ce, values: [value_a]))
+    var ce2 = CDAKCodedEntries()
+    ce2.addCodes("a", code: "b")
+    ce2.addCodes("x", code: "y")
+    record.procedures.append(CDAKProcedure(cda_identifier: identifier, codes: ce2, values: [value_b]))
+
     
     XCTAssertEqual(2, record.procedures.count)
     
@@ -133,7 +151,11 @@ class CDAKRecordTest: XCTestCase {
     
     XCTAssertEqual(1, record.procedures.count)
     
-    XCTAssertEqual(CDAKCodedEntries(entries:["x":["y", "z"], "a":["b"]]), record.procedures[0].codes)
+    var ces3 = ce
+    ces3.addCodes("a", code: "b")
+    
+    XCTAssertEqual(ces3, record.procedures[0].codes)
+//    XCTAssertEqual(CDAKCodedEntries(entries:["x":["y", "z"], "a":["b"]]), record.procedures[0].codes)
     
     let z: [CDAKPhysicalQuantityResultValue] = [value_a, value_b]
     XCTAssertEqual(z, record.procedures[0].values as! [CDAKPhysicalQuantityResultValue])
@@ -148,8 +170,18 @@ class CDAKRecordTest: XCTestCase {
     let value_a = CDAKPhysicalQuantityResultValue(scalar: 10)
     let value_b = CDAKPhysicalQuantityResultValue(scalar: 20)
     
-    record.results.append(CDAKLabResult(cda_identifier: identifier, codes: CDAKCodedEntries(entries:["x":["y", "z"]]), values: [value_a]))
-    record.results.append(CDAKLabResult(cda_identifier: identifier, codes: CDAKCodedEntries(entries:["a":["b"], "x":["y"]]), values: [value_b]))
+//    record.results.append(CDAKLabResult(cda_identifier: identifier, codes: CDAKCodedEntries(entries:["x":["y", "z"]]), values: [value_a]))
+//    record.results.append(CDAKLabResult(cda_identifier: identifier, codes: CDAKCodedEntries(entries:["a":["b"], "x":["y"]]), values: [value_b]))
+    
+    var ce = CDAKCodedEntries()
+    ce.addCodes("x", code: "y")
+    ce.addCodes("x", code: "z")
+    record.results.append(CDAKLabResult(cda_identifier: identifier, codes: ce, values: [value_a]))
+    var ce2 = CDAKCodedEntries()
+    ce2.addCodes("a", code: "b")
+    ce2.addCodes("x", code: "y")
+    record.results.append(CDAKLabResult(cda_identifier: identifier, codes: ce2, values: [value_b]))
+
     
     XCTAssertEqual(2, record.results.count)
     
@@ -157,7 +189,11 @@ class CDAKRecordTest: XCTestCase {
     
     XCTAssertEqual(1, record.results.count)
     
-    XCTAssertEqual(CDAKCodedEntries(entries:["x":["y", "z"], "a":["b"]]), record.results[0].codes)
+    var ces3 = ce
+    ces3.addCodes("a", code: "b")
+    
+    XCTAssertEqual(ces3, record.results[0].codes)
+    //XCTAssertEqual(CDAKCodedEntries(entries:["x":["y", "z"], "a":["b"]]), record.results[0].codes)
     
     let z: [CDAKPhysicalQuantityResultValue] = [value_a, value_b]
     XCTAssertEqual(z, record.results[0].values as! [CDAKPhysicalQuantityResultValue])

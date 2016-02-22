@@ -39,8 +39,8 @@ class C32ImmunizationImporterTest: XCTestCase {
       
       let immunization0 = patient.immunizations[0]
       
-      XCTAssertEqual(immunization0.codes.containsCode("CVX", withCode: "88"), true)
-      XCTAssertEqual(immunization0.codes.containsCode("CVX", withCode: "111"), true)
+      XCTAssertEqual(immunization0.codes.containsCode(withCodeSystem: "CVX", andCode: "88"), true)
+      XCTAssertEqual(immunization0.codes.containsCode(withCodeSystem: "CVX", andCode: "111"), true)
 
       let immunization1 = patient.immunizations[1]
       XCTAssertEqual(immunization1.refusal_ind, false)

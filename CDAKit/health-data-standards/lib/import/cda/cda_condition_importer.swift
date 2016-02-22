@@ -51,14 +51,18 @@ class CDAKImport_CDA_ConditionImporter: CDAKImport_CDA_SectionImporter {
   
   private func extract_ordinality(parent_element: XMLElement, condition: CDAKCondition) {
     if let ordinality_element = parent_element.xpath(ordinality_xpath).first {
-      if let code = ordinality_element["code"], code_system_oid = ordinality_element["codeSystem"] {
-        if let codeSystemName = ordinality_element["codeSystemName"] {
-          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
-        }
-        let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
-        let ce = CDAKCodedEntries(entries: CDAKCodedEntry(codeSystem: code_system, codes: code))
-        condition.ordinality = ce
-      }
+//      condition.ordinality.addCodes(CDAKImport_C32_PatientImporter.getCodedEntryForElement(ordinality_element))
+
+      condition.ordinality.addCodes(CDAKImport_CDA_SectionImporter.extract_code(ordinality_element, code_xpath: "."))
+
+//      if let code = ordinality_element["code"], code_system_oid = ordinality_element["codeSystem"] {
+//        if let codeSystemName = ordinality_element["codeSystemName"] {
+//          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
+//        }
+//        let code_system = CDAKCodeSystemHelper.code_system_for(code_system_oid)
+//        let ce = CDAKCodedEntries(entries: CDAKCodedEntry(codeSystem: code_system, codes: code))
+//        condition.ordinality = ce
+//      }
       
     }
   }

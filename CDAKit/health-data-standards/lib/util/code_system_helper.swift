@@ -66,7 +66,8 @@ public class CDAKCodeSystemHelper {
   public static let CODE_SYSTEM_ALIASES: [String:String] = [
     "FDA SPL" : "NCI Thesaurus", //Structured Product Labeling?
     "HSLOC" : "HL7 Healthcare Service Location",
-    "SOP" : "Source of Payment Typology"
+    "SOP" : "Source of Payment Typology",
+    "CDC-RE" : "Race & Ethnicity - CDC"
   ]
   
   /// Some old OID are still around in data, this hash maps retired OID values to
@@ -79,11 +80,12 @@ public class CDAKCodeSystemHelper {
   /// Returns the name of a code system given an oid
   /// - parameter oid: [String] oid of a code system
   /// - returns: [String] the name of the code system as described in the measure definition JSON
-  public class func code_system_for(var oid: String) -> String {
+  public class func code_system_for(oid: String) -> String {
+    var an_oid = oid
     if let an_alias = OID_ALIASES[oid] {
-      oid = an_alias
+      an_oid = an_alias
     }
-    if let a_value = CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS[oid] {
+    if let a_value = CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS[an_oid] {
       return a_value
     }
     

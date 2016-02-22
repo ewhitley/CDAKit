@@ -96,7 +96,7 @@ class CDAKUtility {
               codeSystem = defaultCodeSystem
             }
             if let codeSystem = codeSystem {
-              result.addCodes(codeSystem, codes: [code])
+              result.addCodes(codeSystem, code: code)
               //result[codeSystem] = [code]
             }
           }
@@ -128,7 +128,11 @@ class CDAKUtility {
 //    }
     else if let value = value as? [String:[String]] {
       for (key, value) in value {
-        result.addCodes(key, codes: value.filter({$0 != nil}).map({String($0)}).filter({$0 != "<null>"}))
+        for code in value {
+          if code != "<null>" {
+            result.addCodes(key, code: code)
+          }
+        }
       }
     }
     else if let value = value as? [String:Any?] {
@@ -136,10 +140,19 @@ class CDAKUtility {
         if let value = value {
           //print(value)
           if let values = value as? [Any?] {
-            result.addCodes(key, codes: values.filter({$0 != nil}).map({String($0)}).filter({$0 != "<null>"}))
+            for code in values {
+              if let code = code as? String where code != "<null>" {
+                result.addCodes(key, code: code)
+              }
+            }
             //result[key] = values.filter({$0 != nil}).map({String($0)}).filter({$0 != "<null>"})
           } else if let values = value as? [Any] {
-            result.addCodes(key, codes: values.map({String($0)}).filter({$0 != "<null>"}))
+            //result.addCodes(key, codes: values.map({String($0)}).filter({$0 != "<null>"}))
+            for code in values {
+              if let code = code as? String where code != "<null>" {
+                result.addCodes(key, code: code)
+              }
+            }
             //result[key] = values.map({String($0)}).filter({$0 != "<null>"})
           }
         }

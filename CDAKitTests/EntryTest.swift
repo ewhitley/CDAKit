@@ -19,12 +19,19 @@ class EntryTest: XCTestCase {
     
 //    let entry = CDAKEntry()
     entry = CDAKEntry()
-    entry.codes = CDAKCodedEntries(entries:[
-      "SNOMED-CT" : ["1234", "5678", "AABB"],
-      "LOINC" : ["CCDD", "EEFF"],
-      "ICD-9-CM" : ["GGHH"]
-    ])
+    var codes = CDAKCodedEntries()
+    let entries: [String:[String]] = [
+    "SNOMED-CT" : ["1234", "5678", "AABB"],
+    "LOINC" : ["CCDD", "EEFF"],
+    "ICD-9-CM" : ["GGHH"]
+    ]
+    for (system, code_list) in entries {
+      for code in code_list {
+        codes.addCodes(system, code: code)
+      }
+    }
     
+    entry.codes = codes
       // Put setup code here. This method is called before the invocation of each test method in the class.
   }
   
@@ -35,13 +42,14 @@ class EntryTest: XCTestCase {
   
   func test_preferred_code() {
     
+    //print(entry.codes)
     var preferred_code = entry.preferred_code(["ICD-9-CM"])
     XCTAssertEqual("ICD-9-CM", preferred_code!.codeSystem)
     XCTAssertEqual("GGHH", preferred_code!.code)
     
     preferred_code = entry.preferred_code(["LOINC"])
     XCTAssertEqual("LOINC", preferred_code!.codeSystem)
-    XCTAssert(["CCDD", "EEFF"].contains(preferred_code!.code!))
+    XCTAssert(["CCDD", "EEFF"].contains(preferred_code!.code))
 
     //sample from the view helper test case
     let fields: [String:Any?] = [
@@ -59,13 +67,13 @@ class EntryTest: XCTestCase {
   func test_translation_codes() {
 
     let translation_codes = entry.translation_codes(["ICD-9-CM"])
-    print("test_translation_codes -> translation_codes: \(translation_codes.codeDictionary)")
-    XCTAssertEqual(5, translation_codes.arrayOfFlattenedCodedEntry.count)
+    print("test_translation_codes -> translation_codes: \(translation_codes)")
+    XCTAssertEqual(5, translation_codes.numberOfDistinctCodes)
     //print("translation_codes = '\(translation_codes)'")
 //    XCTAssert(translation_codes.contains({ $0 == ["code_set" : "LOINC", "code" : "CCDD"] }))
 //    XCTAssert(!translation_codes.contains({ $0 == ["code_set" : "ICD-9-CM", "code" : "GGHH"] }))
-    XCTAssert(translation_codes.containsCode("LOINC", withCode: "CCDD"))
-    XCTAssert(!translation_codes.containsCode("ICD-9-CM", withCode: "GGHH"))
+    XCTAssert(translation_codes.containsCode(withCodeSystem: "LOINC", andCode: "CCDD"))
+    XCTAssert(!translation_codes.containsCode(withCodeSystem: "ICD-9-CM", andCode: "GGHH"))
     
   }
 
@@ -105,7 +113,7 @@ class EntryTest: XCTestCase {
 //    print(String(hash["code"]!!))
 //    print(entry.codes[String(hash["code_set"]!!)]!)
 //    XCTAssertEqual([String(hash["code"]!)], entry.codes[String(hash["code_set"]!!)]!)
-    XCTAssertEqual([String(hash["code"]!)], entry.codes["RxNorm"]!.codes)
+    XCTAssertEqual([String(hash["code"]!)], [entry.codes["RxNorm"]!.first!.code])
     XCTAssertEqual(String(hash["value"]!!), (entry.values.first as! CDAKPhysicalQuantityResultValue).scalar)
     XCTAssertEqual(String(hash["unit"]!!), (entry.values.first as! CDAKPhysicalQuantityResultValue).units)
     XCTAssertEqual(String(hash["specifics"]!!), entry.specifics)
@@ -129,18 +137,29 @@ class EntryTest: XCTestCase {
     entry.add_code("854935", code_system: "RxNorm")
     entry.add_code("44556699", code_system: "RxNorm")
     entry.add_code("1245", code_system: "Junk")
-    XCTAssert(entry.is_in_code_set([
-      CDAKCodedEntries(entries: ["RxNorm": ["854935", "5440"], "SNOMED-CT" : ["24601"]])
-    ]))
+    var some_codes = CDAKCodedEntries()
+    some_codes.addCodes("RxNorm", code: "854935")
+    some_codes.addCodes("RxNorm", code: "5440")
+    some_codes.addCodes("SNOMED-CT", code: "24601")
+    XCTAssert(entry.is_in_code_set([some_codes]))
+//    XCTAssert(entry.is_in_code_set([
+//      CDAKCodedEntries(entries: ["RxNorm": ["854935", "5440"], "SNOMED-CT" : ["24601"]])
+//    ]))
   }
 
   func test_is_not_in_code_set() {
     let entry = CDAKEntry()
     entry.add_code("44556699", code_system: "RxNorm")
     entry.add_code("1245", code_system: "Junk")
-    XCTAssert(!entry.is_in_code_set([
-      CDAKCodedEntries(entries: ["RxNorm": ["854935", "5440"], "SNOMED-CT" : ["24601"]])
-    ]))
+    var some_codes = CDAKCodedEntries()
+    some_codes.addCodes("RxNorm", code: "854935")
+    some_codes.addCodes("RxNorm", code: "5440")
+    some_codes.addCodes("SNOMED-CT", code: "24601")
+    XCTAssert(!entry.is_in_code_set([some_codes]))
+
+//    XCTAssert(!entry.is_in_code_set([
+//      CDAKCodedEntries(entries: ["RxNorm": ["854935", "5440"], "SNOMED-CT" : ["24601"]])
+//    ]))
   }
 
   func test_equality() {
@@ -162,6 +181,8 @@ class EntryTest: XCTestCase {
     XCTAssert(entry1 != entry3)
   }
 
+  //removing this - will be removing this functionality and moving to JSON
+  /*
   func test_to_hash() {
     
     let entry = CDAKEntry()
@@ -176,6 +197,7 @@ class EntryTest: XCTestCase {
 //    XCTAssert((h["codes"]! as! [String:[String]])["RxNorm"]!.contains("44556699"))
     
   }
+*/
 
   func test_identifier_id() {
     let entry = CDAKEntry()

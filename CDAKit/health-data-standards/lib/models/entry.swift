@@ -146,11 +146,11 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   func status_legacy() -> String? {
     
     if status_code.count > 0 {
-      if let hl7 = status_code["HL7 ActStatus"] {
-        return hl7.first
-      } else if let snomed = status_code["SNOMED-CT"] {
-        if let snomed = snomed.first {
-          switch snomed {
+      if let hl7 = status_code["HL7 ActStatus"]?.first {
+        return hl7.code
+      } else if let snomed = status_code["SNOMED-CT"]?.first {
+        //if let snomed = snomed.first {
+          switch snomed.code {
           case "55561003":
             return "active"
           case "73425007":
@@ -160,7 +160,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
           default:
             return nil
           }
-        }
+        //}
       }
     }
     
@@ -184,21 +184,26 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
       switch status_text {
       case let status_text where status_text == "active":
         //self.status_code = {'SNOMED-CT' => ['55561003'], 'HL7 ActStatus' => ['active']}
-        sc["SNOMED-CT"] = CDAKCodedEntry(codeSystem: "SNOMED-CT", codes: ["55561003"])
-        sc["HL7 ActStatus"] = CDAKCodedEntry(codeSystem: "HL7 ActStatus", codes: ["active"])
+//        sc["SNOMED-CT"] = CDAKCodedEntry(codeSystem: "SNOMED-CT", code: ["55561003"])
+//        sc["HL7 ActStatus"] = CDAKCodedEntry(codeSystem: "HL7 ActStatus", code: ["active"])
+        sc.addCodes("SNOMED-CT", code: "55561003")
+        sc.addCodes("HL7 ActStatus", code: "active")
         self.status_code = sc
       case let status_text where status_text == "inactive":
         //self.status_code = {'SNOMED-CT' => ['73425007']}
-        sc["SNOMED-CT"] = CDAKCodedEntry(codeSystem: "SNOMED-CT", codes: ["73425007"])
-        self.status_code = sc
+//        sc["SNOMED-CT"] = CDAKCodedEntry(codeSystem: "SNOMED-CT", codes: ["73425007"])
+//        self.status_code = sc
+        sc.addCodes("SNOMED-CT", code: "73425007")
       case let status_text where status_text == "resolved":
         //self.status_code = {'SNOMED-CT' => ['413322009']}
-        sc["SNOMED-CT"] = CDAKCodedEntry(codeSystem: "SNOMED-CT", codes: ["413322009"])
+        //sc["SNOMED-CT"] = CDAKCodedEntry(codeSystem: "SNOMED-CT", codes: ["413322009"])
+        sc.addCodes("SNOMED-CT", code: "413322009")
         self.status_code = sc
       default:
         //self.status_code = {'HL7 ActStatus' => [status_text]}
         //boom
-        sc["HL7 ActStatus"] = CDAKCodedEntry(codeSystem: "HL7 ActStatus", codes: [status_text!])
+        //sc["HL7 ActStatus"] = CDAKCodedEntry(codeSystem: "HL7 ActStatus", codes: [status_text!])
+        sc.addCodes("HL7 ActStatus", code: status_text!)
         self.status_code = sc
       }
     }
@@ -231,10 +236,13 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
    */
   func is_in_code_set(code_set: [CDAKCodedEntries]) -> Bool {
     for entries in code_set {
-      for (key, entry) in entries {
-        if codes.findIntersectingCodes(forCodeSystem: key, matchingCodes: entry.codes)?.count > 0 {
-          return true
-        }
+//      for (key, entry) in entries {
+//        if codes.findIntersectingCodes(forCodeSystem: key, matchingCodes: entry.codes)?.count > 0 {
+//          return true
+//        }
+//      }
+      if codes.findIntersectingCodedEntries(forCodedEntries: entries)?.count > 0 {
+        return true
       }
     }
     
@@ -316,7 +324,8 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     //we want something like
     // yes - this removes the OID
     // we want a straight up dictionary of [code_system: [codes]]
-    entry_hash["codes"] = codes.codeDictionary
+    //entry_hash["codes"] = codes.codeDictionary
+    entry_hash["codes"] = codes.jsonDict
     
     if values.count > 0 {
       entry_hash["value"] = values

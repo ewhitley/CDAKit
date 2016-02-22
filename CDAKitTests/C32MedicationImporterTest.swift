@@ -35,12 +35,12 @@ class C32MedicationImporterTest: XCTestCase {
       let patient = pi.parse_c32(doc)
       
       let medication = patient.medications[0]
-      XCTAssertEqual(medication.codes.containsCode("RxNorm", withCode: "307782"), true)
+      XCTAssertEqual(medication.codes.containsCode(withCodeSystem: "RxNorm", andCode: "307782"), true)
       XCTAssertEqual(medication.administration_timing.period.value, 6)
-      XCTAssertEqual(medication.route.containsCode("HL7 RouteOfAdministration", withCode: "IPINHL"), true)
+      XCTAssertEqual(medication.route.containsCode(withCodeSystem: "HL7 RouteOfAdministration", andCode: "IPINHL"), true)
       XCTAssertEqual(medication.dose.value, 2)
 
-      XCTAssertEqual(medication.anatomical_approach.containsCode("SNOMED-CT", withCode: "127945006"), true)
+      XCTAssertEqual(medication.anatomical_approach.containsCode(withCodeSystem: "SNOMED-CT", andCode: "127945006"), true)
       
       XCTAssertEqual(5, medication.dose_restriction.numerator.value)
       XCTAssertEqual(10, medication.dose_restriction.denominator.value)
