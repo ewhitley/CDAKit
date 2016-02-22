@@ -211,7 +211,7 @@ class CDAKImport_C32_PatientImporter {
 //      if let an_entry = CDAKImport_C32_PatientImporter.getCodedEntryForElement(race_node, replaceCodeSystemWith: "CDC-RE") {
 //        patient.race.addCodes(an_entry)
 //      }
-      if let an_entry = CDAKImport_CDA_SectionImporter.extract_code(race_node, code_xpath: ".", code_system: "CDC-RE") {
+      if let an_entry = CDAKImport_CDA_SectionImporter.extract_code(race_node, code_xpath: ".", code_system: "CDC Race") {
         patient.race.addCodes(an_entry)
       }
 
@@ -234,7 +234,7 @@ class CDAKImport_C32_PatientImporter {
 //        patient.ethnicity.addCodes(an_entry)
 //      }
 
-      if let an_entry = CDAKImport_CDA_SectionImporter.extract_code(ethnicity_node, code_xpath: ".", code_system: "CDC-RE") {
+      if let an_entry = CDAKImport_CDA_SectionImporter.extract_code(ethnicity_node, code_xpath: ".", code_system: "CDC Race") {
         patient.ethnicity.addCodes(an_entry)
       }
 

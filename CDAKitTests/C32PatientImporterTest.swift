@@ -43,8 +43,14 @@ class C32PatientImporterTest: XCTestCase {
       XCTAssertEqual("24602", patient.medical_record_number)
       XCTAssertEqual(1199189385, patient.effective_time)      
       XCTAssertEqual("en-US", patient.languages.first?.codes.first?.code)
-      XCTAssertTrue(patient.race.containsCode(withCodeSystem: "CDC-RE", andCode: "2108-9"))
-      XCTAssertTrue(patient.ethnicity.containsCode(withCodeSystem: "CDC-RE", andCode: "2137-8"))
+      //NOTE: changing test case.  Was originally fixed key "CDC-RE" but I changed the importer to pull the supplied race and not use a fixed key ("CDC Race")
+      //CDC Race and Ethnicity
+      print(patient.race)
+      XCTAssertTrue(patient.race.containsCode(withCodeSystem: "CDC Race", andCode: "2108-9"))
+      //CDC Race and Ethnicity
+      //NOTE: changing test case.  Was originally fixed key "CDC-RE" but I changed the importer to pull the supplied race and not use a fixed key ("CDC Race")
+      print(patient.ethnicity)
+      XCTAssertTrue(patient.ethnicity.containsCode(withCodeSystem: "CDC Race", andCode: "2137-8"))
       XCTAssertEqual(1, patient.addresses.count)
       XCTAssertEqual("HP", patient.addresses[0].use)
       XCTAssertEqual(1, patient.addresses[0].street.count)

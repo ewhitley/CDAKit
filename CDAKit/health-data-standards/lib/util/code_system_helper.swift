@@ -67,7 +67,7 @@ public class CDAKCodeSystemHelper {
     "FDA SPL" : "NCI Thesaurus", //Structured Product Labeling?
     "HSLOC" : "HL7 Healthcare Service Location",
     "SOP" : "Source of Payment Typology",
-    "CDC-RE" : "Race & Ethnicity - CDC"
+    "Race & Ethnicity - CDC": "CDC Race"
   ]
   
   /// Some old OID are still around in data, this hash maps retired OID values to

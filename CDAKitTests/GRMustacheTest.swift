@@ -693,32 +693,29 @@ class GRMustacheTest: XCTestCase {
     do {
       let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
       //record.header = nil
-      let x = record.export(inFormat: .c32)
-//      let x = record.export(inFormat: .ccda)
-//      print(record.encounters.first?.json)
-//      print(record.encounters.first?.boxedValues)
-//      if let ces = record.encounters.first {
-//        let x = ces.codes.mustacheBox
-//        print(x)
-//      }
-
-//      if let e = record.encounters.first {
-//        let x = e.mustacheBox
-//        print(x)
-//      }
       
-//      if let (key, coded_entry) = record.encounters.first?.codes.first {
-//        let x = coded_entry.boxedValues
-//        print(x)
-//      }
-//      print(record.encounters.first?.codes.json)
-      //print(record.json)
-//      print(record.mustacheBox)
+      let x = record.export(inFormat: .c32)
+      //      let x = record.export(inFormat: .ccda)
       print(x)
     }
     catch {
     }
   }
+
+  func testHeaderInCCDA() {
+    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
+    do {
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+      //record.header = nil
+      
+      let x = record.export(inFormat: .ccda)
+      //      let x = record.export(inFormat: .ccda)
+      print(x)
+    }
+    catch {
+    }
+  }
+
   
   func testTemplatesFromDifferentDirectories() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")

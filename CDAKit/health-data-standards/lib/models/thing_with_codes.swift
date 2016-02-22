@@ -32,7 +32,8 @@ extension CDAKThingWithCodes {
   }
   
   internal func convert_codes_to_s(codes: CDAKCodedEntries) -> String {
-    return codes.map { (code_set, codes) in ("\(code_set): " + codes.map({$0.code}).joinWithSeparator(", ")) }.joinWithSeparator(" ")
+//    return codes.map { (code_set, codes) in ("\(code_set): " + codes.map({$0.code}).joinWithSeparator(", ")) }.joinWithSeparator(" ")
+    return codes.map { (code_set, codes) in ("\(code_set): " + codes.map({$0.friendlyNarrativeDescription}).joinWithSeparator(", ")) }.joinWithSeparator(" ")
   }
   
   /**

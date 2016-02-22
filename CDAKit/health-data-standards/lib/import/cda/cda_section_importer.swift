@@ -264,52 +264,27 @@ class CDAKImport_CDA_SectionImporter {
     }
   }
   
-  //modified version - changing this to return a coded entry directly
-  //this one is special - there are some weird things in some XML where we see the OID used in place of the code system
-  //Example: https://github.com/projectcypress/health-data-standards/blob/master/test/fixtures/NISTExampleC32.xml#L246
-  // <translation code="EHCPOL" codeSystem="2.16.840.1.113883.5.4" displayName="Extended healthcare"/>
-  // Future modification: the job of determining the whole OID/vs/real name should be handled here directly by doing an OID lookup and not the responsibility of the caller
+  /**
+   Primary method responsible for extracting a code/codeSystem/displayName from a given code entry
+   
+   - parameter parent_element: the XML element containing the code(s)
+   - parameter code_xpath: XPath query to your coded element within the parent.  Could even be "."
+   - parameter code_system: optional string to override (or just directly supply) a given code system for this entry.  Certain entries (EX: language, race, ethnicity) do not supply a code system directly, but instead rely on an "implied" code system like "CDC Race" which aren't defined in the XML. In this case, the code system tag/name can be supplied directly and then looked up internally (if possible) to obtain the OID, etc.
+  */
   class func extract_code(parent_element: XMLElement, code_xpath: String, code_system: String? = nil) -> CDAKCodedEntry? {
-//    var actual_code_system = code_system
-//    if let code_element = parent_element.xpath(code_xpath).first {
-//      return CDAKImport_C32_PatientImporter.getCodedEntryForElement(code_element)
-//    }
-//    return nil
-
     if let code_element = parent_element.xpath(code_xpath).first {
       if let code = code_element["code"] {
         let display_name = code_element["displayName"]
         if let code_system = code_system {
-          //manually injected code system
-          print("adding code from CDAKImport_CDA_SectionImporter.extract_code")
           return CDAKCodedEntry(codeSystem: code_system, code: code, displayName: display_name)
         } else if let code_system_oid = code_element["codeSystem"] {
-          //apparently in this case we get an OID instead of a codesystem name/key
           if let codeSystemName = code_element["codeSystemName"] {
-            print("adding code from CDAKImport_CDA_SectionImporter.extract_code")
             CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
           }
-          print("adding code from CDAKImport_CDA_SectionImporter.extract_code")
           return CDAKCodedEntry(codeSystem: CDAKCodeSystemHelper.code_system_for(code_system_oid), code: code, codeSystemOid: code_system_oid, displayName: display_name)
         }
       }
     }
-
-    
-//    if let code_element = code_element, code = code_element["code"] {
-//      let display_name = code_element["displayName"]
-//      if let code_system = code_system {
-//        coded_entry = CDAKCodedEntry(codeSystem: code_system, codes: code, displayName: display_name)
-//      } else if let code_system_oid = code_element["codeSystem"] {
-//        //apparently in this case we get an OID instead of a codesystem name/key
-//        if let codeSystemName = code_element["codeSystemName"] {
-//          CDAKCodeSystemHelper.addCodeSystem(codeSystemName, oid: code_system_oid)
-//        }
-//
-//        coded_entry = CDAKCodedEntry(codeSystem: CDAKCodeSystemHelper.code_system_for(code_system_oid), codes: code, codeSystemOid: code_system_oid, displayName: display_name)
-//      }
-//    }
-    
     return nil
   }
   

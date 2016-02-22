@@ -1,5 +1,5 @@
 {{#preferred_code}}{{#each(codes)}}
-<code code="{{ . }}" codeSystem="{{ code_system_oid }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}>
+<code code="{{ code }}" codeSystem="{{ code_system_oid }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}>
 {{/}}{{/preferred_code}}
 {{^preferred_code}}
 <code nullFlavor="UNK">
@@ -7,7 +7,7 @@
 <originalText><reference value="#{{ section }}-desc-{{ @index }}"/></originalText>
 {{#each(translation_codes)}}
 {{#each(codes)}}
-<translation code="{{ . }}" codeSystem="{{ oid_for_code_system(codeSystem) }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}/>
+<translation code="{{ code }}" codeSystem="{{ oid_for_code_system(codeSystem) }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}/>
 {{/}}
 {{/}}
 </code>

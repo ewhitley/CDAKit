@@ -519,23 +519,22 @@ extension CDAKEntry {
   
   // MARK: - Mustache marshalling
   var boxedValues: [String:MustacheBox] {
+    
+    
+    //find a preferred term using a specified vocabulary
+    // pick the first one - the rest can be translations
     var entry_preferred_code : CDAKCodedEntry?
     var code_system_oid = ""
     if let a_preferred_code = preferred_code(preferred_code_sets) {
-      //FIX_ME: this whole thing is a mess - legacy Ruby approach
+      //legacy Ruby approach
       let code_set = a_preferred_code.codeSystem
       code_system_oid = CDAKCodeSystemHelper.oid_for_code_system(code_set)
-      entry_preferred_code = a_preferred_code//CDAKCodedEntry(codeSystem: code_set, codes: a_preferred_code.codes, codeSystemOid: code_system_oid)
-      //print("entry_preferred_code = \(entry_preferred_code)")
+      entry_preferred_code = a_preferred_code
     }
-
-    
     var translation_codes: CDAKCodedEntries?
     if entry_preferred_code != nil {
       translation_codes = self.translation_codes(self.preferred_code_sets)
     }
-    //find a preferred term using a specified vocabulary
-    // pick the first one - the rest can be translations
     
     
     return [

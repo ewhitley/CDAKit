@@ -35,6 +35,10 @@ public struct CDAKCodedEntry: CustomStringConvertible, Equatable, Hashable {
     }
   }
   
+  public var friendlyNarrativeDescription: String {
+    return "\(code)\(displayName != nil ? (" (" + displayName! + ")") : "")"
+  }
+  
   private var _codeSystemOid: String?
   /// OID for the specified vocabulary. Optional. Will be automatically looked up by codeSystem key if value is nil
   public var codeSystemOid: String? {

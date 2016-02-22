@@ -66,11 +66,12 @@ internal class CDAKImport_BulkRecordImporter {
       }
     } catch let error as XMLError {
       switch error {
-      case .NoError: print("wth this should not appear")
       case .ParserFailure, .InvalidData: print(error)
       case .LibXMLError(let code, let message):
         print("libxml error code: \(code), message: \(message)")
+      default: print(error)
       }
+      
       throw CDAKImportError.InvalidXML
       
     }
