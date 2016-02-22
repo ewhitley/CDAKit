@@ -836,6 +836,9 @@ extension CDAKRecord {
   // MARK: - Mustache marshalling
   override public var mustacheBox: MustacheBox {
     var vals: [String:MustacheBox] = [String:MustacheBox]()
+    var defaultLanguage: CDAKCodedEntries = CDAKCodedEntries()
+    defaultLanguage.addCodes("IETF", code: "en-US")
+    let defaultLanguages: [CDAKCodedEntries] = [defaultLanguage]
     vals = [
       "id": Box(self._id),
       "title": Box(self.title),
@@ -848,7 +851,7 @@ extension CDAKRecord {
       "effective_time": Box(self.effective_time),
       "race": Box(self.race),
       "ethnicity": Box(self.ethnicity),
-      "languages": self.languages.count > 0 ? Box(self.languages) : Box(["IETF":["en-US"]]),
+      "languages": self.languages.count > 0 ? Box(self.languages) : Box(defaultLanguages),
       "marital_status": Box(self.marital_status),
       "medical_record_number": Box(self.medical_record_number),
       "medical_record_assigner": Box(self.medical_record_assigner),

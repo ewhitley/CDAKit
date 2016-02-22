@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		380A41091C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380A41081C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift */; };
+		38359E041C7B576800CCC036 /* ccda_performer.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38359E031C7B576800CCC036 /* ccda_performer.ccda.mustache */; };
+		38359E061C7B5DD400CCC036 /* c32_performer.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38359E051C7B5DD400CCC036 /* c32_performer.c32.mustache */; };
 		384E23111C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml in Resources */ = {isa = PBXBuildFile; fileRef = 384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */; };
 		384E23141C738E4E009B9DED /* CDAKJSONInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */; };
 		384E23171C73C517009B9DED /* MetadataImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23161C73C517009B9DED /* MetadataImporter.swift */; };
@@ -299,6 +301,8 @@
 		2659CE5B586D31D29E7610E8 /* Pods_CDAKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CDAKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3584B78321E453821B9F825B /* Pods-CDAKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDAKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CDAKitTests/Pods-CDAKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		380A41081C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKVocabularyStructs.swift; sourceTree = "<group>"; };
+		38359E031C7B576800CCC036 /* ccda_performer.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_performer.ccda.mustache; sourceTree = "<group>"; };
+		38359E051C7B5DD400CCC036 /* c32_performer.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_performer.c32.mustache; sourceTree = "<group>"; };
 		384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "170.314(b)(1)InPt_Discharge Summary CED Type.xml"; sourceTree = "<group>"; };
 		384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKJSONInstantiable.swift; sourceTree = "<group>"; };
 		384E23161C73C517009B9DED /* MetadataImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataImporter.swift; sourceTree = "<group>"; };
@@ -782,6 +786,7 @@
 				389171481C6CD8D200A31299 /* ccda_conditions_no_current.ccda.mustache */,
 				389171491C6CD8D200A31299 /* ccda_conditions.ccda.mustache */,
 				3891714A1C6CD8D200A31299 /* ccda_encounters.ccda.mustache */,
+				38359E031C7B576800CCC036 /* ccda_performer.ccda.mustache */,
 				3891714B1C6CD8D200A31299 /* ccda_immunizations.ccda.mustache */,
 				3891714C1C6CD8D200A31299 /* ccda_medical_equipment.ccda.mustache */,
 				3891714D1C6CD8D200A31299 /* ccda_medications_no_current.ccda.mustache */,
@@ -808,6 +813,7 @@
 				389171261C6CD8BA00A31299 /* c32_conditions_no_current.c32.mustache */,
 				389171271C6CD8BA00A31299 /* c32_conditions.c32.mustache */,
 				389171281C6CD8BA00A31299 /* c32_encounters.c32.mustache */,
+				38359E051C7B5DD400CCC036 /* c32_performer.c32.mustache */,
 				389171291C6CD8BA00A31299 /* c32_immunizations.c32.mustache */,
 				3891712A1C6CD8BA00A31299 /* c32_medical_equipment.c32.mustache */,
 				3891712B1C6CD8BA00A31299 /* c32_medications_no_current.c32.mustache */,
@@ -1332,6 +1338,7 @@
 			files = (
 				389171331C6CD8BA00A31299 /* c32_allergies_no_current.c32.mustache in Resources */,
 				38FCF8D41C74F8730040979E /* cat1_address.cat1.mustache in Resources */,
+				38359E061C7B5DD400CCC036 /* c32_performer.c32.mustache in Resources */,
 				3891715C1C6CD8D200A31299 /* ccda_conditions.ccda.mustache in Resources */,
 				389171681C6CD8D200A31299 /* ccda_social_history.ccda.mustache in Resources */,
 				389171391C6CD8BA00A31299 /* c32_encounters.c32.mustache in Resources */,
@@ -1353,6 +1360,7 @@
 				3891704E1C6CD18400A31299 /* LICENSE.txt in Resources */,
 				389171621C6CD8D200A31299 /* ccda_narrative_block.ccda.mustache in Resources */,
 				389171611C6CD8D200A31299 /* ccda_medications.ccda.mustache in Resources */,
+				38359E041C7B576800CCC036 /* ccda_performer.ccda.mustache in Resources */,
 				389171641C6CD8D200A31299 /* ccda_procedures.ccda.mustache in Resources */,
 				38FCF8D61C74F8920040979E /* cat1_organization.cat1.mustache in Resources */,
 				38FCF8D21C74F8540040979E /* cat1_author.cat1.mustache in Resources */,

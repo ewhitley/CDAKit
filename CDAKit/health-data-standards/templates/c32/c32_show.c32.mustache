@@ -39,12 +39,15 @@
           <given>{{ patient.first }}</given>
           <family>{{ patient.last }}</family>
         </name>
+        {{#patient.gender}}
         <administrativeGenderCode code="{{ patient.gender }}" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>
+        {{/patient.gender}}
         <birthTime value="{{ date_as_number(patient.birthdate) }}"/>
         {{#each(patient.race)}}
           <raceCode code="{{ code }}" {{#displayName}}displayName="{{ displayName }}"{{/displayName }} codeSystemName="{{codeSystem}}" codeSystem="{{codeSystemOid}}"/>{{/}}
         {{#each(patient.ethnicity)}}
         <ethnicGroupCode code="{{ code }}" {{#displayName}}displayName="{{ displayName }}"{{/displayName }} codeSystemName="{{codeSystem}}" codeSystem="{{codeSystemOid}}"/>{{/}}
+        {{#patient.languages}}
         {{#each(patient.languages)}}{{#each(.)}}
           <languageCommunication>
             <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>
@@ -52,6 +55,7 @@
             <languageCode code="{{code}}"/>
           </languageCommunication>
           {{/}}{{/}}
+        {{/patient.languages}}
         {{^patient.languages}}
           <languageCommunication>
             <templateId root="2.16.840.1.113883.3.88.11.83.2" assigningAuthorityName="HITSP/C83"/>

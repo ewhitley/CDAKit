@@ -1,0 +1,40 @@
+{{#performer}}
+<performer typeCode="PRF">
+  <assignedEntity classCode="ASSIGNED">
+    {{#each(cda_identifiers)}}<id {{#root}}root="{{.}}"{{/root}} extension="{{extension}}"/>{{/}}
+    {{#each(addresses)}}
+    <addr {{#use}}use="{{.}}"{{/use}}>
+      {{#street}}<streetAddressLine>{{.}}</streetAddressLine>{{/street}}
+      <city>{{city}}</city>
+      <state>{{state}}</state>
+      <postalCode>{{zip}}</postalCode>
+      <country>{{country}}</country>
+    </addr>
+    {{/}}
+    {{#each(telecoms)}}<telecom value="{{value}}" use="{{use}}" />{{/}}
+    <assignedPerson>
+    <name>
+      <given>{{given_name}}</given>
+      <family>{{family_name}}</family>
+      {{#title}}<suffix>{{.}}</suffix>{{/title}}
+    </name>
+    </assignedPerson>
+    {{#organization}}
+    <representedOrganization>
+    {{#each(cda_identifiers)}}<id {{#root}}root="{{.}}"{{/root}} extension="{{extension}}"/>{{/}}
+    <name>{{name}}</name>
+    {{#each(telecoms)}}<telecom value="{{value}}" use="{{use}}" />{{/}}
+    {{#each(addresses)}}
+    <addr {{#use}}use="{{.}}"{{/use}}>
+    {{#street}}<streetAddressLine>{{.}}</streetAddressLine>{{/street}}
+      <city>{{city}}</city>
+      <state>{{state}}</state>
+      <postalCode>{{zip}}</postalCode>
+      <country>{{country}}</country>
+    </addr>
+    {{/}}
+    </representedOrganization>
+    {{/organization}}
+  </assignedEntity>
+</performer>
+{{/performer}}

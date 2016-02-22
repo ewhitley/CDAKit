@@ -531,9 +531,9 @@ extension CDAKEntry {
       code_system_oid = CDAKCodeSystemHelper.oid_for_code_system(code_set)
       entry_preferred_code = a_preferred_code
     }
-    var translation_codes: CDAKCodedEntries?
+    var entry_translation_codes: CDAKCodedEntries? = self.codes
     if entry_preferred_code != nil {
-      translation_codes = self.translation_codes(self.preferred_code_sets)
+      entry_translation_codes = self.translation_codes(self.preferred_code_sets)
     }
     
     
@@ -571,7 +571,7 @@ extension CDAKEntry {
       "as_point_in_time" : Box(self.as_point_in_time()),
       "code_system_oid" : Box(code_system_oid),
       "preferred_code": entry_preferred_code != nil ? Box(entry_preferred_code!) : Box(nil),
-      "translation_codes": entry_preferred_code != nil ? Box(self.translation_codes(self.preferred_code_sets)) : Box(nil),
+      "translation_codes": entry_translation_codes != nil ? Box(entry_translation_codes!) : Box(nil),
       
       
       "codes_to_s" : Box(codes_to_s()),

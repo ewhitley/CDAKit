@@ -716,6 +716,53 @@ class GRMustacheTest: XCTestCase {
     }
   }
 
+  func testGlobalHeaderAcrossRecords() {
+
+    var header: CDAKQRDAHeader?
+    var records: [CDAKRecord] = []
+    var files: [String] = ["Patient-673", "Vitera_CCDA_SMART_Sample", "export_cda"]
+    
+
+    for file in files {
+      let doc = TestHelpers.fileHelpers.load_xml_string_from_file(file)
+      do {
+        let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+        records.append(record)
+        if records.count == 1 {
+          header = record.header
+        } else {
+          record.header = header
+        }
+      }
+      catch {
+      }
+    }
+    
+    for record in records {
+      XCTAssertEqual(record.header?.description, header?.description)
+      //print(record.export(inFormat: .ccda))
+    }
+  }
+
+  
+  func testViteraImport() {
+    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Vitera_CCDA_SMART_Sample")
+    do {
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+      //record.header = nil
+      
+//      for encounter in record.encounters {
+//        print(encounter.performer)
+//      }
+      
+      //let x = record.export(inFormat: .ccda)
+      let x = record.export(inFormat: .c32)
+      print(x)
+    }
+    catch {
+    }
+  }
+
   
   func testTemplatesFromDifferentDirectories() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
