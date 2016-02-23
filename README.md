@@ -10,7 +10,7 @@
 **CDAKit for iOS, the Open Source Clinical Document Architecture Library with HealthKit Connectivity.  Helping you quickly manage CDA-structured health data.** 
 
 * CDAKit GitHub - [Source](https://github.com/ewhitley/CDAKit)
-* Additional [documentation](https://ewhitley.github.io/CDAKit).
+* Additional [documentation](https://ewhitley.github.io/CDAKit)
 
 CDAKit provides C32 and C-CDA import and export functionality as well as the ability to connect CDA concepts with HealthKit samples.  This allows for bridging between CDA and HealthKit so you can integrate with an Electronic Medical Records system.
 
