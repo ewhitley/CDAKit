@@ -1,4 +1,5 @@
-<!--img src="./github_assets/cdakit.png" srcset="/github_assets/cdakit@2x.png 2x, /github_assets/cdakit@3x.png 3x" alt="CDAKit"-->
+
+![CDAKit Logo](https://raw.githubusercontent.com/ewhitley/CDAKit/master/github_assets/CDAKitGithubLogo.png "CDAKit Logo")
 
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/CDAKit.svg)](https://cocoapods.org/pods/CDAKit)
 [![License](https://img.shields.io/cocoapods/l/CDAKit.svg?style=flat&color=gray)](https://opensource.org/licenses/Apache-2.0)

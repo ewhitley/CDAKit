@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/ewhitley/CDAKit"
   s.license      = 'Apache 2'
   s.authors      = { "Eric Whitley" => "cdakit@gmail.com" }
-  s.source       = { :git => "https://github.com/ewhitley/CDAKit/cdakit.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/ewhitley/CDAKit.git", :tag => s.version.to_s }
   s.documentation_url = "http://ewhitley.github.io/CDAKit"
 
   s.platform     = :ios, '8.0'

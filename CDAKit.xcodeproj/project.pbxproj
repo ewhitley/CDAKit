@@ -280,6 +280,7 @@
 		389172FB1C6CFD9100A31299 /* tobacco_use_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */; };
 		38BC98131C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */; };
 		38BC98151C7C9F5600E8F2F4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 38BC98141C7C9F5600E8F2F4 /* README.md */; };
+		38BC98191C7CF19D00E8F2F4 /* CDAKitGithubLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BC98181C7CF19D00E8F2F4 /* CDAKitGithubLogo.png */; };
 		38FCF8D01C74F83A0040979E /* cat1_id.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */; };
 		38FCF8D21C74F8540040979E /* cat1_author.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */; };
 		38FCF8D41C74F8730040979E /* cat1_address.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */; };
@@ -581,6 +582,7 @@
 		389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tobacco_use_fragment.xml; sourceTree = "<group>"; };
 		38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CDAKRecordModels_Common.png; sourceTree = "<group>"; };
 		38BC98141C7C9F5600E8F2F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		38BC98181C7CF19D00E8F2F4 /* CDAKitGithubLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CDAKitGithubLogo.png; sourceTree = "<group>"; };
 		38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_id.cat1.mustache; sourceTree = "<group>"; };
 		38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_author.cat1.mustache; sourceTree = "<group>"; };
 		38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_address.cat1.mustache; sourceTree = "<group>"; };
@@ -1219,6 +1221,7 @@
 		38BC98111C7C95C100E8F2F4 /* github_assets */ = {
 			isa = PBXGroup;
 			children = (
+				38BC98181C7CF19D00E8F2F4 /* CDAKitGithubLogo.png */,
 				38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */,
 			);
 			path = github_assets;
@@ -1357,6 +1360,7 @@
 				389171331C6CD8BA00A31299 /* c32_allergies_no_current.c32.mustache in Resources */,
 				38FCF8D41C74F8730040979E /* cat1_address.cat1.mustache in Resources */,
 				38359E061C7B5DD400CCC036 /* c32_performer.c32.mustache in Resources */,
+				38BC98191C7CF19D00E8F2F4 /* CDAKitGithubLogo.png in Resources */,
 				3891715C1C6CD8D200A31299 /* ccda_conditions.ccda.mustache in Resources */,
 				389171681C6CD8D200A31299 /* ccda_social_history.ccda.mustache in Resources */,
 				389171391C6CD8BA00A31299 /* c32_encounters.c32.mustache in Resources */,
