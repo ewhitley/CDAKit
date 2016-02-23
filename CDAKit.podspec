@@ -16,8 +16,10 @@ Pod::Spec.new do |s|
   s.license      = 'Apache 2'
   s.authors      = { "Eric Whitley" => "cdakit@gmail.com" }
   s.source       = { :git => "https://github.com/ewhitley/CDAKit/cdakit.git", :tag => s.version.to_s }
+  s.documentation_url = "http://ewhitley.github.io/CDAKit"
 
   s.platform     = :ios, '8.0'
+  s.ios.deployment_target = "8.0"
   s.requires_arc = true
 
   s.source_files = 'CDAKit/**/*.swift'
