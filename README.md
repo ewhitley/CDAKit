@@ -152,7 +152,7 @@ import CDAKit
 # <a name="basic_models"></a>Basic Models
 
 
-![CDAKit Record Model](http://github.com/ewhitley/CDAKit/github_assets/CDAKRecordModels_Common.png "CDAKit Record Model")
+![CDAKit Record Model](https://raw.githubusercontent.com/ewhitley/CDAKit/master/github_assets/CDAKRecordModels_Common.png "CDAKit Record Model")
 
 
 CDAKit uses a "Record" object (`CDAKRecord`) that represents the core CDA document.  Within the record are individual entries (`CDAKEntry`) with various more precise types for elements like encounters, medications, allergies, etc.
