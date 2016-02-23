@@ -38,6 +38,10 @@ class C32ImmunizationImporterTest: XCTestCase {
       let patient = pi.parse_c32(doc)
       
       let immunization0 = patient.immunizations[0]
+      print(immunization0.codes)
+      
+      let x = CDAKCodedEntry(codeSystem: "CVX", code: "88")
+      print(x.codeSystemOid)
       
       XCTAssertEqual(immunization0.codes.containsCode(withCodeSystem: "CVX", andCode: "88"), true)
       XCTAssertEqual(immunization0.codes.containsCode(withCodeSystem: "CVX", andCode: "111"), true)

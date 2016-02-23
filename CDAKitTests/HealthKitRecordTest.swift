@@ -31,7 +31,7 @@ class HealthKitRecordTest: XCTestCase {
     do {
       
       //let's try to import from CDA
-      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+      let record = try CDAKRecord(fromXML: doc)
       
       //let's create a new vital
       // use the coded values to govern "meaning" (height, weight, BMI, BP items, etc.)

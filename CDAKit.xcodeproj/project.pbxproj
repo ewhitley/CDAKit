@@ -278,6 +278,8 @@
 		389172F91C6CFD9100A31299 /* risk_category_assessment_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172CF1C6CFD9000A31299 /* risk_category_assessment_fragment.xml */; };
 		389172FA1C6CFD9100A31299 /* symptom_active_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172D01C6CFD9000A31299 /* symptom_active_fragment.xml */; };
 		389172FB1C6CFD9100A31299 /* tobacco_use_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */; };
+		38BC98131C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */; };
+		38BC98151C7C9F5600E8F2F4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 38BC98141C7C9F5600E8F2F4 /* README.md */; };
 		38FCF8D01C74F83A0040979E /* cat1_id.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */; };
 		38FCF8D21C74F8540040979E /* cat1_author.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */; };
 		38FCF8D41C74F8730040979E /* cat1_address.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */; };
@@ -577,6 +579,8 @@
 		389172CF1C6CFD9000A31299 /* risk_category_assessment_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = risk_category_assessment_fragment.xml; sourceTree = "<group>"; };
 		389172D01C6CFD9000A31299 /* symptom_active_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = symptom_active_fragment.xml; sourceTree = "<group>"; };
 		389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tobacco_use_fragment.xml; sourceTree = "<group>"; };
+		38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CDAKRecordModels_Common.png; sourceTree = "<group>"; };
+		38BC98141C7C9F5600E8F2F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_id.cat1.mustache; sourceTree = "<group>"; };
 		38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_author.cat1.mustache; sourceTree = "<group>"; };
 		38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_address.cat1.mustache; sourceTree = "<group>"; };
@@ -674,8 +678,10 @@
 		389170271C6CC1EE00A31299 = {
 			isa = PBXGroup;
 			children = (
+				38BC98111C7C95C100E8F2F4 /* github_assets */,
 				38359E071C7B774400CCC036 /* CDAKit.podspec */,
 				38359E081C7B774400CCC036 /* LICENSE.txt */,
+				38BC98141C7C9F5600E8F2F4 /* README.md */,
 				38359E091C7B774400CCC036 /* Podfile */,
 				389170331C6CC1EE00A31299 /* CDAKit */,
 				3891703F1C6CC1EE00A31299 /* CDAKitTests */,
@@ -1210,6 +1216,14 @@
 			path = cat1_fragments;
 			sourceTree = "<group>";
 		};
+		38BC98111C7C95C100E8F2F4 /* github_assets */ = {
+			isa = PBXGroup;
+			children = (
+				38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */,
+			);
+			path = github_assets;
+			sourceTree = "<group>";
+		};
 		38FCF8CE1C74F7F60040979E /* cat1 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1351,6 +1365,7 @@
 				3891715B1C6CD8D200A31299 /* ccda_conditions_no_current.ccda.mustache in Resources */,
 				389170601C6CD74500A31299 /* CDAKitDefaultHealthKitTermMap.plist in Resources */,
 				38359E0C1C7B774400CCC036 /* Podfile in Resources */,
+				38BC98131C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png in Resources */,
 				389171631C6CD8D200A31299 /* ccda_procedures_no_current.ccda.cda in Resources */,
 				389171571C6CD8D200A31299 /* ccda_allergies_no_current.ccda.mustache in Resources */,
 				3891713E1C6CD8BA00A31299 /* c32_narrative_block.c32.mustache in Resources */,
@@ -1603,6 +1618,7 @@
 				389170AE1C6CD7C800A31299 /* procedure.swift in Sources */,
 				384E23171C73C517009B9DED /* MetadataImporter.swift in Sources */,
 				389170AA1C6CD7C800A31299 /* organization.swift in Sources */,
+				38BC98151C7C9F5600E8F2F4 /* README.md in Sources */,
 				389170B11C6CD7C800A31299 /* provider.swift in Sources */,
 				389170F01C6CD86D00A31299 /* cda_section_importer.swift in Sources */,
 				3891711A1C6CD8A500A31299 /* CDAKUtility.swift in Sources */,
