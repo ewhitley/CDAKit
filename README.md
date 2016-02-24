@@ -209,7 +209,7 @@ You can also supply an optional descriptive `displayName` which would appear in 
 ## <a name="import_cda_xml"></a>Importing from CDA XML
 Import your CDA XML from wherever it might be.  If you need some sample CDA files, Bostron Children's Hospital has set up [a great repository](https://github.com/chb/sample_ccdas/blob/master/HL7%20Samples/CCD.sample.xml).
 
-Once you have your XML, you can `try` to creae a `CDAKRecord` from it by parsing the `String`.  The XML is expected to be a well-formed XML document with a `ClinicalDocument` root element.
+Once you have your XML, you can `try` to create a `CDAKRecord` from it by parsing the `String`.  The XML is expected to be a well-formed XML document with a `ClinicalDocument` root element.
 
 ```swift
 let myXML:String = ((Get some CDA XML))
@@ -389,7 +389,7 @@ CDAKHealthKitBridge.sharedInstance.setCDAKUnitTypesWithUserSettings(self.healthM
 
 ## <a name="healthkit_vocabs_and_units"></a>Vocabulary and Unit Mappings
 
-This is the most complex and and "personal preference" aspect of mapping between HealthKit and CDA.  When, for example, you export a HealthKit glucose `HKQuantityTypeIdentifierBloodGlucose` sample to CDA, which clinical vocabulary and concept code would you like to use?  Which measurement units would be most appropriate? Likewise, when importing from CDA to HealthKit, how do you infer that "LOINC:2345-7" is a blood glucose measurement?  And how do you transform the variety of CDA-based UCUM units into Apple's expected "mg/dl"?
+This is the most complex and "personal preference" aspect of mapping between HealthKit and CDA.  When, for example, you export a HealthKit glucose `HKQuantityTypeIdentifierBloodGlucose` sample to CDA, which clinical vocabulary and concept code would you like to use?  Which measurement units would be most appropriate? Likewise, when importing from CDA to HealthKit, how do you infer that "LOINC:2345-7" is a blood glucose measurement?  And how do you transform the variety of CDA-based UCUM units into Apple's expected "mg/dl"?
 
 To help, CDAKit provides two key mechanisms:
 
@@ -474,7 +474,7 @@ var cdaStringUnitFinder : ((unit_string: String?, typeIdentifier: String? ) -> H
 
 ## <a name="healthkit_sample_metadata"></a>Searching for HealthKit Samples Imported from CDA
 
-HKQuantitySample created by CDAKit's record import process will include a few custom metadata keys. These are intended to help you identify and manage CDA-based samples (mergine, deletion, etc.).
+HKQuantitySample created by CDAKit's record import process will include a few custom metadata keys. These are intended to help you identify and manage CDA-based samples (merging, deletion, etc.).
 
 ```swift
 public enum CDAKHKMetadataKeys: String {
