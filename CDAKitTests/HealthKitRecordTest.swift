@@ -36,7 +36,7 @@ class HealthKitRecordTest: XCTestCase {
       //let's create a new vital
       // use the coded values to govern "meaning" (height, weight, BMI, BP items, etc.)
       let aVital = CDAKVitalSign()
-      aVital.codes.addCodes("LOINC", code: "3141-9") //weight
+      aVital.codes.addCodes("LOINC", code: "3141-9", displayName: "weight") //weight
       aVital.values.append(CDAKPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
       aVital.start_time = NSDate().timeIntervalSince1970
       aVital.end_time = NSDate().timeIntervalSince1970

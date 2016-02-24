@@ -75,7 +75,7 @@ do {
   //let's create a new vital
   // use the coded values to govern "meaning" (height, weight, BMI, BP items, etc.)
   let aVital = CDAKVitalSign()
-  aVital.codes.addCodes("LOINC", codes: ["3141-9"]) //weight
+  aVital.codes.addCodes("LOINC", code: "3141-9") //weight
   aVital.values.append(CDAKPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
   aVital.start_time = NSDate().timeIntervalSince1970
   aVital.end_time = NSDate().timeIntervalSince1970
@@ -179,7 +179,7 @@ Adding coded data to an Entry
 
 ```swift
   let aVital = CDAKVitalSign()
-  aVital.codes.addCodes("LOINC", codes: ["3141-9"]) //weight
+  aVital.codes.addCodes("LOINC", code: "3141-9") //weight
 ```
 
 The vocabulary keys are flexible, but there are some fixed keys to help ensure concepts that have "preferred" vocabularies are able to resolve the choice of preferred vs. translation entries.
@@ -190,7 +190,7 @@ You could then use these constants as follows:
 
 ```swift
       let aVital = CDAKVitalSign()
-      aVital.codes.addCodes(CDAKVocabularyKeys.LOINC, codes: ["3141-9"]) //weight
+      aVital.codes.addCodes(CDAKVocabularyKeys.LOINC, code: "3141-9") //weight
 ```
 
 This is probably preferred just to ensure consistency and ensure any associated OID lookups succeed.
@@ -199,7 +199,7 @@ You can also supply an optional descriptive `displayName` which would appear in 
 
 ```swift
       let aVital = CDAKVitalSign()
-      aVital.codes.addCodes(CDAKVocabularyKeys.LOINC, codes: ["3141-9"], displayName: "Body Weight") //weight
+      aVital.codes.addCodes(CDAKVocabularyKeys.LOINC, code: "3141-9", displayName: "Body Weight") //weight
 ```
 
 
