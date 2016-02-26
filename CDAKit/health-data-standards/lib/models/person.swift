@@ -49,14 +49,23 @@ public class CDAKPerson: CDAKPersonable, CDAKJSONInstantiable {
 extension CDAKPerson: MustacheBoxable {
   // MARK: - Mustache marshalling
   var boxedValues: [String:MustacheBox] {
-    return [
+    
+    var vals: [String:MustacheBox] = [:]
+    vals = [
       "prefix" :  Box(prefix),
       "given_name" :  Box(given_name),
       "family_name" :  Box(family_name),
-      "suffix" :  Box(suffix),
-      "addresses" :  Box(addresses),
-      "telecoms" :  Box(telecoms)
+      "suffix" :  Box(suffix)
     ]
+    
+    if addresses.count > 0 {
+      vals["addresses"] = Box(addresses)
+    }
+    if telecoms.count > 0 {
+      vals["telecoms"] = Box(telecoms)
+    }
+    return vals
+
   }
   
   public var mustacheBox: MustacheBox {

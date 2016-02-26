@@ -43,6 +43,38 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   ///CDA identifiers.  Contains NPI if supplied.
   public var cda_identifiers: [CDAKCDAIdentifier] = [CDAKCDAIdentifier]()
   
+
+  /**
+   
+   From [Integrating the Healthcare Enterprise Wiki](http://wiki.ihe.net/index.php?title=1.3.6.1.4.1.19376.1.5.3.1.2.3#.3Ccode_code.3D.27_.27_displayName.3D.27_.27_codeSystem.3D.27_.27_codeSystemName.3D.27_.27.2F.3E):
+   "The <code> element describes the type of provider and can be used to distinguish pharmacies from other providers."
+   
+   
+   [Reference](http://www.cdapro.com/know/26953)
+
+   Examples:
+   
+   ```
+   <code 
+    code="261QP2300X" 
+    displayName="Primary Care [Ambulatory Health Care Facilities\Clinic/Center]"
+    codeSystemName="NUCC Provider Codes" 
+    codeSystem="2.16.840.1.113883.6.101"/>
+   ```
+   
+   or
+   
+   ```
+   <code 
+    code="59058001"
+    codeSystem="2.16.840.1.113883.6.96"
+    codeSystemName="SNOMED CT" 
+    displayName="General Physician"/>
+   ```
+   
+  */
+  public var code: CDAKCodedEntry?
+  
   // Update the CDA identifier references for NPI
   // NOTE there are actually two ways to refer to NPI (two OIDs)
   // please refer to the provider importer and tests for examples where this occurs
@@ -175,8 +207,11 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
       let p = resolve_function(provider_hash: provider_hash, patient: patient ?? nil)
       return p
     } else {
-      let p = CDAKGlobals.sharedInstance.CDAKProviders.filter({ $0.npi == nil }).first
-      return p
+      //let p = CDAKGlobals.sharedInstance.CDAKProviders.filter({ $0.npi == nil }).first
+      //print("resolve_provider matched hash placeholder")
+      //print("resolve_provider matched hash: {\(provider_hash)} to provider: {\(p)}")
+      //return p
+      return nil
     }
   }
   
@@ -185,7 +220,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   // MARK: Standard properties
   ///Debugging description
   public var description: String {
-    return "Provider => prefix: \(prefix), given_name: \(given_name), family_name: \(family_name), suffix: \(suffix), npi: \(npi), specialty: \(specialty), phone: \(phone), organization: \(organization), cda_identifiers: \(cda_identifiers), addresses: \(addresses), telecoms: \(telecoms)"
+    return "Provider => prefix: \(prefix), given_name: \(given_name), family_name: \(family_name), suffix: \(suffix), npi: \(npi), specialty: \(specialty), phone: \(phone), organization: \(organization), cda_identifiers: \(cda_identifiers), addresses: \(addresses), telecoms: \(telecoms), code: \(code)"
   }
 
   
@@ -240,18 +275,28 @@ public func == (lhs: CDAKProvider, rhs: CDAKProvider) -> Bool {
 extension CDAKProvider: MustacheBoxable {
   // MARK: - Mustache marshalling
   var boxedValues: [String:MustacheBox] {
-    return [
+    
+    var vals: [String:MustacheBox] = [:]
+    vals = [
       "prefix" :  Box(prefix),
       "given_name" :  Box(given_name),
       "family_name" :  Box(family_name),
       "suffix" :  Box(suffix),
-      "addresses" :  Box(addresses),
-      "telecoms" :  Box(telecoms),
       "specialty" :  Box(specialty),
       "phone" :  Box(phone),
       "organization" :  Box(organization),
-      "cda_identifiers" :  Box(cda_identifiers)
+      "cda_identifiers" :  Box(cda_identifiers),
+      "code": Box(code)
     ]
+    
+    if addresses.count > 0 {
+      vals["addresses"] = Box(addresses)
+    }
+    if telecoms.count > 0 {
+      vals["telecoms"] = Box(telecoms)
+    }
+    return vals
+
   }
   
   public var mustacheBox: MustacheBox {
@@ -299,7 +344,11 @@ extension CDAKProvider: CDAKJSONExportable {
     if cda_identifiers.count > 0 {
       dict["cda_identifiers"] = cda_identifiers.map({$0.jsonDict})
     }
-    
+
+    if let code = code {
+      dict["code"] = code.jsonDict
+    }
+
     return dict
   }
 }

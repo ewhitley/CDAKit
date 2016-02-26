@@ -71,7 +71,7 @@ extension CDAKFulfillmentHistory {
       dict["fill_status"] = fill_status
     }
     if let provider = provider {
-      dict["provider"] = provider
+      dict["provider"] = provider.jsonDict
     }
     
     return dict

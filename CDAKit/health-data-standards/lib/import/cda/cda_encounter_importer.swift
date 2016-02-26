@@ -51,8 +51,8 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
       let facility = CDAKFacility()
       facility.name = participant_element.xpath("./cda:playingEntity/cda:name").first?.stringValue
       
-      facility.addresses = participant_element.xpath("./cda:addr").map { ae in CDAKImport_CDA_LocatableImportUtils.import_address(ae)}
-      facility.telecoms = participant_element.xpath("./cda:telecom").map { te in CDAKImport_CDA_LocatableImportUtils.import_telecom(te)}
+      facility.addresses = participant_element.xpath("./cda:addr").flatMap { ae in CDAKImport_CDA_LocatableImportUtils.import_address(ae)}
+      facility.telecoms = participant_element.xpath("./cda:telecom").flatMap { te in CDAKImport_CDA_LocatableImportUtils.import_telecom(te)}
       facility.codes.addCodes(CDAKImport_CDA_SectionImporter.extract_code(participant_element, code_xpath: "./cda:code"))      
       if let parent = participant_element.parent {
         extract_dates(parent, entry: facility, element_name: "time")

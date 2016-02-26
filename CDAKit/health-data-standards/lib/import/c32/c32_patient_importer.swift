@@ -58,7 +58,9 @@ class CDAKImport_C32_PatientImporter {
     section_importers["vital_signs"] = CDAKImport_CDA_VitalSignImporter()
     section_importers["medications"] = CDAKImport_CDA_MedicationImporter()
     section_importers["conditions"] = CDAKImport_C32_ConditionImporter()
-    section_importers["social_history"] = CDAKImport_CDA_SectionImporter(entry_finder: CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/root='2.16.840.1.113883.3.88.11.83.19']"))
+    //section_importers["social_history"] = CDAKImport_CDA_SectionImporter(entry_finder: CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/root='2.16.840.1.113883.3.88.11.83.19']"))
+    section_importers["social_history"] = CDAKImport_CDA_SocialHistoryImporter()
+
     section_importers["care_goals"] = CDAKImport_C32_CareGoalImporter()
     section_importers["medical_equipment"] = CDAKImport_CDA_MedicalEquipmentImporter()
     section_importers["allergies"] = CDAKImport_CDA_AllergyImporter()
@@ -227,8 +229,8 @@ class CDAKImport_C32_PatientImporter {
     }
 
 
-    patient.addresses = patient_role_element.xpath("./cda:addr").map({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
-    patient.telecoms = patient_role_element.xpath("./cda:telecom").map({telecom in CDAKImport_CDA_LocatableImportUtils.import_telecom(telecom)})
+    patient.addresses = patient_role_element.xpath("./cda:addr").flatMap({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
+    patient.telecoms = patient_role_element.xpath("./cda:telecom").flatMap({telecom in CDAKImport_CDA_LocatableImportUtils.import_telecom(telecom)})
   }
   
 }

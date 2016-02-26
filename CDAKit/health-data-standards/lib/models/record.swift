@@ -912,7 +912,11 @@ extension CDAKRecord {
     if let header = header {
       vals["header"] = Box(header)
     }
-    
+
+    if provider_performances.count > 0 {
+      vals["provider_performances"] = Box(provider_performances)
+    }
+
     
     return Box(vals)
   }

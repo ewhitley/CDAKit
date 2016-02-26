@@ -76,12 +76,20 @@ public func == (lhs: CDAKOrganization, rhs: CDAKOrganization) -> Bool {
 extension CDAKOrganization: MustacheBoxable {
   // MARK: - Mustache marshalling
   var boxedValues: [String:MustacheBox] {
-    return [
+    
+    var vals: [String:MustacheBox] = [:]
+    vals = [
       "name" :  Box(name),
-      "addresses": Box(addresses),
-      "telecoms" : Box(telecoms),
       "ids": Box(ids)
     ]
+    
+    if addresses.count > 0 {
+      vals["addresses"] = Box(addresses)
+    }
+    if telecoms.count > 0 {
+      vals["telecoms"] = Box(telecoms)
+    }
+    return vals
   }
   
   public var mustacheBox: MustacheBox {

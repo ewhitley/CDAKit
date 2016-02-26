@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Mustache
 
 /**
  Medical procedure.  Commonly used for things like surgical procedures.
@@ -50,6 +51,29 @@ public class CDAKProcedure: CDAKEntry {
 
 }
 
+
+extension CDAKProcedure {
+  // MARK: - Mustache marshalling
+  override var boxedValues: [String:MustacheBox] {
+    var vals = super.boxedValues
+    
+    vals["incision_time"] = Box(self.incision_time)
+    vals["ordinality"] = Box(self.ordinality)
+    vals["source"] = Box(self.source)
+    vals["anatomical_approach"] = Box(self.anatomical_approach)
+    vals["anatomical_target"] = Box(self.anatomical_target)
+    vals["method"] = Box(self.method)
+    vals["reaction"] = Box(self.reaction)
+    vals["radiation_dose"] = Box(self.radiation_dose)
+    vals["radiation_duration"] = Box(self.radiation_duration)
+    vals["facility"] = Box(self.facility)
+    vals["performer"] = Box(self.performer)
+    
+    return vals
+  }
+}
+
+
 extension CDAKProcedure {
   // MARK: - JSON Generation
   ///Dictionary for JSON data
@@ -84,10 +108,10 @@ extension CDAKProcedure {
       dict["radiation_duration"] = radiation_duration.codes.map({$0.jsonDict})
     }
     if let facility = facility {
-      dict["facility"] = facility
+      dict["facility"] = facility.jsonDict
     }
     if let performer = performer {
-      dict["performer"] = performer
+      dict["performer"] = performer.jsonDict
     }
     
     return dict

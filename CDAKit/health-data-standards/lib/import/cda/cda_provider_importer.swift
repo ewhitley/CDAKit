@@ -22,10 +22,11 @@ class CDAKImport_CDA_ProviderImporter {
     
     let performers = doc.xpath("//cda:documentationOf/cda:serviceEvent/cda:performer")
     
+    //won't capture effectivetime for PCP since it is outside in the serviceEvent element
+    
     var performances: [CDAKProviderPerformance] = []
     for performer in performers {
       var provider_perf = CDAKImport_CDA_ProviderImporter.extract_provider_data(performer, use_dates: true)
-      //this is for QRDA1 only, so I'm not sure we should go down this rabbit hole
       let pp = CDAKProviderPerformance()
       if let start_date = provider_perf["start"] as? Double {
         pp.start_date = start_date
@@ -35,6 +36,10 @@ class CDAKImport_CDA_ProviderImporter {
         pp.end_date = end_date
         provider_perf["end"] = nil
       }
+      if let functionCode =  provider_perf["functionCode"] as? CDAKCodedEntry {
+        pp.functionCode = functionCode
+      }
+      
       pp.provider = CDAKImport_ProviderImportUtils.find_or_create_provider(provider_perf, patient: patient)
       performances.append(pp)
     }
@@ -57,6 +62,14 @@ class CDAKImport_CDA_ProviderImporter {
         }
       }
       
+      if let code = CDAKImport_CDA_SectionImporter.extract_code(entity, code_xpath: "./cda:code") {
+        provider_data["code"] = code
+      }
+      
+      if let functionCode = CDAKImport_CDA_SectionImporter.extract_code(performer, code_xpath: "./cda:functionCode") {
+        provider_data["functionCode"] = functionCode
+      }
+      
       if let name = entity.xpath("./cda:assignedPerson/cda:name").first {
         provider_data["prefix"]        = extract_data(name, query: "./cda:prefix")
         provider_data["given_name"]   = extract_data(name, query: "./cda:given[1]")
@@ -73,12 +86,18 @@ class CDAKImport_CDA_ProviderImporter {
           provider_data["start"]        = extract_date(time, query: "./cda:low/@value")
           provider_data["end"]          = extract_date(time, query: "./cda:high/@value")
         }
+      } else if let time = performer.parent?.xpath("./cda:effectiveTime").first {
+        //for providers within the root documentationOf/serviceEvent/performer, the "times" will be one level above within the serviceEvent
+        if use_dates == true {
+          provider_data["start"]        = extract_date(time, query: "./cda:low/@value")
+          provider_data["end"]          = extract_date(time, query: "./cda:high/@value")
+        }
       }
       
       //# NIST sample C32s use different OID for NPI vs C83, support both
       let npi  = extract_data(entity, query: "./cda:id[@root='2.16.840.1.113883.4.6' or @root='2.16.840.1.113883.3.72.5.2']/@extension")
-      provider_data["addresses"] = performer.xpath("./cda:assignedEntity/cda:addr").map { ae in CDAKImport_CDA_LocatableImportUtils.import_address(ae)}
-      provider_data["telecoms"] = performer.xpath("./cda:assignedEntity/cda:telecom").map { te in CDAKImport_CDA_LocatableImportUtils.import_telecom(te)}
+      provider_data["addresses"] = performer.xpath("./cda:assignedEntity/cda:addr").flatMap { ae in CDAKImport_CDA_LocatableImportUtils.import_address(ae)}
+      provider_data["telecoms"] = performer.xpath("./cda:assignedEntity/cda:telecom").flatMap { te in CDAKImport_CDA_LocatableImportUtils.import_telecom(te)}
       
       if CDAKProvider.valid_npi(npi) {
         provider_data["npi"] = npi

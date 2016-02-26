@@ -69,8 +69,8 @@ class CDAKImport_cat1_HeaderImporter {
     if let assignedAuthor = elem.xpath("./cda:assignedAuthor").first {
       
       author.ids = import_ids(assignedAuthor)
-      author.addresses = assignedAuthor.xpath("./cda:addr").map({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
-      author.telecoms = assignedAuthor.xpath("./cda:telecom").map({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
+      author.addresses = assignedAuthor.xpath("./cda:addr").flatMap({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
+      author.telecoms = assignedAuthor.xpath("./cda:telecom").flatMap({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
       
       if let person_info = assignedAuthor.xpath("./cda:assignedPerson/cda:name").first {
         author.person = CDAKPerson(given_name: person_info.xpath("./cda:given").first?.stringValue, family_name: person_info.xpath("./cda:family").first?.stringValue, prefix: person_info.xpath("./cda:prefix").first?.stringValue, suffix: person_info.xpath("./cda:suffix").first?.stringValue)
@@ -124,8 +124,8 @@ class CDAKImport_cat1_HeaderImporter {
       //according to the examples, this seems correct
       if let assignedEntity = auth_info.xpath("./cda:assignedEntity").first {
         legal.ids = import_ids(assignedEntity)
-        legal.addresses = assignedEntity.xpath("./cda:addr").map({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
-        legal.telecoms = assignedEntity.xpath("./cda:telecom").map({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
+        legal.addresses = assignedEntity.xpath("./cda:addr").flatMap({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
+        legal.telecoms = assignedEntity.xpath("./cda:telecom").flatMap({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
         if let name_info = assignedEntity.xpath("./cda:assignedPerson/cda:name").first {
           legal.person = CDAKPerson(given_name: name_info.xpath("./cda:given").first?.stringValue, family_name: name_info.xpath("./cda:family").first?.stringValue, prefix: name_info.xpath("./cda:suffix").first?.stringValue, suffix: name_info.xpath("./cda:suffix").first?.stringValue)
         }

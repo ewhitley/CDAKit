@@ -1,7 +1,13 @@
 {{#performer}}
 <performer typeCode="PRF">
+{{#functionCode}}<functionCode code="{{ code }}" codeSystem="{{ codeSystemOid }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}>{{#displayName}}<originalText>{{.}}</originalText>{{/displayName}}</functionCode>{{/functionCode}}
+  <time>
+  {{#start_date}}<low value="{{ date_as_number(start_date) }}"/>{{/start_date}}
+  {{#end_date}}<high value="{{ date_as_number(end_date) }}"/>{{/end_date}}
+   </time>
   <assignedEntity classCode="ASSIGNED">
     {{#each(cda_identifiers)}}<id {{#root}}root="{{.}}"{{/root}} extension="{{extension}}"/>{{/}}
+    {{#code}}<code code="{{ code }}" codeSystem="{{ codeSystemOID }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}/>{{/code}}
     {{#each(addresses)}}
     <addr {{#use}}use="{{.}}"{{/use}}>
       {{#street}}<streetAddressLine>{{.}}</streetAddressLine>{{/street}}
@@ -9,8 +15,9 @@
       <state>{{state}}</state>
       <postalCode>{{zip}}</postalCode>
       <country>{{country}}</country>
-    </addr>
-    {{/}}
+    </addr>{{/}}
+    {{#addresses}}<addr/>{{/addresses}}
+    {{^telecoms}}<telecom/>{{/telecoms}}
     {{#each(telecoms)}}<telecom value="{{value}}" use="{{use}}" />{{/}}
     <assignedPerson>
     <name>
@@ -24,8 +31,9 @@
     <representedOrganization>
     {{#each(cda_identifiers)}}<id {{#root}}root="{{.}}"{{/root}} extension="{{extension}}"/>{{/}}
     <name>{{name}}</name>
-    {{#each(telecoms)}}<telecom value="{{value}}" use="{{use}}" />{{/}}
-    {{#each(addresses)}}
+    {{#telecoms}}{{#each(telecoms)}}<telecom value="{{value}}" use="{{use}}" />{{/}}{{/telecoms}}
+    {{^telecoms}}<telecom/>{{/telecoms}}
+    {{#addresses}}{{#each(addresses)}}
     <addr {{#use}}use="{{.}}"{{/use}}>
     {{#street}}<streetAddressLine>{{.}}</streetAddressLine>{{/street}}
       <city>{{city}}</city>
@@ -33,7 +41,8 @@
       <postalCode>{{zip}}</postalCode>
       <country>{{country}}</country>
     </addr>
-    {{/}}
+    {{/}}{{/addresses}}
+    {{^addresses}}<addr/>{{/addresses}}
     </representedOrganization>
     {{/organization}}
   </assignedEntity>

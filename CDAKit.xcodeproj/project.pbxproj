@@ -114,7 +114,7 @@
 		389171021C6CD88A00A31299 /* ccda_immunization_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170F61C6CD88A00A31299 /* ccda_immunization_importer.swift */; };
 		389171031C6CD88A00A31299 /* ccda_insurance_provider_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170F71C6CD88A00A31299 /* ccda_insurance_provider_importer.swift */; };
 		389171041C6CD88A00A31299 /* ccda_medical_equipment_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170F81C6CD88A00A31299 /* ccda_medical_equipment_importer.swift */; };
-		389171051C6CD88A00A31299 /* ccda_medication_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170F91C6CD88A00A31299 /* ccda_medication_importer.swift */; };
+		389171051C6CD88A00A31299 /* ccda_social_history_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170F91C6CD88A00A31299 /* ccda_social_history_importer.swift */; };
 		389171061C6CD88A00A31299 /* ccda_patient_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170FA1C6CD88A00A31299 /* ccda_patient_importer.swift */; };
 		389171071C6CD88A00A31299 /* ccda_procedure_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170FB1C6CD88A00A31299 /* ccda_procedure_importer.swift */; };
 		389171081C6CD88A00A31299 /* ccda_result_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389170FC1C6CD88A00A31299 /* ccda_result_importer.swift */; };
@@ -282,6 +282,10 @@
 		38BC98131C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */; };
 		38BC98151C7C9F5600E8F2F4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 38BC98141C7C9F5600E8F2F4 /* README.md */; };
 		38BC98191C7CF19D00E8F2F4 /* CDAKitGithubLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BC98181C7CF19D00E8F2F4 /* CDAKitGithubLogo.png */; };
+		38BE32B61C80A652002AEC25 /* HL7CCD.sample.xml in Resources */ = {isa = PBXBuildFile; fileRef = 38BE32B51C80A652002AEC25 /* HL7CCD.sample.xml */; };
+		38BE32B81C80F5EB002AEC25 /* cda_social_history_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38BE32B71C80F5EB002AEC25 /* cda_social_history_importer.swift */; };
+		38BE32BA1C80F7A9002AEC25 /* ccda_medication_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38BE32B91C80F7A9002AEC25 /* ccda_medication_importer.swift */; };
+		38BE32BC1C81002F002AEC25 /* c32_provider_performer.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38BE32BB1C81002F002AEC25 /* c32_provider_performer.c32.mustache */; };
 		38FCF8D01C74F83A0040979E /* cat1_id.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */; };
 		38FCF8D21C74F8540040979E /* cat1_author.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */; };
 		38FCF8D41C74F8730040979E /* cat1_address.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */; };
@@ -416,7 +420,7 @@
 		389170F61C6CD88A00A31299 /* ccda_immunization_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_immunization_importer.swift; sourceTree = "<group>"; };
 		389170F71C6CD88A00A31299 /* ccda_insurance_provider_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_insurance_provider_importer.swift; sourceTree = "<group>"; };
 		389170F81C6CD88A00A31299 /* ccda_medical_equipment_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_medical_equipment_importer.swift; sourceTree = "<group>"; };
-		389170F91C6CD88A00A31299 /* ccda_medication_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_medication_importer.swift; sourceTree = "<group>"; };
+		389170F91C6CD88A00A31299 /* ccda_social_history_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_social_history_importer.swift; sourceTree = "<group>"; };
 		389170FA1C6CD88A00A31299 /* ccda_patient_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_patient_importer.swift; sourceTree = "<group>"; };
 		389170FB1C6CD88A00A31299 /* ccda_procedure_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_procedure_importer.swift; sourceTree = "<group>"; };
 		389170FC1C6CD88A00A31299 /* ccda_result_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_result_importer.swift; sourceTree = "<group>"; };
@@ -585,6 +589,10 @@
 		38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CDAKRecordModels_Common.png; sourceTree = "<group>"; };
 		38BC98141C7C9F5600E8F2F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		38BC98181C7CF19D00E8F2F4 /* CDAKitGithubLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CDAKitGithubLogo.png; sourceTree = "<group>"; };
+		38BE32B51C80A652002AEC25 /* HL7CCD.sample.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = HL7CCD.sample.xml; sourceTree = "<group>"; };
+		38BE32B71C80F5EB002AEC25 /* cda_social_history_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cda_social_history_importer.swift; sourceTree = "<group>"; };
+		38BE32B91C80F7A9002AEC25 /* ccda_medication_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_medication_importer.swift; sourceTree = "<group>"; };
+		38BE32BB1C81002F002AEC25 /* c32_provider_performer.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_provider_performer.c32.mustache; sourceTree = "<group>"; };
 		38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_id.cat1.mustache; sourceTree = "<group>"; };
 		38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_author.cat1.mustache; sourceTree = "<group>"; };
 		38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_address.cat1.mustache; sourceTree = "<group>"; };
@@ -829,6 +837,7 @@
 				389171271C6CD8BA00A31299 /* c32_conditions.c32.mustache */,
 				389171281C6CD8BA00A31299 /* c32_encounters.c32.mustache */,
 				38359E051C7B5DD400CCC036 /* c32_performer.c32.mustache */,
+				38BE32BB1C81002F002AEC25 /* c32_provider_performer.c32.mustache */,
 				389171291C6CD8BA00A31299 /* c32_immunizations.c32.mustache */,
 				3891712A1C6CD8BA00A31299 /* c32_medical_equipment.c32.mustache */,
 				3891712B1C6CD8BA00A31299 /* c32_medications_no_current.c32.mustache */,
@@ -978,7 +987,8 @@
 				389170F61C6CD88A00A31299 /* ccda_immunization_importer.swift */,
 				389170F71C6CD88A00A31299 /* ccda_insurance_provider_importer.swift */,
 				389170F81C6CD88A00A31299 /* ccda_medical_equipment_importer.swift */,
-				389170F91C6CD88A00A31299 /* ccda_medication_importer.swift */,
+				389170F91C6CD88A00A31299 /* ccda_social_history_importer.swift */,
+				38BE32B91C80F7A9002AEC25 /* ccda_medication_importer.swift */,
 				389170FA1C6CD88A00A31299 /* ccda_patient_importer.swift */,
 				389170FB1C6CD88A00A31299 /* ccda_procedure_importer.swift */,
 				389170FC1C6CD88A00A31299 /* ccda_result_importer.swift */,
@@ -1002,6 +1012,7 @@
 				389170DF1C6CD86D00A31299 /* cda_procedure_importer.swift */,
 				389170E01C6CD86D00A31299 /* cda_provider_importer.swift */,
 				389170E11C6CD86D00A31299 /* cda_result_importer.swift */,
+				38BE32B71C80F5EB002AEC25 /* cda_social_history_importer.swift */,
 				389170E21C6CD86D00A31299 /* cda_section_importer.swift */,
 				389170E31C6CD86D00A31299 /* cda_vital_sign_importer.swift */,
 			);
@@ -1108,6 +1119,7 @@
 		389172571C6CEEB300A31299 /* BCS_github */ = {
 			isa = PBXGroup;
 			children = (
+				38BE32B41C80A638002AEC25 /* HL7 Samples */,
 				384E230E1C737A38009B9DED /* Allscripts Samples */,
 				389172A01C6CF6A000A31299 /* EMERGE */,
 				3891729D1C6CF67E00A31299 /* Vitera */,
@@ -1228,6 +1240,15 @@
 				38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */,
 			);
 			path = github_assets;
+			sourceTree = "<group>";
+		};
+		38BE32B41C80A638002AEC25 /* HL7 Samples */ = {
+			isa = PBXGroup;
+			children = (
+				38BE32B51C80A652002AEC25 /* HL7CCD.sample.xml */,
+			);
+			name = "HL7 Samples";
+			path = "BCS_github/HL7 Samples";
 			sourceTree = "<group>";
 		};
 		38FCF8CE1C74F7F60040979E /* cat1 */ = {
@@ -1400,6 +1421,7 @@
 				389171691C6CD8D200A31299 /* ccda_vital_signs.ccda.mustache in Resources */,
 				389171371C6CD8BA00A31299 /* c32_conditions_no_current.c32.mustache in Resources */,
 				3891715D1C6CD8D200A31299 /* ccda_encounters.ccda.mustache in Resources */,
+				38BE32BC1C81002F002AEC25 /* c32_provider_performer.c32.mustache in Resources */,
 				38FCF8D81C74F8DA0040979E /* cat1_telecom.cat1.mustache in Resources */,
 				3891715A1C6CD8D200A31299 /* ccda_code_with_reference.ccda.mustache in Resources */,
 				3891713B1C6CD8BA00A31299 /* c32_medical_equipment.c32.mustache in Resources */,
@@ -1461,6 +1483,7 @@
 				389172E71C6CFD9100A31299 /* intervention_performed_fragment.xml in Resources */,
 				389172D21C6CFD9000A31299 /* care_goal_fragment.xml in Resources */,
 				3891728B1C6CF16600A31299 /* pseudo-3.json in Resources */,
+				38BE32B61C80A652002AEC25 /* HL7CCD.sample.xml in Resources */,
 				389172E41C6CFD9100A31299 /* gestational_age_fragment.xml in Resources */,
 				3891728D1C6CF16600A31299 /* watson.json in Resources */,
 				389172E51C6CFD9100A31299 /* insurance_provider_fragment.xml in Resources */,
@@ -1674,7 +1697,8 @@
 				389171081C6CD88A00A31299 /* ccda_result_importer.swift in Sources */,
 				389170EA1C6CD86D00A31299 /* cda_medication_importer.swift in Sources */,
 				389170671C6CD7A500A31299 /* author.swift in Sources */,
-				389171051C6CD88A00A31299 /* ccda_medication_importer.swift in Sources */,
+				389171051C6CD88A00A31299 /* ccda_social_history_importer.swift in Sources */,
+				38BE32B81C80F5EB002AEC25 /* cda_social_history_importer.swift in Sources */,
 				389170C01C6CD7FF00A31299 /* code_system_helper.swift in Sources */,
 				389170ED1C6CD86D00A31299 /* cda_procedure_importer.swift in Sources */,
 				3891711F1C6CD8A500A31299 /* String+CryptoExtensions.swift in Sources */,
@@ -1690,6 +1714,7 @@
 				3891709D1C6CD7C800A31299 /* encounter.swift in Sources */,
 				389170BD1C6CD7C800A31299 /* vital_sign.swift in Sources */,
 				389171191C6CD8A500A31299 /* CDAKGlobalData.swift in Sources */,
+				38BE32BA1C80F7A9002AEC25 /* ccda_medication_importer.swift in Sources */,
 				389170FE1C6CD88A00A31299 /* ccda_allergy_importer.swift in Sources */,
 				389170951C6CD7C800A31299 /* address.swift in Sources */,
 				389171001C6CD88A00A31299 /* ccda_condition_importer.swift in Sources */,

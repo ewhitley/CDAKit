@@ -52,6 +52,12 @@ extension NSDate {
     if let d = hdsDateformatter.dateFromString(CDAKCommonUtility.Regex.replaceMatches("(\\d)(st|nd|rd|th)(,)", inString: hdsFormattedString, withString: "$1$3")!)
     {
       return NSDate(timeInterval:0,sinceDate:d)
+    } else if let d = hdsDateNumberformatter.dateFromString(hdsFormattedString) {
+      return NSDate(timeInterval: 0, sinceDate: d)
+    } else if let d = hdsDateNumberFormatterShort.dateFromString(hdsFormattedString) {
+      return NSDate(timeInterval: 0, sinceDate: d)
+    } else if let d = hdsDateNumberFormatterYearOnly.dateFromString(hdsFormattedString) {
+      return NSDate(timeInterval: 0, sinceDate: d)
     }
     else {
       return nil
@@ -109,4 +115,23 @@ private var hdsDateNumberformatter:NSDateFormatter = {
   formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
   return formatter
 }()
-
+//we've seen some files not following spec and failing to include HHmmss
+//200701180
+private var hdsDateNumberFormatterShort:NSDateFormatter = {
+  let formatter = NSDateFormatter()
+  formatter.dateFormat = "yyyyMMdd"
+  formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+  formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
+  formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+  return formatter
+}()
+//as well as just years.... social history with just "1947"
+//200701180
+private var hdsDateNumberFormatterYearOnly:NSDateFormatter = {
+  let formatter = NSDateFormatter()
+  formatter.dateFormat = "yyyy"
+  formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+  formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
+  formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+  return formatter
+}()

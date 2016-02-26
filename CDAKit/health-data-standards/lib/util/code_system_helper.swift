@@ -52,7 +52,9 @@ public class CDAKCodeSystemHelper {
     "2.16.840.1.113883.6.13" : "CDT",
     "2.16.840.1.113883.18.2" : "AdministrativeSex",
     "2.16.840.1.113883.5.112" : "HL7 RouteOfAdministration", //added - EWW
-    "UNK" : "Unknown"//added - EWW
+    "UNK" : "Unknown",//added - EWW
+    "2.16.840.1.113883.12.443" : "Provider Role",//added - EWW
+    "2.16.840.1.113883.5.88" : "ParticipationFunction"//added - EWW
     
     //more ...
     // https://www.hl7.org/fhir/terminologies-v3.html

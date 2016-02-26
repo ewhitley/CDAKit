@@ -34,6 +34,20 @@ public class CDAKAddress: NSObject, CDAKJSONInstantiable {
   */
   public var use: String?
   
+  /**
+   Determines whether the address is empty
+  */
+  public var is_empty: Bool {
+    
+    let someText: String = "\(street.flatMap({$0}).joinWithSeparator(""))\(city ?? "")\(state ?? "")\(zip ?? "")\(country ?? "")".stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    
+    if someText.characters.count > 0 {
+      return false
+    }
+    
+    return true
+  }
+  
   // MARK: - Initializers
   public override init(){
     super.init()

@@ -24,17 +24,44 @@ class CDAKProviderPerformanceTest: XCTestCase {
     super.tearDown()
   }
   
-  func testProviderPerformanceImport() {
+  func testProviderPerformanceImport_Emerge673() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Patient-673")
     do {
       let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
       print("providers: \(record.provider_performances)")
-      print(record.export(inFormat: .ccda))
+      //print(record.export(inFormat: .ccda))
     }
     catch {
       XCTFail()
     }
   }
+
+  func testProviderPerformanceImport_HL7CCDSample() {
+    let doc = TestHelpers.fileHelpers.load_xml_string_from_file("HL7CCD.sample")
+    do {
+      let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
+//      print("providers: \(record.provider_performances)")
+//      print(record.json)
+      
+      print(record.export(inFormat: .c32))
+      
+//      print("record.social_history.count = \(record.social_history.count)")
+
+//      print(record.advance_directives.map({$0.json}))
+//      for entry in record.medical_equipment {
+//        print(entry.json)
+//      }
+      
+//      print(CDAKGlobals.sharedInstance.allProviders)
+//      print("medication performers: \(record.medications)) ")
+      
+      //print(record.export(inFormat: .ccda))
+    }
+    catch {
+      XCTFail()
+    }
+  }
+
   
   
 }

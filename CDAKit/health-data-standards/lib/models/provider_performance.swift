@@ -7,12 +7,12 @@
 //
 
 import Foundation
+import Mustache
 
 //NOTE: changing type to CDAKEntry
 /**
-  Performance entry for provider
+  Supplies a relationship between a patient and a provider for a particulary start/end date and function.
 
-NOTE: we're never going to use this. It's for QRDA III and we have no measure engine, no measures, etc. so this is never going to be utilized.
 */
 public class CDAKProviderPerformance: CDAKEntry {
 
@@ -26,6 +26,56 @@ public class CDAKProviderPerformance: CDAKEntry {
   ///provider
   public var provider: CDAKProvider?
 
+  
+  /**
+   CDA function code
+   
+   This allows us to determine the clinical function like "Primary Care Physician" if not specifically associated with an entry as a performer.
+   
+   ```
+   <functionCode code="PCP" displayName="Primary Care Physician"
+   codeSystem="2.16.840.1.113883.5.88" codeSystemName="participationFunction">
+   <originalText>Primary Care Provider</originalText>
+   </functionCode>
+   ```
+   
+   This is a complex element due to history and various use.
+   
+   You can read more about functionCode at the [CDAPro site](http://ushik.ahrq.gov/ViewItemDetails?system=mdr&itemKey=83329000)
+   
+   Historical C32 codes:
+    ---
+   
+   Code System: "Provider Role" [2.16.840.1.113883.12.443](http://ushik.ahrq.gov/ViewItemDetails?system=mdr&itemKey=83329000)
+   
+   * PP (Primary Care Provider)
+   * CP (Consulting Provider)
+   * RP (Referring Provider)
+
+   C-CDA codes:
+   ---
+   
+   Code System: "ParticipationFunction" [2.16.840.1.113883.5.88](http://www.hl7.org/documentcenter/public_temp_29B6E6E3-1C23-BA17-0C7B234C1C2C5A05/standards/vocabulary/vocabulary_tables/infrastructure/vocabulary/ParticipationFunction.html)
+   
+   Subset of list:
+   
+   * ADMPHYS (admitting physician)
+   * ANEST (anesthesist)
+   * ANRS (anesthesia nurse)
+   * ATTPHYS (attending physician)
+   * DISPHYS (discharging physician)
+   * FASST (first assistant surgeon)
+   * MDWF (midwife)
+   * NASST (nurse assistant)
+   * PCP (primary care physician)
+   * PRISURG (primary surgeon)
+   * RNDPHYS (rounding physician)
+   * SASST (second assistant surgeon)
+   * SNRS (scrub nurse)
+   * TASST (third assistant)
+
+   */
+  public var functionCode: CDAKCodedEntry?
   
   // MARK: Health-Data-Standards Functions
   ///Offset all dates by specified double
@@ -43,9 +93,23 @@ public class CDAKProviderPerformance: CDAKEntry {
   // MARK: Standard properties
   ///Debugging description
   override public var description: String {
-    return "\(self.dynamicType) => start_date:\(start_date), end_date:\(end_date), provider:\(provider)"
+    return "\(self.dynamicType) => start_date:\(start_date), end_date:\(end_date), functionCode:\(functionCode), provider:\(provider)"
   }
   
+}
+
+extension CDAKProviderPerformance {
+  // MARK: - Mustache marshalling
+  override var boxedValues: [String:MustacheBox] {
+    var vals = super.boxedValues
+    
+    vals["start_date"] = Box(self.start_date)
+    vals["end_date"] = Box(self.end_date)
+    vals["performer"] = Box(self.provider)
+    vals["functionCode"] = Box(self.functionCode)
+    
+    return vals
+  }
 }
 
 extension CDAKProviderPerformance {
@@ -61,7 +125,10 @@ extension CDAKProviderPerformance {
       dict["end_date"] = end_date
     }
     if let provider = provider {
-      dict["provider"] = provider
+      dict["provider"] = provider.jsonDict
+    }
+    if let functionCode = functionCode {
+      dict["functionCode"] = functionCode.jsonDict
     }
     
     return dict

@@ -21,7 +21,9 @@ class CDAKImport_CCDA_PatientImporter: CDAKImport_C32_PatientImporter {
     section_importers["vital_signs"] = CDAKImport_CCDA_VitalSignImporter()
     section_importers["medications"] = CDAKImport_CCDA_MedicationImporter()
     section_importers["conditions"] = CDAKImport_CCDA_ConditionImporter()
-    section_importers["social_history"] = CDAKImport_CDA_SectionImporter(entry_finder: CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.38' or cda:templateId/@root='2.16.840.1.113883.10.20.15.3.8']"))
+    //section_importers["social_history"] = CDAKImport_CDA_SectionImporter(entry_finder: CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.38' or cda:templateId/@root='2.16.840.1.113883.10.20.15.3.8']"))
+    section_importers["social_history"] = CDAKImport_CCDA_SocialHistoryImporter()
+
     section_importers["care_goals"] = CDAKImport_CCDA_CareGoalImporter()
     section_importers["medical_equipment"] = CDAKImport_CCDA_MedicalEquipmentImporter()
     section_importers["allergies"] = CDAKImport_CCDA_AllergyImporter()

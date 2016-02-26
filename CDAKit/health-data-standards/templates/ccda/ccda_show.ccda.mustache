@@ -63,6 +63,13 @@
     </patientRole>
   </recordTarget>
   {{> cat1_header.cat1}}
+  {{#patient.provider_performances}}<documentationOf typeCode="DOC">
+    <serviceEvent classCode="PCPR">
+      {{#each(patient.provider_performances)}}
+      {{> ccda_performer.ccda}}
+      {{/}}
+    </serviceEvent>
+  </documentationOf>{{/patient.provider_performances}}
   <component>
     <structuredBody>
 

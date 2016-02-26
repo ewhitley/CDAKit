@@ -61,6 +61,7 @@ class CDAKImport_ProviderImportUtils {
     provider.suffix = provider_hash["suffix"] as? String
     provider.specialty = provider_hash["specialty"] as? String
     provider.phone = provider_hash["phone"] as? String
+    provider.code = provider_hash["code"] as? CDAKCodedEntry
 
     //OK, this is... not ideal.
     // When the Ruby restores the original Provider hash, I think it does so alphabetically

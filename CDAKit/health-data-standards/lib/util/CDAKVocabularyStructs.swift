@@ -532,6 +532,94 @@ public struct CDAKConceptHelpers {
     public static let TobaccoSmokingConsumptionUnknown_Finding = "266927001"
   }
   
+  /**
+   ```
+   <functionCode code="PCP" displayName="Primary Care Physician"
+   codeSystem="2.16.840.1.113883.5.88" codeSystemName="participationFunction">
+   <originalText>Primary Care Provider</originalText>
+   </functionCode>
+   ```
+   
+   This is a complex element due to history and various use.
+   
+   You can read more about functionCode at the [CDAPro site](http://ushik.ahrq.gov/ViewItemDetails?system=mdr&itemKey=83329000)
+   
+  */
+  public struct HL7ProviderFunctionCode {
+    /**
+     Historical C32 codes:
+     ---
+     
+     Code System: "Provider Role" [2.16.840.1.113883.12.443](http://ushik.ahrq.gov/ViewItemDetails?system=mdr&itemKey=83329000)
+     
+     * PP (Primary Care Provider)
+     * CP (Consulting Provider)
+     * RP (Referring Provider)
+     */
+    public struct C32 {
+      /// Primary Care Provider
+      public static let PrimaryCareProvider = "PP"
+      /// Consulting Provider
+      public static let ConsultingProvider = "CP"
+      /// Referring Provider
+      public static let ReferringProvider = "RP"
+    }
+    /**
+     C-CDA codes:
+     ---
+     
+     Code System: "ParticipationFunction" [2.16.840.1.113883.5.88](http://www.hl7.org/documentcenter/public_temp_29B6E6E3-1C23-BA17-0C7B234C1C2C5A05/standards/vocabulary/vocabulary_tables/infrastructure/vocabulary/ParticipationFunction.html)
+     
+     Subset of list:
+     
+     * ADMPHYS (admitting physician)
+     * ANEST (anesthesist)
+     * ANRS (anesthesia nurse)
+     * ATTPHYS (attending physician)
+     * DISPHYS (discharging physician)
+     * FASST (first assistant surgeon)
+     * MDWF (midwife)
+     * NASST (nurse assistant)
+     * PCP (primary care physician)
+     * PRISURG (primary surgeon)
+     * RNDPHYS (rounding physician)
+     * SASST (second assistant surgeon)
+     * SNRS (scrub nurse)
+     * TASST (third assistant)
+     */
+    public struct CCDA {
+      /// admitting physician
+      public static let admittingPhysician = "ADMPHYS"
+      /// anesthesist
+      public static let anesthesist = "ANEST"
+      /// anesthesia nurse
+      public static let anesthesiaNurse = "ANRS"
+      /// attending physician
+      public static let attendingPhysician = "ATTPHYS"
+      /// discharging physician
+      public static let dischargingPhysician = "DISPHYS"
+      /// first assistant surgeon
+      public static let firstAssistantSurgeon = "FASST"
+      /// midwife
+      public static let midwife = "MDWF"
+      /// nurse assistant
+      public static let nurseAssistant = "NASST"
+      /// primary care physician
+      public static let primaryCarePhysician = "PCP"
+      /// primary surgeon
+      public static let primarySurgeon = "PRISURG"
+      /// rounding physician
+      public static let roundingPhysician = "RNDPHYS"
+      /// second assistant surgeon
+      public static let secondAssistantSurgeon = "SASST"
+      /// scrub nurse
+      public static let scrubNurse = "SNRS"
+      /// third assistant
+      public static let thirdAssistant = "TASST"
+    }
+  }
+
+  
 }
 
 

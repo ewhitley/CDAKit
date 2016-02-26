@@ -24,6 +24,21 @@ public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
   ///is this the preferred phone?
   public var preferred: Bool?
   
+  /**
+   Determines whether the phone is empty
+   */
+  public var is_empty: Bool {
+    
+    let someText: String = "\(value ?? "")".stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    
+    if someText.characters.count > 0 {
+      return false
+    }
+    return true
+    
+  }
+
+  
   // MARK: - Initializers
   public override init(){
     super.init()
