@@ -22,12 +22,14 @@ public class CDAKSupport: CDAKEntry {
   public var address: CDAKAddress?
   ///telecom
   public var telecom: CDAKTelecom?
-  ///title
-  public var title: String?
+  ///prefix (was Title)
+  public var prefix: String?
   ///first / given name
   public var given_name: String?
   ///family / past name
   public var family_name: String?
+  ///suffix
+  public var suffix: String?
   ///mother's maiden name
   public var mothers_maiden_name: String?
   ///type (see types)
@@ -52,14 +54,17 @@ extension CDAKSupport {
       dict["telecom"] = telecom.jsonDict
     }
     
-    if let title = title {
-      dict["title"] = title
+    if let prefix = prefix {
+      dict["prefix"] = prefix
     }
     if let given_name = given_name {
       dict["given_name"] = given_name
     }
     if let family_name = family_name {
       dict["family_name"] = family_name
+    }
+    if let suffix = suffix {
+      dict["suffix"] = suffix
     }
     if let mothers_maiden_name = mothers_maiden_name {
       dict["mothers_maiden_name"] = mothers_maiden_name

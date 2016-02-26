@@ -29,9 +29,10 @@
     {{#legal_authenticator.person}}
     <assignedPerson>
       <name>
+        {{#legal_authenticator.person.prefix}}<suffix>{{.}}</suffix>{{/legal_authenticator.person.prefix}}
         {{#legal_authenticator.person.given_name}}<given>{{.}}</given>{{/legal_authenticator.person.given_name}}
         {{#legal_authenticator.person.family_name}}<family>{{.}}</family>{{/legal_authenticator.person.family_name}}
-        {{#legal_authenticator.person.title}}<suffix>{{.}}</suffix>{{/legal_authenticator.person.title}}
+        {{#legal_authenticator.person.suffix}}<suffix>{{.}}</suffix>{{/legal_authenticator.person.suffix}}
       </name>
     </assignedPerson>
     {{/legal_authenticator.person}}

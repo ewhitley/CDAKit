@@ -776,12 +776,14 @@ public enum CDAKHKMetadataKeys: String {
 public class CDAKHKRecord: CustomStringConvertible {
   
   //Mark: Basic profile and demographics
-  ///Person's title
-  public var title: String?
+  ///Person's prefix (was Title)
+  public var prefix: String?
   ///Person's first / given name
   public var first: String?
   ///Person's last / family name
   public var last: String?
+  ///Person's name suffix
+  public var suffix: String?
   ///Person's biological sex / gender
   public var gender: HKBiologicalSex?
 
@@ -807,9 +809,10 @@ public class CDAKHKRecord: CustomStringConvertible {
   public func exportAsCDAKRecord() -> CDAKRecord {
     
     let aRecord = CDAKRecord()
-    aRecord.title = title
+    aRecord.prefix = prefix
     aRecord.first = first
     aRecord.last = last
+    aRecord.suffix = suffix
     aRecord.gender = CDAKHealthKitBridge.sharedInstance.administrativeGender(gender).code
     if let bDate = birthdate {
       aRecord.birthdate = bDate.timeIntervalSince1970
@@ -887,7 +890,8 @@ public class CDAKHKRecord: CustomStringConvertible {
     
     first = patient.first
     last = patient.last
-    title = patient.title
+    prefix = patient.prefix
+    suffix = patient.suffix
     gender = CDAKHealthKitBridge.sharedInstance.administrativeGender(patient.gender)
     
     self.metadata = metadata
@@ -927,7 +931,7 @@ public class CDAKHKRecord: CustomStringConvertible {
   
   ///Debugging description
   public var description: String {
-    return "CDAKHKRecord => title: \(title), first: \(first), last: \(last), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), samples: \(samplesDescription) "
+    return "CDAKHKRecord => prefix: \(prefix), first: \(first), last: \(last), suffix: \(suffix), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), samples: \(samplesDescription) "
   }
   
 }

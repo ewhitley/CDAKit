@@ -22,8 +22,10 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   static let TAX_ID_OID = "2.16.840.1.113883.4.2"
 
   // MARK: CDA properties
-  ///Title
-  public var title: String?
+  ///Prefix (was: Title)
+  public var prefix: String?
+  ///Suffix
+  public var suffix: String?
   ///Given / First name
   public var given_name: String?
   ///Family / Last name
@@ -183,7 +185,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   // MARK: Standard properties
   ///Debugging description
   public var description: String {
-    return "Provider => title: \(title), given_name: \(given_name), family_name: \(family_name), npi: \(npi), specialty: \(specialty), phone: \(phone), organization: \(organization), cda_identifiers: \(cda_identifiers), addresses: \(addresses), telecoms: \(telecoms)"
+    return "Provider => prefix: \(prefix), given_name: \(given_name), family_name: \(family_name), suffix: \(suffix), npi: \(npi), specialty: \(specialty), phone: \(phone), organization: \(organization), cda_identifiers: \(cda_identifiers), addresses: \(addresses), telecoms: \(telecoms)"
   }
 
   
@@ -211,7 +213,7 @@ extension CDAKProvider {
     
     var hv: Int
     
-    hv = "\(title)\(given_name)\(family_name)\(specialty)\(phone)".hashValue
+    hv = "\(prefix)\(given_name)\(family_name)\(specialty)\(phone)".hashValue
     
     if addresses.count > 0 {
       hv = hv ^ "\(addresses)".hashValue
@@ -239,9 +241,10 @@ extension CDAKProvider: MustacheBoxable {
   // MARK: - Mustache marshalling
   var boxedValues: [String:MustacheBox] {
     return [
-      "title" :  Box(title),
+      "prefix" :  Box(prefix),
       "given_name" :  Box(given_name),
       "family_name" :  Box(family_name),
+      "suffix" :  Box(suffix),
       "addresses" :  Box(addresses),
       "telecoms" :  Box(telecoms),
       "specialty" :  Box(specialty),
@@ -262,14 +265,17 @@ extension CDAKProvider: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     
-    if let title = title {
-      dict["title"] = title
+    if let prefix = prefix {
+      dict["prefix"] = prefix
     }
     if let given_name = given_name {
       dict["given_name"] = given_name
     }
     if let family_name = family_name {
       dict["family_name"] = family_name
+    }
+    if let suffix = suffix {
+      dict["suffix"] = suffix
     }
     
     if telecoms.count > 0 {

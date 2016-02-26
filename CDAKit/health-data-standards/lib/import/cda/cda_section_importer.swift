@@ -199,9 +199,10 @@ class CDAKImport_CDA_SectionImporter {
     }
     let person = CDAKPerson()
     if let name_element = person_element.xpath("./cda:name").first {
-      person.title = name_element.xpath("./cda:title").first?.stringValue
+      person.prefix = name_element.xpath("./cda:prefix").first?.stringValue
       person.given_name = name_element.xpath("./cda:given").first?.stringValue
       person.family_name = name_element.xpath("./cda:family").first?.stringValue
+      person.suffix = name_element.xpath("./cda:suffix").first?.stringValue
     }
     person.addresses = person_element.xpath("./cda:addr").map { addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr) }
     person.telecoms = person_element.xpath("./cda:telecom").map { tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele) }

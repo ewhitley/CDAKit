@@ -73,7 +73,7 @@ class CDAKImport_cat1_HeaderImporter {
       author.telecoms = assignedAuthor.xpath("./cda:telecom").map({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
       
       if let person_info = assignedAuthor.xpath("./cda:assignedPerson/cda:name").first {
-        author.person = CDAKPerson(given_name: person_info.xpath("./cda:given").first?.stringValue, family_name: person_info.xpath("./cda:family").first?.stringValue, title: person_info.xpath("./cda:suffix").first?.stringValue)
+        author.person = CDAKPerson(given_name: person_info.xpath("./cda:given").first?.stringValue, family_name: person_info.xpath("./cda:family").first?.stringValue, prefix: person_info.xpath("./cda:prefix").first?.stringValue, suffix: person_info.xpath("./cda:suffix").first?.stringValue)
       }
       if let device_elem = assignedAuthor.xpath("./assignedAuthoringDevice").first {
         author.device = get_device(device_elem)
@@ -127,7 +127,7 @@ class CDAKImport_cat1_HeaderImporter {
         legal.addresses = assignedEntity.xpath("./cda:addr").map({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
         legal.telecoms = assignedEntity.xpath("./cda:telecom").map({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
         if let name_info = assignedEntity.xpath("./cda:assignedPerson/cda:name").first {
-          legal.person = CDAKPerson(given_name: name_info.xpath("./cda:given").first?.stringValue, family_name: name_info.xpath("./cda:family").first?.stringValue, title: name_info.xpath("./cda:suffix").first?.stringValue)
+          legal.person = CDAKPerson(given_name: name_info.xpath("./cda:given").first?.stringValue, family_name: name_info.xpath("./cda:family").first?.stringValue, prefix: name_info.xpath("./cda:suffix").first?.stringValue, suffix: name_info.xpath("./cda:suffix").first?.stringValue)
         }
       }
       if let org_info = auth_info.xpath("./cda:representedOrganization").first {

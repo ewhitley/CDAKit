@@ -469,7 +469,8 @@ class CDAKUtility {
 
       case "first": obj.first = stringValue(value)
       case "last": obj.last = stringValue(value)
-      case "title": obj.title = stringValue(value)
+      case "prefix": obj.prefix = stringValue(value)
+      case "suffix": obj.suffix = stringValue(value)
       //OK, so there's extra data in the mongo json, but NOT in the model
       // "name" -> not in model
       case "name": break
@@ -563,9 +564,10 @@ class CDAKUtility {
       }
     } else if let obj = obj as? CDAKProvider {
       switch property {
-      case "title": obj.title = stringValue(value)
+      case "prefix": obj.prefix = stringValue(value)
       case "given_name": obj.given_name = stringValue(value)
       case "family_name": obj.family_name = stringValue(value)
+      case "suffix": obj.suffix = stringValue(value)
       case "specialty": obj.specialty = stringValue(value)
       case "phone": obj.phone = stringValue(value)
 

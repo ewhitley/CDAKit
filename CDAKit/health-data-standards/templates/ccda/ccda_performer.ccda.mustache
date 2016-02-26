@@ -14,9 +14,10 @@
     {{#each(telecoms)}}<telecom value="{{value}}" use="{{use}}" />{{/}}
     <assignedPerson>
     <name>
+      {{#prefix }}<given>{{ . }}</given>{{/prefix }}
       <given>{{given_name}}</given>
       <family>{{family_name}}</family>
-      {{#title}}<suffix>{{.}}</suffix>{{/title}}
+      {{#suffix}}<suffix>{{.}}</suffix>{{/suffix}}
     </name>
     </assignedPerson>
     {{#organization}}

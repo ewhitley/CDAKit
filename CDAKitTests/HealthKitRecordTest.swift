@@ -68,7 +68,7 @@ class HealthKitRecordTest: XCTestCase {
   
   func testRoundTrip() {
     let aRecord = CDAKRecord()
-    aRecord.title = "Mr."
+    aRecord.prefix = "Mr."
     aRecord.first = "Jimbo"
     aRecord.last = "Jones"
     

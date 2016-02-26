@@ -63,7 +63,7 @@ class C32ProviderImporterTest: XCTestCase {
     let provider = provider_perf!.provider
     XCTAssertNotNil(provider)
     
-    XCTAssertEqual("Dr.", provider?.title)
+    XCTAssertEqual("Dr.", provider?.prefix)
     XCTAssertEqual("Stanley", provider?.given_name)
     XCTAssertEqual("Strangelove", provider?.family_name)
     XCTAssertNotNil(provider?.addresses.first)
@@ -75,7 +75,7 @@ class C32ProviderImporterTest: XCTestCase {
     let provider2 = provider_perf2!.provider
     XCTAssertNotNil(provider2)
     
-    XCTAssertEqual("Dr.", provider2?.title)
+    XCTAssertEqual("Dr.", provider2?.prefix)
     XCTAssertEqual("Teddy", provider2?.given_name)
     XCTAssertEqual("Seuss", provider2?.family_name)
     XCTAssertEqual("1234567893", provider2?.npi)
@@ -97,7 +97,7 @@ class C32ProviderImporterTest: XCTestCase {
     let provider = provider_perf?.provider
     XCTAssertNotNil( provider )
     
-    XCTAssertEqual("Dr.", provider?.title)
+    XCTAssertEqual("Dr.", provider?.prefix)
     XCTAssertEqual("Pseudo", provider?.given_name)
     XCTAssertEqual("Physician-1", provider?.family_name)
     XCTAssertEqual("808401234567893", provider?.npi)
@@ -108,7 +108,7 @@ class C32ProviderImporterTest: XCTestCase {
     let provider2 = provider_perf2?.provider
     XCTAssertNotNil( provider2)
       
-    XCTAssertEqual("Dr.", provider2?.title)
+    XCTAssertEqual("Dr.", provider2?.prefix)
     XCTAssertEqual("Pseudo", provider2?.given_name)
     XCTAssertEqual("Physician-3", provider2?.family_name)
     //# XCTAssertEqual("NIST HL7 Test Laboratory", provider2.organization)

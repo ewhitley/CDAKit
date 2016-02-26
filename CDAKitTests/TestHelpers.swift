@@ -22,40 +22,40 @@ class TestHelpers {
       class func load_providers() {
 
         let provider_1 = CDAKProvider()
-        provider_1.title = "Dr."
+        provider_1.prefix = "Dr."
         provider_1.given_name = "Robert"
         provider_1.family_name = "Kildare"
         provider_1.cda_identifiers.append(CDAKCDAIdentifier(root: "2.16.840.1.113883.3.72.5.2", extension_id: "Kildare"))
         
         let provider_2 = CDAKProvider()
-        provider_2.title = "Dr."
+        provider_2.prefix = "Dr."
         provider_2.given_name = "FirstName"
         provider_2.family_name = "LastName"
         provider_2.cda_identifiers.append(CDAKCDAIdentifier(root: "2.16.840.1.113883.3.72.5.2", extension_id: "LastName"))
         provider_2.addresses.append(CDAKAddress(street: ["100 Bureau Drive"], city: "Gaithersburg", state: "MD", zip: "20899", country: "US", use: nil))
 
         let provider_3 = CDAKProvider()
-        provider_3.title = "Dr."
+        provider_3.prefix = "Dr."
         provider_3.given_name = "John"
         provider_3.family_name = "Watson"
         provider_3.cda_identifiers.append(CDAKCDAIdentifier(root: "2.16.840.1.113883.3.72.5.2", extension_id: "Watson"))
 
         let provider_4 = CDAKProvider()
-        provider_4.title = "Dr."
+        provider_4.prefix = "Dr."
         provider_4.given_name = "Pseudo"
         provider_4.family_name = "Physician-1"
         provider_4.specialty = "200000000X"
         provider_4.cda_identifiers.append(CDAKCDAIdentifier(root: "2.16.840.1.113883.3.72.5.2", extension_id: "PseudoMD-1"))
 
         let provider_5 = CDAKProvider()
-        provider_5.title = "Dr."
+        provider_5.prefix = "Dr."
         provider_5.given_name = "Pseudo"
         provider_5.family_name = "Physician-2"
         provider_5.specialty = "200000000X"
         provider_5.cda_identifiers.append(CDAKCDAIdentifier(root: "2.16.840.1.113883.3.72.5.2", extension_id: "PseudoMD-2"))
 
         let provider_6 = CDAKProvider()
-        provider_6.title = "Dr."
+        provider_6.prefix = "Dr."
         provider_6.given_name = "Pseudo"
         provider_6.family_name = "Physician-2"
         provider_6.cda_identifiers.append(CDAKCDAIdentifier(root: "2.16.840.1.113883.3.72.5.2", extension_id: "PseudoMD-3"))

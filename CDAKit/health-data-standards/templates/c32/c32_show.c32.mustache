@@ -36,8 +36,10 @@
       {{/patient.telecoms }}
       <patient>
         <name>
+          {{#patient.prefix }}<given>{{ . }}</given>{{/patient.prefix }}
           <given>{{ patient.first }}</given>
           <family>{{ patient.last }}</family>
+          {{#patient.suffix }}<given>{{ . }}</given>{{/patient.suffix }}
         </name>
         {{#patient.gender}}
         <administrativeGenderCode code="{{ patient.gender }}" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7 AdministrativeGender"/>

@@ -1,7 +1,7 @@
 {
     "_id" : "53b2c4414d4d32139c030000",
     "parent_ids" : [],
-    "title" : "Dr.",
+    "prefix" : "Dr.",
     "given_name" : "Robert",
     "family_name" : "Kildare",
     "cda_identifiers" : [

@@ -21,6 +21,7 @@ class CDAKImport_CDA_ProviderImporter {
   class func extract_providers(doc: XMLDocument, patient:CDAKPerson? = nil) -> [CDAKProviderPerformance] {
     
     let performers = doc.xpath("//cda:documentationOf/cda:serviceEvent/cda:performer")
+    
     var performances: [CDAKProviderPerformance] = []
     for performer in performers {
       var provider_perf = CDAKImport_CDA_ProviderImporter.extract_provider_data(performer, use_dates: true)
@@ -57,9 +58,10 @@ class CDAKImport_CDA_ProviderImporter {
       }
       
       if let name = entity.xpath("./cda:assignedPerson/cda:name").first {
-        provider_data["title"]        = extract_data(name, query: "./cda:prefix")
+        provider_data["prefix"]        = extract_data(name, query: "./cda:prefix")
         provider_data["given_name"]   = extract_data(name, query: "./cda:given[1]")
         provider_data["family_name"]  = extract_data(name, query: "./cda:family")
+        provider_data["suffix"]        = extract_data(name, query: "./cda:suffix")
       }
       provider_data["organization"] = CDAKImport_CDA_OrganizationImporter.extract_organization(entity.xpath("./cda:representedOrganization").first)
       provider_data["specialty"]    = extract_data(entity, query: "./cda:code/@code")

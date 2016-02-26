@@ -94,6 +94,8 @@ class CDAKImport_C32_PatientImporter {
     create_c32_hash(c32_patient, doc: doc)
     check_for_cause_of_death(c32_patient)
 
+    c32_patient.provider_performances = CDAKImport_CDA_ProviderImporter.extract_providers(doc)
+    
     return c32_patient
   }
   
@@ -174,9 +176,10 @@ class CDAKImport_C32_PatientImporter {
       return
     }
 
-    patient.title = patient_element.xpath("cda:name/cda:title").first?.stringValue
+    patient.prefix = patient_element.xpath("cda:name/cda:prefix").first?.stringValue
     patient.first = patient_element.xpath("cda:name/cda:given").first?.stringValue
     patient.last = patient_element.xpath("cda:name/cda:family").first?.stringValue
+    patient.suffix = patient_element.xpath("cda:name/cda:suffix").first?.stringValue
 
     if let birthdate_in_hl7ts_node = patient_element.xpath("cda:birthTime").first, birthdate_in_hl7ts = birthdate_in_hl7ts_node["value"] {
       patient.birthdate = CDAKHL7Helper.timestamp_to_integer(birthdate_in_hl7ts)

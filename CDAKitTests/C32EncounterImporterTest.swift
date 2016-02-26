@@ -43,7 +43,7 @@ class C32EncounterImporterTest: XCTestCase {
       print("encounter.codes = \(encounter.codes)")
       
       XCTAssertEqual(encounter.codes.containsCode(withCodeSystem: "CPT", andCode: "99241"), true)
-      XCTAssertEqual(encounter.performer?.title, "Dr.")
+      XCTAssertEqual(encounter.performer?.prefix, "Dr.")
       XCTAssertEqual(encounter.performer?.family_name, "Kildare")
       XCTAssertEqual(encounter.facility?.name, "Good Health Clinic")
       XCTAssertEqual(encounter.reason?.codes.containsCode(withCodeSystem: "SNOMED-CT", andCode: "308292007"), true)

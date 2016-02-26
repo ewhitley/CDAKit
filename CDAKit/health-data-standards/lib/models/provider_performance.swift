@@ -40,6 +40,12 @@ public class CDAKProviderPerformance: CDAKEntry {
     }
   }
   
+  // MARK: Standard properties
+  ///Debugging description
+  override public var description: String {
+    return "\(self.dynamicType) => start_date:\(start_date), end_date:\(end_date), provider:\(provider)"
+  }
+  
 }
 
 extension CDAKProviderPerformance {

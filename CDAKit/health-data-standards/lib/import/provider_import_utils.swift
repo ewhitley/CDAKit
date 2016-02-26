@@ -39,9 +39,12 @@ class CDAKImport_ProviderImportUtils {
       //no match found by cda identifier, so continue using other options
       //Swift is complaining that I have too many conditions in a single filter (timeout) so I'm splitting this up
       if let a_provider = CDAKGlobals.sharedInstance.CDAKProviders.filter({ p in
-          p.title == provider_hash["title"] as? String
+          p.prefix == provider_hash["prefix"] as? String
             && p.given_name == provider_hash["given_name"] as? String
             && p.family_name == provider_hash["family_name"] as? String
+            //"expression too complex..."
+            //should change this to == and put equatable
+            //&& p.suffix == provider_hash["suffix"] as? String
       }).filter({p in p.specialty == provider_hash["specialty"] as? String}).first {
         return a_provider
       }
@@ -52,9 +55,10 @@ class CDAKImport_ProviderImportUtils {
   
     //we didn't find an existing provider, so create one now
     let provider = CDAKProvider()
-    provider.title = provider_hash["title"] as? String
+    provider.prefix = provider_hash["prefix"] as? String
     provider.given_name = provider_hash["given_name"] as? String
     provider.family_name = provider_hash["family_name"] as? String
+    provider.suffix = provider_hash["suffix"] as? String
     provider.specialty = provider_hash["specialty"] as? String
     provider.phone = provider_hash["phone"] as? String
 

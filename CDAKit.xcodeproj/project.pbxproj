@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		380808F31C807C86001A039F /* CDAKProviderPerformanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380808F21C807C86001A039F /* CDAKProviderPerformanceTest.swift */; };
 		380A41091C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 380A41081C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift */; };
 		38359E041C7B576800CCC036 /* ccda_performer.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38359E031C7B576800CCC036 /* ccda_performer.ccda.mustache */; };
 		38359E061C7B5DD400CCC036 /* c32_performer.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38359E051C7B5DD400CCC036 /* c32_performer.c32.mustache */; };
@@ -305,6 +306,7 @@
 /* Begin PBXFileReference section */
 		2659CE5B586D31D29E7610E8 /* Pods_CDAKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CDAKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3584B78321E453821B9F825B /* Pods-CDAKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CDAKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CDAKitTests/Pods-CDAKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		380808F21C807C86001A039F /* CDAKProviderPerformanceTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKProviderPerformanceTest.swift; sourceTree = "<group>"; };
 		380A41081C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKVocabularyStructs.swift; sourceTree = "<group>"; };
 		38359E031C7B576800CCC036 /* ccda_performer.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_performer.ccda.mustache; sourceTree = "<group>"; };
 		38359E051C7B5DD400CCC036 /* c32_performer.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_performer.c32.mustache; sourceTree = "<group>"; };
@@ -717,6 +719,7 @@
 		3891703F1C6CC1EE00A31299 /* CDAKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				380808F21C807C86001A039F /* CDAKProviderPerformanceTest.swift */,
 				384E232E1C73D89B009B9DED /* CDAKQRDAHeaderTest.swift */,
 				3891724E1C6CEC9900A31299 /* resources */,
 				389171721C6CEC3D00A31299 /* BasicXPathTest.swift */,
@@ -1719,6 +1722,7 @@
 				389172481C6CEC3E00A31299 /* TestHelpers.swift in Sources */,
 				389171E31C6CEC3E00A31299 /* BasicXPathTest.swift in Sources */,
 				389171EE1C6CEC3E00A31299 /* C32ProcedureImporterTest.swift in Sources */,
+				380808F31C807C86001A039F /* CDAKProviderPerformanceTest.swift in Sources */,
 				389171E61C6CEC3E00A31299 /* C32ConditionImporterTest.swift in Sources */,
 				389171F71C6CEC3E00A31299 /* CDAIdentifierTest.swift in Sources */,
 				389172161C6CEC3E00A31299 /* GRMustacheTest.swift in Sources */,

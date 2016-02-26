@@ -52,12 +52,14 @@ Primary container for all patient data that is to be represented with CDA
 public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
 
   // MARK: CDA properties
-  ///patient title
-  public var title: String?
+  ///patient prefix (was title)
+  public var prefix: String?
   ///patient first / given name
   public var first: String?
   ///patient last / family name
   public var last: String?
+  ///patient suffix
+  public var suffix: String?
   ///patient gender. Please consider using an HL7 Administrative Gender
   public var gender: String?
   ///birthdate (using time since 1970)
@@ -781,9 +783,10 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     // *** Construct "one of my current class". This is why init() is a required initializer
     let theCopy = self.dynamicType.init()
     
-    theCopy.title = self.title
+    theCopy.prefix = self.prefix
     theCopy.first = self.first
     theCopy.last = self.last
+    theCopy.suffix = self.suffix
     theCopy.gender = self.gender
     theCopy.birthdate = self.birthdate
     theCopy.deathdate = self.deathdate
@@ -826,7 +829,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   // MARK: Standard properties
   ///Debugging description
   override public var description : String {
-    return "CDAKRecord => title: \(title), first: \(first), last: \(last), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), religious_affiliation: \(religious_affiliation), effective_time: \(effective_time), race: \(race), ethnicity: \(ethnicity), languages = \(languages), marital_status: \(marital_status), medical_record_number: \(medical_record_number), medical_record_assigner: \(medical_record_assigner), expired: \(expired), clinicalTrialParticipant: \(clinicalTrialParticipant), allergies: \(allergies), care_goals: \(care_goals), conditions: \(conditions), encounters: \(encounters), communications: \(communications), family_history: \(family_history), immunizations: \(immunizations), medical_equipment: \(medical_equipment), medications: \(medications), procedures: \(procedures), results: \(results), social_history: \(social_history), vital_signs: \(vital_signs), advance_directives: \(advance_directives), insurance_providers: \(insurance_providers), functional_statuses: \(functional_statuses), provider_performances: \(provider_performances), addresses: \(addresses), telecoms: \(telecoms)"
+    return "CDAKRecord => prefix: \(prefix), first: \(first), last: \(last), suffix: \(suffix), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), religious_affiliation: \(religious_affiliation), effective_time: \(effective_time), race: \(race), ethnicity: \(ethnicity), languages = \(languages), marital_status: \(marital_status), medical_record_number: \(medical_record_number), medical_record_assigner: \(medical_record_assigner), expired: \(expired), clinicalTrialParticipant: \(clinicalTrialParticipant), allergies: \(allergies), care_goals: \(care_goals), conditions: \(conditions), encounters: \(encounters), communications: \(communications), family_history: \(family_history), immunizations: \(immunizations), medical_equipment: \(medical_equipment), medications: \(medications), procedures: \(procedures), results: \(results), social_history: \(social_history), vital_signs: \(vital_signs), advance_directives: \(advance_directives), insurance_providers: \(insurance_providers), functional_statuses: \(functional_statuses), provider_performances: \(provider_performances), addresses: \(addresses), telecoms: \(telecoms)"
   }
   
 }
@@ -841,9 +844,10 @@ extension CDAKRecord {
     let defaultLanguages: [CDAKCodedEntries] = [defaultLanguage]
     vals = [
       "id": Box(self._id),
-      "title": Box(self.title),
+      "prefix": Box(self.prefix),
       "first": Box(self.first),
       "last": Box(self.last),
+      "suffix": Box(self.suffix),
       "gender": Box(self.gender),
       "birthdate": Box(self.birthdate),
       "deathdate": Box(self.deathdate),
@@ -954,9 +958,10 @@ extension CDAKRecord {
   //MARK: Convenience copying
   public convenience init(copyFrom record: CDAKRecord) {
     self.init()
-    self.title = record.title
+    self.prefix = record.prefix
     self.first = record.first
     self.last = record.last
+    self.suffix = record.suffix
     self.gender = record.gender
     self.birthdate = record.birthdate
     self.deathdate = record.deathdate
@@ -1009,14 +1014,17 @@ extension CDAKRecord: CDAKJSONExportable {
       dict["identifiers"] = identifiers.map({$0.jsonDict})
     }
     
-    if let title = title {
-      dict["title"] = title
+    if let prefix = prefix {
+      dict["prefix"] = prefix
     }
     if let first = first {
       dict["first"] = first
     }
     if let last = last {
       dict["last"] = last
+    }
+    if let suffix = suffix {
+      dict["suffix"] = suffix
     }
     if let gender = gender {
       dict["gender"] = gender
