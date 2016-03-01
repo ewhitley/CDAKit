@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Mustache
 
 /**
 Medication
@@ -43,8 +43,16 @@ public class CDAKMedication: CDAKEntry {
   
   ///Fulfillment instructions (if supplied)
   public var fulfillment_instructions: String?  // as: :fulfillment_instructions  // type: String
-  ///Indication
-  public var indication: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  /**
+  Indication
+  This is the problem that was the reason for the medication
+  
+  - Version 1.0: This was a CDAKCodedEntries
+  - Version 1.0.1: This is now a full Entry.  It contains a full problem, including dates, codes, etc.
+  */
+  public var indication: CDAKEntry?  // type: Hash
+  ///Precondition
+  public var precondition: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
   ///Product form
   public var product_form: CDAKCodedEntries = CDAKCodedEntries()  // as: :product_form  // type: Hash
   ///Product vehicle
@@ -97,6 +105,50 @@ public class CDAKMedication: CDAKEntry {
 }
 
 extension CDAKMedication {
+  // MARK: - Mustache marshalling
+  override var boxedValues: [String:MustacheBox] {
+    var vals = super.boxedValues
+    
+//    vals["type"] = Box(self.type)
+
+    if fulfillment_history.count > 0 { vals["fulfillment_history"] = Box(fulfillment_history.map({Box($0)})) }
+    if order_information.count > 0 { vals["order_information"] = Box(order_information.map({Box($0)})) }
+    if let cumulativeMedicationDuration = cumulativeMedicationDuration {
+      vals["cumulativeMedicationDuration"] = Box(cumulativeMedicationDuration)
+    }
+    
+    if anatomical_approach.count > 0 { vals["anatomical_approach"] = Box(anatomical_approach.codes.map({Box($0)})) }
+    if delivery_method.count > 0 { vals["delivery_method"] = Box(delivery_method.codes.map({Box($0)})) }
+    if let indication = indication {
+      vals["indication"] = Box(indication)
+    }
+    if precondition.count > 0 { vals["precondition"] = Box(precondition.codes.map({Box($0)})) }
+    if method.count > 0 { vals["method"] = Box(method.codes.map({Box($0)})) }
+    if product_form.count > 0 { vals["product_form"] = Box(product_form.codes.map({Box($0)})) }
+    if reaction.count > 0 { vals["reaction"] = Box(reaction.codes.map({Box($0)})) }
+    if route.count > 0 { vals["route"] = Box(route.codes.map({Box($0)})) }
+    if status_of_medication.count > 0 { vals["status_of_medication"] = Box(status_of_medication.codes.map({Box($0)})) }
+    if type_of_medication.count > 0 { vals["type_of_medication"] = Box(type_of_medication.codes.map({Box($0)})) }
+    if vehicle.count > 0 { vals["vehicle"] = Box(vehicle.codes.map({Box($0)})) }
+    
+    
+    vals["administration_timing"] = Box(administration_timing)
+    vals["dose_restriction"] = Box(dose_restriction)
+    vals["dose"] = Box(dose)
+    
+    if let active_datetime = active_datetime { vals["active_datetime"] = Box(active_datetime) }
+    if let signed_datetime = signed_datetime { vals["signed_datetime"] = Box(signed_datetime) }
+    if let dose_indicator = dose_indicator { vals["dose_indicator"] = Box(dose_indicator) }
+    if let free_text_sig = free_text_sig { vals["free_text_sig"] = Box(free_text_sig) }
+    if let fulfillment_instructions = fulfillment_instructions { vals["fulfillment_instructions"] = Box(fulfillment_instructions) }
+    if let patient_instructions = patient_instructions { vals["patient_instructions"] = Box(patient_instructions) }
+    
+    return vals
+  }
+}
+
+
+extension CDAKMedication {
   // MARK: - JSON Generation
   ///Dictionary for JSON data
   override public var jsonDict: [String: AnyObject] {
@@ -110,7 +162,10 @@ extension CDAKMedication {
     
     if anatomical_approach.count > 0 { dict["anatomical_approach"] = anatomical_approach.codes.map({$0.jsonDict}) }
     if delivery_method.count > 0 { dict["delivery_method"] = delivery_method.codes.map({$0.jsonDict}) }
-    if indication.count > 0 { dict["indication"] = indication.codes.map({$0.jsonDict}) }
+    if let indication = indication {
+      dict["indication"] = indication.jsonDict
+    }
+    if precondition.count > 0 { dict["precondition"] = precondition.codes.map({$0.jsonDict}) }
     if method.count > 0 { dict["method"] = method.codes.map({$0.jsonDict}) }
     if product_form.count > 0 { dict["product_form"] = product_form.codes.map({$0.jsonDict}) }
     if reaction.count > 0 { dict["reaction"] = reaction.codes.map({$0.jsonDict}) }
@@ -132,7 +187,9 @@ extension CDAKMedication {
     
     return dict
   }
+
 }
+
 
 // MARK: - Supporting structs - medication restriction
 
@@ -143,6 +200,24 @@ public struct CDAKMedicationRestriction {
   ///denominator
   var denominator: CDAKValueAndUnit = CDAKValueAndUnit()
 }
+
+
+extension CDAKMedicationRestriction: MustacheBoxable {
+  // MARK: - Mustache marshalling
+  var boxedValues: [String:MustacheBox] {
+    var vals : [String:MustacheBox] = [:]
+    
+    vals["numerator"] = Box(numerator)
+    vals["denominator"] = Box(denominator)
+    
+    return vals
+  }
+  public var mustacheBox: MustacheBox {
+    return Box(boxedValues)
+  }
+
+}
+
 
 // MARK: - JSON Generation
 extension CDAKMedicationRestriction: CDAKJSONExportable {
@@ -168,6 +243,22 @@ public struct CDAKMedicationAdministrationTiming {
   ///Period
   var period: CDAKValueAndUnit = CDAKValueAndUnit()
   //var period: Int? // only example I have shows this as an Int - probably need to check spec
+}
+
+
+extension CDAKMedicationAdministrationTiming: MustacheBoxable {
+  // MARK: - Mustache marshalling
+  var boxedValues: [String:MustacheBox] {
+    var vals : [String:MustacheBox] = [:]
+    
+    vals["institution_specified"] = Box(institution_specified)
+    vals["period"] = Box(period)
+    
+    return vals
+  }
+  public var mustacheBox: MustacheBox {
+    return Box(boxedValues)
+  }
 }
 
 // MARK: - JSON Generation

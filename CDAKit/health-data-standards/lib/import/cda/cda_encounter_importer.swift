@@ -12,6 +12,9 @@ import Fuzi
 class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
   
   var reason_xpath = "./cda:entryRelationship[@typeCode='RSON']/cda:act"
+  
+  var indication_xpath = "./cda:entryRelationship[@typeCode='RSON']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.28']"
+  
   override init(entry_finder: CDAKImport_CDA_EntryFinder = CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.127']/cda:entry/cda:encounter")) {
     super.init(entry_finder: entry_finder)
     entry_class = CDAKEncounter.self
@@ -30,6 +33,10 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
       extract_admission(entry_element, encounter: encounter)
       extract_discharge_disposition(entry_element, encounter: encounter)
       extract_transfers(entry_element, encounter: encounter)
+      
+      if let indication_entry = extract_indication(entry_element, entry: encounter, indication_xpath: indication_xpath) {
+        encounter.indication = indication_entry
+      }
       
       return encounter
     }

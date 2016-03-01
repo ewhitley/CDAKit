@@ -45,29 +45,7 @@
             </text>
             <statusCode code="completed"/>
             <effectiveTime {{{ value_or_null_flavor(as_point_in_time) }}}/>
-            {{#each(values) }}
-                {{#@first}}
-                {{#scalar}}
-                  {{#is_numeric(.)}}
-                  <value xsi:type="PQ" value="{{ . }}" {{#units}}unit="{{ . }}"{{/units}}/>
-                  {{/}}
-                  {{#is_bool(.)}}
-                  <value xsi:type="BL" value="{{ . }}" />
-                  {{/}}
-                  {{^is_numeric(.)}}
-                  {{^is_bool(.)}}
-                  <value xsi:type="ST" >{{ . }}</value>
-                  {{/}}
-                  {{/}}
-                {{/scalar}}
-                {{^scalar}}
-                <value xsi:type="PQ" nullFlavor="UNK"/>
-                {{/scalar}}
-              {{/}}
-            {{/}}
-            {{^values}}
-              <value xsi:type="PQ" nullFlavor="UNK"/>
-            {{/values}}
+            {{> c32_values.c32 }}
           </observation>
         </component>
         {{/}}

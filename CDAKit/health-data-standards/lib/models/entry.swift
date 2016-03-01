@@ -91,6 +91,8 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   ///Date of last entry update
   public var updated_at = NSDate()
 
+  ///Allows you to provide a custom list of code set keys / tags to override the default behavior for this entry.  All entries have defined preferred code sets like "SNOMED-CT" or "LOINC", but if you use a generic CDAKEntry, none are defined.  You can use this to either completely override the default code sets supplied by the system or provide a specific set of preferred code sets for generic entries (as is required for things like an `Indication` within an `encounter` or `medication`.
+  public var explicit_preferred_code_sets : [String] = []
   
   //Condition
   //method "builds" (new) object and reflects on properties (response to -> class, id)
@@ -491,10 +493,47 @@ func == (lhs: CDAKEntry, rhs: CDAKEntry) -> Bool {
   return lhs.hashValue == rhs.hashValue && CDAKCommonUtility.classNameAsString(lhs) == CDAKCommonUtility.classNameAsString(rhs)
 }
 
+ 
+//extension CDAKEntry {
+//  func boxCodes(entries: CDAKCodedEntries, preferred_code_sets: [String]) -> MustacheBox {
+//    
+//    if entries.count > 0 {
+//      
+//      var codes: [String:MustacheBox] = [:]
+//
+//      var entry_preferred_code: CDAKCodedEntry?
+//      var entry_translation_codes: CDAKCodedEntries?
+//      
+//      if let a_preferred_code = preferred_code(preferred_code_sets) {
+//        entry_preferred_code = a_preferred_code
+//        let code_set = a_preferred_code.codeSystem
+//      } else {
+//        entry_preferred_code = entries.codes.first
+//      }
+//      entry_translation_codes = translation_codes(preferred_code_sets)
+//      
+//      if let entry_preferred_code = entry_preferred_code {
+//        codes["preferred_code"] = Box(entry_preferred_code)
+//      }
+//      if let entry_translation_codes = entry_translation_codes {
+//        codes["translation_codes"] = Box(entry_translation_codes)
+//      }
+//
+//      return Box(codes)
+//    }
+//    return Box(nil)
+//    }
+//}
+ 
 extension CDAKEntry {
   
   //MARK: Additional properties to help with code sets
   var preferred_code_sets: [String] {
+    
+    if explicit_preferred_code_sets.count > 0 {
+      return explicit_preferred_code_sets
+    }
+    
     switch String(self.dynamicType) {
     case "CDAKAllergy": return ["RxNorm"]
     case "CDAKCareGoal": return ["SNOMED-CT"]
@@ -508,7 +547,8 @@ extension CDAKEntry {
     case "CDAKLabResult": return ["LOINC", "SNOMED-CT"]
     case "CDAKSocialHistory": return ["SNOMED-CT"]
     case "CDAKVitalSign": return ["LOINC", "SNOMED-CT"] //NOTE - in the original Ruby template they key was "SNOMED"
-      // which is wrong, but... not sure if they did something else with it
+
+      
     default: return []
     }
   }
@@ -568,10 +608,12 @@ extension CDAKEntry {
       "preferred_code_sets": Box(self.preferred_code_sets),
       "code_display": Box(code_display),
 
-      "as_point_in_time" : Box(self.as_point_in_time()),
+      "as_point_in_time" : Box(self.as_point_in_time() ?? ""),
       "code_system_oid" : Box(code_system_oid),
-      "preferred_code": entry_preferred_code != nil ? Box(entry_preferred_code!) : Box(nil),
-      "translation_codes": entry_translation_codes != nil ? Box(entry_translation_codes!) : Box(nil),
+      "preferred_code": entry_preferred_code != nil ? Box(entry_preferred_code!) : Box(""),
+      "translation_codes": entry_translation_codes != nil ? Box(entry_translation_codes!) : Box([]),
+//      "preferred_code": Box(entry_preferred_code),
+//      "translation_codes": Box(entry_translation_codes),
       
       
       "codes_to_s" : Box(codes_to_s()),

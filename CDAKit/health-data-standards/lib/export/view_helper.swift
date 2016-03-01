@@ -135,8 +135,8 @@ class ViewHelper {
     //Swift: 1960 12 31 00 00 00
     //Ruby: 1960-12-31 00:00:00 -0600
   */
-  class func value_or_null_flavor(time: Double?) -> String {
-    if let time = time {
+  class func value_or_null_flavor(time: Any?) -> String {    
+    if let time = time as? Double {
       //:number => '%Y%m%d%H%M%S'
       //return "value='#{Time.at(time).utc.to_formatted_s(:number)}'"
       let d = NSDate(timeIntervalSince1970: NSTimeInterval(time))

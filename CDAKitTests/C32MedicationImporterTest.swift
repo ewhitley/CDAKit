@@ -57,7 +57,7 @@ class C32MedicationImporterTest: XCTestCase {
       XCTAssertEqual(4, medication.fulfillment_history[0].fill_number)
 
       let medication3 = patient.medications[3]
-      XCTAssertEqual("VA/KPproblemList", medication3.indication.codes.first?.code)
+      XCTAssertEqual("VA/KPproblemList", medication3.indication?.codes.codes.first?.code)
       XCTAssertEqual(1, medication3.order_information.count)
       XCTAssertEqual(1, medication3.order_information.first?.fills)
       XCTAssertEqual(1, medication3.order_information.first?.quantity_ordered.value)

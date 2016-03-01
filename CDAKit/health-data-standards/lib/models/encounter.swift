@@ -45,6 +45,16 @@ public class CDAKEncounter: CDAKEntry {
   ///Performer
   public var performer: CDAKProvider?
 
+  /**
+   Indication
+   This is the problem that was the reason for the medication
+   
+   - Version 1.0: Not present
+   - Version 1.0.1: Added as a full Entry.  It contains a full problem, including dates, codes, etc.
+   */
+  public var indication: CDAKEntry?  // type: Hash
+
+  
   // MARK: Health-Data-Standards Functions
   ///Offset all dates by specified double
   override func shift_dates(date_diff: Double) {
@@ -75,15 +85,31 @@ extension CDAKEncounter {
   override var boxedValues: [String:MustacheBox] {
     var vals = super.boxedValues
     
-    vals["admit_type"] = Box(self.admit_type)
-    vals["discharge_disposition"] = Box(self.discharge_disposition)
-    vals["admit_time"] = Box(self.admit_time)
-    vals["principal_diagnosis"] = Box(self.principal_diagnosis)
-    vals["diagnosis"] = Box(self.diagnosis)
-    vals["transfer_to"] = Box(self.transfer_to)
-    vals["transfer_from"] = Box(self.transfer_from)
-    vals["facility"] = Box(self.facility)
-    vals["performer"] = Box(self.performer)
+    vals["admit_type"] = Box(admit_type)
+    vals["discharge_disposition"] = Box(discharge_disposition)
+    if let admit_time = admit_time {
+      vals["admit_time"] = Box(admit_time)
+    }
+    if let discharge_time = discharge_time {
+      vals["discharge_time"] = Box(discharge_time)
+    }
+    vals["principal_diagnosis"] = Box(principal_diagnosis)
+    vals["diagnosis"] = Box(diagnosis)
+    if let transfer_to = transfer_to {
+      vals["transfer_to"] = Box(transfer_to)
+    }
+    if let transfer_from = transfer_from {
+      vals["transfer_from"] = Box(transfer_from)
+    }
+    if let facility = facility {
+      vals["facility"] = Box(facility)
+    }
+    if let performer = performer {
+      vals["performer"] = Box(performer)
+    }
+    if let indication = indication {
+      vals["indication"] = Box(indication)
+    }
     
     return vals
   }
@@ -127,6 +153,11 @@ extension CDAKEncounter {
     if let performer = performer {
       dict["performer"] = performer.jsonDict
     }
+    
+    if let indication = indication {
+      dict["indication"] = indication.jsonDict
+    }
+
     
     return dict
   }

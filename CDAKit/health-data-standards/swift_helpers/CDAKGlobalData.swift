@@ -43,9 +43,15 @@ public class CDAKGlobals {
   /**
    Returns all providers discovered during import of all records.
    
+   *This will be removed*
+   
    It is possible that, during import, a provider is "dropped" and not imported.  This can occur if the provider already "exists" in this collection based on matching rules.  The system will only import ONE copy of a given provider where a "match" is found.  Match rules include things like "same NPI" or (failing NPI match) "same name(s)."
+   
+   - Version 1.0: Originally public access
+   - Version 1.0.1: Removed public and set to internal
+  
    */
-  public var allProviders: [CDAKProvider] {
+  internal var allProviders: [CDAKProvider] {
     get {
       return CDAKProviders
     }
@@ -54,6 +60,8 @@ public class CDAKGlobals {
 
   /**
    Returns all records imported during all sessions
+   
+   *This will be removed*
    
    NOTE: this should really be removed, but right now legacy Ruby logic relies on it
   */

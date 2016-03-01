@@ -84,6 +84,21 @@ class CDAKImport_CDA_SectionImporter {
   }
 
   
+  func extract_indication(entry_element: XMLElement, entry: CDAKEntry, indication_xpath: String) -> CDAKEntry? {
+    if let indication_element = entry_element.xpath(indication_xpath).first {
+      //NOTE: we're not capturing xsi:type="CD" / "CE" etc.
+      // we're goign to flag everything as CE ("Coded with Equivalents")
+      let indication = CDAKEntry()
+      extract_codes(indication_element, entry: indication, codes_xpath: "cda:value")
+      extract_dates(indication_element, entry: indication)
+      extract_id(indication_element, entry: indication)
+      indication.explicit_preferred_code_sets = ["SNOMED-CT"]
+      
+      return indication
+    }
+    return nil
+
+  }
 
   func extract_description(parent_element: XMLElement, entry: CDAKEntry, nrh: CDAKImport_CDA_NarrativeReferenceHandler) {
     let orig_text_ref_element = parent_element.xpath(description_xpath).first
@@ -121,8 +136,9 @@ class CDAKImport_CDA_SectionImporter {
     }
   }
 
-  func extract_codes(parent_element: XMLElement, entry: CDAKThingWithCodes) {
-    let code_elements = parent_element.xpath(code_xpath)
+  func extract_codes(parent_element: XMLElement, entry: CDAKThingWithCodes, codes_xpath: String? = nil) {
+    let xpath = codes_xpath ?? code_xpath
+    let code_elements = parent_element.xpath(xpath)
     for code_element in code_elements {
       add_code_if_present(code_element, entry: entry)
       let translations = code_element.xpath("cda:translation")

@@ -1,0 +1,23 @@
+<!-- Reason for -->
+<entryRelationship typeCode="RSON">
+  <observation classCode="OBS" moodCode="EVN">
+    <templateId root="2.16.840.1.113883.10.20.1.28"/>
+    <templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+    {{#cda_identifier}}<id {{#root}}root="{{.}}"{{/root}} extension="{{extension}}"/>{{/cda_identifier}}
+    <code code="404684003" displayName="Finding" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+    <statusCode code="completed"/>
+    <effectiveTime>
+    <low {{{ value_or_null_flavor(as_point_in_time) }}}/>
+    </effectiveTime>
+    {{#preferred_code}}
+    <value xsi:type="CE" code="{{ code }}" codeSystem="{{ codeSystemOid }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}>
+    {{/preferred_code}}
+    {{^preferred_code}}
+    <value nullFlavor="UNK">
+    {{/preferred_code}}
+    {{#each(translation_codes)}}
+    <translation code="{{ code }}" codeSystem="{{ oid_for_code_system(codeSystem) }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}/>
+    {{/}}
+    </value>
+  </observation>
+</entryRelationship>

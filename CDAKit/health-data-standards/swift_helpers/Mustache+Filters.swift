@@ -67,7 +67,7 @@ class MustacheFilters {
       let d = ViewHelper.value_or_null_flavor(int)
       return Box(d)
     default:
-      return Box()
+      return Box(ViewHelper.value_or_null_flavor(box.value))
     }
 
   }

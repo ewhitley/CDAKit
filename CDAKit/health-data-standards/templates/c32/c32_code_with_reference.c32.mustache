@@ -6,8 +6,6 @@
 {{/preferred_code}}
 <originalText><reference value="#{{ section }}-desc-{{ @index }}"/></originalText>
 {{#each(translation_codes)}}
-{{#each(codes)}}
 <translation code="{{ code }}" codeSystem="{{ oid_for_code_system(codeSystem) }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}/>
-{{/}}
 {{/}}
 </code>

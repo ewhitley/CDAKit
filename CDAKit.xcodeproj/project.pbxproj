@@ -29,6 +29,10 @@
 		384E232D1C73CD22009B9DED /* cat1_header.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E232C1C73CD22009B9DED /* cat1_header.swift */; };
 		384E232F1C73D89B009B9DED /* CDAKQRDAHeaderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E232E1C73D89B009B9DED /* CDAKQRDAHeaderTest.swift */; };
 		384E23311C74A760009B9DED /* CDAKJSONExportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23301C74A760009B9DED /* CDAKJSONExportable.swift */; };
+		3852E2FB1C84721400F1B57D /* c32_values.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 3852E2FA1C84721400F1B57D /* c32_values.c32.mustache */; };
+		3852E2FD1C8472B700F1B57D /* ccda_values.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 3852E2FC1C8472B700F1B57D /* ccda_values.ccda.mustache */; };
+		3852E2FF1C85E24B00F1B57D /* ccda_indication.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 3852E2FE1C85E24B00F1B57D /* ccda_indication.ccda.mustache */; };
+		3852E3011C8608D900F1B57D /* c32_indication.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 3852E3001C8608D900F1B57D /* c32_indication.c32.mustache */; };
 		386A14691C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 386A14681C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist */; };
 		389170351C6CC1EE00A31299 /* CDAKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 389170341C6CC1EE00A31299 /* CDAKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3891703C1C6CC1EE00A31299 /* CDAKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 389170311C6CC1EE00A31299 /* CDAKit.framework */; };
@@ -332,6 +336,10 @@
 		384E232C1C73CD22009B9DED /* cat1_header.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cat1_header.swift; sourceTree = "<group>"; };
 		384E232E1C73D89B009B9DED /* CDAKQRDAHeaderTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKQRDAHeaderTest.swift; sourceTree = "<group>"; };
 		384E23301C74A760009B9DED /* CDAKJSONExportable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKJSONExportable.swift; sourceTree = "<group>"; };
+		3852E2FA1C84721400F1B57D /* c32_values.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_values.c32.mustache; sourceTree = "<group>"; };
+		3852E2FC1C8472B700F1B57D /* ccda_values.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_values.ccda.mustache; sourceTree = "<group>"; };
+		3852E2FE1C85E24B00F1B57D /* ccda_indication.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_indication.ccda.mustache; sourceTree = "<group>"; };
+		3852E3001C8608D900F1B57D /* c32_indication.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_indication.c32.mustache; sourceTree = "<group>"; };
 		386A14681C7267DF0082985E /* CDAKitDefaultSampleTypeIdentifierSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CDAKitDefaultSampleTypeIdentifierSettings.plist; sourceTree = "<group>"; };
 		389170311C6CC1EE00A31299 /* CDAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CDAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		389170341C6CC1EE00A31299 /* CDAKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDAKit.h; sourceTree = "<group>"; };
@@ -809,18 +817,20 @@
 				389171481C6CD8D200A31299 /* ccda_conditions_no_current.ccda.mustache */,
 				389171491C6CD8D200A31299 /* ccda_conditions.ccda.mustache */,
 				3891714A1C6CD8D200A31299 /* ccda_encounters.ccda.mustache */,
-				38359E031C7B576800CCC036 /* ccda_performer.ccda.mustache */,
 				3891714B1C6CD8D200A31299 /* ccda_immunizations.ccda.mustache */,
+				3852E2FE1C85E24B00F1B57D /* ccda_indication.ccda.mustache */,
 				3891714C1C6CD8D200A31299 /* ccda_medical_equipment.ccda.mustache */,
 				3891714D1C6CD8D200A31299 /* ccda_medications_no_current.ccda.mustache */,
 				3891714E1C6CD8D200A31299 /* ccda_medications.ccda.mustache */,
 				3891714F1C6CD8D200A31299 /* ccda_narrative_block.ccda.mustache */,
+				38359E031C7B576800CCC036 /* ccda_performer.ccda.mustache */,
 				389171501C6CD8D200A31299 /* ccda_procedures_no_current.ccda.cda */,
 				389171511C6CD8D200A31299 /* ccda_procedures.ccda.mustache */,
 				389171521C6CD8D200A31299 /* ccda_results_no_current.ccda.mustache */,
 				389171531C6CD8D200A31299 /* ccda_results.ccda.mustache */,
 				389171541C6CD8D200A31299 /* ccda_show.ccda.mustache */,
 				389171551C6CD8D200A31299 /* ccda_social_history.ccda.mustache */,
+				3852E2FC1C8472B700F1B57D /* ccda_values.ccda.mustache */,
 				389171561C6CD8D200A31299 /* ccda_vital_signs.ccda.mustache */,
 			);
 			path = ccda;
@@ -845,6 +855,8 @@
 				3891712D1C6CD8BA00A31299 /* c32_narrative_block.c32.mustache */,
 				3891712E1C6CD8BA00A31299 /* c32_procedures.c32.mustache */,
 				3891712F1C6CD8BA00A31299 /* c32_results.c32.mustache */,
+				3852E3001C8608D900F1B57D /* c32_indication.c32.mustache */,
+				3852E2FA1C84721400F1B57D /* c32_values.c32.mustache */,
 				389171301C6CD8BA00A31299 /* c32_show.c32.mustache */,
 				389171311C6CD8BA00A31299 /* c32_social_history.c32.mustache */,
 				389171321C6CD8BA00A31299 /* c32_vital_signs.c32.mustache */,
@@ -987,11 +999,11 @@
 				389170F61C6CD88A00A31299 /* ccda_immunization_importer.swift */,
 				389170F71C6CD88A00A31299 /* ccda_insurance_provider_importer.swift */,
 				389170F81C6CD88A00A31299 /* ccda_medical_equipment_importer.swift */,
-				389170F91C6CD88A00A31299 /* ccda_social_history_importer.swift */,
 				38BE32B91C80F7A9002AEC25 /* ccda_medication_importer.swift */,
 				389170FA1C6CD88A00A31299 /* ccda_patient_importer.swift */,
 				389170FB1C6CD88A00A31299 /* ccda_procedure_importer.swift */,
 				389170FC1C6CD88A00A31299 /* ccda_result_importer.swift */,
+				389170F91C6CD88A00A31299 /* ccda_social_history_importer.swift */,
 				389170FD1C6CD88A00A31299 /* ccda_vital_sign_importer.swift */,
 			);
 			path = ccda;
@@ -1012,8 +1024,8 @@
 				389170DF1C6CD86D00A31299 /* cda_procedure_importer.swift */,
 				389170E01C6CD86D00A31299 /* cda_provider_importer.swift */,
 				389170E11C6CD86D00A31299 /* cda_result_importer.swift */,
-				38BE32B71C80F5EB002AEC25 /* cda_social_history_importer.swift */,
 				389170E21C6CD86D00A31299 /* cda_section_importer.swift */,
+				38BE32B71C80F5EB002AEC25 /* cda_social_history_importer.swift */,
 				389170E31C6CD86D00A31299 /* cda_vital_sign_importer.swift */,
 			);
 			path = cda;
@@ -1383,7 +1395,10 @@
 			files = (
 				389171331C6CD8BA00A31299 /* c32_allergies_no_current.c32.mustache in Resources */,
 				38FCF8D41C74F8730040979E /* cat1_address.cat1.mustache in Resources */,
+				3852E2FF1C85E24B00F1B57D /* ccda_indication.ccda.mustache in Resources */,
+				3852E2FB1C84721400F1B57D /* c32_values.c32.mustache in Resources */,
 				38359E061C7B5DD400CCC036 /* c32_performer.c32.mustache in Resources */,
+				3852E3011C8608D900F1B57D /* c32_indication.c32.mustache in Resources */,
 				38BC98191C7CF19D00E8F2F4 /* CDAKitGithubLogo.png in Resources */,
 				3891715C1C6CD8D200A31299 /* ccda_conditions.ccda.mustache in Resources */,
 				389171681C6CD8D200A31299 /* ccda_social_history.ccda.mustache in Resources */,
@@ -1423,6 +1438,7 @@
 				3891715D1C6CD8D200A31299 /* ccda_encounters.ccda.mustache in Resources */,
 				38BE32BC1C81002F002AEC25 /* c32_provider_performer.c32.mustache in Resources */,
 				38FCF8D81C74F8DA0040979E /* cat1_telecom.cat1.mustache in Resources */,
+				3852E2FD1C8472B700F1B57D /* ccda_values.ccda.mustache in Resources */,
 				3891715A1C6CD8D200A31299 /* ccda_code_with_reference.ccda.mustache in Resources */,
 				3891713B1C6CD8BA00A31299 /* c32_medical_equipment.c32.mustache in Resources */,
 				3891713A1C6CD8BA00A31299 /* c32_immunizations.c32.mustache in Resources */,

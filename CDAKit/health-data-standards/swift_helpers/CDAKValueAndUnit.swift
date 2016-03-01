@@ -7,10 +7,32 @@
 //
 
 import Foundation
+import Mustache
 
 public struct CDAKValueAndUnit {
   var value: Double?
   var unit: String?
+}
+
+extension CDAKValueAndUnit: MustacheBoxable {
+  // MARK: - Mustache marshalling
+  var boxedValues: [String:MustacheBox] {
+    var vals : [String:MustacheBox] = [:]
+    
+    if let unit = unit {
+      vals["unit"] = Box(unit)
+    }
+    if let value = value {
+      vals["value"] = Box(value)
+    }
+    
+    return vals
+  }
+  
+  public var mustacheBox: MustacheBox {
+    return Box(boxedValues)
+  }
+
 }
 
 extension CDAKValueAndUnit: CDAKJSONExportable {

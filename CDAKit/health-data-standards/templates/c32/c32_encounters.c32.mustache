@@ -21,6 +21,7 @@
           <reference value="#encounters-desc-{{ @index }}"/>
         </text>
         <effectiveTime {{{ value_or_null_flavor(as_point_in_time) }}}/>
+        {{#indication}}{{>c32_indication.c32}}{{/indication}}
         {{>ccda_performer.ccda}}
       </encounter>
     </entry>

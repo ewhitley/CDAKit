@@ -18,9 +18,15 @@ import Fuzi
 class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
 
   var type_of_med_xpath: String? = "./cda:entryRelationship[@typeCode='SUBJ']/cda:observation[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.8.1']/cda:code"
-  var indication_xpath = "./cda:entryRelationship[@typeCode='RSON']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.28']/cda:code"
+//  var indication_xpath = "./cda:entryRelationship[@typeCode='RSON']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.28']/cda:code"
+
+  var indication_xpath = "./cda:entryRelationship[@typeCode='RSON']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.28']"
+
   var vehicle_xpath = "cda:participant/cda:participantRole[cda:code/@code='412307009' and cda:code/@codeSystem='2.16.840.1.113883.6.96']/cda:playingEntity/cda:code"
   var fill_number_xpath = "./cda:entryRelationship[@typeCode='COMP']/cda:sequenceNumber/@value"
+  
+  var precondition_xpath = "./cda:precondition[@typeCode='PRCN']/cda:templateId[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.25']/cda:criterion"
+  
   
   override init(entry_finder: CDAKImport_CDA_EntryFinder = CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration")) {
     super.init(entry_finder: entry_finder)
@@ -50,14 +56,33 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
       if let type_of_med_xpath = type_of_med_xpath {
         medication.type_of_medication.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: type_of_med_xpath, code_system: "SNOMED-CT"))
       }
-      medication.indication.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: indication_xpath, code_system: "SNOMED-CT"))
+      
+      
+      if let indication_entry = extract_indication(entry_element, entry: medication, indication_xpath: indication_xpath) {
+        medication.indication = indication_entry
+      }
+//      if let indication_element = entry_element.xpath(indication_xpath).first {
+//        //NOTE: we're not capturing xsi:type="CD" / "CE" etc.
+//        // we're goign to flag everything as CE ("Coded with Equivalents")
+//        let indication = CDAKEntry()
+//        indication.codes.addCodes(CDAKImport_CDA_SectionImporter.extract_code(indication_element, code_xpath: "cda:value"))
+//        extract_dates(indication_element, entry: indication)
+//        extract_id(indication_element, entry: indication)
+//        print("indication.codes = \(indication.codes)")
+//        
+//        medication.indication = indication
+//      }
+      //medication.indication.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: indication_xpath, code_system: "SNOMED-CT"))
+      
+      
+      
+      
       medication.vehicle.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: vehicle_xpath, code_system: "SNOMED-CT"))
       
       extract_order_information(entry_element, medication: medication)
       
       extract_fulfillment_history(entry_element, medication: medication)
       extract_negation(entry_element, entry: medication)
-
       
       return medication
     }
