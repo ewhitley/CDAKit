@@ -494,37 +494,6 @@ func == (lhs: CDAKEntry, rhs: CDAKEntry) -> Bool {
 }
 
  
-//extension CDAKEntry {
-//  func boxCodes(entries: CDAKCodedEntries, preferred_code_sets: [String]) -> MustacheBox {
-//    
-//    if entries.count > 0 {
-//      
-//      var codes: [String:MustacheBox] = [:]
-//
-//      var entry_preferred_code: CDAKCodedEntry?
-//      var entry_translation_codes: CDAKCodedEntries?
-//      
-//      if let a_preferred_code = preferred_code(preferred_code_sets) {
-//        entry_preferred_code = a_preferred_code
-//        let code_set = a_preferred_code.codeSystem
-//      } else {
-//        entry_preferred_code = entries.codes.first
-//      }
-//      entry_translation_codes = translation_codes(preferred_code_sets)
-//      
-//      if let entry_preferred_code = entry_preferred_code {
-//        codes["preferred_code"] = Box(entry_preferred_code)
-//      }
-//      if let entry_translation_codes = entry_translation_codes {
-//        codes["translation_codes"] = Box(entry_translation_codes)
-//      }
-//
-//      return Box(codes)
-//    }
-//    return Box(nil)
-//    }
-//}
- 
 extension CDAKEntry {
   
   //MARK: Additional properties to help with code sets
@@ -612,9 +581,6 @@ extension CDAKEntry {
       "code_system_oid" : Box(code_system_oid),
       "preferred_code": entry_preferred_code != nil ? Box(entry_preferred_code!) : Box(""),
       "translation_codes": entry_translation_codes != nil ? Box(entry_translation_codes!) : Box([]),
-//      "preferred_code": Box(entry_preferred_code),
-//      "translation_codes": Box(entry_translation_codes),
-      
       
       "codes_to_s" : Box(codes_to_s()),
       "times_to_s" : Box(times_to_s()),

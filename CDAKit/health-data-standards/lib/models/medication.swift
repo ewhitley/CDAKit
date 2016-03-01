@@ -122,7 +122,12 @@ extension CDAKMedication {
     if let indication = indication {
       vals["indication"] = Box(indication)
     }
-    if precondition.count > 0 { vals["precondition"] = Box(precondition.codes.map({Box($0)})) }
+    //if precondition.count > 0 { vals["precondition"] = Box(precondition.codes.map({Box($0)})) }
+    
+    if precondition.count > 0 {
+      vals["precondition"] = Box(precondition.boxedPreferredAndTranslatedCodes)
+    }
+    
     if method.count > 0 { vals["method"] = Box(method.codes.map({Box($0)})) }
     if product_form.count > 0 { vals["product_form"] = Box(product_form.codes.map({Box($0)})) }
     if reaction.count > 0 { vals["reaction"] = Box(reaction.codes.map({Box($0)})) }

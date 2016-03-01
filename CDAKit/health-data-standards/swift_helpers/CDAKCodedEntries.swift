@@ -199,6 +199,37 @@ public struct CDAKCodedEntries: CustomStringConvertible, SequenceType, Collectio
     get { return entries.flatMap({$0.1}) }
   }
   
+  ///If you need to manage the notion of preferred codes or translation codes at the code level (as opposed to the entry level), then you can do so by supplying a list of code system keys/tags as Strings. EX: "LOINC", "SNOMED-CT".  These will then be "preferred" code systems.
+  public var preferred_code_sets: [String] = []
+
+  ///If you have supplied preferred code sets, you can then export the first matching preferred term for that set of code sets
+  public var preferred_code: CDAKCodedEntry? {
+    get {
+      return entries.flatMap({$0.1}).filter({preferred_code_sets.contains($0.codeSystem)}).sort({$0.0.code < $0.1.code}).first
+    }
+  }
+  
+  ///If you have supplied preferred code sets, you can emit the list of translation codes for the entry
+  public var translation_codes: [CDAKCodedEntry] {
+    get {
+      return entries.flatMap({$0.1}).filter({$0 != preferred_code})
+    }
+  }
+  
+//  var entry_preferred_code : CDAKCodedEntry?
+//  var code_system_oid = ""
+//  if let a_preferred_code = preferred_code(preferred_code_sets) {
+//    //legacy Ruby approach
+//    let code_set = a_preferred_code.codeSystem
+//    code_system_oid = CDAKCodeSystemHelper.oid_for_code_system(code_set)
+//    entry_preferred_code = a_preferred_code
+//  }
+//  var entry_translation_codes: CDAKCodedEntries? = self.codes
+//  if entry_preferred_code != nil {
+//  entry_translation_codes = self.translation_codes(self.preferred_code_sets)
+//  }
+  
+  
   //MARK: Initializers
   ///Basic initializer
   public init(){}
@@ -422,6 +453,18 @@ extension CDAKCodedEntries: MustacheBoxable {
   // MARK: - Mustache marshalling
   public var mustacheBox: MustacheBox {
     return Box(codes.map({Box($0)}))
+  }
+}
+
+extension CDAKCodedEntries {
+  ///Marshalles preferred_code and translation_codes so we can more easily reuse them in Mustache templates
+  public var boxedPreferredAndTranslatedCodes: MustacheBox {
+    get {
+      var codes: [String:MustacheBox] = [:]
+      codes["preferred_code"] = Box(preferred_code)
+      codes["translation_codes"] = Box(translation_codes)
+      return Box(codes)
+    }
   }
 }
 

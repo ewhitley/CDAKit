@@ -18,7 +18,7 @@ class CDAKitNonStandardCDATests: XCTestCase {
   override func tearDown() {
     super.tearDown()
   }
-
+  
   func testNonStandardCDAImport() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("170.314(b)(1)InPt_Discharge Summary CED Type")
 

@@ -18,7 +18,7 @@ class CDAKImport_CCDA_MedicationImporter: CDAKImport_CDA_MedicationImporter {
     vehicle_xpath = "./cda:participant/cda:participantRole[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.24']/cda:playingEntity/cda:code"
     fill_number_xpath = "./cda:repeatNumber"
     
-    precondition_xpath = "./cda:precondition[@typeCode='PRCN']/cda:templateId[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.25']/cda:criterion"
+    precondition_xpath = "./cda:precondition[@typeCode='PRCN' and cda:templateId/@root='2.16.840.1.113883.10.20.22.4.25']/cda:criterion"
 
     
   }

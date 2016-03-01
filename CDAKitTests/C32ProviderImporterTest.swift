@@ -66,7 +66,10 @@ class C32ProviderImporterTest: XCTestCase {
     XCTAssertEqual("Dr.", provider?.prefix)
     XCTAssertEqual("Stanley", provider?.given_name)
     XCTAssertEqual("Strangelove", provider?.family_name)
-    XCTAssertNotNil(provider?.addresses.first)
+    
+    //NOTE: changing test case
+    // original said "refute nil," but while that's _technically_ true and the object is non-nil, it's also totally empty (no street, state, country, etc.).  During the import we're now treating those as 'nil' (no valid address elements = nil), so I'm changing the test case to reflect that
+    XCTAssertNil(provider?.addresses.first)
     XCTAssertEqual("808401234567893", provider?.npi)
     //# XCTAssertEqual("Kubrick Permanente", provider?.organization)
     XCTAssertEqual("200000000X", provider?.specialty)

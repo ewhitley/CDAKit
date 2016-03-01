@@ -31,7 +31,7 @@ class CDAKProviderPerformanceTest: XCTestCase {
       //print("providers: \(record.provider_performances)")
       //print(record.json)
       //print(record.export(inFormat: .ccda))
-      print(record.export(inFormat: .c32))
+      //print(record.export(inFormat: .c32))
     }
     catch {
       XCTFail()
@@ -47,7 +47,7 @@ class CDAKProviderPerformanceTest: XCTestCase {
       
 //      print(record.json)
       //print(record.export(inFormat: .c32))
-      print(record.export(inFormat: .c32))
+      print(record.export(inFormat: .ccda))
       
 //      print("record.social_history.count = \(record.social_history.count)")
 

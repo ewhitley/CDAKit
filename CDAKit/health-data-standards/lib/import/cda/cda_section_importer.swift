@@ -261,6 +261,25 @@ class CDAKImport_CDA_SectionImporter {
     return nil
   }
   
+  class func extract_codes(parent_element: XMLElement, code_xpath: String) -> CDAKCodedEntries? {
+    let code_elements = parent_element.xpath(code_xpath)
+    if code_elements.count > 0 {
+      var codes = CDAKCodedEntries()
+      let code_elements = parent_element.xpath(code_xpath)
+      for code_element in code_elements {
+        codes.addCodes(extract_code(code_element, code_xpath: "."))
+        let translations = code_element.xpath("cda:translation")
+        for translation in translations {
+          extract_code(translation, code_xpath: ".")
+        }
+      }
+      return codes
+    }
+    return nil
+  }
+
+  
+  
   //Revised - with fixed CDAKValueAndUnit type
   func extract_scalar(parent_element: XMLElement, scalar_xpath: String) -> CDAKValueAndUnit? {
     if let scalar_element = parent_element.xpath(scalar_xpath).first {

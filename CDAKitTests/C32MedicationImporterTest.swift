@@ -57,7 +57,12 @@ class C32MedicationImporterTest: XCTestCase {
       XCTAssertEqual(4, medication.fulfillment_history[0].fill_number)
 
       let medication3 = patient.medications[3]
-      XCTAssertEqual("VA/KPproblemList", medication3.indication?.codes.codes.first?.code)
+      XCTAssertEqual("32398004", medication3.indication?.codes.codes.first?.code)
+      //NOTE - changed test case.  I don't think it's correct.  It's capturing the general entry "code" element, which isn't (for the indication template) the right one - it should be using "value"
+      // <value xsi:type="CE" code="32398004" codeSystem="2.16.840.1.113883.6.96" displayName="Bronchitis"/>
+
+      
+      
       XCTAssertEqual(1, medication3.order_information.count)
       XCTAssertEqual(1, medication3.order_information.first?.fills)
       XCTAssertEqual(1, medication3.order_information.first?.quantity_ordered.value)
