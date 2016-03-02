@@ -57,6 +57,9 @@
 * New C32 and C-CDA template `format_indication.format` for `indication` (entry detail problem on some entries like `encounter` and `medication`) display
 * New C-CDA template `format_medication_precondition.format` for `precondition` (Precondition for Substance Administration) display
 * New C-CDA templates for `reaction` and `severity` applied to allergy and medication
-* C-CDA now exports medication `vehicle`
+* C-CDA medication now exports `vehicle`
+* C-CDA and C32 medication now exports `routeCode`
+* C-CDA and C32 medication now exports `doseQuantity` , `rateQuantity`, and `maxDoseQuantity` (using new embedded `ccda_medication_dose.ccda` template)
+* C-CDA and C32 medication now exports `effectiveTime(2)` including `institutionSpecified` and `period` for schedule of administration (timing, frequency, interval, duration)
 * Minor changes in CDAKEntry MustacheBox values and some filters to handle issues where child Entry's members were nil, so Mustache was (correctly) kicking up to the parent element - which resulted in undesired (parent) data being rendered in the child entry.
 

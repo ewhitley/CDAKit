@@ -1,18 +1,8 @@
-<!-- Precondition for Substance Administration -->
-<precondition typeCode="PRCN">
-  <templateId root="2.16.840.1.113883.10.20.22.4.25"/>
-  <criterion>
-    <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
-    {{>ccda_entry_detail_body.ccda}}
-    {{#preferred_code}}
-    <value xsi:type="CE" code="{{ code }}" codeSystem="{{ codeSystemOid }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}>
-    {{/preferred_code}}
-    {{^preferred_code}}
-    <value nullFlavor="UNK">
-    {{/preferred_code}}
-    {{#each(translation_codes)}}
-    <translation code="{{ code }}" codeSystem="{{ oid_for_code_system(codeSystem) }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}/>
-    {{/}}
-    </value>
-  </criterion>
-</precondition>
+{{#dose}}<doseQuantity {{#value}}value="{{value}}"{{/value}} {{#unit}}unit="{{.}}"{{/unit}}/>{{/dose}}
+{{#rate}}<rateQuantity {{#value}}value="{{value}}"{{/value}} {{#unit}}unit="{{.}}"{{/unit}}/>{{/rate}}
+<maxDoseQuantity {{^dose_restriction}}nullFlavor="UNK"{{/dose_restriction}}{{#dose_restriction}}{{^numerator}}{{^denominator}}nullFlavor="UNK"{{/denominator}}{{/numerator}}{{/dose_restriction}}>
+{{^dose_restriction.numerator}}<numerator nullFlavor="UNK"/>{{/dose_restriction.numerator}}
+{{#dose_restriction.numerator}}<numerator {{#value}}value="{{value}}"{{/value}} {{#unit}}unit="{{.}}"{{/unit}}/>{{/dose_restriction.numerator}}
+{{^dose_restriction.denominator}}<denominator nullFlavor="UNK"/>{{/dose_restriction.denominator}}
+{{#dose_restriction.denominator}}<denominator {{#value}}value="{{value}}"{{/value}} {{#unit}}unit="{{.}}"{{/unit}}/>{{/dose_restriction.denominator}}
+</maxDoseQuantity>

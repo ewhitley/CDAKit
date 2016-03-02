@@ -31,7 +31,7 @@ class CDAKProviderPerformanceTest: XCTestCase {
       //print("providers: \(record.provider_performances)")
       //print(record.json)
       //print(record.export(inFormat: .ccda))
-      //print(record.export(inFormat: .c32))
+    print(record.export(inFormat: .c32))
     }
     catch {
       XCTFail()
@@ -50,7 +50,12 @@ class CDAKProviderPerformanceTest: XCTestCase {
 //      print("record.allergies: \(record.allergies)")
       //print("record.allergies: \(record.allergies)")
       
-      //print(record.export(inFormat: .c32))
+//      print(record.export(inFormat: .c32))
+      
+      //record.medications[0].dose_restriction.numerator = CDAKValueAndUnit(value: 1.0, unit: "mg")
+      //record.medications[0].dose_restriction.denominator = CDAKValueAndUnit(value: 2.0, unit: "cm")
+      
+      
       print(record.export(inFormat: .ccda))
       
 //      print("record.social_history.count = \(record.social_history.count)")

@@ -299,6 +299,8 @@
 		38BE32BA1C80F7A9002AEC25 /* ccda_medication_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38BE32B91C80F7A9002AEC25 /* ccda_medication_importer.swift */; };
 		38BE32BC1C81002F002AEC25 /* c32_provider_performer.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38BE32BB1C81002F002AEC25 /* c32_provider_performer.c32.mustache */; };
 		38CB596B1C8720D4004630F9 /* ccda_code_without_reference.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38CB596A1C8720D4004630F9 /* ccda_code_without_reference.ccda.mustache */; };
+		38CB596D1C8731BD004630F9 /* ccda_medication_dose.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38CB596C1C8731BD004630F9 /* ccda_medication_dose.ccda.mustache */; };
+		38CB596F1C8736B0004630F9 /* ccda_medication_admin_timing.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38CB596E1C8736B0004630F9 /* ccda_medication_admin_timing.ccda.mustache */; };
 		38FCF8D01C74F83A0040979E /* cat1_id.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */; };
 		38FCF8D21C74F8540040979E /* cat1_author.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */; };
 		38FCF8D41C74F8730040979E /* cat1_address.cat1.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */; };
@@ -619,6 +621,8 @@
 		38BE32B91C80F7A9002AEC25 /* ccda_medication_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_medication_importer.swift; sourceTree = "<group>"; };
 		38BE32BB1C81002F002AEC25 /* c32_provider_performer.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_provider_performer.c32.mustache; sourceTree = "<group>"; };
 		38CB596A1C8720D4004630F9 /* ccda_code_without_reference.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_code_without_reference.ccda.mustache; sourceTree = "<group>"; };
+		38CB596C1C8731BD004630F9 /* ccda_medication_dose.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_medication_dose.ccda.mustache; sourceTree = "<group>"; };
+		38CB596E1C8736B0004630F9 /* ccda_medication_admin_timing.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_medication_admin_timing.ccda.mustache; sourceTree = "<group>"; };
 		38FCF8CF1C74F83A0040979E /* cat1_id.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_id.cat1.mustache; sourceTree = "<group>"; };
 		38FCF8D11C74F8540040979E /* cat1_author.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_author.cat1.mustache; sourceTree = "<group>"; };
 		38FCF8D31C74F8730040979E /* cat1_address.cat1.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cat1_address.cat1.mustache; sourceTree = "<group>"; };
@@ -845,6 +849,8 @@
 				3852E30C1C865C5700F1B57D /* ccda_entry_detail_body.ccda.mustache */,
 				3891714C1C6CD8D200A31299 /* ccda_medical_equipment.ccda.mustache */,
 				3852E3061C86387400F1B57D /* ccda_medication_precondition.ccda.mustache */,
+				38CB596C1C8731BD004630F9 /* ccda_medication_dose.ccda.mustache */,
+				38CB596E1C8736B0004630F9 /* ccda_medication_admin_timing.ccda.mustache */,
 				3891714D1C6CD8D200A31299 /* ccda_medications_no_current.ccda.mustache */,
 				3891714E1C6CD8D200A31299 /* ccda_medications.ccda.mustache */,
 				3891714F1C6CD8D200A31299 /* ccda_narrative_block.ccda.mustache */,
@@ -1421,8 +1427,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				389171331C6CD8BA00A31299 /* c32_allergies_no_current.c32.mustache in Resources */,
+				38CB596F1C8736B0004630F9 /* ccda_medication_admin_timing.ccda.mustache in Resources */,
 				3852E30F1C865CBB00F1B57D /* ccda_entry_detail_severity.ccda.mustache in Resources */,
 				3852E3071C86387500F1B57D /* ccda_medication_precondition.ccda.mustache in Resources */,
+				38CB596D1C8731BD004630F9 /* ccda_medication_dose.ccda.mustache in Resources */,
 				38FCF8D41C74F8730040979E /* cat1_address.cat1.mustache in Resources */,
 				3852E2FF1C85E24B00F1B57D /* ccda_entry_detail_indication.ccda.mustache in Resources */,
 				3852E2FB1C84721400F1B57D /* c32_values.c32.mustache in Resources */,

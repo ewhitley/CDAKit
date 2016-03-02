@@ -150,8 +150,9 @@ extension CDAKMedication {
     if type_of_medication.count > 0 { vals["type_of_medication"] = Box(type_of_medication.codes.map({Box($0)})) }
     if vehicle.count > 0 { vals["vehicle"] = Box(vehicle.codes.map({Box($0)})) }
     
-    
-    vals["administration_timing"] = Box(administration_timing)
+    if administration_timing.period.value != nil {
+      vals["administration_timing"] = Box(administration_timing)
+    }
     vals["dose_restriction"] = Box(dose_restriction)
     vals["dose"] = Box(dose)
     vals["rate"] = Box(rate)
@@ -235,8 +236,12 @@ extension CDAKMedicationRestriction: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     var vals : [String:MustacheBox] = [:]
     
-    vals["numerator"] = Box(numerator)
-    vals["denominator"] = Box(denominator)
+    if numerator.value != nil {
+      vals["numerator"] = Box(numerator)
+    }
+    if denominator.value != nil {
+      vals["denominator"] = Box(denominator)
+    }
     
     return vals
   }
@@ -279,7 +284,7 @@ extension CDAKMedicationAdministrationTiming: MustacheBoxable {
   var boxedValues: [String:MustacheBox] {
     var vals : [String:MustacheBox] = [:]
     
-    vals["institution_specified"] = Box(institution_specified)
+    vals["institution_specified"] = Box(institution_specified == true ? "true" : "false")
     vals["period"] = Box(period)
     
     return vals

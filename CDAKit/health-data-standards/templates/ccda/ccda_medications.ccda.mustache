@@ -16,8 +16,9 @@
           <low {{{ value_or_null_flavor(as_point_in_time) }}}/>
           <high nullFlavor="UNK"/>
         </effectiveTime>
-        {{#dose}}<doseQuantity {{#dose.value}}value="{{.}}"{{/dose.value}} {{#unit}}unit="{{.}}"{{/unit}}/>{{/dose}}
-{{#rate}}{{{.}}}<rateQuantity {{#rate.value}}value="{{.}}"{{/rate.value}} {{#unit}}unit="{{.}}"{{/unit}}/>{{/rate}}
+        {{> ccda_medication_admin_timing.ccda }}
+        {{#route}}<routeCode code="{{ code }}" codeSystem="{{ codeSystemOid }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}/>{{/route}}
+        {{> ccda_medication_dose.ccda }}
         <consumable>
           <!--CCD Product - Required-->
           <manufacturedProduct classCode="MANU">

@@ -1,0 +1,5 @@
+{{#administration_timing}}
+<effectiveTime xsi:type="PIVL_TS" {{#institution_specified}}institutionSpecified="{{institution_specified}}"{{/institution_specified}}{{^institution_specified}}institutionSpecified="false"{{/institution_specified}} operator="A">
+<period {{^period.value}}{{^period.unit}}nullFlavor="UNK"{{/period.unit}}{{/period.value}}{{#period.value}}value="{{period.value}}"{{/period.value}} {{#period.unit}}unit="{{period.unit}}"{{/period.unit}}/>
+</effectiveTime>
+{{/administration_timing}}
