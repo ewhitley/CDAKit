@@ -50,6 +50,10 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
       if let a_dose = extract_scalar(entry_element, scalar_xpath: "./cda:doseQuantity") {
         medication.dose = a_dose
       }
+      if let a_rate = extract_scalar(entry_element, scalar_xpath: "./cda:rateQuantity") {
+        medication.rate = a_rate
+      }
+      
       medication.anatomical_approach.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: "./cda:approachSiteCode", code_system: "SNOMED-CT"))
       
       extract_dose_restriction(entry_element, medication: medication)

@@ -20,8 +20,11 @@ public class CDAKMedication: CDAKEntry {
   public var administration_timing: CDAKMedicationAdministrationTiming = CDAKMedicationAdministrationTiming()
   ///Free text signature or text
   public var free_text_sig: String?
-  ///Dosage information
+  ///Dosage information (doseQuantity)
   public var dose = CDAKValueAndUnit()
+  ///Rate information (rateQuantity)
+  public var rate = CDAKValueAndUnit()
+  
   ///Type of medication
   public var type_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :type_of_medication  // type: Hash
   ///Status of medication
@@ -74,6 +77,8 @@ public class CDAKMedication: CDAKEntry {
   public var active_datetime: Double?   //  type: Integer
   ///Date medication signed
   public var signed_datetime: Double?   //  type: Integer
+  
+  
   
 
   /**
@@ -149,6 +154,7 @@ extension CDAKMedication {
     vals["administration_timing"] = Box(administration_timing)
     vals["dose_restriction"] = Box(dose_restriction)
     vals["dose"] = Box(dose)
+    vals["rate"] = Box(rate)
     
     if let active_datetime = active_datetime { vals["active_datetime"] = Box(active_datetime) }
     if let signed_datetime = signed_datetime { vals["signed_datetime"] = Box(signed_datetime) }
@@ -198,6 +204,7 @@ extension CDAKMedication {
     if administration_timing.jsonDict.count > 0 { dict["administration_timing"] = administration_timing.jsonDict }
     if dose_restriction.jsonDict.count > 0 { dict["dose_restriction"] = dose_restriction.jsonDict }
     if dose.jsonDict.count > 0 { dict["dose"] = dose.jsonDict }
+    if rate.jsonDict.count > 0 { dict["rate"] = rate.jsonDict }
     
     if let active_datetime = active_datetime { dict["active_datetime"] = active_datetime }
     if let signed_datetime = signed_datetime { dict["signed_datetime"] = signed_datetime }
