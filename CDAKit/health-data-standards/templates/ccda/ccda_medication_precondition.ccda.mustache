@@ -3,6 +3,7 @@
   <templateId root="2.16.840.1.113883.10.20.22.4.25"/>
   <criterion>
     <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
+    {{>ccda_entry_detail_body.ccda}}
     {{#preferred_code}}
     <value xsi:type="CE" code="{{ code }}" codeSystem="{{ codeSystemOid }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}>
     {{/preferred_code}}

@@ -46,6 +46,10 @@ class CDAKProviderPerformanceTest: XCTestCase {
 //      print(record.json)
       
 //      print(record.json)
+      
+//      print("record.allergies: \(record.allergies)")
+      //print("record.allergies: \(record.allergies)")
+      
       //print(record.export(inFormat: .c32))
       print(record.export(inFormat: .ccda))
       

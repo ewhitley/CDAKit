@@ -50,7 +50,7 @@ public class CDAKMedication: CDAKEntry {
   - Version 1.0: This was a CDAKCodedEntries
   - Version 1.0.1: This is now a full Entry.  It contains a full problem, including dates, codes, etc.
   */
-  public var indication: CDAKEntry?  // type: Hash
+  public var indication: CDAKEntryDetail?  // type: Hash
   ///Precondition
   public var precondition: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
   ///Product form
@@ -58,7 +58,10 @@ public class CDAKMedication: CDAKEntry {
   ///Product vehicle
   public var vehicle: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
   ///Reaction to medication or administration
-  public var reaction: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  public var reaction: CDAKEntryDetail?//CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  ///severity
+  public var severity: CDAKEntryDetail?// = CDAKCodedEntries() //flat code list
+
   ///Delivery method
   public var delivery_method: CDAKCodedEntries = CDAKCodedEntries()  // as: :delivery_method  // type: Hash
   ///Patient instructions
@@ -130,7 +133,13 @@ extension CDAKMedication {
     
     if method.count > 0 { vals["method"] = Box(method.codes.map({Box($0)})) }
     if product_form.count > 0 { vals["product_form"] = Box(product_form.codes.map({Box($0)})) }
-    if reaction.count > 0 { vals["reaction"] = Box(reaction.codes.map({Box($0)})) }
+    //if reaction.count > 0 { vals["reaction"] = Box(reaction.codes.map({Box($0)})) }
+    if let reaction = reaction {
+      vals["reaction"] = Box(reaction)
+    }
+    if let severity = severity {
+      vals["severity"] = Box(severity)
+    }
     if route.count > 0 { vals["route"] = Box(route.codes.map({Box($0)})) }
     if status_of_medication.count > 0 { vals["status_of_medication"] = Box(status_of_medication.codes.map({Box($0)})) }
     if type_of_medication.count > 0 { vals["type_of_medication"] = Box(type_of_medication.codes.map({Box($0)})) }
@@ -173,7 +182,14 @@ extension CDAKMedication {
     if precondition.count > 0 { dict["precondition"] = precondition.codes.map({$0.jsonDict}) }
     if method.count > 0 { dict["method"] = method.codes.map({$0.jsonDict}) }
     if product_form.count > 0 { dict["product_form"] = product_form.codes.map({$0.jsonDict}) }
-    if reaction.count > 0 { dict["reaction"] = reaction.codes.map({$0.jsonDict}) }
+    //if reaction.count > 0 { dict["reaction"] = reaction.codes.map({$0.jsonDict}) }
+    if let reaction = reaction {
+      dict["reaction"] = reaction.jsonDict
+    }
+    if let severity = severity {
+      dict["severity"] = severity.jsonDict
+    }
+    
     if route.count > 0 { dict["route"] = route.codes.map({$0.jsonDict}) }
     if status_of_medication.count > 0 { dict["status_of_medication"] = status_of_medication.codes.map({$0.jsonDict}) }
     if type_of_medication.count > 0 { dict["type_of_medication"] = type_of_medication.codes.map({$0.jsonDict}) }

@@ -1,6 +1,3 @@
-<entryRelationship typeCode="RSON">
-  <observation classCode="OBS" moodCode="EVN">
-    <templateId root="2.16.840.1.113883.10.20.22.4.19"/>
     {{#cda_identifier}}<id {{#root}}root="{{.}}"{{/root}} extension="{{extension}}"/>{{/cda_identifier}}
     <code code="404684003" displayName="Finding" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
     <statusCode code="completed"/>
@@ -16,6 +13,3 @@
     {{#each(translation_codes)}}
       <translation code="{{ code }}" codeSystem="{{ oid_for_code_system(codeSystem) }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}/>
     {{/}}
-    </value>
-  </observation>
-</entryRelationship>

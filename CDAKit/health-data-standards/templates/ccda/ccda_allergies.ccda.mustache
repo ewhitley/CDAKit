@@ -42,6 +42,8 @@
               </participantRole>
             </participant>
           </observation>
+          {{#reaction}}{{>ccda_entry_detail_reaction.ccda}}{{/reaction}}
+          {{#severity}}{{>ccda_entry_detail_severity.ccda}}{{/severity}}
         </entryRelationship>
       </act>
     </entry>

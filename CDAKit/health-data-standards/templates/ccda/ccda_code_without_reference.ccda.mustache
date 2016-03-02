@@ -1,0 +1,10 @@
+{{#preferred_code}}
+<code code="{{ code }}" codeSystem="{{ codeSystemOid }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}>
+{{/preferred_code}}
+{{^preferred_code}}
+<code nullFlavor="UNK">
+{{/preferred_code}}
+{{#each(translation_codes)}}
+<translation code="{{ code }}" codeSystem="{{ oid_for_code_system(codeSystem) }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}/>
+{{/}}
+</code>

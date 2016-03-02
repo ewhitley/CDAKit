@@ -35,11 +35,11 @@ class C32AllergyImporterTest: XCTestCase {
       let patient = pi.parse_c32(doc)
             
       let allergy0 = patient.allergies[0]
-      XCTAssertEqual("247472004", allergy0.reaction.codes.first?.code)
+      XCTAssertEqual("247472004", allergy0.reaction?.codes.codes.first?.code)
       
       let allergy2 = patient.allergies[2]
-      XCTAssertEqual("73879007", allergy2.reaction.codes.first?.code)
-      XCTAssertEqual("6736007", allergy2.severity.codes.first?.code)
+      XCTAssertEqual("73879007", allergy2.reaction?.codes.codes.first?.code)
+      XCTAssertEqual("6736007", allergy2.severity?.codes.codes.first?.code)
       
       
     } catch {

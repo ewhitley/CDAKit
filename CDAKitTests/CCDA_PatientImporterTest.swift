@@ -40,8 +40,8 @@ class CCDA_PatientImporterTest: XCTestCase {
 
       let allergy = patient.allergies.first
       XCTAssertNotNil(allergy)
-      XCTAssertEqual("247472004", allergy?.reaction.codes.first?.code)
-      XCTAssertEqual("371924009", allergy?.severity.codes.first?.code)
+      XCTAssertEqual("247472004", allergy?.reaction?.codes.codes.first?.code)
+      XCTAssertEqual("371924009", allergy?.severity?.codes.codes.first?.code)
       XCTAssertEqual("416098002", allergy?.type.codes.first?.code)
       XCTAssertEqual("active", allergy?.status)
 

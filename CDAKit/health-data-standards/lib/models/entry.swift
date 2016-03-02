@@ -13,7 +13,7 @@ import Mustache
 Root type of generic CDA Entry.  All other "entry-like" types inherit from CDAKEntry
 */
  
-public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, CDAKThingWithTimes, CDAKJSONInstantiable {
+public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, CDAKThingWithTimes, CDAKJSONInstantiable, CDAKThingWithIdentifier {
   
   //Equatable, Hashable,
   
@@ -492,7 +492,6 @@ extension CDAKEntry {
 func == (lhs: CDAKEntry, rhs: CDAKEntry) -> Bool {
   return lhs.hashValue == rhs.hashValue && CDAKCommonUtility.classNameAsString(lhs) == CDAKCommonUtility.classNameAsString(rhs)
 }
-
  
 extension CDAKEntry {
   

@@ -14,15 +14,19 @@
 
 *  in anticipation of future changes and probable removal, the cross-record public `allProviders` member has been made internal
 
+###Allergies
+*  `reaction` and `severity`  changed to a new structure - `CDAKEntryDetail` as it must also capture additional data like times and identifiers (not just codes).  Importer and models updated to reflect this change.
+
 ###Encounter
 
 *  Now contains `indication` (CDAKEntry) for problem list entries that drive reason for encounter
 
 ###Medication
 
-*  `indication` no longer a String. This was not really used, so it's being treated as a non-breaking change.
-*  Now contains `indication` (CDAKEntry) for problem list entries that drive reason for encounter
+*  `indication` no longer a String. This was not really used by the importer/exporter, so it's being treated as a non-breaking change. `indication` is now a (CDAKEntryDetail) for more fully defined problem list entries that drive reason for encounter
 *  Model and importer now supports `precondition` (CDAKCodedEntries) for capturing precondition supporting reason for medication (template OID: 2.16.840.1.113883.10.20.22.4.25)
+*  `reaction` changed to a new structure - `CDAKEntryDetail` as it must also capture additional data like times and identifiers (not just codes).  Importer and models updated to reflect this change.
+*  Added `severity`  to model, importer, and exporter so it can be used with `reaction`
 
 ###Person
 
@@ -50,7 +54,9 @@
 * `Performer` template updated to display `code` (provider specialty)
 * `Performer` template updated to allow for incorporation into `documentationOf` which contains additional elements for `time` and `functionCode`
 * Fix to `format_code_with_reference.format` to remove some translation code duplication
-* New C32 and C-CDA template `format_indication.format` for `indication` (sub-entry problem on some entries like `encounter` and `medication`) display
+* New C32 and C-CDA template `format_indication.format` for `indication` (entry detail problem on some entries like `encounter` and `medication`) display
 * New C-CDA template `format_medication_precondition.format` for `precondition` (Precondition for Substance Administration) display
+* New C-CDA templates for `reaction` and `severity` applied to allergy and medication
+* C-CDA now exports medication `vehicle`
 * Minor changes in CDAKEntry MustacheBox values and some filters to handle issues where child Entry's members were nil, so Mustache was (correctly) kicking up to the parent element - which resulted in undesired (parent) data being rendered in the child entry.
 

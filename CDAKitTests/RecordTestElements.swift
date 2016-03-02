@@ -26,8 +26,13 @@ class TestRecord {
     _allergy.codes = CDAKCodedEntries(codeSystem: "RxNorm", code: "70618")
     _allergy.start_time = 1264529050
     _allergy.type = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "416098002")
-    _allergy.reaction = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "24484000")
-    _allergy.severity = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "39579001")
+    
+    _allergy.reaction = CDAKEntryDetail()
+    _allergy.reaction?.codes.addCodes("SNOMED-CT", code: "24484000")
+    _allergy.severity?.codes.addCodes("SNOMED-CT", code: "39579001")
+    
+//    _allergy.reaction = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "24484000")
+//    _allergy.severity = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "39579001")
     return _allergy
   }
   
@@ -209,11 +214,14 @@ class TestRecord {
     // refer back to the C32 example (only one I can find)
 //    _medication.dose_restriction = CDAKCodedEntries(entries: ["RxNorm" : ["12345"]])
     _medication.fulfillment_instructions = "Fulfillment Instructions"
-    _medication.indication = CDAKEntry()
+    _medication.indication = CDAKEntryDetail()
     _medication.indication?.codes.addCodes("SNOMED-CT", code: "12345")
 //    _medication.indication = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "12345")
     _medication.vehicle = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "12345")
-    _medication.reaction = CDAKCodedEntries(codeSystem: "RxNorm", code: "12345")
+//    _medication.reaction = CDAKCodedEntries(codeSystem: "RxNorm", code: "12345")
+    _medication.reaction = CDAKEntryDetail()
+    _medication.reaction?.codes.addCodes("RxNorm", code: "12345")
+    
     _medication.product_form = CDAKCodedEntries(codeSystem: "FDA", code: "12345")
     _medication.delivery_method = CDAKCodedEntries(codeSystem: "RxNorm", code: "12345")
     _medication.patient_instructions = "Take with Water"

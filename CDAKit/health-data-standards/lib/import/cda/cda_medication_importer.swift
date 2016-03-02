@@ -26,7 +26,10 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
   var fill_number_xpath = "./cda:entryRelationship[@typeCode='COMP']/cda:sequenceNumber/@value"
   
   var precondition_xpath = "./cda:precondition[@typeCode='PRCN' and cda:templateId/@root='2.16.840.1.113883.10.20.22.4.25']/cda:criterion"
-  
+
+  var reaction_xpath = "./cda:entryRelationship[@typeCode='MFST']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.54']"
+  var severity_xpath = "./cda:entryRelationship[@typeCode='SUBJ']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.1.55']"
+
   
   override init(entry_finder: CDAKImport_CDA_EntryFinder = CDAKImport_CDA_EntryFinder(entry_xpath: "//cda:section[cda:templateId/@root='2.16.840.1.113883.3.88.11.83.112']/cda:entry/cda:substanceAdministration")) {
     super.init(entry_finder: entry_finder)
@@ -57,10 +60,14 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
         medication.type_of_medication.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: type_of_med_xpath, code_system: "SNOMED-CT"))
       }
             
-      if let indication_entry = extract_indication(entry_element, entry: medication, indication_xpath: indication_xpath) {
-        medication.indication = indication_entry
-      }
+//      if let indication_entry = extract_indication(entry_element, entry: medication, indication_xpath: indication_xpath) {
+//        medication.indication = indication_entry
+//      }
 
+      medication.indication = extract_entry_detail(entry_element, xpath: indication_xpath)
+      medication.indication?.codes.preferred_code_sets = ["SNOMED-CT"]
+
+      
       if let precondition_entry = entry_element.xpath(precondition_xpath).first {
         if let codes = CDAKImport_CDA_SectionImporter.extract_codes(precondition_entry, code_xpath: "cda:value") {
           medication.precondition = codes
@@ -68,6 +75,11 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
         }
       }
       
+      medication.reaction = extract_entry_detail(entry_element, xpath: reaction_xpath)
+      medication.reaction?.codes.preferred_code_sets = ["SNOMED-CT"]
+      medication.severity = extract_entry_detail(entry_element, xpath: severity_xpath)
+      medication.severity?.codes.preferred_code_sets = ["SNOMED-CT"]
+
       
       medication.vehicle.addCodes(CDAKImport_CDA_SectionImporter.extract_code(entry_element, code_xpath: vehicle_xpath, code_system: "SNOMED-CT"))
       

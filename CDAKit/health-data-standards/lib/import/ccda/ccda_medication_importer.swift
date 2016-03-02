@@ -20,6 +20,9 @@ class CDAKImport_CCDA_MedicationImporter: CDAKImport_CDA_MedicationImporter {
     
     precondition_xpath = "./cda:precondition[@typeCode='PRCN' and cda:templateId/@root='2.16.840.1.113883.10.20.22.4.25']/cda:criterion"
 
+    reaction_xpath = "./cda:entryRelationship[@typeCode='MFST']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.9']"
+    severity_xpath = "./cda:entryRelationship[@typeCode='SUBJ']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.22.4.8']"
+
     
   }
   

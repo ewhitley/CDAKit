@@ -118,7 +118,7 @@ class CDAKImport_CDA_SectionImporter {
     }
   }
 
-  func extract_id(parent_element: XMLElement, entry: CDAKEntry) {
+  func extract_id(parent_element: XMLElement, entry: CDAKThingWithIdentifier) {
     if let id_element = parent_element.xpath(id_xpath).first {
       let identifier = CDAKCDAIdentifier()
       identifier.root = id_element["root"]
@@ -278,7 +278,18 @@ class CDAKImport_CDA_SectionImporter {
     return nil
   }
 
-  
+  func extract_entry_detail(parent_element: XMLElement, xpath: String = ".", codes_xpath: String = "cda:value") -> CDAKEntryDetail? {
+    if let element = parent_element.xpath(xpath).first {
+      let detail = CDAKEntryDetail()
+      if let codes = CDAKImport_CDA_SectionImporter.extract_codes(element, code_xpath: codes_xpath) {
+        detail.codes = codes
+      }
+      extract_dates(element, entry: detail)
+      extract_id(element, entry: detail)
+      return detail
+    }
+    return nil
+  }
   
   //Revised - with fixed CDAKValueAndUnit type
   func extract_scalar(parent_element: XMLElement, scalar_xpath: String) -> CDAKValueAndUnit? {

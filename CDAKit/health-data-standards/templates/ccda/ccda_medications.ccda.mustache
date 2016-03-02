@@ -26,8 +26,23 @@
             </manufacturedMaterial>
           </manufacturedProduct>
         </consumable>
-        {{#indication}}{{>ccda_indication.ccda}}{{/indication}}
+        {{#vehicle}}
+        <participant typeCode="CSM">
+          <participantRole classCode="MANU">
+            <!-- Drug vehicle -->
+            <templateId root="2.16.840.1.113883.10.20.22.4.24"/>
+              <code code="412307009" displayName="drug vehicle" codeSystem="2.16.840.1.113883.6.96"/>
+              <playingEntity classCode="MMAT">
+              <code code="{{ code }}" codeSystem="{{ codeSystemOid }}" codeSystemName="{{ codeSystem }}" {{#displayName}}displayName="{{ . }}"{{/displayName}}/>
+              {{#displayName}}<name>{{.}}</name>{{/displayName}}
+            </playingEntity>
+          </participantRole>
+        </participant>
+        {{/vehicle}}
+        {{#indication}}{{>ccda_entry_detail_indication.ccda}}{{/indication}}
         {{#precondition}}{{>ccda_medication_precondition.ccda}}{{/precondition}}
+        {{#reaction}}{{>ccda_entry_detail_reaction.ccda}}{{/reaction}}
+        {{#severity}}{{>ccda_entry_detail_severity.ccda}}{{/severity}}
       </substanceAdministration>
     </entry>
     {{/}}

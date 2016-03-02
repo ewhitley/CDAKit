@@ -361,8 +361,8 @@ class CDAKUtility {
       }
     } else if let obj = obj as? CDAKAllergy {
       switch property {
-      case "reaction": obj.reaction = singleCodeFieldFlat(value)
-      case "severity": obj.severity = singleCodeFieldFlat(value)
+     // case "reaction": obj.reaction = singleCodeFieldFlat(value)
+     // case "severity": obj.severity = singleCodeFieldFlat(value)
       default: debug_message("CDAKAllergy", function: "setProperty", property: property)
       }
     } else if let obj = obj as? CDAKCondition {

@@ -9,6 +9,8 @@
 import Foundation
 import Mustache
 
+
+
 /**
 Represents an Allergy entry
 */
@@ -18,12 +20,13 @@ public class CDAKAllergy: CDAKEntry {
   ///type
   public var type: CDAKCodedEntries = CDAKCodedEntries()
   ///reaction
-  public var reaction: CDAKCodedEntries = CDAKCodedEntries() //flat code list
+  public var reaction: CDAKEntryDetail?// = CDAKCodedEntries() //flat code list
   ///severity
-  public var severity: CDAKCodedEntries = CDAKCodedEntries() //flat code list
+  public var severity: CDAKEntryDetail?// = CDAKCodedEntries() //flat code list
   
   // MARK: - Initializers
-  public init(type:CDAKCodedEntries, reaction: CDAKCodedEntries = CDAKCodedEntries(), severity: CDAKCodedEntries = CDAKCodedEntries()) {
+  public init(type:CDAKCodedEntries, reaction: CDAKEntryDetail? = nil, severity: CDAKEntryDetail? = nil) {
+//  public init(type:CDAKCodedEntries, reaction: CDAKCodedEntries = CDAKCodedEntries(), severity: CDAKCodedEntries = CDAKCodedEntries()) {
     super.init()
     self.type = type
     self.reaction = reaction
@@ -64,11 +67,17 @@ extension CDAKAllergy {
     if type.count > 0 {
       dict["type"] = type.codes.map({$0.jsonDict})
     }
-    if reaction.count > 0 {
-      dict["reaction"] = reaction.codes.map({$0.jsonDict})
+//    if reaction.count > 0 {
+//      dict["reaction"] = reaction.codes.map({$0.jsonDict})
+//    }
+//    if severity.count > 0 {
+//      dict["severity"] = severity.codes.map({$0.jsonDict})
+//    }
+    if let reaction = reaction {
+      dict["reaction"] = reaction.jsonDict
     }
-    if severity.count > 0 {
-      dict["severity"] = severity.codes.map({$0.jsonDict})
+    if let severity = severity {
+      dict["severity"] = severity.jsonDict
     }
     
     return dict
