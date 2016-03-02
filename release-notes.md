@@ -1,11 +1,11 @@
 #Versions
 
 * **1.0**: Initial release
-* **1.0.1**: Enhancements to providers, encounters, and medications
+* **1.0.2**: Enhancements to providers, encounters, and medications
 
-#1.0.1
+#1.0.2
 
-[Commits](https://github.com/ewhitley/CDAKit/compare/1.0.1...1.0)
+[Commits](https://github.com/ewhitley/CDAKit/compare/1.0...1.0.2)
 
 
 ##Changes
