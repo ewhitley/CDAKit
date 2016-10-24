@@ -33,5 +33,5 @@ Pod::Spec.new do |s|
   s.frameworks = 'HealthKit'
   s.dependency 'GRMustache.swift', '~> 2.0.0'
   s.dependency 'Fuzi', '~> 1.0.0'
-  s.dependency 'Try', '~> 1.0.0'
+  s.dependency 'Try', :git => 'https://github.com/nikinapi/Try.git'
 end
