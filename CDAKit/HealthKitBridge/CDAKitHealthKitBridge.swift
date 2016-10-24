@@ -30,7 +30,6 @@
 
 import Foundation
 import HealthKit
-import Try
 
 
 /**

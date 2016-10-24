@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 //#import <SwitfTryCatch/SwiftTryCatch.h>
+#import "WBTry.h"
 
 //! Project version number for CDAKit.
 FOUNDATION_EXPORT double CDAKitVersionNumber;
