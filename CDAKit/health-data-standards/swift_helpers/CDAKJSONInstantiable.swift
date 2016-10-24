@@ -20,7 +20,7 @@ internal protocol CDAKJSONInstantiable {
 // individual classes will handle this, NOT a Ruby-like reflection mechanism
 
 extension CDAKJSONInstantiable {
-  func initFromEventList(event: [String:Any?]) {
+  func initFromEventList(_ event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)
     }

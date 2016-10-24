@@ -12,11 +12,11 @@ import Foundation
 Vital signs
  Inherits all members and methods from CDAKLabResult
 */
-public class CDAKVitalSign: CDAKLabResult {
+open class CDAKVitalSign: CDAKLabResult {
   
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
+  override open var description: String {
     return super.description
   }
 

@@ -20,7 +20,7 @@ class CDAKImport_CDA_MedicalEquipmentImporter: CDAKImport_CDA_SectionImporter {
   }
 
 
-  override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKMedicalEquipment? {
+  override func create_entry(_ entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKMedicalEquipment? {
     
     if let medical_equipment = super.create_entry(entry_element, nrh: nrh) as? CDAKMedicalEquipment {
 
@@ -35,19 +35,19 @@ class CDAKImport_CDA_MedicalEquipmentImporter: CDAKImport_CDA_SectionImporter {
 
   }
   
-  private func extract_manufacturer(entry_element: XMLElement, entry: CDAKMedicalEquipment) {
+  fileprivate func extract_manufacturer(_ entry_element: XMLElement, entry: CDAKMedicalEquipment) {
     if let manufacturer = entry_element.xpath("./cda:participant/cda:participantRole/cda:scopingEntity/cda:desc").first?.stringValue {
-      entry.manufacturer = manufacturer.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+      entry.manufacturer = manufacturer.trimmingCharacters(in: .whitespaces)
     }
   }
 
-  private func extract_removal_time(entry_element: XMLElement, entry: CDAKMedicalEquipment) {
-    if let removal_time_entry = entry_element.xpath("cda:effectiveTime/cda:high").first, removal_time_value = removal_time_entry["value"] {
+  fileprivate func extract_removal_time(_ entry_element: XMLElement, entry: CDAKMedicalEquipment) {
+    if let removal_time_entry = entry_element.xpath("cda:effectiveTime/cda:high").first, let removal_time_value = removal_time_entry["value"] {
       entry.removal_time = CDAKHL7Helper.timestamp_to_integer(removal_time_value)
     }
   }
 
-  private func extract_anatomical_structure(entry_element: XMLElement, entry: CDAKMedicalEquipment) {
+  fileprivate func extract_anatomical_structure(_ entry_element: XMLElement, entry: CDAKMedicalEquipment) {
     if let site = entry_element.xpath(anatomical_xpath).first {
       entry.anatomical_structure.addCodes(CDAKImport_CDA_SectionImporter.extract_code(site, code_xpath: "."))
     }

@@ -15,35 +15,35 @@ Represents a CDA Encounter
  
 [Reference](http://www.cdapro.com/know/26178)
 */
-public class CDAKEncounter: CDAKEntry {
+open class CDAKEncounter: CDAKEntry {
 
   // MARK: CDA properties
   /**
   CDA priorityCode
   [Reference](http://www.cdapro.com/know/25039)
   */
-  public var admit_type: CDAKCodedEntries = CDAKCodedEntries() // :admit_type, type: Hash
+  open var admit_type: CDAKCodedEntries = CDAKCodedEntries() // :admit_type, type: Hash
   ///CDA dischargeDispositionCode
-  public var discharge_disposition: CDAKCodedEntries = CDAKCodedEntries() // :discharge_disposition, type: Hash
+  open var discharge_disposition: CDAKCodedEntries = CDAKCodedEntries() // :discharge_disposition, type: Hash
   ///Time of admission
-  public var admit_time: Double? // , as: :admit_time, type: Integer
+  open var admit_time: Double? // , as: :admit_time, type: Integer
   ///Time of discharge
-  public var discharge_time: Double? // :discharge_time, type: Integer
+  open var discharge_time: Double? // :discharge_time, type: Integer
   ///Principal diagnosis
-  public var principal_diagnosis: CDAKCodedEntries = CDAKCodedEntries() //:principal_diagnosis, type: Hash
+  open var principal_diagnosis: CDAKCodedEntries = CDAKCodedEntries() //:principal_diagnosis, type: Hash
   ///Diagnosis
-  public var diagnosis: CDAKCodedEntries = CDAKCodedEntries()
+  open var diagnosis: CDAKCodedEntries = CDAKCodedEntries()
   
   ///Transfer to
-  public var transfer_to: CDAKTransfer?//, class_name: "CDAKTransfer"
+  open var transfer_to: CDAKTransfer?//, class_name: "CDAKTransfer"
   ///Transfer from
-  public var transfer_from: CDAKTransfer?//, class_name: "CDAKTransfer"
+  open var transfer_from: CDAKTransfer?//, class_name: "CDAKTransfer"
   
   ///Facility
-  public var facility: CDAKFacility?
+  open var facility: CDAKFacility?
   
   ///Performer
-  public var performer: CDAKProvider?
+  open var performer: CDAKProvider?
 
   /**
    Indication
@@ -52,12 +52,12 @@ public class CDAKEncounter: CDAKEntry {
    - Version 1.0: Not present
    - Version 1.0.1: Added as a full Entry.  It contains a full problem, including dates, codes, etc.
    */
-  public var indication: CDAKEntry?  // type: Hash
+  open var indication: CDAKEntry?  // type: Hash
 
   
   // MARK: Health-Data-Standards Functions
   ///Offset all dates by specified double
-  override func shift_dates(date_diff: Double) {
+  override func shift_dates(_ date_diff: Double) {
     super.shift_dates(date_diff)
 
     if let facility = facility {
@@ -74,7 +74,7 @@ public class CDAKEncounter: CDAKEntry {
   
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
+  override open var description: String {
     return super.description + " , admit_type: \(admit_type), discharge_disposition: \(discharge_disposition), admit_time: \(admit_time), discharge_time: \(discharge_time), principal_diagnosis: \(principal_diagnosis), transfer_to: \(transfer_to), transfer_from: \(transfer_from), facility: \(facility), performer: \(performer)"
   }
   
@@ -122,40 +122,40 @@ extension CDAKEncounter {
     var dict = super.jsonDict
     
     if admit_type.count > 0 {
-      dict["admit_type"] = admit_type.codes.map({$0.jsonDict})
+      dict["admit_type"] = admit_type.codes.map({$0.jsonDict}) as AnyObject?
     }
     if discharge_disposition.count > 0 {
-      dict["discharge_disposition"] = discharge_disposition.codes.map({$0.jsonDict})
+      dict["discharge_disposition"] = discharge_disposition.codes.map({$0.jsonDict}) as AnyObject?
     }
     if let admit_time = admit_time {
-      dict["admit_time"] = admit_time
+      dict["admit_time"] = admit_time as AnyObject?
     }
     if let discharge_time = discharge_time {
-      dict["discharge_time"] = discharge_time
+      dict["discharge_time"] = discharge_time as AnyObject?
     }
     
     if principal_diagnosis.count > 0 {
-      dict["principal_diagnosis"] = principal_diagnosis.codes.map({$0.jsonDict})
+      dict["principal_diagnosis"] = principal_diagnosis.codes.map({$0.jsonDict}) as AnyObject?
     }
     if diagnosis.count > 0 {
-      dict["diagnosis"] = diagnosis.codes.map({$0.jsonDict})
+      dict["diagnosis"] = diagnosis.codes.map({$0.jsonDict}) as AnyObject?
     }
     
     if let transfer_to = transfer_to {
-      dict["transfer_to"] = transfer_to.jsonDict
+      dict["transfer_to"] = transfer_to.jsonDict as AnyObject?
     }
     if let transfer_from = transfer_from {
-      dict["transfer_from"] = transfer_from.jsonDict
+      dict["transfer_from"] = transfer_from.jsonDict as AnyObject?
     }
     if let facility = facility {
-      dict["facility"] = facility.jsonDict
+      dict["facility"] = facility.jsonDict as AnyObject?
     }
     if let performer = performer {
-      dict["performer"] = performer.jsonDict
+      dict["performer"] = performer.jsonDict as AnyObject?
     }
     
     if let indication = indication {
-      dict["indication"] = indication.jsonDict
+      dict["indication"] = indication.jsonDict as AnyObject?
     }
 
     

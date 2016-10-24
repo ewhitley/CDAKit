@@ -12,24 +12,24 @@ import Mustache
 /**
  Telephone
 */
-public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
+open class CDAKTelecom: NSObject, CDAKJSONInstantiable {
   
   // MARK: CDA properties
   weak var record: CDAKRecord?
 
   ///phone use type
-  public var use: String?
+  open var use: String?
   ///phone number
-  public var value: String?
+  open var value: String?
   ///is this the preferred phone?
-  public var preferred: Bool?
+  open var preferred: Bool?
   
   /**
    Determines whether the phone is empty
    */
-  public var is_empty: Bool {
+  open var is_empty: Bool {
     
-    let someText: String = "\(value ?? "")".stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    let someText: String = "\(value ?? "")".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     
     if someText.characters.count > 0 {
       return false
@@ -59,7 +59,7 @@ public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
   }
   
   ///Do not use - will be removed. Was used in HDS Ruby.
-  private func initFromEventList(event: [String:Any?]) {
+  fileprivate func initFromEventList(_ event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)
     }
@@ -67,7 +67,7 @@ public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
 
   // MARK: Standard properties
   ///Debugging description
-  public override var description: String {
+  open override var description: String {
     return "CDAKTelecom => use: \(use), value: \(value), preferred: \(preferred)"
   }
 
@@ -76,11 +76,11 @@ public class CDAKTelecom: NSObject, CDAKJSONInstantiable {
 
 extension CDAKTelecom {
   // MARK: - Mustache marshalling
-  override public var mustacheBox: MustacheBox {
+  override open var mustacheBox: MustacheBox {
     return Box([
       "use": use,
       "value": value,
-      "preferred": String(preferred)
+      "preferred": String(describing: preferred)
       ])
   }
 }
@@ -91,13 +91,13 @@ extension CDAKTelecom: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     if let use = use {
-      dict["use"] = use
+      dict["use"] = use as AnyObject?
     }
     if let value = value {
-      dict["value"] = value
+      dict["value"] = value as AnyObject?
     }
     if let preferred = preferred {
-      dict["preferred"] = preferred
+      dict["preferred"] = preferred as AnyObject?
     }
     return dict
   }

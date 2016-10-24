@@ -19,7 +19,7 @@ class CDAKImport_C32_InsuranceProviderImporter: CDAKImport_CDA_SectionImporter {
     
   }
   
-  override func create_entry(payer_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKInsuranceProvider? {
+  override func create_entry(_ payer_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKInsuranceProvider? {
     
     let ip = CDAKInsuranceProvider()
     if let type = CDAKImport_CDA_SectionImporter.extract_code(payer_element, code_xpath: "./cda:code") {
@@ -29,7 +29,7 @@ class CDAKImport_C32_InsuranceProviderImporter: CDAKImport_CDA_SectionImporter {
     if let payer = payer_element.xpath("./cda:performer/cda:assignedEntity[cda:code[@code='PAYOR']]").first {
       ip.payer = import_organization(payer)
     }
-    ip.guarantors = extract_guarantors(payer_element.xpath("./cda:performer[cda:assignedEntity[cda:code[@code='GUAR']]]"))
+    ip.guarantors = extract_guarantors(payer_element.xpath("./cda:performer[cda:assignedEntity[cda:code[@code='GUAR']]]") as! XPathNodeSet)
     if let subscriber = payer_element.xpath("./cda:participant[@typeCode='HLD']/cda:participantRole").first {
       ip.subscriber = import_person(subscriber)
     }
@@ -53,12 +53,12 @@ class CDAKImport_C32_InsuranceProviderImporter: CDAKImport_CDA_SectionImporter {
     
   }
   
-  func extract_guarantors(guarantor_elements: XPathNodeSet) -> [CDAKGuarantor] {
+  func extract_guarantors(_ guarantor_elements: XPathNodeSet) -> [CDAKGuarantor] {
     var guarantors: [CDAKGuarantor] = []
-    for guarantor_element in guarantor_elements {
+    for guarantor_element in guarantor_elements.enumerated() {
       let guarantor = CDAKGuarantor()
-      extract_dates(guarantor_element, entry: guarantor, element_name: "time")
-      if let guarantor_entity = guarantor_element.xpath("./cda:assignedEntity").first {
+      extract_dates(guarantor_element.element, entry: guarantor, element_name: "time")
+      if let guarantor_entity = guarantor_element.element.xpath("./cda:assignedEntity").first {
         if let person_element = guarantor_entity.xpath("./cda:assignedPerson").first {
           guarantor.person = import_person(person_element)
         }

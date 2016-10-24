@@ -18,7 +18,7 @@ class CDAKImport_CDA_ProcedureImporter: CDAKImport_CDA_SectionImporter {
     entry_class = CDAKProcedure.self
   }
   
-  override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEntry? {
+  override func create_entry(_ entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEntry? {
     
     if let procedure = super.create_entry(entry_element, nrh: nrh) as? CDAKProcedure {
 
@@ -36,24 +36,24 @@ class CDAKImport_CDA_ProcedureImporter: CDAKImport_CDA_SectionImporter {
   }
   
   
-  private func extract_ordinality(parent_element: XMLElement, procedure: CDAKProcedure) {
+  fileprivate func extract_ordinality(_ parent_element: XMLElement, procedure: CDAKProcedure) {
     if let ordinality_element = parent_element.xpath(ordinality_xpath).first {
       procedure.ordinality.addCodes(CDAKImport_CDA_SectionImporter.extract_code(ordinality_element, code_xpath: "."))
     }
   }
   
-  private func extract_performer(parent_element: XMLElement, procedure: CDAKProcedure) {
+  fileprivate func extract_performer(_ parent_element: XMLElement, procedure: CDAKProcedure) {
     if let performer_element = parent_element.xpath("./cda:performer").first {
       procedure.performer = import_actor(performer_element)
     }
   }
 
-  private func extract_anatomical_target(parent_element: XMLElement, procedure: CDAKProcedure) {
+  fileprivate func extract_anatomical_target(_ parent_element: XMLElement, procedure: CDAKProcedure) {
     procedure.anatomical_target.addCodes(CDAKImport_CDA_SectionImporter.extract_code(parent_element, code_xpath: "./cda:targetSiteCode"))
   }
 
-  private func extract_scalar(parent_element: XMLElement, procedure: CDAKProcedure) {
-    if let scalar_element = parent_element.xpath("./cda:value").first, scalar_type = scalar_element["xsi:type"] {
+  fileprivate func extract_scalar(_ parent_element: XMLElement, procedure: CDAKProcedure) {
+    if let scalar_element = parent_element.xpath("./cda:value").first, let scalar_type = scalar_element["xsi:type"] {
       switch scalar_type {
         case "PQ":
           procedure.set_value(scalar_element["value"], units: scalar_element["unit"])

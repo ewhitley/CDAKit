@@ -11,7 +11,7 @@ import Foundation
 //http://stackoverflow.com/questions/26728477/swift-how-to-combine-two-dictionary-arrays
 //http://ericasadun.com/2015/07/08/swift-merging-dictionaries/
 extension Dictionary {
-  mutating func merge<K, V>(dict: [K: V]){
+  mutating func merge<K, V>(_ dict: [K: V]){
     for (k, v) in dict {
       self.updateValue(v as! Value, forKey: k as! Key)
     }
@@ -20,7 +20,7 @@ extension Dictionary {
   func inverse() -> [String:String] {
     var inverted : [String:String] = [:]
     for (key, value) in self {
-      if let value = value as? String, key = key as? String {
+      if let value = value as? String, let key = key as? String {
         inverted[value] = key
       }
     }

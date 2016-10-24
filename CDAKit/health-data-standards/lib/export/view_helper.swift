@@ -7,6 +7,26 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ViewHelper {
   
@@ -14,7 +34,8 @@ class ViewHelper {
   // {"tag_name"=>"value", "extra_content"=>"xsi:type=\"CD\"", "preferred_code_sets"=>["SNOMED-CT"]}
   // {"preferred_code_sets"=>["LOINC", "SNOMED-CT"]}
   // looks like the value of the dictionary can be a string or an array of values
-  class func code_display(entry: CDAKEntry, var options:[String:Any] = [:]) -> String {
+  class func code_display(_ entry: CDAKEntry, options:[String:Any] = [:]) -> String {
+    var options = options
     
     if options["tag_name"] == nil { options["tag_name"] = "code" }
 
@@ -99,9 +120,9 @@ class ViewHelper {
     return code_string
   }
   
-  class func status_code_for(entry: CDAKEntry) -> String? {
+  class func status_code_for(_ entry: CDAKEntry) -> String? {
     if let status = entry.status {
-      switch status.lowercaseString {
+      switch status.lowercased() {
       case "active": return "55561003"
       case "inactive": return "73425007"
       case "resolved": return "413322009"
@@ -111,9 +132,9 @@ class ViewHelper {
     return nil
   }
   
-  class func fulfillment_quantity(codes: CDAKCodedEntries, fulfillmentHistory: CDAKFulfillmentHistory, dose: CDAKValueAndUnit) -> String {
+  class func fulfillment_quantity(_ codes: CDAKCodedEntries, fulfillmentHistory: CDAKFulfillmentHistory, dose: CDAKValueAndUnit) -> String {
     if codes["RxNorm"]?.count > 0 {
-      if let qty = fulfillmentHistory.quantity_dispensed.value, dose_value = dose.value {
+      if let qty = fulfillmentHistory.quantity_dispensed.value, let dose_value = dose.value {
         let doses = Int(qty / dose_value)
         return "value=\"\(doses)\""
       }
@@ -135,18 +156,18 @@ class ViewHelper {
     //Swift: 1960 12 31 00 00 00
     //Ruby: 1960-12-31 00:00:00 -0600
   */
-  class func value_or_null_flavor(time: Any?) -> String {    
+  class func value_or_null_flavor(_ time: Any?) -> String {    
     if let time = time as? Double {
       //:number => '%Y%m%d%H%M%S'
       //return "value='#{Time.at(time).utc.to_formatted_s(:number)}'"
-      let d = NSDate(timeIntervalSince1970: NSTimeInterval(time))
+      let d = Date(timeIntervalSince1970: TimeInterval(time))
       return "value=\"\(d.stringFormattedAsHDSDateNumber)\""
     } else {
       return "nullFlavor='UNK'"
     }
   }
   
-  class func dose_quantity(codes: CDAKCodedEntries, dose: [String:String]) -> String {
+  class func dose_quantity(_ codes: CDAKCodedEntries, dose: [String:String]) -> String {
     if codes["RxNorm"]?.count > 0 {
       return "value = '1'"
     } else {
@@ -157,30 +178,30 @@ class ViewHelper {
   }
 
   
-  class func time_if_not_nil(args: [Int?]?) -> NSDate? {
+  class func time_if_not_nil(_ args: [Int?]?) -> Date? {
     if let args = args {
-      return args.filter({$0 != nil}).map({t in NSDate(timeIntervalSince1970: NSTimeInterval(t!))}).first
+      return args.filter({$0 != nil}).map({t in Date(timeIntervalSince1970: TimeInterval(t!))}).first
     }
     else {
       return nil
     }
   }
 
-  class func time_if_not_nil(args: Int?...) -> NSDate? {
-      return args.filter({$0 != nil}).map({t in NSDate(timeIntervalSince1970: NSTimeInterval(t!))}).first
+  class func time_if_not_nil(_ args: Int?...) -> Date? {
+      return args.filter({$0 != nil}).map({t in Date(timeIntervalSince1970: TimeInterval(t!))}).first
   }
 
 
   
-  class func is_num(str: String?) -> Bool {
-    if let str = str, _ = Double(str) {
+  class func is_num(_ str: String?) -> Bool {
+    if let str = str, let _ = Double(str) {
       return true
     }
     return false
   }
   
-  class func is_bool(str: String?) -> Bool {
-    return ["true","false"].contains(str != nil ? str!.lowercaseString : "")
+  class func is_bool(_ str: String?) -> Bool {
+    return ["true","false"].contains(str != nil ? str!.lowercased() : "")
   }
   
 }

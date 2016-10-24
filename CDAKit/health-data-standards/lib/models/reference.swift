@@ -12,18 +12,18 @@ import Foundation
 /**
 CDA Reference
 */
-public class CDAKReference: CDAKJSONInstantiable {
+open class CDAKReference: CDAKJSONInstantiable {
   
   // MARK: CDA properties
 
   ///type
-  public var type: String?
+  open var type: String?
   ///referenced type
-  public var referenced_type: String = ""
+  open var referenced_type: String = ""
   ///reference
-  public var referenced_id: String = ""
+  open var referenced_id: String = ""
   ///Entry
-  public var entry: CDAKEntry?
+  open var entry: CDAKEntry?
 
   public init(entry: CDAKEntry) {
     self.entry = entry
@@ -47,7 +47,7 @@ public class CDAKReference: CDAKJSONInstantiable {
   }
   
   ///Do not use - will be removed. Was used in HDS Ruby.
-  private func initFromEventList(event: [String:Any?]) {
+  fileprivate func initFromEventList(_ event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)
     }
@@ -61,7 +61,7 @@ public class CDAKReference: CDAKJSONInstantiable {
     if let entry = self.entry {
       if let record = entry.record {
         an_entry = (record.entries.filter({ e in
-          String(e.dynamicType) == referenced_type &&
+          String(describing: type(of: e)) == referenced_type &&
           e.identifier_as_string == referenced_id
         })).first
       }
@@ -74,7 +74,7 @@ public class CDAKReference: CDAKJSONInstantiable {
     if let entry = self.entry {
       if let record = entry.record {
         let resolved_reference = (record.entries.filter({ e in
-          String(e.dynamicType) == referenced_type &&
+          String(describing: type(of: e)) == referenced_type &&
             e.identifier_as_string == referenced_id
         })).first
         if let resolved_reference = resolved_reference {
@@ -93,12 +93,12 @@ extension CDAKReference: CDAKJSONExportable {
     var dict: [String: AnyObject] = [:]
     
     if let type = type {
-      dict["type"] = type
+      dict["type"] = type as AnyObject?
     }
-    dict["referenced_type"] = referenced_type
-    dict["referenced_id"] = referenced_id
+    dict["referenced_type"] = referenced_type as AnyObject?
+    dict["referenced_id"] = referenced_id as AnyObject?
     if let entry = entry {
-      dict["entry"] = entry.jsonDict
+      dict["entry"] = entry.jsonDict as AnyObject?
     }
     
     return dict

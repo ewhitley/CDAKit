@@ -26,7 +26,7 @@ class CDAKImport_C32_ConditionImporter: CDAKImport_CDA_ConditionImporter {
     entry_class = CDAKCondition.self
   }
   
-  override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKCondition? {
+  override func create_entry(_ entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKCondition? {
     
     if let condition = super.create_entry(entry_element, nrh: nrh) {
       extract_cause_of_death(entry_element, condition: condition)
@@ -39,7 +39,7 @@ class CDAKImport_C32_ConditionImporter: CDAKImport_CDA_ConditionImporter {
     
   }
   
-  private func extract_cause_of_death(entry_element: XMLElement, condition: CDAKCondition) {
+  fileprivate func extract_cause_of_death(_ entry_element: XMLElement, condition: CDAKCondition) {
     
     if let _ = entry_element.xpath(cod_xpath).first {
       condition.cause_of_death = true
@@ -51,8 +51,8 @@ class CDAKImport_C32_ConditionImporter: CDAKImport_CDA_ConditionImporter {
   }
 
   //we should move this out of here. Having these reference codes here seems restrictive.
-  private func extract_type(entry_element: XMLElement, condition: CDAKCondition) {
-    if let code_element = entry_element.xpath("./cda:code").first, code = code_element["code"] {
+  fileprivate func extract_type(_ entry_element: XMLElement, condition: CDAKCondition) {
+    if let code_element = entry_element.xpath("./cda:code").first, let code = code_element["code"] {
       switch code {
       case "404684003": condition.type = "Finding"
       case "418799008": condition.type = "Symptom"

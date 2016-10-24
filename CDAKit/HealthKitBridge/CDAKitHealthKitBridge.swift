@@ -59,18 +59,18 @@ Provides HealthKit bridging with CDA structures.
 
  
 */
-public class CDAKHealthKitBridge {
+open class CDAKHealthKitBridge {
   
   //MARK: Primary Singleton accessor
   /**
    Singleton for all shared properties and methods.
   */
-  public static let sharedInstance = CDAKHealthKitBridge()
+  open static let sharedInstance = CDAKHealthKitBridge()
   
   /**
    Primary class initializer - PRIVATE
   */
-  private init() {
+  fileprivate init() {
     loadDefaultHealthKitTermMap()
     loadDefaultHKQuantityTypeInfo()
   }
@@ -100,7 +100,7 @@ public class CDAKHealthKitBridge {
    ```
 
   */
-  public var CDAKHKQuantityTypeDescriptions: [String:String] = [:]
+  open var CDAKHKQuantityTypeDescriptions: [String:String] = [:]
   // placeholder for preferredUnitsForQuantityTypes from user's HealthKitStore
   // https://developer.apple.com/library/prerelease/ios/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:
   /**
@@ -123,7 +123,7 @@ public class CDAKHealthKitBridge {
   
   [preferredUnitsForQuantityTypes](https://developer.apple.com/library/prerelease/ios/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:)
   */
-  public var CDAKHKQuantityTypeDefaultUnits: [CDAKHKQuantityIdentifiers:String] = [:]
+  open var CDAKHKQuantityTypeDefaultUnits: [CDAKHKQuantityIdentifiers:String] = [:]
   /**
    Default classification for a specified quantity type identifier.
    
@@ -148,7 +148,7 @@ public class CDAKHealthKitBridge {
    ```
    
    */
-  public var CDAKHKQuantityTypeDefaultTypes: [String:String] = [:]
+  open var CDAKHKQuantityTypeDefaultTypes: [String:String] = [:]
 
   //MARK: Convenience Enumerations
 
@@ -203,12 +203,12 @@ public class CDAKHealthKitBridge {
   
 
   
-  func dateFromEvent(eventDate: Double) -> NSDate
+  func dateFromEvent(_ eventDate: Double) -> Date
   {
-    return NSDate(timeIntervalSince1970: NSTimeInterval(eventDate))
+    return Date(timeIntervalSince1970: TimeInterval(eventDate))
   }
 
-  func dateFromEvent(eventDate: NSDate) -> Double
+  func dateFromEvent(_ eventDate: Date) -> Double
   {
     return eventDate.timeIntervalSince1970
   }
@@ -229,7 +229,7 @@ public class CDAKHealthKitBridge {
    <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGenderCode" displayName="Male"/>
    ```
   */
-  public func administrativeGender(biologicalSex:HKBiologicalSex?)-> (code:String, displayName:String)
+  open func administrativeGender(_ biologicalSex:HKBiologicalSex?)-> (code:String, displayName:String)
   {
     
 
@@ -239,10 +239,10 @@ public class CDAKHealthKitBridge {
     if  biologicalSex != nil {
       switch( biologicalSex! )
       {
-      case .Female:
+      case .female:
         genderCode = "F"
         genderDisplayName = "Female"
-      case .Male:
+      case .male:
         genderCode = "M"
         genderDisplayName = "Male"
       default:
@@ -267,37 +267,37 @@ public class CDAKHealthKitBridge {
    ```
    <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGenderCode" displayName="Male"/>
    ```
-   */  public func administrativeGender(genderCode:String?)-> HKBiologicalSex
+   */  open func administrativeGender(_ genderCode:String?)-> HKBiologicalSex
   {
     if let genderCode = genderCode {
       switch genderCode {
       case "M":
-        return HKBiologicalSex.Male
+        return HKBiologicalSex.male
       case "F":
-        return HKBiologicalSex.Female
+        return HKBiologicalSex.female
       case "UN":
         if #available(iOS 8.2, *) {
-            return HKBiologicalSex.Other
+            return HKBiologicalSex.other
         } else {
           print("Gender for code: \(genderCode) not supported on this version of iOS")
         }
       default:
         print("Indeterminate biological gender for code: \(genderCode)")
         if #available(iOS 8.2, *) {
-            return HKBiologicalSex.Other
+            return HKBiologicalSex.other
         } else {
             // Fallback on earlier versions
         }
       }
     }
-    return HKBiologicalSex.NotSet
+    return HKBiologicalSex.notSet
   }
 
   
-  func getDatesForResult(entry: CDAKEntry, value: CDAKResultValue) -> (start_date: NSDate?, end_date: NSDate?) {
+  func getDatesForResult(_ entry: CDAKEntry, value: CDAKResultValue) -> (start_date: Date?, end_date: Date?) {
     
-    var start_date: NSDate?
-    var end_date: NSDate?
+    var start_date: Date?
+    var end_date: Date?
     
     let start_date_dbl: Double? = value.start_time ?? value.time ?? entry.start_time ?? entry.time
     let end_date_dbl: Double? = value.end_time ?? value.time ?? entry.end_time ?? entry.time
@@ -327,9 +327,9 @@ public class CDAKHealthKitBridge {
    - parameter withHKMetadata: [String:AnyObject] - Custom metadata you may wish to apply to HealthKit samples
   
    */
-  public func sampleForEntry(entry: CDAKEntry, forSampleType sampleType: CDAKHKQuantityIdentifiers? = nil, withHKMetadata meta: [String:AnyObject] = [:]) -> HKQuantitySample? {
+  open func sampleForEntry(_ entry: CDAKEntry, forSampleType sampleType: CDAKHKQuantityIdentifiers? = nil, withHKMetadata meta: [String:AnyObject] = [:]) -> HKQuantitySample? {
 
-    print("evaluating entry \(entry.dynamicType) with codes \(entry.codes) and value \(entry.values.first)")
+    print("evaluating entry \(type(of: entry)) with codes \(entry.codes) and value \(entry.values.first)")
 
     if let sampleType = sampleType {
       return sampleForEntryValue(entry, allowedCodeList:
@@ -347,19 +347,20 @@ public class CDAKHealthKitBridge {
 
   }
 
-  func sampleForEntryValue(entry: CDAKEntry, allowedCodeList: CDAKCodedEntries?, quantityTypeIdentifier: String, var withHKMetadata meta: [String:AnyObject] = [:]) -> HKQuantitySample? {
+  func sampleForEntryValue(_ entry: CDAKEntry, allowedCodeList: CDAKCodedEntries?, quantityTypeIdentifier: String, withHKMetadata meta: [String:AnyObject] = [:]) -> HKQuantitySample? {
+    var meta = meta
     if let allowedCodeList = allowedCodeList {
-      if let matching_codes = entry.codes.findIntersectingCodedEntries(forCodedEntries: allowedCodeList) where matching_codes.count > 0 {
+      if let matching_codes = entry.codes.findIntersectingCodedEntries(forCodedEntries: allowedCodeList) , matching_codes.count > 0 {
         //we have a matching code reference, so let's go ahead and try to return this entry
         if let r_val = entry.values.first as? CDAKPhysicalQuantityResultValue {
           let times = getDatesForResult(entry, value: r_val)
-          if let scalar = r_val.scalar, hr = Double(scalar), start_date = times.start_date, end_date = times.end_date, unit = unitForCDAString(r_val.units, forQuantityTypeIdentifier: quantityTypeIdentifier) {
-            if let qtyType = HKQuantityType.quantityTypeForIdentifier(quantityTypeIdentifier) {
-              if qtyType.isCompatibleWithUnit(unit) {
-                meta[CDAKHKMetadataKeys.CDAKMetadataEntryHash.rawValue] = entry.hashValue
+          if let scalar = r_val.scalar, let hr = Double(scalar), let start_date = times.start_date, let end_date = times.end_date, let unit = unitForCDAString(r_val.units, forQuantityTypeIdentifier: quantityTypeIdentifier) {
+            if let qtyType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier(rawValue: quantityTypeIdentifier)) {
+              if qtyType.is(compatibleWith: unit) {
+                meta[CDAKHKMetadataKeys.CDAKMetadataEntryHash.rawValue] = entry.hashValue as AnyObject?
                 let qty: HKQuantity = HKQuantity(unit: unit, doubleValue: hr)
                 let qtySample: HKQuantitySample = HKQuantitySample(type: qtyType
-                  , quantity: qty, startDate: start_date, endDate: end_date, metadata: meta)
+                  , quantity: qty, start: start_date, end: end_date, metadata: meta)
                 return qtySample
               } else {
                 print("sampleForEntryValue() - Cannot create sample of type '\(quantityTypeIdentifier)' using unit type '\(unit)'.  Unit is not compatible.")
@@ -392,7 +393,7 @@ public class CDAKHealthKitBridge {
    }
    
    */
-  public var cdaStringUnitFinder : ((unit_string: String?, typeIdentifier: String? ) -> HKUnit?)?
+  open var cdaStringUnitFinder : ((_ unit_string: String?, _ typeIdentifier: String? ) -> HKUnit?)?
 
   
   /**
@@ -410,11 +411,12 @@ public class CDAKHealthKitBridge {
    
    - returns: Optional HKUnit. If one can be created, it will be populated.
    */
-  public func unitForCDAString(var unit_string: String?, forQuantityTypeIdentifier typeIdentifier: String? = nil) -> HKUnit? {
+  public func unitForCDAString(_ unit_string: String?, forQuantityTypeIdentifier typeIdentifier: String? = nil) -> HKUnit? {
+    var unit_string = unit_string
 
     
     if let cdaStringUnitFinder = cdaStringUnitFinder {
-      return cdaStringUnitFinder(unit_string: unit_string, typeIdentifier: typeIdentifier)
+      return cdaStringUnitFinder(unit_string, typeIdentifier)
     } else {
     
       var a_unit: HKUnit?
@@ -450,7 +452,7 @@ public class CDAKHealthKitBridge {
         }
         
         
-        switch a_unit_string.lowercaseString {
+        switch a_unit_string.lowercased() {
         case "in_i", "in_us", "inch", "inches": a_unit_string = "in"
         case "lbs", "lb_av", "pound", "pounds": a_unit_string = "lb"
         case "F": a_unit_string = "degF"
@@ -474,7 +476,7 @@ public class CDAKHealthKitBridge {
         // and use SwiftyTryCatch here to let us just ... try.
         do {
           try trap {
-            a_unit = HKUnit(fromString: a_unit_string)
+            a_unit = HKUnit(from: a_unit_string)
           }
         } catch let error as NSError {
           print("unitForCDAString failure for unit '\(unit_string)' - \(error.description) ")
@@ -504,11 +506,34 @@ public class CDAKHealthKitBridge {
    [preferredUnitsForQuantityTypes](https://developer.apple.com/library/prerelease/ios/documentation/HealthKit/Reference/HKHealthStore_Class/index.html#//apple_ref/occ/instm/HKHealthStore/preferredUnitsForQuantityTypes:completion:)
 
    */
-  public func setCDAKUnitTypesWithUserSettings(store: HKHealthStore) {
+  open func setCDAKUnitTypesWithUserSettings(_ store: HKHealthStore) {
       for sampleType in supportedHKQuantityTypes {
         //doing this one by one as I don't know what happens if we request all identifiers at once and don't have access to a subset
         if #available(iOS 8.2, *) {
-            store.preferredUnitsForQuantityTypes(Set([sampleType])) { (preferredUnits: [HKQuantityType : HKUnit], error: NSError?) -> Void in
+            store.preferredUnits(for: Set([sampleType]), completion: { (preferredUnits, error) in
+                if error == nil {
+                    if let unit: HKUnit = preferredUnits[sampleType] {
+                        if let id = CDAKHKQuantityIdentifiers(rawValue: sampleType.identifier) {
+                            self.CDAKHKQuantityTypeDefaultUnits[id] = unit.unitString
+                            print("Set default sample unit type for '\(sampleType.identifier)' to '\(unit.unitString)'")
+                        }
+                    }
+                } else {
+                    if let _error = error as? NSError {
+                        switch _error.code {
+                        case 5:
+                            if let id = CDAKHKQuantityIdentifiers(rawValue: sampleType.identifier) {
+                                print("Access to sample \(sampleType.identifier) denied - using default unit \(self.CDAKHKQuantityTypeDefaultUnits[id])")
+                            }
+                        default:
+                            print("Error accessing user sample types. \(error?.localizedDescription)")
+                        }
+                    }
+
+                }
+            })
+/*
+            store.preferredUnits(for: Set([sampleType])) { (preferredUnits: [HKQuantityType : HKUnit], error: NSError?) -> Void in
               if error == nil {
                 if let unit: HKUnit = preferredUnits[sampleType] {
                   if let id = CDAKHKQuantityIdentifiers(rawValue: sampleType.identifier) {
@@ -526,7 +551,7 @@ public class CDAKHealthKitBridge {
                   print("Error accessing user sample types. \(error?.localizedDescription)")
                 }
               }
-            }
+            } */
         } else {
             print("This version of iOS does not support preferredUnitsForQuantityTypes")
         }
@@ -540,16 +565,16 @@ public class CDAKHealthKitBridge {
    - parameter preferredUnitString: unit string (EX: "cm")
    - parameter forHKQuantityTypeIdentifier: the type identifier
   */
-  public func setPreferedUnitForSampleType(preferredUnitString unit: String, forHKQuantityTypeIdentifier type: String) {
+  open func setPreferedUnitForSampleType(preferredUnitString unit: String, forHKQuantityTypeIdentifier type: String) {
     if let id = CDAKHKQuantityIdentifiers(rawValue: type) {
       CDAKHKQuantityTypeDefaultUnits[id] = unit
     }
   }
   
   
-  private var _supportedHKQuantityTypes: Set<HKQuantityType>?
+  fileprivate var _supportedHKQuantityTypes: Set<HKQuantityType>?
   ///Supplies a list of all supported HealthKit quantity types
-  public var supportedHKQuantityTypes: Set<HKQuantityType> {
+  open var supportedHKQuantityTypes: Set<HKQuantityType> {
     get {
       
       if _supportedHKQuantityTypes != nil {
@@ -558,7 +583,7 @@ public class CDAKHealthKitBridge {
       
       var supportedTypes = Set<HKQuantityType>()
       for identifier in supportedHKQuantityTypeIdentifiers {
-        if let sampleType = HKQuantityType.quantityTypeForIdentifier(identifier) {
+        if let sampleType = HKQuantityType.quantityType(forIdentifier: identifier /* HKQuantityTypeIdentifier(rawValue: identifier) */) {
           supportedTypes.insert(sampleType)
         }
       }
@@ -567,9 +592,9 @@ public class CDAKHealthKitBridge {
     }
   }
   
-  private var _supportedHKQuantityTypeIdentifiers: Set<String>?
+  fileprivate var _supportedHKQuantityTypeIdentifiers: Set<HKQuantityTypeIdentifier/*String*/>?
   ///Supplies a list of all supported HealthKit sample type identiifers
-  public var supportedHKQuantityTypeIdentifiers: Set<String> {
+  open var supportedHKQuantityTypeIdentifiers: Set<HKQuantityTypeIdentifier/*String*/> {
     get {
       
       if _supportedHKQuantityTypeIdentifiers != nil {
@@ -577,28 +602,28 @@ public class CDAKHealthKitBridge {
       }
       
       var supportedTypes = Set([
-        HKQuantityTypeIdentifierActiveEnergyBurned, HKQuantityTypeIdentifierBasalEnergyBurned, HKQuantityTypeIdentifierBloodAlcoholContent, HKQuantityTypeIdentifierBloodGlucose, HKQuantityTypeIdentifierBloodPressureDiastolic, HKQuantityTypeIdentifierBloodPressureSystolic, HKQuantityTypeIdentifierBodyFatPercentage, HKQuantityTypeIdentifierBodyMass, HKQuantityTypeIdentifierBodyMassIndex, HKQuantityTypeIdentifierBodyTemperature, HKQuantityTypeIdentifierDistanceCycling, HKQuantityTypeIdentifierDistanceWalkingRunning, HKQuantityTypeIdentifierElectrodermalActivity, HKQuantityTypeIdentifierFlightsClimbed, HKQuantityTypeIdentifierForcedExpiratoryVolume1, HKQuantityTypeIdentifierForcedVitalCapacity, HKQuantityTypeIdentifierHeartRate, HKQuantityTypeIdentifierHeight, HKQuantityTypeIdentifierInhalerUsage, HKQuantityTypeIdentifierLeanBodyMass, HKQuantityTypeIdentifierNikeFuel, HKQuantityTypeIdentifierNumberOfTimesFallen, HKQuantityTypeIdentifierOxygenSaturation, HKQuantityTypeIdentifierPeakExpiratoryFlowRate, HKQuantityTypeIdentifierPeripheralPerfusionIndex, HKQuantityTypeIdentifierRespiratoryRate, HKQuantityTypeIdentifierStepCount
+        HKQuantityTypeIdentifier.activeEnergyBurned, HKQuantityTypeIdentifier.basalEnergyBurned, HKQuantityTypeIdentifier.bloodAlcoholContent, HKQuantityTypeIdentifier.bloodGlucose, HKQuantityTypeIdentifier.bloodPressureDiastolic, HKQuantityTypeIdentifier.bloodPressureSystolic, HKQuantityTypeIdentifier.bodyFatPercentage, HKQuantityTypeIdentifier.bodyMass, HKQuantityTypeIdentifier.bodyMassIndex, HKQuantityTypeIdentifier.bodyTemperature, HKQuantityTypeIdentifier.distanceCycling, HKQuantityTypeIdentifier.distanceWalkingRunning, HKQuantityTypeIdentifier.electrodermalActivity, HKQuantityTypeIdentifier.flightsClimbed, HKQuantityTypeIdentifier.forcedExpiratoryVolume1, HKQuantityTypeIdentifier.forcedVitalCapacity, HKQuantityTypeIdentifier.heartRate, HKQuantityTypeIdentifier.height, HKQuantityTypeIdentifier.inhalerUsage, HKQuantityTypeIdentifier.leanBodyMass, HKQuantityTypeIdentifier.nikeFuel, HKQuantityTypeIdentifier.numberOfTimesFallen, HKQuantityTypeIdentifier.oxygenSaturation, HKQuantityTypeIdentifier.peakExpiratoryFlowRate, HKQuantityTypeIdentifier.peripheralPerfusionIndex, HKQuantityTypeIdentifier.respiratoryRate, HKQuantityTypeIdentifier.stepCount
         ])
       
       if #available(iOS 9.0, *) {
-        supportedTypes.insert(HKQuantityTypeIdentifierBasalBodyTemperature)
+        supportedTypes.insert(HKQuantityTypeIdentifier.basalBodyTemperature)
       }
       
       _supportedHKQuantityTypeIdentifiers = supportedTypes
-      return supportedTypes
+      return supportedTypes // as! Set<String>
     }
   }
   
   
   
-  private func getPlistFromBundle(plistNamed name: String) -> NSDictionary? {
-    if let filePath = CDAKCommonUtility.bundle.pathForResource(name, ofType: "plist"), plistData = NSDictionary(contentsOfFile:filePath) {
+  fileprivate func getPlistFromBundle(plistNamed name: String) -> NSDictionary? {
+    if let filePath = CDAKCommonUtility.bundle.path(forResource: name, ofType: "plist"), let plistData = NSDictionary(contentsOfFile:filePath) {
       return plistData
     }
     return nil
   }
   
-  private func loadDefaultHKQuantityTypeInfo() {
+  fileprivate func loadDefaultHKQuantityTypeInfo() {
     if let plistData = getPlistFromBundle(plistNamed: "CDAKitDefaultSampleTypeIdentifierSettings") {
       loadHealthKitQuantityTypeMetadata(withPlist: plistData)
     } else {
@@ -633,10 +658,11 @@ public class CDAKHealthKitBridge {
    </dict>
    ```
    
-   */  public func loadHealthKitQuantityTypeMetadata(withPlist plist: NSDictionary) {
+   */  open func loadHealthKitQuantityTypeMetadata(withPlist plist: NSDictionary) {
     for (identifierKey, entryData) in plist {
-      if let identifierKey = identifierKey as? String, entryData = entryData as? NSDictionary {
-        if supportedHKQuantityTypeIdentifiers.contains(identifierKey) {
+      if let identifierKey = identifierKey as? String, let entryData = entryData as? NSDictionary {
+        let ident = HKQuantityTypeIdentifier(rawValue: identifierKey)
+        if supportedHKQuantityTypeIdentifiers.contains(ident) {
           if let unit = entryData["unit"] as? String {
             if let id = CDAKHKQuantityIdentifiers(rawValue: identifierKey) {
               CDAKHKQuantityTypeDefaultUnits[id] = unit
@@ -656,7 +682,7 @@ public class CDAKHealthKitBridge {
   }
   
   
-  private func loadDefaultHealthKitTermMap() {
+  fileprivate func loadDefaultHealthKitTermMap() {
     if let plistData = getPlistFromBundle(plistNamed: "CDAKitDefaultHealthKitTermMap") {
       loadHealthKitTermMap(withPlist: plistData)
     } else {
@@ -696,10 +722,10 @@ public class CDAKHealthKitBridge {
    ```
    
    */
-  public func loadHealthKitTermMap(withPlist plist: NSDictionary) {
+  open func loadHealthKitTermMap(withPlist plist: NSDictionary) {
     for (identifierKey, entryData) in plist {
       //"identifierKey" will be something like  "HKQuantityTypeIdentifierBloodGlucose"
-      if let identifierKey = identifierKey as? String, entryData = entryData as? NSDictionary {
+      if let identifierKey = identifierKey as? String, let entryData = entryData as? NSDictionary {
         CDAKHKTypeConceptsImport[identifierKey] = restoreCDAKCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["import", "both"])
         CDAKHKTypeConceptsExport[identifierKey] = restoreCDAKCodedEntriesFromPList(usingPlist: entryData, forMapDirection: ["export", "both"])
       }
@@ -732,13 +758,13 @@ public class CDAKHealthKitBridge {
   //  }
   
   //forMapDirection - >
-  private func restoreCDAKCodedEntriesFromPList(usingPlist dictEntry: NSDictionary, forMapDirection direction: [String]) -> CDAKCodedEntries {
+  fileprivate func restoreCDAKCodedEntriesFromPList(usingPlist dictEntry: NSDictionary, forMapDirection direction: [String]) -> CDAKCodedEntries {
     var codedEntries = CDAKCodedEntries()
     
     for (vocabulary, codes) in dictEntry {
-      if let vocabulary = vocabulary as? String, codes = codes as? [NSDictionary] {
+      if let vocabulary = vocabulary as? String, let codes = codes as? [NSDictionary] {
         for a_code in codes {
-          if let code = a_code["code"] as? String, mapRestriction = a_code["mapRestriction"] as? String {
+          if let code = a_code["code"] as? String, let mapRestriction = a_code["mapRestriction"] as? String {
             if direction.contains(mapRestriction) {
               //we only want to load the codes for a specific import or export set
               var displayName: String?
@@ -773,40 +799,40 @@ public enum CDAKHKMetadataKeys: String {
 /**
  Primary bridging record to connect our CDA models with HealthKit
 */
-public class CDAKHKRecord: CustomStringConvertible {
+open class CDAKHKRecord: CustomStringConvertible {
   
   //Mark: Basic profile and demographics
   ///Person's prefix (was Title)
-  public var prefix: String?
+  open var prefix: String?
   ///Person's first / given name
-  public var first: String?
+  open var first: String?
   ///Person's last / family name
-  public var last: String?
+  open var last: String?
   ///Person's name suffix
-  public var suffix: String?
+  open var suffix: String?
   ///Person's biological sex / gender
-  public var gender: HKBiologicalSex?
+  open var gender: HKBiologicalSex?
 
   ///Birth date
-  public var birthdate: NSDate?
+  open var birthdate: Date?
   ///Deceased date
-  public var deathdate: NSDate? //probably not interested in this one...
+  open var deathdate: Date? //probably not interested in this one...
   ///Effective time of record
-  public var effective_time: NSDate?
+  open var effective_time: Date?
 
   //Mark: HealthKit samples
   ///All HealthKit samples
-  public var samples: [HKQuantitySample] = []
+  open var samples: [HKQuantitySample] = []
 
   ///Any metadata you may wish to inject into HealthKit when it samples are created
-  public var metadata: [String:AnyObject] = [:]
+  open var metadata: [String:AnyObject] = [:]
   
   /**
    Export this HealthKit-based record to a CDA-based representation
    
    This can then be used to add more information or export to CDA XML.
   */
-  public func exportAsCDAKRecord() -> CDAKRecord {
+  open func exportAsCDAKRecord() -> CDAKRecord {
     
     let aRecord = CDAKRecord()
     aRecord.prefix = prefix
@@ -847,7 +873,7 @@ public class CDAKHKRecord: CustomStringConvertible {
     
   }
   
-  private func setCDAKDataFromSample(sample: HKQuantitySample, forEntry entry: CDAKEntry) {
+  fileprivate func setCDAKDataFromSample(_ sample: HKQuantitySample, forEntry entry: CDAKEntry) {
     entry.start_time = sample.startDate.timeIntervalSince1970
     entry.end_time = sample.endDate.timeIntervalSince1970
     if let codes = CDAKHealthKitBridge.sharedInstance.CDAKHKTypeConceptsExport[sample.sampleType.identifier] {
@@ -859,18 +885,18 @@ public class CDAKHKRecord: CustomStringConvertible {
     }
   }
   
-  private func getCDAKValueFromSample(sample: HKQuantitySample) -> CDAKPhysicalQuantityResultValue? {
+  fileprivate func getCDAKValueFromSample(_ sample: HKQuantitySample) -> CDAKPhysicalQuantityResultValue? {
     
     let sampleType = sample.sampleType.identifier
     
-    if let id = CDAKHealthKitBridge.CDAKHKQuantityIdentifiers(rawValue: sampleType), unitString = CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits[id] {
+    if let id = CDAKHealthKitBridge.CDAKHKQuantityIdentifiers(rawValue: sampleType), let unitString = CDAKHealthKitBridge.sharedInstance.CDAKHKQuantityTypeDefaultUnits[id] {
       
-      let defaultUnit = HKUnit(fromString: unitString)
+      let defaultUnit = HKUnit(from: unitString)
       
-      if sample.quantity.isCompatibleWithUnit(defaultUnit) {
-        return CDAKPhysicalQuantityResultValue(scalar: sample.quantity.doubleValueForUnit(defaultUnit), units: defaultUnit.unitString)
+      if sample.quantity.is(compatibleWith: defaultUnit) {
+        return CDAKPhysicalQuantityResultValue(scalar: sample.quantity.doubleValue(for: defaultUnit), units: defaultUnit.unitString)
       } else {
-        print("exportAsCDAKRecord() - Cannot sample values for sample of type '\(HKQuantityTypeIdentifierBodyMassIndex)' using unit type '\(defaultUnit)'")
+        print("exportAsCDAKRecord() - Cannot sample values for sample of type '\(HKQuantityTypeIdentifier.bodyMassIndex)' using unit type '\(defaultUnit)'")
       }
       
     }
@@ -897,13 +923,13 @@ public class CDAKHKRecord: CustomStringConvertible {
     self.metadata = metadata
     
     if let root = patient.header?.identifier?.root {
-      self.metadata[CDAKHKMetadataKeys.CDAKMetadataRecordIDRoot.rawValue] = root
+      self.metadata[CDAKHKMetadataKeys.CDAKMetadataRecordIDRoot.rawValue] = root as AnyObject?
     }
 
     //For now we're just going to manually choose which entries we add
-    samples.appendContentsOf( patient.vital_signs.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, withHKMetadata: self.metadata)} ) )
-    samples.appendContentsOf( patient.results.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, withHKMetadata: self.metadata)} ) )
-    samples.appendContentsOf( patient.procedures.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, withHKMetadata: self.metadata)} ) )
+    samples.append( contentsOf: patient.vital_signs.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, withHKMetadata: self.metadata)} ) )
+    samples.append( contentsOf: patient.results.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, withHKMetadata: self.metadata)} ) )
+    samples.append( contentsOf: patient.procedures.flatMap( { CDAKHealthKitBridge.sharedInstance.sampleForEntry($0, withHKMetadata: self.metadata)} ) )
 
     
     
@@ -925,12 +951,12 @@ public class CDAKHKRecord: CustomStringConvertible {
   
   // MARK: Standard properties
   ///Quick description of the included HealthKit samples
-  public var samplesDescription : String {
-    return samples.map({"\($0.sampleType) \($0.description)"}).joinWithSeparator(", ")
+  open var samplesDescription : String {
+    return samples.map({"\($0.sampleType) \($0.description)"}).joined(separator: ", ")
   }
   
   ///Debugging description
-  public var description: String {
+  open var description: String {
     return "CDAKHKRecord => prefix: \(prefix), first: \(first), last: \(last), suffix: \(suffix), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), samples: \(samplesDescription) "
   }
   

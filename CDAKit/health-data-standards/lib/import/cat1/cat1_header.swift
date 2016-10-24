@@ -17,13 +17,13 @@ import Fuzi
 
 class CDAKImport_cat1_HeaderImporter {
   
-  class func import_header(doc: XMLDocument) -> CDAKQRDAHeader {
+  class func import_header(_ doc: XMLDocument) -> CDAKQRDAHeader {
     let header = CDAKQRDAHeader()
     set_header(header, doc: doc)
     return header
   }
   
-  class func set_header(header: CDAKQRDAHeader, doc: XMLDocument) {
+  class func set_header(_ header: CDAKQRDAHeader, doc: XMLDocument) {
     set_confidentiality_code(header, doc: doc) //done
     set_creation_date(header, doc: doc) //done
     set_custodian(header, doc: doc) //done
@@ -37,30 +37,30 @@ class CDAKImport_cat1_HeaderImporter {
     
   }
 
-  class func set_creation_date(header: CDAKQRDAHeader, doc: XMLDocument) {
+  class func set_creation_date(_ header: CDAKQRDAHeader, doc: XMLDocument) {
     let effective_date = doc.xpath("/cda:ClinicalDocument/cda:effectiveTime").first?["value"]
     if let a_time = CDAKHL7Helper.timestamp_to_integer(effective_date) {
-      header.time = NSDate(timeIntervalSince1970: a_time)
+      header.time = Date(timeIntervalSince1970: a_time)
     }
   }
 
-  class func set_confidentiality_code(header: CDAKQRDAHeader, doc: XMLDocument) {
+  class func set_confidentiality_code(_ header: CDAKQRDAHeader, doc: XMLDocument) {
     let confidentialityCode = doc.xpath("/cda:ClinicalDocument/cda:confidentialityCode").first?["code"]
-    if let confidentialityCode = confidentialityCode, confidentiality = CDAKConfidentialityCodes(rawValue: confidentialityCode) {
+    if let confidentialityCode = confidentialityCode, let confidentiality = CDAKConfidentialityCodes(rawValue: confidentialityCode) {
       header.confidentiality = confidentiality
     }
   }
 
-  class func set_authors(header: CDAKQRDAHeader, doc: XMLDocument) {
+  class func set_authors(_ header: CDAKQRDAHeader, doc: XMLDocument) {
     header.authors = doc.xpath("./cda:author").map({author in get_authors(author)})
   }
 
-  class func set_title(header: CDAKQRDAHeader, doc: XMLDocument) {
+  class func set_title(_ header: CDAKQRDAHeader, doc: XMLDocument) {
     header.title = doc.xpath("/cda:ClinicalDocument/cda:title").first?.stringValue
   }
 
   
-  class func get_authors(elem: XMLElement) -> CDAKQRDAAuthor {
+  class func get_authors(_ elem: XMLElement) -> CDAKQRDAAuthor {
     let author = CDAKQRDAAuthor()
     
     if let time = get_time(elem) {
@@ -73,7 +73,7 @@ class CDAKImport_cat1_HeaderImporter {
       author.telecoms = assignedAuthor.xpath("./cda:telecom").flatMap({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
       
       if let person_info = assignedAuthor.xpath("./cda:assignedPerson/cda:name").first {
-        author.person = CDAKPerson(given_name: person_info.xpath("./cda:given").first?.stringValue, family_name: person_info.xpath("./cda:family").first?.stringValue, prefix: person_info.xpath("./cda:prefix").first?.stringValue, suffix: person_info.xpath("./cda:suffix").first?.stringValue)
+        author.person = CDAKPerson(prefix: person_info.xpath("./cda:prefix").first?.stringValue, given_name: person_info.xpath("./cda:given").first?.stringValue, family_name: person_info.xpath("./cda:family").first?.stringValue, suffix: person_info.xpath("./cda:suffix").first?.stringValue)
       }
       if let device_elem = assignedAuthor.xpath("./assignedAuthoringDevice").first {
         author.device = get_device(device_elem)
@@ -86,14 +86,14 @@ class CDAKImport_cat1_HeaderImporter {
     return author
   }
 
-  class func get_device(elem: XMLElement) -> CDAKQRDADevice {
+  class func get_device(_ elem: XMLElement) -> CDAKQRDADevice {
     let device = CDAKQRDADevice()
     device.model = elem.xpath("manufacturerModelName").first?.stringValue
     device.name = elem.xpath("softwareName").first?.stringValue
     return device
   }
   
-  class func set_custodian(header: CDAKQRDAHeader, doc: XMLDocument) {
+  class func set_custodian(_ header: CDAKQRDAHeader, doc: XMLDocument) {
     
     if let custodian_elem = doc.xpath("/cda:ClinicalDocument/cda:custodian/cda:assignedCustodian").first {
       let aCustodian = CDAKQRDACustodian()
@@ -111,11 +111,11 @@ class CDAKImport_cat1_HeaderImporter {
     
   }
   
-  class func import_ids (elem: XMLElement) -> [CDAKCDAIdentifier] {
+  class func import_ids (_ elem: XMLElement) -> [CDAKCDAIdentifier] {
     return elem.xpath("./cda:id").map({id_entry in CDAKCDAIdentifier(root: id_entry["root"], extension_id: id_entry["extension"])})
   }
   
-  class func set_legal_authenticator(header: CDAKQRDAHeader, doc: XMLDocument) {
+  class func set_legal_authenticator(_ header: CDAKQRDAHeader, doc: XMLDocument) {
     if let auth_info = doc.xpath("/cda:ClinicalDocument/cda:legalAuthenticator").first {
       let legal = CDAKQRDALegalAuthenticator()
       if let time = get_time(auth_info) {
@@ -127,7 +127,7 @@ class CDAKImport_cat1_HeaderImporter {
         legal.addresses = assignedEntity.xpath("./cda:addr").flatMap({addr in CDAKImport_CDA_LocatableImportUtils.import_address(addr)})
         legal.telecoms = assignedEntity.xpath("./cda:telecom").flatMap({tele in CDAKImport_CDA_LocatableImportUtils.import_telecom(tele)})
         if let name_info = assignedEntity.xpath("./cda:assignedPerson/cda:name").first {
-          legal.person = CDAKPerson(given_name: name_info.xpath("./cda:given").first?.stringValue, family_name: name_info.xpath("./cda:family").first?.stringValue, prefix: name_info.xpath("./cda:suffix").first?.stringValue, suffix: name_info.xpath("./cda:suffix").first?.stringValue)
+          legal.person = CDAKPerson(prefix: name_info.xpath("./cda:suffix").first?.stringValue, given_name: name_info.xpath("./cda:given").first?.stringValue, family_name: name_info.xpath("./cda:family").first?.stringValue, suffix: name_info.xpath("./cda:suffix").first?.stringValue)
         }
       }
       if let org_info = auth_info.xpath("./cda:representedOrganization").first {
@@ -139,18 +139,18 @@ class CDAKImport_cat1_HeaderImporter {
     }
   }
 
-  class func get_time(elem: XMLElement) -> NSDate? {
+  class func get_time(_ elem: XMLElement) -> Date? {
     if let time_info = elem.xpath("./cda:time").first?["value"] {
       //20130418090000+0500 ... ewwwwwwwww
       //https://github.com/chb/sample_ccdas/blob/master/EMERGE/Patient-673.xml#L226
       if let a_time = CDAKHL7Helper.timestamp_to_integer(time_info) {
-        return NSDate(timeIntervalSince1970: a_time)
+        return Date(timeIntervalSince1970: a_time)
       }
     }
     return nil
   }
   
-  class func import_organization(organization_element: XMLElement) -> CDAKOrganization? {
+  class func import_organization(_ organization_element: XMLElement) -> CDAKOrganization? {
     if let org = CDAKImport_CDA_OrganizationImporter.extract_organization(organization_element) {
       let cdaOrg = CDAKOrganization()
       cdaOrg.addresses = org.addresses
@@ -163,7 +163,7 @@ class CDAKImport_cat1_HeaderImporter {
   }
 
   
-  class func set_person(header: CDAKQRDAHeader, doc: XMLDocument) {
+  class func set_person(_ header: CDAKQRDAHeader, doc: XMLDocument) {
   }
   
 }

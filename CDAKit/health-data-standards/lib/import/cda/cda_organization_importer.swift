@@ -11,7 +11,7 @@ import Fuzi
 
 class CDAKImport_CDA_OrganizationImporter {
   
-  class func extract_organization(org_element: XMLElement?) -> CDAKOrganization? {
+  class func extract_organization(_ org_element: XMLElement?) -> CDAKOrganization? {
     guard let org_element = org_element else {
       return nil
     }

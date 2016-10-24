@@ -27,12 +27,12 @@ class HL7HelperTest: XCTestCase {
     
     let ts = CDAKHL7Helper.timestamp_to_integer(dateString)
     
-    let dateStringFormatter = NSDateFormatter()
+    let dateStringFormatter = DateFormatter()
     dateStringFormatter.dateFormat = "yyyyMMdd"
-    dateStringFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-    dateStringFormatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-    dateStringFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-    let d = dateStringFormatter.dateFromString(dateString)!
+    dateStringFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+    dateStringFormatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+    dateStringFormatter.locale = Locale(identifier: "en_US_POSIX")
+    let d = dateStringFormatter.date(from: dateString)!
     
     XCTAssertEqual(d.timeIntervalSince1970, ts)
   }
@@ -46,12 +46,12 @@ class HL7HelperTest: XCTestCase {
     
     let ts = CDAKHL7Helper.timestamp_to_integer(dateString)
 
-    let dateStringFormatter = NSDateFormatter()
+    let dateStringFormatter = DateFormatter()
     dateStringFormatter.dateFormat = "yyyyMM"
-    dateStringFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-    dateStringFormatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-    dateStringFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-    let d = dateStringFormatter.dateFromString(dateString)!
+    dateStringFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+    dateStringFormatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+    dateStringFormatter.locale = Locale(identifier: "en_US_POSIX")
+    let d = dateStringFormatter.date(from: dateString)!
     
     XCTAssertEqual(d.timeIntervalSince1970, ts)
   }
@@ -61,12 +61,12 @@ class HL7HelperTest: XCTestCase {
     
     let ts = CDAKHL7Helper.timestamp_to_integer(dateString)
 
-    let dateStringFormatter = NSDateFormatter()
+    let dateStringFormatter = DateFormatter()
     dateStringFormatter.dateFormat = "yyyyMMddHHmmss"
-    dateStringFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-    dateStringFormatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-    dateStringFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-    let d = dateStringFormatter.dateFromString(dateString)!
+    dateStringFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+    dateStringFormatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+    dateStringFormatter.locale = Locale(identifier: "en_US_POSIX")
+    let d = dateStringFormatter.date(from: dateString)!
     
     XCTAssertEqual(d.timeIntervalSince1970, ts)
     

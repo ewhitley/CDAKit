@@ -30,7 +30,7 @@ class CDAKImport_CDA_ConditionImporter: CDAKImport_CDA_SectionImporter {
   }
 
 
-  override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKCondition? {
+  override func create_entry(_ entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKCondition? {
     
     if let condition = super.create_entry(entry_element, nrh: nrh) as? CDAKCondition {
 
@@ -49,14 +49,14 @@ class CDAKImport_CDA_ConditionImporter: CDAKImport_CDA_SectionImporter {
 
   }
   
-  private func extract_ordinality(parent_element: XMLElement, condition: CDAKCondition) {
+  fileprivate func extract_ordinality(_ parent_element: XMLElement, condition: CDAKCondition) {
     if let ordinality_element = parent_element.xpath(ordinality_xpath).first {
       condition.ordinality.addCodes(CDAKImport_CDA_SectionImporter.extract_code(ordinality_element, code_xpath: "."))
     }
   }
 
-  private func extract_priority(parent_element: XMLElement, condition: CDAKCondition) {
-    if let priority_xpath = priority_xpath, priority_element = parent_element.xpath(priority_xpath).first, priority_value = priority_element["value"], priority_int = Int(priority_value) {
+  fileprivate func extract_priority(_ parent_element: XMLElement, condition: CDAKCondition) {
+    if let priority_xpath = priority_xpath, let priority_element = parent_element.xpath(priority_xpath).first, let priority_value = priority_element["value"], let priority_int = Int(priority_value) {
       condition.priority = priority_int
     }
   }

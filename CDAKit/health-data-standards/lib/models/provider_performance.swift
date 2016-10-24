@@ -14,17 +14,17 @@ import Mustache
   Supplies a relationship between a patient and a provider for a particulary start/end date and function.
 
 */
-public class CDAKProviderPerformance: CDAKEntry {
+open class CDAKProviderPerformance: CDAKEntry {
 
 
   // MARK: CDA properties
 
   ///start date for period
-  public var start_date: Double?
+  open var start_date: Double?
   ///end date for period
-  public var end_date: Double?
+  open var end_date: Double?
   ///provider
-  public var provider: CDAKProvider?
+  open var provider: CDAKProvider?
 
   
   /**
@@ -75,11 +75,11 @@ public class CDAKProviderPerformance: CDAKEntry {
    * TASST (third assistant)
 
    */
-  public var functionCode: CDAKCodedEntry?
+  open var functionCode: CDAKCodedEntry?
   
   // MARK: Health-Data-Standards Functions
   ///Offset all dates by specified double
-  override func shift_dates(date_diff: Double) {
+  override func shift_dates(_ date_diff: Double) {
     super.shift_dates(date_diff)
 
     if let start_date = start_date {
@@ -92,8 +92,8 @@ public class CDAKProviderPerformance: CDAKEntry {
   
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
-    return "\(self.dynamicType) => start_date:\(start_date), end_date:\(end_date), functionCode:\(functionCode), provider:\(provider)"
+  override open var description: String {
+    return "\(type(of: self)) => start_date:\(start_date), end_date:\(end_date), functionCode:\(functionCode), provider:\(provider)"
   }
   
 }
@@ -119,16 +119,16 @@ extension CDAKProviderPerformance {
     var dict = super.jsonDict
     
     if let start_date = start_date {
-      dict["start_date"] = start_date
+      dict["start_date"] = start_date as AnyObject?
     }
     if let end_date = end_date {
-      dict["end_date"] = end_date
+      dict["end_date"] = end_date as AnyObject?
     }
     if let provider = provider {
-      dict["provider"] = provider.jsonDict
+      dict["provider"] = provider.jsonDict as AnyObject?
     }
     if let functionCode = functionCode {
-      dict["functionCode"] = functionCode.jsonDict
+      dict["functionCode"] = functionCode.jsonDict as AnyObject?
     }
     
     return dict

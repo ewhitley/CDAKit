@@ -40,7 +40,7 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
     entry_class = CDAKMedication.self
   }
   
-  override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKMedication? {
+  override func create_entry(_ entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKMedication? {
     
     if let medication = super.create_entry(entry_element, nrh: nrh) as? CDAKMedication {
 
@@ -99,7 +99,7 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
 
   }
 
-  private func extract_fulfillment_history(parent_element: XMLElement, medication: CDAKMedication) {
+  fileprivate func extract_fulfillment_history(_ parent_element: XMLElement, medication: CDAKMedication) {
     let fhs = parent_element.xpath("./cda:entryRelationship/cda:supply[@moodCode='EVN']")
     for fh_element in fhs {
       let fulfillment_history = CDAKFulfillmentHistory()
@@ -113,7 +113,7 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
       if let quantity_dispensed = extract_scalar(fh_element, scalar_xpath: "./cda:quantity") {
         fulfillment_history.quantity_dispensed = quantity_dispensed
       }
-      if let fill_number = fh_element.xpath(fill_number_xpath).first?.stringValue, fill_number_int = Int(fill_number) {
+      if let fill_number = fh_element.xpath(fill_number_xpath).first?.stringValue, let fill_number_int = Int(fill_number) {
         fulfillment_history.fill_number = fill_number_int
       }
       medication.fulfillment_history.append(fulfillment_history)
@@ -121,7 +121,7 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
   }
 
   
-  private func extract_order_information(parent_element: XMLElement, medication: CDAKMedication) {
+  fileprivate func extract_order_information(_ parent_element: XMLElement, medication: CDAKMedication) {
     let order_elements = parent_element.xpath("./cda:entryRelationship[@typeCode='REFR']/cda:supply[@moodCode='INT']")
     for order_element in order_elements {
       let order_information = CDAKOrderInformation()
@@ -131,7 +131,7 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
       }
       
       order_information.order_number = order_element.xpath("./cda:id").first?["root"]
-      if let fills = order_element.xpath("./cda:repeatNumber").first?["value"], fills_int = Int(fills) {
+      if let fills = order_element.xpath("./cda:repeatNumber").first?["value"], let fills_int = Int(fills) {
         order_information.fills = fills_int
       }
       if let quantity_ordered = extract_scalar(order_element, scalar_xpath: "./cda:quantity") {
@@ -141,10 +141,10 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
     }
   }
 
-  private func extract_administration_timing(parent_element: XMLElement, medication: CDAKMedication) {
+  fileprivate func extract_administration_timing(_ parent_element: XMLElement, medication: CDAKMedication) {
     if let administration_timing_element = parent_element.xpath("./cda:effectiveTime[2]").first {
       if let institutionSpecified = administration_timing_element["institutionSpecified"] {
-        let inst = institutionSpecified.lowercaseString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let inst = institutionSpecified.lowercased().trimmingCharacters(in: .whitespaces)
         switch inst {
         case "true": medication.administration_timing.institution_specified = true
         case "false": medication.administration_timing.institution_specified = false
@@ -157,7 +157,7 @@ class CDAKImport_CDA_MedicationImporter: CDAKImport_CDA_SectionImporter {
     }
   }
 
-  private func extract_dose_restriction(parent_element: XMLElement, medication: CDAKMedication) {
+  fileprivate func extract_dose_restriction(_ parent_element: XMLElement, medication: CDAKMedication) {
     if let dre = parent_element.xpath("./cda:maxDoseQuantity").first {
       if let numerator = extract_scalar(dre, scalar_xpath: "./cda:numerator") {
         medication.dose_restriction.numerator = numerator

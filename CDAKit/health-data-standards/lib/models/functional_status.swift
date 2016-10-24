@@ -17,15 +17,15 @@ Additionally, there is a mismatch between the data needed to calculate Stage 2 M
 
 To avoid this, the patient sumamry style functional status has been "flattened" into this class. This model supports the information needed to calculate Stage 2 MU CQMs. If importers are created from C32 or CCDA, the information can be stored here, but it will be a lossy transformation.
 */
-public class CDAKFunctionalStatus: CDAKEntry {
+open class CDAKFunctionalStatus: CDAKEntry {
   
   // MARK: CDA properties
 
   /// Either "condition" or "result"
-  public var type: String?
+  open var type: String?
   
   /// A coded value. Like a code for patient supplied.
-  public var source: CDAKCodedEntries = CDAKCodedEntries()
+  open var source: CDAKCodedEntries = CDAKCodedEntries()
   
 }
 
@@ -37,10 +37,10 @@ extension CDAKFunctionalStatus {
     var dict = super.jsonDict
     
     if let type = type {
-      dict["type"] = type
+      dict["type"] = type as AnyObject?
     }
     if source.count > 0 {
-      dict["source"] = source.jsonDict
+      dict["source"] = source.jsonDict as AnyObject?
     }
     
     return dict

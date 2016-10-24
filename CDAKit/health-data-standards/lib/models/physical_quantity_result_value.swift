@@ -15,12 +15,12 @@ import Mustache
 /**
 Subclass of CDAKResultValue.  Represents a known fixed physical result value (PQ, etc.)
 */
-public class CDAKPhysicalQuantityResultValue: CDAKResultValue {
+open class CDAKPhysicalQuantityResultValue: CDAKResultValue {
   // MARK: CDA properties
   ///scalar value like "6" or "true"
-  public var scalar: String? //no clue what this type should be, so sticking with String for now
+  open var scalar: String? //no clue what this type should be, so sticking with String for now
   ///units.  Most commonly UCUM units, but there is no restriction
-  public var units: String?
+  open var units: String?
 
   // MARK: - Initializers
   public init(scalar: Any?, units: String? = nil) {
@@ -39,13 +39,13 @@ public class CDAKPhysicalQuantityResultValue: CDAKResultValue {
 
   // MARK: Standard properties
   ///hash value for comparing objects
-  override public var hashValue: Int {
+  override open var hashValue: Int {
     return "\(scalar)\(units)".hashValue
   }
   
   ///Debugging description
-  override public var description: String {
-    return "\(self.dynamicType) => attributes: \(attributes), time: \(time), start_time: \(start_time), end_time: \(end_time), scalar: \(scalar), units: \(units)"
+  override open var description: String {
+    return "\(type(of: self)) => attributes: \(attributes), time: \(time), start_time: \(start_time), end_time: \(end_time), scalar: \(scalar), units: \(units)"
   }
 
   
@@ -66,7 +66,7 @@ extension CDAKPhysicalQuantityResultValue {
     ]
   }
   
-  override public var mustacheBox: MustacheBox {
+  override open var mustacheBox: MustacheBox {
     return Box(boxedValues)
   }
   
@@ -79,10 +79,10 @@ extension CDAKPhysicalQuantityResultValue {
     var dict = super.jsonDict
     
     if let scalar = scalar {
-      dict["scalar"] = scalar
+      dict["scalar"] = scalar as AnyObject?
     }
     if let units = units {
-      dict["units"] = units
+      dict["units"] = units as AnyObject?
     }
     
     return dict

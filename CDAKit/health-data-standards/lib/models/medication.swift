@@ -12,40 +12,40 @@ import Mustache
 /**
 Medication
 */
-public class CDAKMedication: CDAKEntry {
+open class CDAKMedication: CDAKEntry {
   
   // MARK: CDA properties
 
   ///Timing of medication administration
-  public var administration_timing: CDAKMedicationAdministrationTiming = CDAKMedicationAdministrationTiming()
+  open var administration_timing: CDAKMedicationAdministrationTiming = CDAKMedicationAdministrationTiming()
   ///Free text signature or text
-  public var free_text_sig: String?
+  open var free_text_sig: String?
   ///Dosage information (doseQuantity)
-  public var dose = CDAKValueAndUnit()
+  open var dose = CDAKValueAndUnit()
   ///Rate information (rateQuantity)
-  public var rate = CDAKValueAndUnit()
+  open var rate = CDAKValueAndUnit()
   
   ///Type of medication
-  public var type_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :type_of_medication  // type: Hash
+  open var type_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :type_of_medication  // type: Hash
   ///Status of medication
-  public var status_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :status_of_medication  // type: Hash
+  open var status_of_medication: CDAKCodedEntries = CDAKCodedEntries()  // as: :status_of_medication  // type: Hash
   ///Fulfillment history (multiple possible)
-  public var fulfillment_history = [CDAKFulfillmentHistory]()  // class_name: 'CDAKFulfillmentHistory'
+  open var fulfillment_history = [CDAKFulfillmentHistory]()  // class_name: 'CDAKFulfillmentHistory'
   ///Order information (multiplepossible)
-  public var order_information = [CDAKOrderInformation]()  // class_name: 'CDAKOrderInformation'
+  open var order_information = [CDAKOrderInformation]()  // class_name: 'CDAKOrderInformation'
   
   ///Route of administration
-  public var route: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  open var route: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
   ///Anatomical approach
-  public var anatomical_approach: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  open var anatomical_approach: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
   
   //go take a look at the CDA CDAKMedication importer - it appears this is a hash of numerator / denominator entries that then have futher scalar value entries inside
   // not entirely clear what we'd really do with these except for far more complex inpatient examples
   ///Dosage restriction
-  public var dose_restriction: CDAKMedicationRestriction = CDAKMedicationRestriction()
+  open var dose_restriction: CDAKMedicationRestriction = CDAKMedicationRestriction()
   
   ///Fulfillment instructions (if supplied)
-  public var fulfillment_instructions: String?  // as: :fulfillment_instructions  // type: String
+  open var fulfillment_instructions: String?  // as: :fulfillment_instructions  // type: String
   /**
   Indication
   This is the problem that was the reason for the medication
@@ -53,30 +53,30 @@ public class CDAKMedication: CDAKEntry {
   - Version 1.0: This was a CDAKCodedEntries
   - Version 1.0.1: This is now a full Entry.  It contains a full problem, including dates, codes, etc.
   */
-  public var indication: CDAKEntryDetail?  // type: Hash
+  open var indication: CDAKEntryDetail?  // type: Hash
   ///Precondition
-  public var precondition: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  open var precondition: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
   ///Product form
-  public var product_form: CDAKCodedEntries = CDAKCodedEntries()  // as: :product_form  // type: Hash
+  open var product_form: CDAKCodedEntries = CDAKCodedEntries()  // as: :product_form  // type: Hash
   ///Product vehicle
-  public var vehicle: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  open var vehicle: CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
   ///Reaction to medication or administration
-  public var reaction: CDAKEntryDetail?//CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
+  open var reaction: CDAKEntryDetail?//CDAKCodedEntries = CDAKCodedEntries()  // type: Hash
   ///severity
-  public var severity: CDAKEntryDetail?// = CDAKCodedEntries() //flat code list
+  open var severity: CDAKEntryDetail?// = CDAKCodedEntries() //flat code list
 
   ///Delivery method
-  public var delivery_method: CDAKCodedEntries = CDAKCodedEntries()  // as: :delivery_method  // type: Hash
+  open var delivery_method: CDAKCodedEntries = CDAKCodedEntries()  // as: :delivery_method  // type: Hash
   ///Patient instructions
-  public var patient_instructions: String?  // as: :patient_instructions  // type: String
+  open var patient_instructions: String?  // as: :patient_instructions  // type: String
   ///Dose indicator
-  public var dose_indicator: String?  // as: :dose_indicator  // type: String
+  open var dose_indicator: String?  // as: :dose_indicator  // type: String
   ///method
-  public var method: CDAKCodedEntries = CDAKCodedEntries()   //   type: Hash
+  open var method: CDAKCodedEntries = CDAKCodedEntries()   //   type: Hash
   ///Date as of which medication was active
-  public var active_datetime: Double?   //  type: Integer
+  open var active_datetime: Double?   //  type: Integer
   ///Date medication signed
-  public var signed_datetime: Double?   //  type: Integer
+  open var signed_datetime: Double?   //  type: Integer
   
   
   
@@ -93,12 +93,12 @@ public class CDAKMedication: CDAKEntry {
     [Discussion](https://jira.oncprojectracking.org/browse/CQM-612)
   
   */
-  public var cumulativeMedicationDuration: CDAKValueAndUnit? // = [String:String]()
+  open var cumulativeMedicationDuration: CDAKValueAndUnit? // = [String:String]()
 
   
   // MARK: Health-Data-Standards Functions
   ///Offset all dates by specified double
-  override func shift_dates(date_diff: Double) {
+  override func shift_dates(_ date_diff: Double) {
     super.shift_dates(date_diff)
 
     for fh in fulfillment_history {
@@ -175,44 +175,44 @@ extension CDAKMedication {
   override public var jsonDict: [String: AnyObject] {
     var dict = super.jsonDict
     
-    if fulfillment_history.count > 0 { dict["fulfillment_history"] = fulfillment_history.map({$0.jsonDict}) }
-    if order_information.count > 0 { dict["order_information"] = order_information.map({$0.jsonDict}) }
+    if fulfillment_history.count > 0 { dict["fulfillment_history"] = fulfillment_history.map({$0.jsonDict}) as AnyObject? }
+    if order_information.count > 0 { dict["order_information"] = order_information.map({$0.jsonDict})  as AnyObject?}
     if let cumulativeMedicationDuration = cumulativeMedicationDuration {
-      dict["cumulativeMedicationDuration"] = cumulativeMedicationDuration.jsonDict
+      dict["cumulativeMedicationDuration"] = cumulativeMedicationDuration.jsonDict as AnyObject?
     }
     
-    if anatomical_approach.count > 0 { dict["anatomical_approach"] = anatomical_approach.codes.map({$0.jsonDict}) }
-    if delivery_method.count > 0 { dict["delivery_method"] = delivery_method.codes.map({$0.jsonDict}) }
+    if anatomical_approach.count > 0 { dict["anatomical_approach"] = anatomical_approach.codes.map({$0.jsonDict})  as AnyObject?}
+    if delivery_method.count > 0 { dict["delivery_method"] = delivery_method.codes.map({$0.jsonDict})  as AnyObject?}
     if let indication = indication {
-      dict["indication"] = indication.jsonDict
+      dict["indication"] = indication.jsonDict as AnyObject?
     }
-    if precondition.count > 0 { dict["precondition"] = precondition.codes.map({$0.jsonDict}) }
-    if method.count > 0 { dict["method"] = method.codes.map({$0.jsonDict}) }
-    if product_form.count > 0 { dict["product_form"] = product_form.codes.map({$0.jsonDict}) }
+    if precondition.count > 0 { dict["precondition"] = precondition.codes.map({$0.jsonDict}) as AnyObject? }
+    if method.count > 0 { dict["method"] = method.codes.map({$0.jsonDict}) as AnyObject? }
+    if product_form.count > 0 { dict["product_form"] = product_form.codes.map({$0.jsonDict}) as AnyObject? }
     //if reaction.count > 0 { dict["reaction"] = reaction.codes.map({$0.jsonDict}) }
     if let reaction = reaction {
-      dict["reaction"] = reaction.jsonDict
+      dict["reaction"] = reaction.jsonDict as AnyObject?
     }
     if let severity = severity {
-      dict["severity"] = severity.jsonDict
+      dict["severity"] = severity.jsonDict as AnyObject?
     }
     
-    if route.count > 0 { dict["route"] = route.codes.map({$0.jsonDict}) }
-    if status_of_medication.count > 0 { dict["status_of_medication"] = status_of_medication.codes.map({$0.jsonDict}) }
-    if type_of_medication.count > 0 { dict["type_of_medication"] = type_of_medication.codes.map({$0.jsonDict}) }
-    if vehicle.count > 0 { dict["vehicle"] = vehicle.codes.map({$0.jsonDict}) }
+    if route.count > 0 { dict["route"] = route.codes.map({$0.jsonDict}) as AnyObject? }
+    if status_of_medication.count > 0 { dict["status_of_medication"] = status_of_medication.codes.map({$0.jsonDict}) as AnyObject? }
+    if type_of_medication.count > 0 { dict["type_of_medication"] = type_of_medication.codes.map({$0.jsonDict}) as AnyObject? }
+    if vehicle.count > 0 { dict["vehicle"] = vehicle.codes.map({$0.jsonDict}) as AnyObject? }
 
-    if administration_timing.jsonDict.count > 0 { dict["administration_timing"] = administration_timing.jsonDict }
-    if dose_restriction.jsonDict.count > 0 { dict["dose_restriction"] = dose_restriction.jsonDict }
-    if dose.jsonDict.count > 0 { dict["dose"] = dose.jsonDict }
-    if rate.jsonDict.count > 0 { dict["rate"] = rate.jsonDict }
+    if administration_timing.jsonDict.count > 0 { dict["administration_timing"] = administration_timing.jsonDict as AnyObject? }
+    if dose_restriction.jsonDict.count > 0 { dict["dose_restriction"] = dose_restriction.jsonDict as AnyObject? }
+    if dose.jsonDict.count > 0 { dict["dose"] = dose.jsonDict as AnyObject? }
+    if rate.jsonDict.count > 0 { dict["rate"] = rate.jsonDict as AnyObject? }
     
-    if let active_datetime = active_datetime { dict["active_datetime"] = active_datetime }
-    if let signed_datetime = signed_datetime { dict["signed_datetime"] = signed_datetime }
-    if let dose_indicator = dose_indicator { dict["dose_indicator"] = dose_indicator }
-    if let free_text_sig = free_text_sig { dict["free_text_sig"] = free_text_sig }
-    if let fulfillment_instructions = fulfillment_instructions { dict["fulfillment_instructions"] = fulfillment_instructions }
-    if let patient_instructions = patient_instructions { dict["patient_instructions"] = patient_instructions }
+    if let active_datetime = active_datetime { dict["active_datetime"] = active_datetime as AnyObject? }
+    if let signed_datetime = signed_datetime { dict["signed_datetime"] = signed_datetime as AnyObject? }
+    if let dose_indicator = dose_indicator { dict["dose_indicator"] = dose_indicator as AnyObject? }
+    if let free_text_sig = free_text_sig { dict["free_text_sig"] = free_text_sig as AnyObject? }
+    if let fulfillment_instructions = fulfillment_instructions { dict["fulfillment_instructions"] = fulfillment_instructions as AnyObject? }
+    if let patient_instructions = patient_instructions { dict["patient_instructions"] = patient_instructions as AnyObject? }
     
     return dict
   }
@@ -258,10 +258,10 @@ extension CDAKMedicationRestriction: CDAKJSONExportable {
     var dict: [String: AnyObject] = [:]
     
     if numerator.jsonDict.count > 0 {
-      dict["numerator"] = numerator.jsonDict
+      dict["numerator"] = numerator.jsonDict as AnyObject?
     }
     if denominator.jsonDict.count > 0 {
-      dict["denominator"] = denominator.jsonDict
+      dict["denominator"] = denominator.jsonDict as AnyObject?
     }
     
     return dict
@@ -300,9 +300,9 @@ extension CDAKMedicationAdministrationTiming: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     
-    dict["institution_specified"] = institution_specified
+    dict["institution_specified"] = institution_specified as AnyObject?
     if period.jsonDict.count > 0 {
-      dict["period"] = period.jsonDict
+      dict["period"] = period.jsonDict as AnyObject?
     }
     
     return dict

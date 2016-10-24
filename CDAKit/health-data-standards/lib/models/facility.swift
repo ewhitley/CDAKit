@@ -14,21 +14,21 @@ import Foundation
 /**
 CDA Facility
 */
-public class CDAKFacility: CDAKEntry {
+open class CDAKFacility: CDAKEntry {
   
   // MARK: CDA properties
 
   ///Facility name
-  public var name: String?
+  open var name: String?
   
   ///Facility addresses
-  public var addresses = [CDAKAddress]() //, as: :locatable
+  open var addresses = [CDAKAddress]() //, as: :locatable
   ///Facility telecoms
-  public var telecoms = [CDAKTelecom]() //, as: :contactable
+  open var telecoms = [CDAKTelecom]() //, as: :contactable
   
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
+  override open var description: String {
     return super.description + " name: \(name), addresss: \(addresses), telecoms: \(telecoms)"
   }
   
@@ -41,13 +41,13 @@ extension CDAKFacility {
     var dict = super.jsonDict
 
     if let name = name {
-      dict["name"] = name
+      dict["name"] = name as AnyObject?
     }
     if addresses.count > 0 {
-      dict["addresses"] = addresses.map({$0.jsonDict})
+      dict["addresses"] = addresses.map({$0.jsonDict}) as AnyObject?
     }
     if telecoms.count > 0 {
-      dict["telecoms"] = telecoms.map({$0.jsonDict})
+      dict["telecoms"] = telecoms.map({$0.jsonDict})  as AnyObject?
     }
     
     return dict

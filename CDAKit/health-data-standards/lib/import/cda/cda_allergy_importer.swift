@@ -30,7 +30,7 @@ class CDAKImport_CDA_AllergyImporter: CDAKImport_CDA_SectionImporter {
     check_for_usable = false
   }
 
-  override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKAllergy? {
+  override func create_entry(_ entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKAllergy? {
     
     if let allergy = super.create_entry(entry_element, nrh: nrh) as? CDAKAllergy {
 

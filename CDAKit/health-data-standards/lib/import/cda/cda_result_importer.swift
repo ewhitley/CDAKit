@@ -17,7 +17,7 @@ class CDAKImport_CDA_ResultImporter: CDAKImport_CDA_SectionImporter {
     entry_class = CDAKLabResult.self
   }
   
-  override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKLabResult? {
+  override func create_entry(_ entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKLabResult? {
     
     if let result = super.create_entry(entry_element, nrh: nrh) as? CDAKLabResult {
 
@@ -32,13 +32,13 @@ class CDAKImport_CDA_ResultImporter: CDAKImport_CDA_SectionImporter {
 
   }
   
-  private func extract_interpretation(parent_element: XMLElement, result: CDAKLabResult) {
+  fileprivate func extract_interpretation(_ parent_element: XMLElement, result: CDAKLabResult) {
     if let interpretation_element = parent_element.xpath("./cda:interpretationCode").first {
       result.interpretation.addCodes(CDAKImport_CDA_SectionImporter.extract_code(interpretation_element, code_xpath: "."))
     }
   }
 
-  private func extract_reference_range(parent_element: XMLElement, result: CDAKLabResult) {
+  fileprivate func extract_reference_range(_ parent_element: XMLElement, result: CDAKLabResult) {
     if let reference_range = parent_element.xpath("./cda:referenceRange/cda:observationRange/cda:text").first?.stringValue {
       result.reference_range = reference_range
     }

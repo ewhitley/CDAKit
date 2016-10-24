@@ -16,9 +16,9 @@ class CDAKImport_CDA_EntryFinder {
     self.entry_xpath = entry_xpath
   }
   
-  func entries(doc: XMLDocument) -> XPathNodeSet {
+  func entries(_ doc: XMLDocument) -> XPathNodeSet {
     let entry_elements = doc.xpath(entry_xpath)
-    return entry_elements
+    return entry_elements as! XPathNodeSet
     //Should probably review this.
     // I think we can get away with just returning the node set
     //   since the closure will execute outside of this context

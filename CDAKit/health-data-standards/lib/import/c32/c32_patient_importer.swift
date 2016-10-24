@@ -49,6 +49,8 @@ class CDAKImport_C32_PatientImporter {
   // Original Ruby: This class is a Singleton. It should be accessed by calling PatientImporter.instance
   
   var section_importers: [String:CDAKImport_CDA_SectionImporter] = [:]
+  var section_importers_keys: [String] = [ "results", "medications", "care_goals", "vital_signs", "allergies", "immunizations", "medical_equipment",
+                                             "encounters", "insurance_providers", "procedures", "social_history", "conditions"]
 
   init(check_usable: Bool = true) {
     
@@ -72,7 +74,7 @@ class CDAKImport_C32_PatientImporter {
   /**
    - parameter check_usable_entries: value for check_usable_entries...importer uses true, stats uses false
    */
-  func check_usable(check_usable_entries: Bool) {
+  func check_usable(_ check_usable_entries: Bool) {
     for (_, importer) in section_importers {
       importer.check_for_usable = check_usable_entries
     }
@@ -86,7 +88,7 @@ class CDAKImport_C32_PatientImporter {
    will have the "cda" namespace registered to "urn:hl7-org:v3"
    - returns: a Mongoid model representing the patient
    */
-  func parse_c32(doc: XMLDocument) -> CDAKRecord {
+  func parse_c32(_ doc: XMLDocument) -> CDAKRecord {
     let c32_patient = CDAKRecord()
     get_demographics(c32_patient, doc: doc)
     if let patient_role_element = doc.xpath("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole").first {
@@ -107,7 +109,7 @@ class CDAKImport_C32_PatientImporter {
    
    - parameter c32_patient: to check the conditions on and set the expired property if applicable
    */
-  func check_for_cause_of_death(c32_patient: CDAKRecord) {
+  func check_for_cause_of_death(_ c32_patient: CDAKRecord) {
     if let cause_of_death = c32_patient.conditions.filter({$0.cause_of_death == true}).first {
       c32_patient.expired = true
       c32_patient.deathdate = cause_of_death.time_of_death
@@ -127,14 +129,18 @@ class CDAKImport_C32_PatientImporter {
    
    Attention: Changed original Ruby
   */
-  func create_c32_hash(record: CDAKRecord, doc: XMLDocument) {
+  func create_c32_hash(_ record: CDAKRecord, doc: XMLDocument) {
     // original Ruby was using "send" - which we can't really do.  So I'm not doing that...
     // I'm going to inspect the section type and then just manually say "oh, you're a Condition" etc.
     // and set things that way.  Not super elegant, but - at least I'll know what's going on
     
     let nrh = CDAKImport_CDA_NarrativeReferenceHandler()
     nrh.build_id_map(doc)
-    for (section, importer) in section_importers {
+
+    //for (section, importer) in section_importers {
+    for section in section_importers_keys {
+      guard let importer = section_importers[section] else { return }
+
       let sections = importer.create_entries(doc, nrh: nrh)
       
       switch section {
@@ -156,7 +162,7 @@ class CDAKImport_C32_PatientImporter {
     }
   }
   
-  func get_ids (elem: XMLElement) -> [CDAKCDAIdentifier] {
+  func get_ids (_ elem: XMLElement) -> [CDAKCDAIdentifier] {
     return elem.xpath("./cda:id").map({id_entry in CDAKCDAIdentifier(root: id_entry["root"], extension_id: id_entry["extension"])})
   }
 
@@ -167,7 +173,7 @@ class CDAKImport_C32_PatientImporter {
     - parameter patient:  A hash that is used to represent the patient
     - parameter doc: The C32 document parsed by Nokogiri
   */
-  func get_demographics(patient: CDAKRecord, doc: XMLDocument) {
+  func get_demographics(_ patient: CDAKRecord, doc: XMLDocument) {
     let effective_date = doc.xpath("/cda:ClinicalDocument/cda:effectiveTime").first?["value"]
     patient.effective_time = CDAKHL7Helper.timestamp_to_integer(effective_date)
     
@@ -183,7 +189,7 @@ class CDAKImport_C32_PatientImporter {
     patient.last = patient_element.xpath("cda:name/cda:family").first?.stringValue
     patient.suffix = patient_element.xpath("cda:name/cda:suffix").first?.stringValue
 
-    if let birthdate_in_hl7ts_node = patient_element.xpath("cda:birthTime").first, birthdate_in_hl7ts = birthdate_in_hl7ts_node["value"] {
+    if let birthdate_in_hl7ts_node = patient_element.xpath("cda:birthTime").first, let birthdate_in_hl7ts = birthdate_in_hl7ts_node["value"] {
       patient.birthdate = CDAKHL7Helper.timestamp_to_integer(birthdate_in_hl7ts)
     }
 
@@ -207,10 +213,10 @@ class CDAKImport_C32_PatientImporter {
       }
     }
 
-    if let marital_status_node = patient_element.xpath("./cda:maritalStatusCode").first, code = marital_status_node["code"] {
+    if let marital_status_node = patient_element.xpath("./cda:maritalStatusCode").first, let code = marital_status_node["code"] {
       patient.marital_status = CDAKCodedEntries(codeSystem: "HL7 Marital Status", code: code)
     }
-    if let ra_node = patient_element.xpath("./cda:religiousAffiliationCode").first, code = ra_node["code"] {
+    if let ra_node = patient_element.xpath("./cda:religiousAffiliationCode").first, let code = ra_node["code"] {
       patient.religious_affiliation = CDAKCodedEntries(codeSystem: "Religious Affiliation", code: code)
     }
     

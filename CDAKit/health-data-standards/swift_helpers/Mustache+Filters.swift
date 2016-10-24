@@ -12,7 +12,7 @@ import Mustache
 class MustacheFilters {
 
   static let UUID_generate = Filter { (value: Any? ) in
-    let uuid_string = NSUUID().UUIDString
+    let uuid_string = NSUUID().uuidString
     return Box(uuid_string)
   }
 
@@ -20,17 +20,17 @@ class MustacheFilters {
   static let DateAsNumber = Filter { (box: MustacheBox) in
     
     if box.value == nil {
-      return Box(NSDate().stringFormattedAsHDSDateNumber)
+      return Box(Date().stringFormattedAsHDSDateNumber)
     }
     
     switch box.value {
     case let int as Int:
-      let d = NSDate(timeIntervalSince1970: Double(int))
+      let d = Date(timeIntervalSince1970: Double(int))
       return Box(d.stringFormattedAsHDSDateNumber)
     case let double as Double:
-      let d = NSDate(timeIntervalSince1970: double)
+      let d = Date(timeIntervalSince1970: double)
       return Box(d.stringFormattedAsHDSDateNumber)
-    case let date as NSDate:
+    case let date as Date:
       return Box(date.stringFormattedAsHDSDateNumber)
     default:
       return Box()
@@ -40,17 +40,17 @@ class MustacheFilters {
   static let DateAsHDSString = Filter { (box: MustacheBox) in
     
     if box.value == nil {
-      return Box(NSDate().stringFormattedAsHDSDate)
+      return Box(Date().stringFormattedAsHDSDate)
     }
     
     switch box.value {
     case let int as Int:
-      let d = NSDate(timeIntervalSince1970: Double(int))
+      let d = Date(timeIntervalSince1970: Double(int))
       return Box(d.stringFormattedAsHDSDate)
     case let double as Double:
-      let d = NSDate(timeIntervalSince1970: double)
+      let d = Date(timeIntervalSince1970: double)
       return Box(d.stringFormattedAsHDSDate)
-    case let date as NSDate:
+    case let date as Date:
       return Box(date.stringFormattedAsHDSDate)
     default:
       return Box()
@@ -92,8 +92,7 @@ class MustacheFilters {
     case let val as Bool?:
       return Box(true)
     case let val as String:
-      //.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())      
-      if val.lowercaseString == "true" || val.lowercaseString == "false" {
+      if val.lowercased() == "true" || val.lowercased() == "false" {
         return Box(true)
       }
       return Box(false)

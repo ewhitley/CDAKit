@@ -12,21 +12,21 @@ import Mustache
 /**
  Person.  Generic person container.  Should not use for a provider.
 */
-public class CDAKPerson: CDAKPersonable, CDAKJSONInstantiable {
+open class CDAKPerson: CDAKPersonable, CDAKJSONInstantiable {
   
   // MARK: CDA properties
   ///Prefix (Mrs., MD., etc.) (was Title)
-  public var prefix: String?
+  open var prefix: String?
   ///First / given name
-  public var given_name: String?
+  open var given_name: String?
   ///Family / last name
-  public var family_name: String?
+  open var family_name: String?
   ///Suffix
-  public var suffix: String?
+  open var suffix: String?
   ///addresses
-  public var addresses: [CDAKAddress] = [CDAKAddress]()
+  open var addresses: [CDAKAddress] = [CDAKAddress]()
   ///telecoms
-  public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
+  open var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
   // MARK: - Initializers
   public init(prefix: String? = nil, given_name: String? = nil, family_name: String? = nil, suffix: String? = nil, addresses: [CDAKAddress] = [], telecoms: [CDAKTelecom] = []){
@@ -79,22 +79,22 @@ extension CDAKPerson: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     if let prefix = prefix {
-      dict["prefix"] = prefix
+      dict["prefix"] = prefix as AnyObject?
     }
     if let given_name = given_name {
-      dict["given"] = given_name
+      dict["given"] = given_name as AnyObject?
     }
     if let family_name = family_name {
-      dict["family_name"] = family_name
+      dict["family_name"] = family_name as AnyObject?
     }
     if let suffix = suffix {
-      dict["suffix"] = suffix
+      dict["suffix"] = suffix as AnyObject?
     }
     if telecoms.count > 0 {
-      dict["telecoms"] = telecoms.map({$0.jsonDict})
+      dict["telecoms"] = telecoms.map({$0.jsonDict}) as AnyObject?
     }
     if addresses.count > 0 {
-      dict["addresses"] = addresses.map({$0.jsonDict})
+      dict["addresses"] = addresses.map({$0.jsonDict}) as AnyObject?
     }
     return dict
   }

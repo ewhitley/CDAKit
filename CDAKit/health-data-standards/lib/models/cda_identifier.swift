@@ -37,20 +37,20 @@ Usually takes the form of a "root" (required) and an "extension" (identifier) (o
  <id extension="111-00-2330" root="2.16.840.1.113883.4.1"/>
  ```
 */
-public class CDAKCDAIdentifier: Equatable, Hashable, CDAKJSONInstantiable, CustomStringConvertible {
+open class CDAKCDAIdentifier: Equatable, Hashable, CDAKJSONInstantiable, CustomStringConvertible {
 
   // MARK: CDA properties
   ///CDA Root
-  public var root: String?
+  open var root: String?
   ///CDA Extension
-  public var extension_id: String?
+  open var extension_id: String?
   
-  public var hashValue: Int {
+  open var hashValue: Int {
     return "\(root)\(extension_id)".hashValue
   }
   
   ///Attempts to return a simplified compound version of the Root and Extension
-  public var as_string: String {
+  open var as_string: String {
     get {
       var r = ""
       var e = ""
@@ -66,7 +66,7 @@ public class CDAKCDAIdentifier: Equatable, Hashable, CDAKJSONInstantiable, Custo
   
   // MARK: Standard properties
   ///Debugging description
-  public var description: String {
+  open var description: String {
     return "CDAKCDAIdentifier => root: \(root), extension_id: \(extension_id)"
   }
   
@@ -83,7 +83,7 @@ public class CDAKCDAIdentifier: Equatable, Hashable, CDAKJSONInstantiable, Custo
   }
   
   ///Do not use - will be removed. Was used in HDS Ruby.
-  private func initFromEventList(event: [String:Any?]) {
+  fileprivate func initFromEventList(_ event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)
     }
@@ -116,10 +116,10 @@ extension CDAKCDAIdentifier: CDAKJSONExportable {
     var dict: [String: AnyObject] = [:]
     
     if let root = root {
-      dict["root"] = root
+      dict["root"] = root as AnyObject?
     }
     if let extension_id = extension_id {
-      dict["extension"] = extension_id
+      dict["extension"] = extension_id as AnyObject?
     }
     
     return dict

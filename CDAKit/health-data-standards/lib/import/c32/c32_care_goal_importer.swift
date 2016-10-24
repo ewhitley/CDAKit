@@ -17,7 +17,7 @@ class CDAKImport_C32_CareGoalImporter: CDAKImport_CDA_SectionImporter {
   }
 
   // NOTE this returns a generic "CDAKEntry" - but it could be any number of sub-types
-  override func create_entry(goal_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEntry? {
+  override func create_entry(_ goal_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEntry? {
     
     //original Ruby used "name" - which is "node_name"
     //looks like Fuzi calls this "tag"

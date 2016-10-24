@@ -15,10 +15,10 @@ class GRMustacheTest: XCTestCase {
 
   let data = [
     "name": "Arthur",
-    "date": NSDate(),
-    "realDate": NSDate().dateByAddingTimeInterval(60*60*24*3),
+    "date": Date(),
+    "realDate": Date().addingTimeInterval(60*60*24*3),
     "late": true
-  ]
+  ] as [String : Any]
   
   override func setUp() {
       super.setUp()
@@ -71,13 +71,13 @@ class GRMustacheTest: XCTestCase {
 
   func testFileWithFile() {
     do {
-      let bundle = NSBundle(forClass: self.dynamicType)
-      let path = bundle.pathForResource("document", ofType: "mustache")
+      let bundle = Bundle(for: type(of: self))
+      let path = bundle.path(forResource: "document", ofType: "mustache")
       let template = try Template(path: path!)
       
       // Let template format dates with `{{format(...)}}`
-      let dateFormatter = NSDateFormatter()
-      dateFormatter.dateStyle = .MediumStyle
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateStyle = .medium
       template.registerInBaseContext("format", Box(dateFormatter))
       
       let rendering = try template.render(Box(data))
@@ -90,7 +90,7 @@ class GRMustacheTest: XCTestCase {
 
   func testFileWithURL() {
     do {
-      let templateURL = NSURL(fileURLWithPath: "document.mustache")
+      let templateURL = URL(fileURLWithPath: "document.mustache")
       let template = try Template(URL: templateURL)
       let rendering = try template.render(Box(data))
       print(rendering)
@@ -117,7 +117,7 @@ class GRMustacheTest: XCTestCase {
 //    static let sharedInstance = UUIDGenerator()
 //  }
 
-  public class UUIDGenerator: MustacheBoxable {
+  open class UUIDGenerator: MustacheBoxable {
     
 //    required init?(coder aDecoder: NSCoder) {
 //      //super.init(value: aDecoder)
@@ -136,8 +136,8 @@ class GRMustacheTest: XCTestCase {
 //      )
 //    }
 
-    public var mustacheBox: MustacheBox {
-      return Box(NSUUID().UUIDString)
+    open var mustacheBox: MustacheBox {
+      return Box(NSUUID().uuidString)
     }
 
     static let sharedInstance = UUIDGenerator()
@@ -149,8 +149,8 @@ class GRMustacheTest: XCTestCase {
     
     //let uuid = NSUUID().UUIDString
     
-    let percentFormatter = NSNumberFormatter()
-    percentFormatter.numberStyle = .PercentStyle
+    let percentFormatter = NumberFormatter()
+    percentFormatter.numberStyle = .percent
     
     do {
       let template = try Template(string: "{{ percent(x) }}")
@@ -196,7 +196,7 @@ class GRMustacheTest: XCTestCase {
   func testFilter() {
     
     let reverse = Filter { (rendering: Rendering) in
-      let reversedString = String(rendering.string.characters.reverse())
+      let reversedString = String(rendering.string.characters.reversed())
       return Rendering(reversedString, rendering.contentType)
     }
 
@@ -234,24 +234,24 @@ class GRMustacheTest: XCTestCase {
     let DateAsNumber = Filter { (box: MustacheBox) in
       
       if box.value == nil {
-        return Box(NSDate().stringFormattedAsHDSDateNumber)
+        return Box(Date().stringFormattedAsHDSDateNumber)
       }
       
         switch box.value {
         case let int as Int:
           print("I'm an Int")
-          let d = NSDate(timeIntervalSince1970: Double(int))
+          let d = Date(timeIntervalSince1970: Double(int))
           return Box(d.stringFormattedAsHDSDateNumber)
         case let double as Double:
           print("I'm a double")
-          let d = NSDate(timeIntervalSince1970: double)
+          let d = Date(timeIntervalSince1970: double)
           return Box(d.stringFormattedAsHDSDateNumber)
-        case let date as NSDate:
+        case let date as Date:
           print("I'm a date")
           return Box(date.stringFormattedAsHDSDateNumber)
         default:
           // GRMustache does not support any other numeric types: give up.
-          print("I'm of type \(box.value.dynamicType)")
+          print("I'm of type \(type(of: box.value))")
           return Box()
         }
     }
@@ -260,7 +260,7 @@ class GRMustacheTest: XCTestCase {
     do {
       let template = try Template(string: "Date: {{ date_as_number(x) }}, Int: {{date_as_number(y)}} , Double: {{ date_as_number(z) }}, nil: {{ date_as_number(nil) }}")
       template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
-      let data = ["x": NSDate(), "y":Int(NSDate().timeIntervalSince1970), "z":NSDate().timeIntervalSince1970]
+      let data = ["x": Date(), "y":Int(Date().timeIntervalSince1970), "z":Date().timeIntervalSince1970] as [String : Any]
       let rendering = try template.render(Box(data))
       print(rendering)
     }
@@ -286,10 +286,10 @@ class GRMustacheTest: XCTestCase {
 //      return Box(result)
 //    }
     
-    func convertStringToDictionary(text: String) -> [String:Any] {
-      if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+    func convertStringToDictionary(_ text: String) -> [String:Any] {
+      if let data = text.data(using: String.Encoding.utf8) {
         do {
-          let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? [String:AnyObject]
+          let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:AnyObject]
           
           var otherJson: [String:Any] = [:]
           if let json = json {
@@ -459,8 +459,8 @@ class GRMustacheTest: XCTestCase {
       // disables all HTML escaping
    //   Mustache.DefaultConfiguration.contentType = .Text
 
-      let bundle = NSBundle(forClass: self.dynamicType)
-      let path = bundle.pathForResource("record", ofType: "mustache")
+      let bundle = Bundle(for: type(of: self))
+      let path = bundle.path(forResource: "record", ofType: "mustache")
       let template = try Template(path: path!)
 
       let data = ["patient": bigTestRecord]
@@ -551,7 +551,7 @@ class GRMustacheTest: XCTestCase {
 //    
 //  }
   
-  func transformAnyObjectDict(dict: [String:AnyObject]) -> [String:Any?] {
+  func transformAnyObjectDict(_ dict: [String:AnyObject]) -> [String:Any?] {
     var otherJson: [String:Any?] = [:]
     for(key, value) in dict {
       if let value = value as? [String:AnyObject] {
@@ -642,19 +642,19 @@ class GRMustacheTest: XCTestCase {
 //    
 //  }
   
-  func loadJSONFromBundleFile(filename: String) -> [String:AnyObject]? {
+  func loadJSONFromBundleFile(_ filename: String) -> [String:AnyObject]? {
     
     let fileName = "\(filename)"
     let directory: String? = nil
-    let bundle = NSBundle(forClass: self.dynamicType)
+    let bundle = Bundle(for: type(of: self))
     //NSBundle.mainBundle()
 
-    guard let filePath = bundle.pathForResource(fileName, ofType: "json", inDirectory: directory) else {
+    guard let filePath = bundle.path(forResource: fileName, ofType: "json", inDirectory: directory) else {
       fatalError("Failed to find file '\(fileName)' in path '\(directory)' ")
     }
     
-    let templateURL = NSURL(fileURLWithPath: filePath)
-    if let data = NSData(contentsOfURL: templateURL) {
+    let templateURL = URL(fileURLWithPath: filePath)
+    if let data = try? Data(contentsOf: templateURL) {
       return convertDataToDictionary(data)
     }
     return nil
@@ -662,8 +662,8 @@ class GRMustacheTest: XCTestCase {
   
   
   //http://stackoverflow.com/questions/30480672/how-to-convert-a-json-string-to-a-dictionary
-  func convertStringToDictionary(text: String) -> [String:AnyObject]? {
-    if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+  func convertStringToDictionary(_ text: String) -> [String:AnyObject]? {
+    if let data = text.data(using: String.Encoding.utf8) {
 //      do {
 //        let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? [String:AnyObject]
 //        return json
@@ -676,9 +676,9 @@ class GRMustacheTest: XCTestCase {
     return nil
   }
   
-  func convertDataToDictionary(data: NSData) -> [String:AnyObject]? {
+  func convertDataToDictionary(_ data: Data) -> [String:AnyObject]? {
     do {
-      let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? [String:AnyObject]
+      let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:AnyObject]
       return json
     }
     catch let error as NSError {

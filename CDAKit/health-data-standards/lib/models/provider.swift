@@ -13,7 +13,7 @@ import Mustache
 Represents a care provider
 */
 
-public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equatable, CustomStringConvertible {
+open class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equatable, CustomStringConvertible {
 
   static let NPI_OID = "2.16.840.1.113883.4.6"
   static let NPI_OID_C83 = "2.16.840.1.113883.3.72.5.2"
@@ -23,25 +23,25 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
 
   // MARK: CDA properties
   ///Prefix (was: Title)
-  public var prefix: String?
+  open var prefix: String?
   ///Suffix
-  public var suffix: String?
+  open var suffix: String?
   ///Given / First name
-  public var given_name: String?
+  open var given_name: String?
   ///Family / Last name
-  public var family_name: String?
+  open var family_name: String?
   ///addresses
-  public var addresses: [CDAKAddress] = [CDAKAddress]()
+  open var addresses: [CDAKAddress] = [CDAKAddress]()
   ///telecoms
-  public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
+  open var telecoms: [CDAKTelecom] = [CDAKTelecom]()
   ///provider specialty
-  public var specialty: String?
+  open var specialty: String?
   ///provider phone
-  public var phone: String?
+  open var phone: String?
   ///provider organization
-  public var organization: CDAKOrganization?
+  open var organization: CDAKOrganization?
   ///CDA identifiers.  Contains NPI if supplied.
-  public var cda_identifiers: [CDAKCDAIdentifier] = [CDAKCDAIdentifier]()
+  open var cda_identifiers: [CDAKCDAIdentifier] = [CDAKCDAIdentifier]()
   
 
   /**
@@ -73,13 +73,13 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
    ```
    
   */
-  public var code: CDAKCodedEntry?
+  open var code: CDAKCodedEntry?
   
   // Update the CDA identifier references for NPI
   // NOTE there are actually two ways to refer to NPI (two OIDs)
   // please refer to the provider importer and tests for examples where this occurs
   ///Allows you to quickly set or retrieve the NPI without specifying OID
-  public var npi : String? {
+  open var npi : String? {
     get {
       let cda_id_npi = cda_identifiers.filter({ $0.root == CDAKProvider.NPI_OID }).first
       return cda_id_npi != nil ? cda_id_npi?.extension_id : nil
@@ -93,7 +93,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
     }
   }
   ///Allows you to quickly set or retrive TIN (Tax ID Number) without specifying OID
-  public var tin: String? {
+  open var tin: String? {
     get {
       let cda_id_tin = cda_identifiers.filter({ $0.root == CDAKProvider.TAX_ID_OID }).first
       return cda_id_tin != nil ? cda_id_tin?.extension_id : nil
@@ -122,7 +122,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   
   //scope :by_npi, ->(an_npi){ where("cda_identifiers.root" => NPI_OID, "cda_identifiers.extension" => an_npi)}
   ///searches for a provider by NPI. Queries the external provider collection.
-  class func by_npi(an_npi: String?) -> CDAKProvider? {
+  class func by_npi(_ an_npi: String?) -> CDAKProvider? {
     for prov in CDAKGlobals.sharedInstance.CDAKProviders {
       for cda in prov.cda_identifiers {
         if (cda.root == CDAKProvider.NPI_OID) && cda.extension_id == an_npi {
@@ -147,7 +147,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   
   [NPI Check Digit](https://www.cms.gov/NationalProvIdentStand/Downloads/NPIcheckdigit.pdf)
   */
-  public class func valid_npi(npi: String?) -> Bool {
+  open class func valid_npi(_ npi: String?) -> Bool {
     guard var npi = npi else {
       return false
     }
@@ -171,15 +171,18 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
     //NOTE: the original Ruby code was [0,14] - start at 0 with length of 14 - so end at _13_
     // the second Ruby was [14] - so just go to position 14
     // return luhn_checksum(npi[0,14]) == npi[14]
-    return luhn_checksum(npi[0...13]) == npi[14...14]    
+    //return luhn_checksum(npi[0...13]) == npi[14...14]
+
+    let result = luhn_checksum(npi.substring(with: 0..<14)) == npi.substring(with: 14..<15)
+    return luhn_checksum(npi.substring(with: 0..<14)) == npi.substring(with: 14..<15)
   }
   
-  class func luhn_checksum(num: String) -> String {
+  class func luhn_checksum(_ num: String) -> String {
     let double: [Character:Int] = ["0":0, "1":2, "2":4, "3":6, "4":8, "5":1, "6":3, "7":5, "8":7, "9":9]
     var sum = 0
-    let reversed_num = String(num.characters.reverse())
+    let reversed_num = String(num.characters.reversed())
     //num.split("").each_with_index do |char, i|
-    for (i, char) in reversed_num.characters .enumerate() {
+    for (i, char) in reversed_num.characters .enumerated() {
       if (i%2) == 0 {
         sum += double[char]!
       } else {
@@ -201,10 +204,10 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
    NOTE: In Swift 2.1 we cannot provide default arguments for closures, so if you use the resolve_provider closure you'll need to send in nil for patient if there isn't one
    
   */
-  class func resolve_provider(provider_hash: [String:Any], patient: CDAKPerson? = nil, resolve_function:((provider_hash: [String:Any], patient: CDAKPerson? ) -> CDAKProvider?)? = nil ) -> CDAKProvider? {
+  class func resolve_provider(_ provider_hash: [String:Any], patient: CDAKPerson? = nil, resolve_function:((_ provider_hash: [String:Any], _ patient: CDAKPerson? ) -> CDAKProvider?)? = nil ) -> CDAKProvider? {
     //Provider.where(:npi => nil).first
     if let resolve_function = resolve_function {
-      let p = resolve_function(provider_hash: provider_hash, patient: patient ?? nil)
+      let p = resolve_function(provider_hash, patient ?? nil)
       return p
     } else {
       //let p = CDAKGlobals.sharedInstance.CDAKProviders.filter({ $0.npi == nil }).first
@@ -219,7 +222,7 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
   
   // MARK: Standard properties
   ///Debugging description
-  public var description: String {
+  open var description: String {
     return "Provider => prefix: \(prefix), given_name: \(given_name), family_name: \(family_name), suffix: \(suffix), npi: \(npi), specialty: \(specialty), phone: \(phone), organization: \(organization), cda_identifiers: \(cda_identifiers), addresses: \(addresses), telecoms: \(telecoms), code: \(code)"
   }
 
@@ -228,15 +231,15 @@ public class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equat
 
 extension CDAKProvider {
   ///Removed a given provider from the global collection
-  class func removeProvider(provider: CDAKProvider) {
+  class func removeProvider(_ provider: CDAKProvider) {
     var matching_idx: Int?
-    for (i, p) in CDAKGlobals.sharedInstance.CDAKProviders.enumerate() {
+    for (i, p) in CDAKGlobals.sharedInstance.CDAKProviders.enumerated() {
       if p == provider {
         matching_idx = i
       }
     }
     if let matching_idx = matching_idx {
-      CDAKGlobals.sharedInstance.CDAKProviders.removeAtIndex(matching_idx)
+      CDAKGlobals.sharedInstance.CDAKProviders.remove(at: matching_idx)
     }
   }
 }
@@ -311,42 +314,42 @@ extension CDAKProvider: CDAKJSONExportable {
     var dict: [String: AnyObject] = [:]
     
     if let prefix = prefix {
-      dict["prefix"] = prefix
+      dict["prefix"] = prefix as AnyObject?
     }
     if let given_name = given_name {
-      dict["given_name"] = given_name
+      dict["given_name"] = given_name as AnyObject?
     }
     if let family_name = family_name {
-      dict["family_name"] = family_name
+      dict["family_name"] = family_name as AnyObject?
     }
     if let suffix = suffix {
-      dict["suffix"] = suffix
+      dict["suffix"] = suffix as AnyObject?
     }
     
     if telecoms.count > 0 {
-      dict["telecoms"] = telecoms.map({$0.jsonDict})
+      dict["telecoms"] = telecoms.map({$0.jsonDict}) as AnyObject?
     }
     if addresses.count > 0 {
-      dict["addresses"] = addresses.map({$0.jsonDict})
+      dict["addresses"] = addresses.map({$0.jsonDict}) as AnyObject?
     }
     
     if let specialty = specialty {
-      dict["specialty"] = specialty
+      dict["specialty"] = specialty as AnyObject?
     }
     if let phone = phone {
-      dict["phone"] = phone
+      dict["phone"] = phone as AnyObject?
     }
     
     if let organization = organization {
-      dict["organization"] = organization.jsonDict
+      dict["organization"] = organization.jsonDict as AnyObject?
     }
     
     if cda_identifiers.count > 0 {
-      dict["cda_identifiers"] = cda_identifiers.map({$0.jsonDict})
+      dict["cda_identifiers"] = cda_identifiers.map({$0.jsonDict}) as AnyObject?
     }
 
     if let code = code {
-      dict["code"] = code.jsonDict
+      dict["code"] = code.jsonDict as AnyObject?
     }
 
     return dict

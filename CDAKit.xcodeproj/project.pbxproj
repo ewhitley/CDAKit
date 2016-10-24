@@ -331,7 +331,7 @@
 		38359E051C7B5DD400CCC036 /* c32_performer.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_performer.c32.mustache; sourceTree = "<group>"; };
 		38359E071C7B774400CCC036 /* CDAKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CDAKit.podspec; sourceTree = "<group>"; };
 		38359E081C7B774400CCC036 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		38359E091C7B774400CCC036 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		38359E091C7B774400CCC036 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "170.314(b)(1)InPt_Discharge Summary CED Type.xml"; sourceTree = "<group>"; };
 		384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKJSONInstantiable.swift; sourceTree = "<group>"; };
 		384E23161C73C517009B9DED /* MetadataImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataImporter.swift; sourceTree = "<group>"; };
@@ -1348,12 +1348,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 389170451C6CC1EE00A31299 /* Build configuration list for PBXNativeTarget "CDAKit" */;
 			buildPhases = (
-				121123786CCEF5344AF26C54 /* Check Pods Manifest.lock */,
+				121123786CCEF5344AF26C54 /* [CP] Check Pods Manifest.lock */,
 				3891702C1C6CC1EE00A31299 /* Sources */,
 				3891702D1C6CC1EE00A31299 /* Frameworks */,
 				3891702E1C6CC1EE00A31299 /* Headers */,
 				3891702F1C6CC1EE00A31299 /* Resources */,
-				3414E6FD4CA7A95F5ADAA642 /* Copy Pods Resources */,
+				3414E6FD4CA7A95F5ADAA642 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1368,12 +1368,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 389170481C6CC1EE00A31299 /* Build configuration list for PBXNativeTarget "CDAKitTests" */;
 			buildPhases = (
-				E3D409D33B05989FC3BC310B /* Check Pods Manifest.lock */,
+				E3D409D33B05989FC3BC310B /* [CP] Check Pods Manifest.lock */,
 				389170371C6CC1EE00A31299 /* Sources */,
 				389170381C6CC1EE00A31299 /* Frameworks */,
 				389170391C6CC1EE00A31299 /* Resources */,
-				96FF48670B856178CE4C0B16 /* Embed Pods Frameworks */,
-				604FE589373D3447785062B5 /* Copy Pods Resources */,
+				96FF48670B856178CE4C0B16 /* [CP] Embed Pods Frameworks */,
+				604FE589373D3447785062B5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1392,14 +1392,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Eric Whitley";
 				TargetAttributes = {
 					389170301C6CC1EE00A31299 = {
 						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0800;
 					};
 					3891703A1C6CC1EE00A31299 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = E22XJ7D3WH;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -1584,29 +1587,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		121123786CCEF5344AF26C54 /* Check Pods Manifest.lock */ = {
+		121123786CCEF5344AF26C54 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		3414E6FD4CA7A95F5ADAA642 /* Copy Pods Resources */ = {
+		3414E6FD4CA7A95F5ADAA642 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1614,14 +1617,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CDAKit/Pods-CDAKit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		604FE589373D3447785062B5 /* Copy Pods Resources */ = {
+		604FE589373D3447785062B5 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1629,14 +1632,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CDAKitTests/Pods-CDAKitTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		96FF48670B856178CE4C0B16 /* Embed Pods Frameworks */ = {
+		96FF48670B856178CE4C0B16 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1644,19 +1647,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CDAKitTests/Pods-CDAKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E3D409D33B05989FC3BC310B /* Check Pods Manifest.lock */ = {
+		E3D409D33B05989FC3BC310B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1854,8 +1857,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1902,8 +1907,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1923,6 +1930,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1934,6 +1942,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E4B275D491AE4CABC47FF7B2 /* Pods-CDAKit.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1945,6 +1955,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1952,6 +1963,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5440B6F09B325B25FC518484 /* Pods-CDAKit.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1963,6 +1976,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1970,10 +1984,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B3721CB6B043AD64FC0ED757 /* Pods-CDAKitTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = E22XJ7D3WH;
 				INFOPLIST_FILE = CDAKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ericwhitley.org.CDAKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1981,10 +1998,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3584B78321E453821B9F825B /* Pods-CDAKitTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = E22XJ7D3WH;
 				INFOPLIST_FILE = CDAKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ericwhitley.org.CDAKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

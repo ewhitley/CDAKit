@@ -126,7 +126,7 @@ class CDAProviderImporterTest: XCTestCase {
       XCTAssertEqual(CDAKGlobals.sharedInstance.CDAKProviders.count, providers.count, "should be as many providers in db as parsed")
       XCTAssertEqual(1, CDAKGlobals.sharedInstance.CDAKProviders.filter({
         p in
-        p.cda_identifiers.contains({
+        p.cda_identifiers.contains(where: {
           c in
           c.root == "Division" && c.extension_id == "12345"
         })
@@ -146,7 +146,7 @@ class CDAProviderImporterTest: XCTestCase {
   // we're not really all that likely to use the resolve functionality like this, so...
   func test_import_resolve_provider() {
     
-    func my_resolve_provider(provider_hash: [String:Any], patient: CDAKPerson? = nil) -> CDAKProvider? {
+    func my_resolve_provider(_ provider_hash: [String:Any], patient: CDAKPerson? = nil) -> CDAKProvider? {
       return CDAKGlobals.sharedInstance.CDAKProviders.first
     }
 

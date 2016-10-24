@@ -9,6 +9,6 @@
 import Foundation
 
 ///Empty
-public class CDAKProviderPreference {
+open class CDAKProviderPreference {
   //nothing here...
 }

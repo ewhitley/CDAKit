@@ -12,13 +12,13 @@ import Mustache
 /**
 Represents a Care Goal.  May be any of a variety of entries.
 */
-public class CDAKCareGoal: CDAKEntry {
+open class CDAKCareGoal: CDAKEntry {
 
   // MARK: CDA properties
   ///Relaeted To (coded)
-  public var related_to: CDAKCodedEntries = CDAKCodedEntries()
+  open var related_to: CDAKCodedEntries = CDAKCodedEntries()
   ///Target Outcome (coded)
-  public var target_outcome: CDAKCodedEntries = CDAKCodedEntries()
+  open var target_outcome: CDAKCodedEntries = CDAKCodedEntries()
   
 }
 
@@ -41,10 +41,10 @@ extension CDAKCareGoal {
     var dict = super.jsonDict
     
     if related_to.count > 0 {
-      dict["related_to"] = related_to.jsonDict
+      dict["related_to"] = related_to.jsonDict as AnyObject?
     }
     if target_outcome.count > 0 {
-      dict["target_outcome"] = target_outcome.jsonDict
+      dict["target_outcome"] = target_outcome.jsonDict as AnyObject?
     }
     
     return dict

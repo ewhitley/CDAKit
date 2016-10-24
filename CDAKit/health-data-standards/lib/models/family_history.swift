@@ -11,13 +11,13 @@ import Foundation
 /**
 CDA Family History
 */
-public class CDAKFamilyHistory: CDAKEntry {
+open class CDAKFamilyHistory: CDAKEntry {
   
   // MARK: CDA properties
   ///CDA relationship to patient
-  public var relationshipToPatient = [String:String]()
+  open var relationshipToPatient = [String:String]()
   ///CDA onset age
-  public var onsetAge = [String:String]()
+  open var onsetAge = [String:String]()
     
 }
 
@@ -28,10 +28,10 @@ extension CDAKFamilyHistory {
     var dict = super.jsonDict
     
     if relationshipToPatient.count > 0 {
-      dict["relationshipToPatient"] = relationshipToPatient
+      dict["relationshipToPatient"] = relationshipToPatient as AnyObject?
     }
     if onsetAge.count > 0 {
-      dict["onsetAge"] = onsetAge
+      dict["onsetAge"] = onsetAge as AnyObject?
     }
     
     return dict

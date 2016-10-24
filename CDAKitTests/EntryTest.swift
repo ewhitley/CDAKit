@@ -113,11 +113,11 @@ class EntryTest: XCTestCase {
 //    print(String(hash["code"]!!))
 //    print(entry.codes[String(hash["code_set"]!!)]!)
 //    XCTAssertEqual([String(hash["code"]!)], entry.codes[String(hash["code_set"]!!)]!)
-    XCTAssertEqual([String(hash["code"]!)], [entry.codes["RxNorm"]!.first!.code])
-    XCTAssertEqual(String(hash["value"]!!), (entry.values.first as! CDAKPhysicalQuantityResultValue).scalar)
-    XCTAssertEqual(String(hash["unit"]!!), (entry.values.first as! CDAKPhysicalQuantityResultValue).units)
-    XCTAssertEqual(String(hash["specifics"]!!), entry.specifics)
-    XCTAssertEqual(String(hash["status"]!!), entry.status)
+    XCTAssertEqual([String(describing: hash["code"]!)], [entry.codes["RxNorm"]!.first!.code])
+    XCTAssertEqual(String(describing: hash["value"]!!), (entry.values.first as! CDAKPhysicalQuantityResultValue).scalar)
+    XCTAssertEqual(String(describing: hash["unit"]!!), (entry.values.first as! CDAKPhysicalQuantityResultValue).units)
+    XCTAssertEqual(String(describing: hash["specifics"]!!), entry.specifics)
+    XCTAssertEqual(String(describing: hash["status"]!!), entry.status)
   }
 
   func test_unusable_without_time() {

@@ -11,19 +11,19 @@ import Foundation
 /**
 CDA Coded Result Value
 */
-public class CDAKCodedResultValue: CDAKResultValue, CDAKThingWithCodes {
+open class CDAKCodedResultValue: CDAKResultValue, CDAKThingWithCodes {
   
   // MARK: CDA properties
 
   ///CDA description
-  public var item_description: String?
+  open var item_description: String?
   ///Any codes associated with the result value
-  public var codes: CDAKCodedEntries = CDAKCodedEntries()
+  open var codes: CDAKCodedEntries = CDAKCodedEntries()
   
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
-    return "\(self.dynamicType) => attributes: \(attributes), time: \(time), start_time: \(start_time), end_time: \(end_time), item_description: \(item_description), codes: \(codes)"
+  override open var description: String {
+    return "\(type(of: self)) => attributes: \(attributes), time: \(time), start_time: \(start_time), end_time: \(end_time), item_description: \(item_description), codes: \(codes)"
   }
 
 }
@@ -36,10 +36,10 @@ extension CDAKCodedResultValue {
     var dict = super.jsonDict
     
     if let item_description = item_description {
-      dict["description"] = item_description
+      dict["description"] = item_description as AnyObject?
     }
     if codes.count > 0 {
-      dict["codes"] = codes.codes.map({$0.jsonDict})
+      dict["codes"] = codes.codes.map({$0.jsonDict}) as AnyObject?
     }
     
     return dict

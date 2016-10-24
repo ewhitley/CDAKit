@@ -40,34 +40,34 @@ class CDAKUtility {
     "codes"
   ]
   
-  class func intValue(value: Any?) -> Int? {
+  class func intValue(_ value: Any?) -> Int? {
     if let value = value as? Int { return value }
     else if let value = value as? Int? { return value }
     else if let value = value as? String { return Int(value) }
-    else if let value = value as? String?, u_value = value { return Int(u_value) }
+    else if let value = value as? String?, let u_value = value { return Int(u_value) }
     return nil
   }
 
-  class func doubleValue(value: Any?) -> Double? {
+  class func doubleValue(_ value: Any?) -> Double? {
     if let value = value as? Double { return value }
     else if let value = value as? Double? { return value }
     else if let value = value as? String { return Double(value) }
-    else if let value = value as? String?, u_value = value { return Double(u_value) }
+    else if let value = value as? String?, let u_value = value { return Double(u_value) }
     return nil
   }
   
-  class func stringValue(value: Any?) -> String? {
+  class func stringValue(_ value: Any?) -> String? {
     var a_value: String?
     if let value = value as? String { a_value = value }
     else if let value = value as? String? { a_value = value }
-    else if let value = value { a_value = String(value) }
+    else if let value = value { a_value = String(describing: value) }
     if let a_value = a_value {
       if a_value != "<null>" { return a_value }
     }
     return nil
   }
 
-  class func boolValue(value: Any?) -> Bool? {
+  class func boolValue(_ value: Any?) -> Bool? {
     if let value = value as? Bool { return value }
     else if let value = value as? Bool? { return value }
     return nil
@@ -78,14 +78,14 @@ class CDAKUtility {
   //    BUT the code system might not be supplied
   // race {code: 12345 }
   // so we need to account for a flattened setup and the possibility of an absent code system
-  class func singleCodeFieldFlat(value: Any?, withDefaultCodeSystem defaultCodeSystem: String? = nil) -> CDAKCodedEntries {
+  class func singleCodeFieldFlat(_ value: Any?, withDefaultCodeSystem defaultCodeSystem: String? = nil) -> CDAKCodedEntries {
     var result: CDAKCodedEntries = CDAKCodedEntries()
     //print(value)
     print("singleCodeFieldFlat:value = \(value)")
     if let value = value as? [String:Any?] {
       if let val = value["code"] {
         if let val = val { //still optional
-          let code = String(val) //since we can have integers, etc. in here
+          let code = String(describing: val) //since we can have integers, etc. in here
           if code != "<null>" { //filter out the weird "<null>" we see in CDAK entries
           var codeSystem: String?
             if let val = value["codeSystem"] as? String {
@@ -110,7 +110,7 @@ class CDAKUtility {
   
   //"codes" : ["CPT" : ["1234"]]
   //I feel so very very dirty.  And yes - I realize how bad this code is.
-  class func dictionaryStringArray(value: Any?, withDefaultCodeSystem defaultCodeSystem: String? = nil) -> CDAKCodedEntries {
+  class func dictionaryStringArray(_ value: Any?, withDefaultCodeSystem defaultCodeSystem: String? = nil) -> CDAKCodedEntries {
     var result: CDAKCodedEntries = CDAKCodedEntries()
     print("dictionaryStringArray:value = \(value)")
     if let value = value as? CDAKCodedEntries { return value }
@@ -141,7 +141,7 @@ class CDAKUtility {
           //print(value)
           if let values = value as? [Any?] {
             for code in values {
-              if let code = code as? String where code != "<null>" {
+              if let code = code as? String , code != "<null>" {
                 result.addCodes(key, code: code)
               }
             }
@@ -149,7 +149,7 @@ class CDAKUtility {
           } else if let values = value as? [Any] {
             //result.addCodes(key, codes: values.map({String($0)}).filter({$0 != "<null>"}))
             for code in values {
-              if let code = code as? String where code != "<null>" {
+              if let code = code as? String , code != "<null>" {
                 result.addCodes(key, code: code)
               }
             }
@@ -165,13 +165,13 @@ class CDAKUtility {
     return result
   }
   
-  class func arrayOfCodedEntries(value: Any?) -> [CDAKCodedEntries] {
+  class func arrayOfCodedEntries(_ value: Any?) -> [CDAKCodedEntries] {
     var result: [CDAKCodedEntries] = []
     //print(value)
 
     if let value = value as? [Any] {
       for value in value {
-        if let value = value as? [String:Any?], codes = value["codes"] {
+        if let value = value as? [String:Any?], let codes = value["codes"] {
           let a_value = dictionaryStringArray(codes)
           if a_value.count > 0 {
             result.append(a_value)
@@ -184,7 +184,7 @@ class CDAKUtility {
   }
 
   
-  class func dictionaryAny(value: Any?) -> [String:Any?] {
+  class func dictionaryAny(_ value: Any?) -> [String:Any?] {
     let result: [String:Any?] = [:]
     //print(value)
     if let value = value as? [String:Any?] {
@@ -195,13 +195,13 @@ class CDAKUtility {
   }
 
   
-  class func debug_message(object: String, function: String, property: String) {
+  class func debug_message(_ object: String, function: String, property: String) {
     if CDAKUtility.DEBUG {
       if !CDAKUtility.entry_fields.contains(property) { print("\(function) for \(object) failed to return '\(property)' ") }
     }
   }
   
-  class func getProperty(obj: Any?, property: String) -> Any? {
+  class func getProperty(_ obj: Any?, property: String) -> Any? {
 
     
     if let obj = obj as? CDAKEntry {
@@ -301,7 +301,7 @@ class CDAKUtility {
     return nil
   }
   
-  class func setProperty(obj: Any?, property: String, value: Any?) {
+  class func setProperty(_ obj: Any?, property: String, value: Any?) {
     
     if let obj = obj as? CDAKEntry {
       switch property {
@@ -334,7 +334,7 @@ class CDAKUtility {
                 units = stringValue(a_unit)
               }
               var scalar: String?
-              if let a_scalar = event["scalar"], another_scalar = stringValue(a_scalar) {
+              if let a_scalar = event["scalar"], let another_scalar = stringValue(a_scalar) {
                 //I know, I know - we're cleaning up weirdness in CDAK with "null"
                 scalar = another_scalar
               }
@@ -620,7 +620,7 @@ class CDAKUtility {
   //http://stackoverflow.com/questions/30897892/how-to-create-generic-convenience-initializer-in-swift
   //http://austinzheng.com/2015/09/29/swift-generics-pt-2/
   //T.Type
-  class func createArrayOfEntries<T: CDAKJSONInstantiable>(type : T.Type, withValues value: Any?) -> [T] {
+  class func createArrayOfEntries<T: CDAKJSONInstantiable>(_ type : T.Type, withValues value: Any?) -> [T] {
     var result : [T] = []
     if let values = value as? [Any] {
       for value in values {
@@ -633,10 +633,10 @@ class CDAKUtility {
   }
   
   
-  class func convertStringToDictionary(text: String) -> [String:Any] {
-    if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+  class func convertStringToDictionary(_ text: String) -> [String:Any] {
+    if let data = text.data(using: String.Encoding.utf8) {
       do {
-        let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? [String:AnyObject]
+        let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:AnyObject]
         
         var otherJson: [String:Any] = [:]
         if let json = json {

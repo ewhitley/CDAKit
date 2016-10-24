@@ -12,7 +12,7 @@ import Mustache
 /**
  Primary CDA export class
 */
-public class CDAKExport {
+open class CDAKExport {
   
   /**
    Provides list of known CDA export types
@@ -31,7 +31,7 @@ public class CDAKExport {
    - parameter record: CDAKRecord you wish to export to XML
    - parameter format: Specified format (from CDAKExportFormat). (.c32, .ccda)
   */
-  public class func export(patientRecord record: CDAKRecord, inFormat format: CDAKExportFormat) -> String {
+  open class func export(patientRecord record: CDAKRecord, inFormat format: CDAKExportFormat) -> String {
     
     var rendering = ""
     

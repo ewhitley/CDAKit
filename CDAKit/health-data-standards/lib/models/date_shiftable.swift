@@ -13,6 +13,6 @@ Protocol for date shifting functions
 */
 protocol CDAKDateShiftable {
   ///Offset all dates by specified double
-  func shift_dates(date_diff: Double)
+  func shift_dates(_ date_diff: Double)
 }
 

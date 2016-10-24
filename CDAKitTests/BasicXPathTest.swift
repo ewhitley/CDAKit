@@ -65,9 +65,10 @@ class BasicXPathTest: XCTestCase {
 
   func testImportWithExternalRecord_GithubCCD() {
     let doc = TestHelpers.fileHelpers.load_xml_string_from_file("Vitera_CCDA_SMART_Sample")
+    print(doc)
     do {
       let record = try CDAKImport_BulkRecordImporter.importRecord(doc)
-      //print(record)
+      print(record)
     }
     catch {
       XCTFail()

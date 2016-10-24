@@ -40,10 +40,10 @@ extension CDAKValueAndUnit: CDAKJSONExportable {
     var dict: [String: AnyObject] = [:]
     
     if let value = value {
-      dict["value"] = value
+      dict["value"] = value as AnyObject?
     }
     if let unit = unit {
-      dict["unit"] = unit
+      dict["unit"] = unit as AnyObject?
     }
     
     return dict

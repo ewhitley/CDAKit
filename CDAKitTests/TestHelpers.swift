@@ -70,14 +70,14 @@ class TestHelpers {
   
   class fileHelpers {
     
-    class func load_xml_data_from_file(filename: String) -> NSData
+    class func load_xml_data_from_file(_ filename: String) -> Data
     {
-      let bundle = NSBundle(forClass: TestHelpers.self)
+      let bundle = Bundle(for: TestHelpers.self)
 
-      let filepath = bundle.pathForResource(filename, ofType: "xml")
+      let filepath = bundle.path(forResource: filename, ofType: "xml")
       if let filepath = filepath
       {
-        if let data = NSData(contentsOfURL: NSURL(fileURLWithPath: filepath))
+        if let data = try? Data(contentsOf: URL(fileURLWithPath: filepath))
         {
           return data
         }
@@ -92,11 +92,11 @@ class TestHelpers {
       }
     }
     
-    class func load_xml_string_from_file(filename: String) -> String
+    class func load_xml_string_from_file(_ filename: String) -> String
     {
       let data = load_xml_data_from_file(filename)
       
-      if let xml = NSString(data: data, encoding: NSUTF8StringEncoding) as? String
+      if let xml = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
       {
         return xml
       }

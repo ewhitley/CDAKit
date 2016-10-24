@@ -17,43 +17,43 @@ CDA Condition
 Most frequently considerd a "problem" or "diagnosis."
  
 */
-public class CDAKCondition: CDAKEntry {
+open class CDAKCondition: CDAKEntry {
   
   // MARK: CDA properties
   ///Type
-  public var type          : String?
+  open var type          : String?
   ///Was this the cause of death?
-  public var cause_of_death  : Bool? = false
+  open var cause_of_death  : Bool? = false
   ///Time of death
-  public var time_of_death : Double?
+  open var time_of_death : Double?
   ///Priority, if available.  "Primary," "Secondary," etc. in numeric form
-  public var priority      : Int?
+  open var priority      : Int?
   ///Name of condition
-  public var name          : String?
+  open var name          : String?
   ///Ordinality
-  public var ordinality    : CDAKCodedEntries = CDAKCodedEntries()
+  open var ordinality    : CDAKCodedEntries = CDAKCodedEntries()
   ///Severity
-  public var severity      : CDAKCodedEntries = CDAKCodedEntries() //# Currently unsupported by any importers
+  open var severity      : CDAKCodedEntries = CDAKCodedEntries() //# Currently unsupported by any importers
   ///Laterality
-  public var laterality    : CDAKCodedEntries = CDAKCodedEntries()
+  open var laterality    : CDAKCodedEntries = CDAKCodedEntries()
   ///Anatomical Taret
-  public var anatomical_target : CDAKCodedEntries = CDAKCodedEntries()
+  open var anatomical_target : CDAKCodedEntries = CDAKCodedEntries()
   ///Anatomical Location
-  public var anatomical_location : CDAKCodedEntries = CDAKCodedEntries()
+  open var anatomical_location : CDAKCodedEntries = CDAKCodedEntries()
   ///Age at onset (if documented)
-  public var age_at_onset: Int? //an actual age - like "20"
+  open var age_at_onset: Int? //an actual age - like "20"
   
   ///Treating provider (if documented)
-  public var treating_provider: [CDAKProvider] = [CDAKProvider]()
+  open var treating_provider: [CDAKProvider] = [CDAKProvider]()
   
   ///renders display version of code based on preferred code set
-  override public var code_display : String {
+  override open var code_display : String {
     return ViewHelper.code_display(self, options: ["preferred_code_sets":self.preferred_code_sets, "tag_name": "value", "extra_content": "xsi:type=\"CD\""])
   }
   
   // MARK: Health-Data-Standards Functions
   ///Offset all dates
-  override func shift_dates(date_diff: Double) {
+  override func shift_dates(_ date_diff: Double) {
     super.shift_dates(date_diff)
     if let time_of_death = time_of_death {
       self.time_of_death = time_of_death + date_diff
@@ -62,7 +62,7 @@ public class CDAKCondition: CDAKEntry {
   
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
+  override open var description: String {
     return super.description + " name: \(name), type: \(type), cause_of_death: \(cause_of_death), time_of_death: \(time_of_death), priority: \(priority), ordinality: \(ordinality), severity: \(severity), laterality: \(laterality), anatomical_target: \(anatomical_target), anatomical_location: \(anatomical_location)"
   }
   
@@ -96,40 +96,40 @@ extension CDAKCondition {
     var dict = super.jsonDict
     
     if let type = type {
-      dict["type"] = type
+      dict["type"] = type as AnyObject?
     }
     if let cause_of_death = cause_of_death {
-      dict["cause_of_death"] = cause_of_death
+      dict["cause_of_death"] = cause_of_death as AnyObject?
     }
     if let time_of_death = time_of_death {
-      dict["time_of_death"] = time_of_death
+      dict["time_of_death"] = time_of_death as AnyObject?
     }
     if let priority = priority {
-      dict["priority"] = priority
+      dict["priority"] = priority as AnyObject?
     }
     if let name = name {
-      dict["name"] = name
+      dict["name"] = name as AnyObject?
     }
     if ordinality.count > 0 {
-      dict["ordinality"] = ordinality.codes.map({$0.jsonDict})
+      dict["ordinality"] = ordinality.codes.map({$0.jsonDict}) as AnyObject?
     }
     if severity.count > 0 {
-      dict["severity"] = severity.codes.map({$0.jsonDict})
+      dict["severity"] = severity.codes.map({$0.jsonDict}) as AnyObject?
     }
     if laterality.count > 0 {
-      dict["laterality"] = laterality.codes.map({$0.jsonDict})
+      dict["laterality"] = laterality.codes.map({$0.jsonDict}) as AnyObject?
     }
     if anatomical_target.count > 0 {
-      dict["anatomical_target"] = anatomical_target.codes.map({$0.jsonDict})
+      dict["anatomical_target"] = anatomical_target.codes.map({$0.jsonDict}) as AnyObject?
     }
     if anatomical_location.count > 0 {
-      dict["anatomical_location"] = anatomical_location.codes.map({$0.jsonDict})
+      dict["anatomical_location"] = anatomical_location.codes.map({$0.jsonDict}) as AnyObject?
     }
     if let age_at_onset = age_at_onset {
-      dict["age_at_onset"] = age_at_onset
+      dict["age_at_onset"] = age_at_onset as AnyObject?
     }
     if treating_provider.count > 0 {
-      dict["treating_provider"] = treating_provider.map({$0.jsonDict})
+      dict["treating_provider"] = treating_provider.map({$0.jsonDict}) as AnyObject?
     }
     
     
