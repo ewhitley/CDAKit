@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
     ]
   }
   s.frameworks = 'HealthKit'
-  s.dependency 'GRMustache.swift', :git => 'https://github.com/groue/GRMustache.swift.git', :branch => 'Swift3'
-  s.dependency 'Fuzi'
-  s.dependency 'Try'
+  s.dependency 'GRMustache.swift', '~> 2.0.0'
+  s.dependency 'Fuzi', '~> 1.0.0'
+  s.dependency 'Try', '~> 1.0.0'
 end

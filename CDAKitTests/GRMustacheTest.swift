@@ -78,7 +78,7 @@ class GRMustacheTest: XCTestCase {
       // Let template format dates with `{{format(...)}}`
       let dateFormatter = DateFormatter()
       dateFormatter.dateStyle = .medium
-      template.registerInBaseContext("format", Box(dateFormatter))
+      template.register(Box(dateFormatter), forKey:"format")
       
       let rendering = try template.render(Box(data))
       print(rendering)
@@ -154,7 +154,7 @@ class GRMustacheTest: XCTestCase {
     
     do {
       let template = try Template(string: "{{ percent(x) }}")
-      template.registerInBaseContext("percent", Box(percentFormatter))
+      template.register(Box(percentFormatter), forKey: "percent")
       
       // Rendering: 50%
       let data = ["x": 0.5]
@@ -163,7 +163,7 @@ class GRMustacheTest: XCTestCase {
       XCTAssertEqual(rendering, "50%")
     }
     catch {
-      
+
     }
     
   }
@@ -213,7 +213,7 @@ class GRMustacheTest: XCTestCase {
 
       
       let template = try Template(string: "{{ UUID_generate(nil) }}")
-      template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
+      template.register(Box(MustacheFilters.UUID_generate), forKey: "UUID_generate")
 
       // Rendering: 50%
       let data = ["x": 0.5]
@@ -252,14 +252,14 @@ class GRMustacheTest: XCTestCase {
         default:
           // GRMustache does not support any other numeric types: give up.
           print("I'm of type \(type(of: box.value))")
-          return Box()
+          return nil
         }
     }
 
     
     do {
       let template = try Template(string: "Date: {{ date_as_number(x) }}, Int: {{date_as_number(y)}} , Double: {{ date_as_number(z) }}, nil: {{ date_as_number(nil) }}")
-      template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
+      template.register(Box(MustacheFilters.DateAsNumber), forKey: "date_as_number")
       let data = ["x": Date(), "y":Int(Date().timeIntervalSince1970), "z":Date().timeIntervalSince1970] as [String : Any]
       let rendering = try template.render(Box(data))
       print(rendering)
@@ -331,7 +331,7 @@ class GRMustacheTest: XCTestCase {
     do {
       let template = try Template(string: "code_display = {{# code_display(x)}}{\"tag_name\":\"value\",\"extra_content\":\"xsi:type=CD\",\"preferred_code_sets\":[\"SNOMED-CT\"]}{{/ }}")
 
-      template.registerInBaseContext("code_display", Box(code_display))
+      template.register(Box(code_display), forKey: "code_display")
       
       let entry = CDAKEntry()
       entry.time = 1270598400
@@ -362,8 +362,8 @@ class GRMustacheTest: XCTestCase {
       let template = try Template(string: "time:{{entry.time}}  codes:{{#each(entry.codes)}}{{@key}} {{#each(.)}} {{.}} {{/}} {{/}}")
       //each(entry.codes)
       let data = ["entry": entry]
-      template.registerInBaseContext("each", Box(StandardLibrary.each))
-      let rendering = try template.render(Box(data))
+      template.register(Box(StandardLibrary.each), forKey: "each")
+      let rendering = try template.render((data))
 
       print("trying to render...")
       print(rendering)
@@ -465,20 +465,20 @@ class GRMustacheTest: XCTestCase {
 
       let data = ["patient": bigTestRecord]
       // USE: telecoms:{{#each(patient.telecoms)}} hi {{value}} {{use}} {{/}}
-      template.registerInBaseContext("each", Box(StandardLibrary.each))
+      template.register(Box(StandardLibrary.each), forKey: "each")
       // USE: {{ UUID_generate(nil) }}
-      template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
+      template.register(Box(MustacheFilters.UUID_generate), forKey: "UUID_generate")
       // USE: {{ date_as_number(z) }}, nil: {{ date_as_number(nil) }}
-      template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
+      template.register(Box(MustacheFilters.DateAsNumber), forKey: "date_as_number")
       
       // USE: {{ value_or_null_flavor(entry.as_point_in_time) }}
-      template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
+      template.register(Box(MustacheFilters.value_or_null_flavor), forKey: "value_or_null_flavor")
 
-      template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
+      template.register(Box(MustacheFilters.oid_for_code_system), forKey: "oid_for_code_system")
       
       
-      template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
-      template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
+      template.register(Box(MustacheFilters.is_numeric), forKey: "is_numeric")
+      template.register(Box(MustacheFilters.is_bool), forKey: "is_bool")
       
       
       //Removing this registration
@@ -815,14 +815,14 @@ class GRMustacheTest: XCTestCase {
         
         let data = ["patient": record]
         
-        template.registerInBaseContext("each", Box(StandardLibrary.each))
-        template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
-        template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
-        template.registerInBaseContext("date_as_string", Box(MustacheFilters.DateAsHDSString))
-        template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
-        template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
-        template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
-        template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
+        template.register(Box(StandardLibrary.each), forKey: "each")
+        template.register(Box(MustacheFilters.UUID_generate), forKey: "UUID_generate")
+        template.register(Box(MustacheFilters.DateAsNumber), forKey: "date_as_number")
+        template.register(Box(MustacheFilters.DateAsHDSString), forKey: "date_as_string")
+        template.register(Box(MustacheFilters.value_or_null_flavor), forKey: "value_or_null_flavor")
+        template.register(Box(MustacheFilters.oid_for_code_system), forKey: "oid_for_code_system")
+        template.register(Box(MustacheFilters.is_numeric), forKey: "is_numeric")
+        template.register(Box(MustacheFilters.is_bool), forKey: "is_bool")
         
         
         do {

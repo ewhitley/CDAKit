@@ -45,18 +45,18 @@ open class CDAKExport {
       // we need to register our Mustache helpers
       //---------
       // USE: telecoms:{{#each(patient.telecoms)}} hi {{value}} {{use}} {{/}}
-      template.registerInBaseContext("each", Box(StandardLibrary.each))
+      template.register(Box(StandardLibrary.each), forKey: "each")
       // USE: {{ UUID_generate(nil) }}
-      template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
+      template.register(Box(MustacheFilters.UUID_generate), forKey: "UUID_generate" )
       // USE: {{ date_as_number(z) }}, nil: {{ date_as_number(nil) }}
-      template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
-      template.registerInBaseContext("date_as_string", Box(MustacheFilters.DateAsHDSString))
+      template.register(Box(MustacheFilters.DateAsNumber), forKey: "date_as_number" )
+      template.register( Box(MustacheFilters.DateAsHDSString), forKey: "date_as_string")
       
       // USE: {{ value_or_null_flavor(entry.as_point_in_time) }}
-      template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
-      template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
-      template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
-      template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
+      template.register(Box(MustacheFilters.value_or_null_flavor), forKey:"value_or_null_flavor")
+      template.register(Box(MustacheFilters.oid_for_code_system), forKey: "oid_for_code_system")
+      template.register(Box(MustacheFilters.is_numeric), forKey:"is_numeric")
+      template.register(Box(MustacheFilters.is_bool), forKey: "is_bool")
       
       do {
         rendering = try template.render(Box(data))

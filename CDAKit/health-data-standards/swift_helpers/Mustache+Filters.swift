@@ -33,7 +33,7 @@ class MustacheFilters {
     case let date as Date:
       return Box(date.stringFormattedAsHDSDateNumber)
     default:
-      return Box()
+      return nil
     }
   }
 
@@ -53,7 +53,7 @@ class MustacheFilters {
     case let date as Date:
       return Box(date.stringFormattedAsHDSDate)
     default:
-      return Box()
+      return nil
     }
   }
   
@@ -79,7 +79,7 @@ class MustacheFilters {
       let d = CDAKCodeSystemHelper.oid_for_code_system(code_system)
       return Box(d)
     default:
-      return Box()
+      return nil
     }
     
   }

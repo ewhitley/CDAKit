@@ -77,11 +77,14 @@ open class CDAKTelecom: NSObject, CDAKJSONInstantiable {
 extension CDAKTelecom {
   // MARK: - Mustache marshalling
   override open var mustacheBox: MustacheBox {
-    return Box([
-      "use": use,
-      "value": value,
-      "preferred": String(describing: preferred)
-      ])
+    let _value = self.value
+    let bb = [
+        "use": self.use,
+        "value": _value,
+        "preferred": String(describing: self.preferred)
+    ]
+
+    return Box(bb)
   }
 }
 
