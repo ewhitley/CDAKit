@@ -448,71 +448,71 @@ open class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     "medications", "procedures", "results", "communications", "family_history", "social_history", "vital_signs", "support", "advance_directives",
     "insurance_providers", "functional_statuses"]
   
-//  ///Legacy Ruby. Search for record(s) by provider.
-//  internal class func by_provider(_ provider: CDAKProvider, effective_date: Double?) -> [CDAKRecord] {
-//    // FIX_ME: this is a mess
-//    var records = [CDAKRecord]()
-//    if let effective_date = effective_date {
-//      var a_provider: CDAKProvider?
-//      a_provider = provider_queries(provider.npi!, effective_date: effective_date)
-//      for record in CDAKGlobals.sharedInstance.CDAKRecords {
-//        for perf in record.provider_performances {
-//          if perf.provider?.npi == a_provider?.npi {
-//            records.append(record)
-//          }
-//        }
-//      }
-//    } else {
-//      //: where('provider_performances.provider_id'=>prov.id)
-//      for record in CDAKGlobals.sharedInstance.CDAKRecords {
-//        for perf in record.provider_performances {
-//          if perf.provider?.npi == provider.npi {
-//            records.append(record)
-//          }
-//        }
-//      }
-//    }
-//    
-//    return records
-//  }
-//  
-//  //scope :by_patient_id, ->(id) { where(:medical_record_number => id) }
-//  ///Legacy Ruby. Searches for a patient record by patient MRN
-//  internal class func by_patient_id(_ id: String) -> [CDAKRecord] {
-//    //FIX_ME: Should this return just one record?
-//    var records = [CDAKRecord]()
-//    for record in CDAKGlobals.sharedInstance.CDAKRecords {
-//      if record.medical_record_number == id {
-//        records.append(record)
-//      }
-//    }
-//    return records
-//  }
-//  
-//  ///Legacy Ruby. Determines if a record exists already in the record collection
-//  internal class func update_or_create(_ data: CDAKRecord) -> CDAKRecord {
-//    //existing = CDAKRecord.where(medical_record_number: data.medical_record_number).first
-//    var existing: CDAKRecord?
-//    for record in CDAKGlobals.sharedInstance.CDAKRecords {
-//      if record.medical_record_number == data.medical_record_number {
-//        existing = record
-//      }
-//    }
-//    if var existing = existing {
-//      //FIX_ME: this is just horribly dangerous
-//      //kludgy (and probably wrong) work-around for Ruby's being able to just magically copy
-//      //existing.update_attributes!(data.attributes.except('_id'))
-//      existing = data.copy() as! CDAKRecord
-//      return existing
-//    } else {
-//      return data
-//    }
-//  }
-//
-//  ///Legacy Ruby. Returns all providers contained in provider performances
-//  internal func providers() -> [CDAKProvider] {
-//    return provider_performances.filter({pp in pp.provider != nil}).map({pp in pp.provider!})
-//  }
+  ///Legacy Ruby. Search for record(s) by provider.
+  internal class func by_provider(_ provider: CDAKProvider, effective_date: Double?) -> [CDAKRecord] {
+    // FIX_ME: this is a mess
+    var records = [CDAKRecord]()
+    if let effective_date = effective_date {
+      var a_provider: CDAKProvider?
+      a_provider = provider_queries(provider.npi!, effective_date: effective_date)
+      for record in CDAKGlobals.sharedInstance.CDAKRecords {
+        for perf in record.provider_performances {
+          if perf.provider?.npi == a_provider?.npi {
+            records.append(record)
+          }
+        }
+      }
+    } else {
+      //: where('provider_performances.provider_id'=>prov.id)
+      for record in CDAKGlobals.sharedInstance.CDAKRecords {
+        for perf in record.provider_performances {
+          if perf.provider?.npi == provider.npi {
+            records.append(record)
+          }
+        }
+      }
+    }
+    
+    return records
+  }
+  
+  //scope :by_patient_id, ->(id) { where(:medical_record_number => id) }
+  ///Legacy Ruby. Searches for a patient record by patient MRN
+  internal class func by_patient_id(_ id: String) -> [CDAKRecord] {
+    //FIX_ME: Should this return just one record?
+    var records = [CDAKRecord]()
+    for record in CDAKGlobals.sharedInstance.CDAKRecords {
+      if record.medical_record_number == id {
+        records.append(record)
+      }
+    }
+    return records
+  }
+  
+  ///Legacy Ruby. Determines if a record exists already in the record collection
+  internal class func update_or_create(_ data: CDAKRecord) -> CDAKRecord {
+    //existing = CDAKRecord.where(medical_record_number: data.medical_record_number).first
+    var existing: CDAKRecord?
+    for record in CDAKGlobals.sharedInstance.CDAKRecords {
+      if record.medical_record_number == data.medical_record_number {
+        existing = record
+      }
+    }
+    if var existing = existing {
+      //FIX_ME: this is just horribly dangerous
+      //kludgy (and probably wrong) work-around for Ruby's being able to just magically copy
+      //existing.update_attributes!(data.attributes.except('_id'))
+      existing = data.copy() as! CDAKRecord
+      return existing
+    } else {
+      return data
+    }
+  }
+
+  ///Legacy Ruby. Returns all providers contained in provider performances
+  internal func providers() -> [CDAKProvider] {
+    return provider_performances.filter({pp in pp.provider != nil}).map({pp in pp.provider!})
+  }
 
 
     ///returns a specific set of patient entry records based on the supplied section name (if found)
@@ -713,7 +713,7 @@ open class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  /*
+
   fileprivate class func provider_queries(_ provider_id: String, effective_date: Double) -> CDAKProvider? {
     //FIX_ME: - review implementation for accuracy
     //Making the (probably bad) assumption these return a single value - provider_id assumed to be unique
@@ -746,7 +746,7 @@ open class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
     return nil
   }
-  */
+
   // MARK: - Initializers
 
   required override public init() { // <== Need "required" because we need to call dynamicType() below
@@ -859,10 +859,10 @@ open class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   // MARK: Standard properties
   ///Debugging description
-    /**********
+
   override open var description : String {
     return "CDAKRecord => prefix: \(prefix), first: \(first), last: \(last), suffix: \(suffix), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), religious_affiliation: \(religious_affiliation), effective_time: \(effective_time), race: \(race), ethnicity: \(ethnicity), languages = \(languages), marital_status: \(marital_status), medical_record_number: \(medical_record_number), medical_record_assigner: \(medical_record_assigner), expired: \(expired), clinicalTrialParticipant: \(clinicalTrialParticipant), allergies: \(allergies), care_goals: \(care_goals), conditions: \(conditions), encounters: \(encounters), communications: \(communications), family_history: \(family_history), immunizations: \(immunizations), medical_equipment: \(medical_equipment), medications: \(medications), procedures: \(procedures), results: \(results), social_history: \(social_history), vital_signs: \(vital_signs), advance_directives: \(advance_directives), insurance_providers: \(insurance_providers), functional_statuses: \(functional_statuses), provider_performances: \(provider_performances), addresses: \(addresses), telecoms: \(telecoms)"
   }
-  ********/
+
 }
 
