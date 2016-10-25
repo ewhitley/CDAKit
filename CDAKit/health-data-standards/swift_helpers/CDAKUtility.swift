@@ -359,7 +359,7 @@ class CDAKUtility {
       case "performer": obj.performer = CDAKProvider(event: dictionaryAny(value))
       default: debug_message("CDAKEncounter", function: "setProperty", property: property)
       }
-    } else if let obj = obj as? CDAKAllergy {
+    } else if /* let obj = obj as? CDAKAllergy */ obj is CDAKAllergy {
       switch property {
      // case "reaction": obj.reaction = singleCodeFieldFlat(value)
      // case "severity": obj.severity = singleCodeFieldFlat(value)

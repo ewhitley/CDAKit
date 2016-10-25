@@ -90,7 +90,10 @@ class ViewHelper {
       let code = preferred_code.code
       let extra_content = options["extra_content"] as? String
       let display = preferred_code.displayName != nil ? "displayName=\"\(preferred_code.displayName!)\"" : ""
-      code_string = "<\(tag_name ?? "") code=\"\(code ?? "")\" codeSystemName=\"\(pc)\" codeSystem=\"\(code_system_oid ?? "")\" \(display) \(extra_content ?? "")>"
+
+      code_string = "<\(tag_name ?? "") code=\"\(code )\" codeSystemName=\"\(pc)\" codeSystem=\"\(code_system_oid )\" \(display) \(extra_content ?? "")>"
+      //-code_string = "<\(tag_name ?? "") code=\"\(code ?? "")\" codeSystemName=\"\(pc)\" codeSystem=\"\(code_system_oid ?? "")\" \(display) \(extra_content ?? "")>"
+
     } else {      
       let tag_name = options["tag_name"] as? String
       let extra_content = options["extra_content"] as? String

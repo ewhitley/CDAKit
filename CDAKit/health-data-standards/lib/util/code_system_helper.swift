@@ -132,7 +132,7 @@ open class CDAKCodeSystemHelper {
       return
       }
       let cs = CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS.inverse()
-      if let existing_oid = cs[code_system] {
+      if cs[code_system] != nil {
         // do a reverse look-up for this code_system
         // we already have someting in the set - don't re-add the value for a different key
         // this can happen for things like bogus entries

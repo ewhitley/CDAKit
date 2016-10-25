@@ -270,7 +270,7 @@ class CDAKImport_CDA_SectionImporter {
         codes.addCodes(extract_code(code_element, code_xpath: "."))
         let translations = code_element.xpath("cda:translation")
         for translation in translations {
-          extract_code(translation, code_xpath: ".")
+          _ = extract_code(translation, code_xpath: ".")
         }
       }
       return codes

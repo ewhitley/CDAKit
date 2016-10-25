@@ -215,7 +215,7 @@ class CDAKCommonUtility {
       do {
         let rawData = try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
         let jsonString = NSString(data: rawData, encoding: String.Encoding.utf8.rawValue) as? String
-        return NSString(data: rawData, encoding: String.Encoding.utf8.rawValue) as? String
+        return jsonString // NSString(data: rawData, encoding: String.Encoding.utf8.rawValue) as? String
       } catch let error as NSError {
         print(error)
       }

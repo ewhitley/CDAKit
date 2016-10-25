@@ -470,7 +470,8 @@ open class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, CD
     // value / unit
     // these won't work for the single key-value entries
     if let code = event["code"], let code_set = event["code_set"] as? String {
-      add_code(code, code_system: code_set)
+      add_code(code!, code_system: code_set)
+      //- add_code(code, code_system: code_set)
     }
     
     if let value = event["value"] {

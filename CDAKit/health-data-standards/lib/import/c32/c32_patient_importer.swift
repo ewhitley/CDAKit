@@ -151,7 +151,7 @@ class CDAKImport_C32_PatientImporter {
       case "medications": if let sections = sections as? [CDAKMedication] { record.medications = sections }
       case "conditions": if let sections = sections as? [CDAKCondition] { record.conditions = sections }
       case "social_history": if let sections = sections as? [CDAKSocialHistory] { record.social_history = sections }
-      case "care_goals": if let sections = sections as? [CDAKEntry] { record.care_goals = sections } //these are CDAKEntry records
+      case "care_goals": /* if let sections = sections as? [CDAKEntry] { */ record.care_goals = sections /* } */ //these are CDAKEntry records
       case "medical_equipment": if let sections = sections as? [CDAKMedicalEquipment] { record.medical_equipment = sections }
       case "allergies": if let sections = sections as? [CDAKAllergy] { record.allergies = sections }
       case "immunizations": if let sections = sections as? [CDAKImmunization] { record.immunizations = sections }

@@ -113,7 +113,7 @@ class EntryTest: XCTestCase {
 //    print(String(hash["code"]!!))
 //    print(entry.codes[String(hash["code_set"]!!)]!)
 //    XCTAssertEqual([String(hash["code"]!)], entry.codes[String(hash["code_set"]!!)]!)
-    XCTAssertEqual([String(describing: hash["code"]!)], [entry.codes["RxNorm"]!.first!.code])
+    XCTAssertEqual([String(describing: hash["code"]!!)], [entry.codes["RxNorm"]!.first!.code])
     XCTAssertEqual(String(describing: hash["value"]!!), (entry.values.first as! CDAKPhysicalQuantityResultValue).scalar)
     XCTAssertEqual(String(describing: hash["unit"]!!), (entry.values.first as! CDAKPhysicalQuantityResultValue).units)
     XCTAssertEqual(String(describing: hash["specifics"]!!), entry.specifics)

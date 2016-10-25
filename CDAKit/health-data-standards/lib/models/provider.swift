@@ -173,7 +173,7 @@ open class CDAKProvider: CDAKPersonable, CDAKJSONInstantiable, Hashable, Equatab
     // return luhn_checksum(npi[0,14]) == npi[14]
     //return luhn_checksum(npi[0...13]) == npi[14...14]
 
-    let result = luhn_checksum(npi.substring(with: 0..<14)) == npi.substring(with: 14..<15)
+    _ = luhn_checksum(npi.substring(with: 0..<14)) == npi.substring(with: 14..<15)
     return luhn_checksum(npi.substring(with: 0..<14)) == npi.substring(with: 14..<15)
   }
   

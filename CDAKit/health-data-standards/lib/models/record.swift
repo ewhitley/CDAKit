@@ -8,6 +8,7 @@
 
 import Foundation
 import Mustache
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -858,10 +859,11 @@ open class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   // MARK: Standard properties
   ///Debugging description
+    /**********
   override open var description : String {
     return "CDAKRecord => prefix: \(prefix), first: \(first), last: \(last), suffix: \(suffix), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), religious_affiliation: \(religious_affiliation), effective_time: \(effective_time), race: \(race), ethnicity: \(ethnicity), languages = \(languages), marital_status: \(marital_status), medical_record_number: \(medical_record_number), medical_record_assigner: \(medical_record_assigner), expired: \(expired), clinicalTrialParticipant: \(clinicalTrialParticipant), allergies: \(allergies), care_goals: \(care_goals), conditions: \(conditions), encounters: \(encounters), communications: \(communications), family_history: \(family_history), immunizations: \(immunizations), medical_equipment: \(medical_equipment), medications: \(medications), procedures: \(procedures), results: \(results), social_history: \(social_history), vital_signs: \(vital_signs), advance_directives: \(advance_directives), insurance_providers: \(insurance_providers), functional_statuses: \(functional_statuses), provider_performances: \(provider_performances), addresses: \(addresses), telecoms: \(telecoms)"
   }
-  
+  ********/
 }
 
 
@@ -992,6 +994,7 @@ extension CDAKRecord {
   //MARK: Convenience copying
   public convenience init(copyFrom record: CDAKRecord) {
     self.init()
+
     self.prefix = record.prefix
     self.first = record.first
     self.last = record.last
@@ -1031,7 +1034,6 @@ extension CDAKRecord {
     self.identifiers = record.identifiers
     self.custodian = record.custodian
     self.clinicalTrialParticipant = record.clinicalTrialParticipant
-
   }
 
   
@@ -1041,6 +1043,10 @@ extension CDAKRecord {
 extension CDAKRecord: CDAKJSONExportable {
   // MARK: - JSON Generation
   ///Dictionary for JSON data
+
+  //public var jsonDict: [String: AnyObject] = [:]
+
+
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     
