@@ -14,6 +14,8 @@
 		38359E0A1C7B774400CCC036 /* CDAKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 38359E071C7B774400CCC036 /* CDAKit.podspec */; };
 		38359E0B1C7B774400CCC036 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38359E081C7B774400CCC036 /* LICENSE.txt */; };
 		38359E0C1C7B774400CCC036 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 38359E091C7B774400CCC036 /* Podfile */; };
+		3845045B1DBFABB500FA7A27 /* record2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3845045A1DBFABB500FA7A27 /* record2.swift */; };
+		3845045D1DBFABC700FA7A27 /* record3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3845045C1DBFABC600FA7A27 /* record3.swift */; };
 		384E23111C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml in Resources */ = {isa = PBXBuildFile; fileRef = 384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */; };
 		384E23141C738E4E009B9DED /* CDAKJSONInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */; };
 		384E23171C73C517009B9DED /* MetadataImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E23161C73C517009B9DED /* MetadataImporter.swift */; };
@@ -301,6 +303,7 @@
 		38BE32B81C80F5EB002AEC25 /* cda_social_history_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38BE32B71C80F5EB002AEC25 /* cda_social_history_importer.swift */; };
 		38BE32BA1C80F7A9002AEC25 /* ccda_medication_importer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38BE32B91C80F7A9002AEC25 /* ccda_medication_importer.swift */; };
 		38BE32BC1C81002F002AEC25 /* c32_provider_performer.c32.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38BE32BB1C81002F002AEC25 /* c32_provider_performer.c32.mustache */; };
+		38C30C061DBFA6D5009652B8 /* record1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C30C051DBFA6D5009652B8 /* record1.swift */; };
 		38CB596B1C8720D4004630F9 /* ccda_code_without_reference.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38CB596A1C8720D4004630F9 /* ccda_code_without_reference.ccda.mustache */; };
 		38CB596D1C8731BD004630F9 /* ccda_medication_dose.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38CB596C1C8731BD004630F9 /* ccda_medication_dose.ccda.mustache */; };
 		38CB596F1C8736B0004630F9 /* ccda_medication_admin_timing.ccda.mustache in Resources */ = {isa = PBXBuildFile; fileRef = 38CB596E1C8736B0004630F9 /* ccda_medication_admin_timing.ccda.mustache */; };
@@ -335,6 +338,8 @@
 		38359E071C7B774400CCC036 /* CDAKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CDAKit.podspec; sourceTree = "<group>"; };
 		38359E081C7B774400CCC036 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		38359E091C7B774400CCC036 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		3845045A1DBFABB500FA7A27 /* record2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = record2.swift; sourceTree = "<group>"; };
+		3845045C1DBFABC600FA7A27 /* record3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = record3.swift; sourceTree = "<group>"; };
 		384E23101C737A8C009B9DED /* 170.314(b)(1)InPt_Discharge Summary CED Type.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "170.314(b)(1)InPt_Discharge Summary CED Type.xml"; sourceTree = "<group>"; };
 		384E23131C738E4E009B9DED /* CDAKJSONInstantiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDAKJSONInstantiable.swift; sourceTree = "<group>"; };
 		384E23161C73C517009B9DED /* MetadataImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetadataImporter.swift; sourceTree = "<group>"; };
@@ -626,6 +631,7 @@
 		38BE32B71C80F5EB002AEC25 /* cda_social_history_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cda_social_history_importer.swift; sourceTree = "<group>"; };
 		38BE32B91C80F7A9002AEC25 /* ccda_medication_importer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ccda_medication_importer.swift; sourceTree = "<group>"; };
 		38BE32BB1C81002F002AEC25 /* c32_provider_performer.c32.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = c32_provider_performer.c32.mustache; sourceTree = "<group>"; };
+		38C30C051DBFA6D5009652B8 /* record1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = record1.swift; sourceTree = "<group>"; };
 		38CB596A1C8720D4004630F9 /* ccda_code_without_reference.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_code_without_reference.ccda.mustache; sourceTree = "<group>"; };
 		38CB596C1C8731BD004630F9 /* ccda_medication_dose.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_medication_dose.ccda.mustache; sourceTree = "<group>"; };
 		38CB596E1C8736B0004630F9 /* ccda_medication_admin_timing.ccda.mustache */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ccda_medication_admin_timing.ccda.mustache; sourceTree = "<group>"; };
@@ -1002,6 +1008,9 @@
 				389170881C6CD7C800A31299 /* provider.swift */,
 				389170891C6CD7C800A31299 /* reason.swift */,
 				3891708A1C6CD7C800A31299 /* record.swift */,
+				38C30C051DBFA6D5009652B8 /* record1.swift */,
+				3845045A1DBFABB500FA7A27 /* record2.swift */,
+				3845045C1DBFABC600FA7A27 /* record3.swift */,
 				3891708B1C6CD7C800A31299 /* reference.swift */,
 				3891708C1C6CD7C800A31299 /* result_value.swift */,
 				3891708D1C6CD7C800A31299 /* social_history.swift */,
@@ -1743,12 +1752,15 @@
 				389170AB1C6CD7C800A31299 /* person.swift in Sources */,
 				389171091C6CD88A00A31299 /* ccda_vital_sign_importer.swift in Sources */,
 				389170EE1C6CD86D00A31299 /* cda_provider_importer.swift in Sources */,
+				38C30C061DBFA6D5009652B8 /* record1.swift in Sources */,
 				384E23221C73C7A2009B9DED /* CDAKQRDAHeader.swift in Sources */,
+				3845045B1DBFABB500FA7A27 /* record2.swift in Sources */,
 				389171021C6CD88A00A31299 /* ccda_immunization_importer.swift in Sources */,
 				384E23201C73C797009B9DED /* CDAKQRDADevice.swift in Sources */,
 				389170A51C6CD7C800A31299 /* insurance_provider.swift in Sources */,
 				3891711B1C6CD8A500A31299 /* CDAKValueAndUnit.swift in Sources */,
 				389170C51C6CD81900A31299 /* HDSExport.swift in Sources */,
+				3845045D1DBFABC700FA7A27 /* record3.swift in Sources */,
 				384E23241C73C7CE009B9DED /* CDAKQRDALegalAuthenticator.swift in Sources */,
 				389170A11C6CD7C800A31299 /* fulfillment_history.swift in Sources */,
 				389170C61C6CD81900A31299 /* template_helper.swift in Sources */,
