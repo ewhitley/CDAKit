@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "8.0"
   s.requires_arc = true
 
-  s.source_files = 'CDAKit/**/*.swift', 'CDAKit/**/WBTry.{h,m}'
+  s.source_files = 'CDAKit/**/*.swift'
   s.resource_bundles = {
     'CDAKit' => [
       'CDAKit/**/*.mustache',
@@ -33,4 +33,5 @@ Pod::Spec.new do |s|
   s.frameworks = 'HealthKit'
   s.dependency 'GRMustache.swift', '~> 2.0.0'
   s.dependency 'Fuzi', '~> 1.0.0'
+  s.dependency 'Try', '~> 2.0.0'
 end
