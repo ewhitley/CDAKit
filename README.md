@@ -11,7 +11,7 @@
 
 * CDAKit GitHub - [Source](https://github.com/ewhitley/CDAKit)
 * Additional [documentation](https://ewhitley.github.io/CDAKit)
-* Current Version: 1.0.2.  [Revision History](https://github.com/ewhitley/CDAKit/blob/master/release-notes.md)
+* Current Version: 1.1.0.  [Revision History](https://github.com/ewhitley/CDAKit/blob/master/release-notes.md)
 
 
 CDAKit provides C32 and C-CDA import and export functionality as well as the ability to connect CDA concepts with HealthKit samples.  This allows for bridging between CDA and HealthKit so you can integrate with an Electronic Medical Records system.
@@ -111,8 +111,8 @@ catch {
 ## Requirements
 
 - iOS 8+
-- Xcode 7
-- Swift 2.1
+- Xcode 8+
+- Swift 3
 
 
 ## Using CocoaPods
@@ -124,7 +124,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'MyApp' do
-pod 'CDAKit', '~> 1.0'
+pod 'CDAKit', '~> 1.1'
 end
 ```
 
