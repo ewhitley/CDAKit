@@ -30,7 +30,7 @@
 
 import Foundation
 import HealthKit
-
+import Try
 
 /**
 Provides HealthKit bridging with CDA structures.

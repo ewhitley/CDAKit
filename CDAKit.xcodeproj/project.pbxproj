@@ -291,9 +291,6 @@
 		389172F91C6CFD9100A31299 /* risk_category_assessment_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172CF1C6CFD9000A31299 /* risk_category_assessment_fragment.xml */; };
 		389172FA1C6CFD9100A31299 /* symptom_active_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172D01C6CFD9000A31299 /* symptom_active_fragment.xml */; };
 		389172FB1C6CFD9100A31299 /* tobacco_use_fragment.xml in Resources */ = {isa = PBXBuildFile; fileRef = 389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */; };
-		38B938261DBE8BC30013DCD0 /* trap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B938231DBE8BC30013DCD0 /* trap.swift */; };
-		38B938271DBE8BC30013DCD0 /* WBTry.h in Headers */ = {isa = PBXBuildFile; fileRef = 38B938241DBE8BC30013DCD0 /* WBTry.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38B938281DBE8BC30013DCD0 /* WBTry.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B938251DBE8BC30013DCD0 /* WBTry.m */; };
 		38BC98131C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */; };
 		38BC98151C7C9F5600E8F2F4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 38BC98141C7C9F5600E8F2F4 /* README.md */; };
 		38BC98191C7CF19D00E8F2F4 /* CDAKitGithubLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BC98181C7CF19D00E8F2F4 /* CDAKitGithubLogo.png */; };
@@ -616,9 +613,6 @@
 		389172CF1C6CFD9000A31299 /* risk_category_assessment_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = risk_category_assessment_fragment.xml; sourceTree = "<group>"; };
 		389172D01C6CFD9000A31299 /* symptom_active_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = symptom_active_fragment.xml; sourceTree = "<group>"; };
 		389172D11C6CFD9000A31299 /* tobacco_use_fragment.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tobacco_use_fragment.xml; sourceTree = "<group>"; };
-		38B938231DBE8BC30013DCD0 /* trap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = trap.swift; sourceTree = "<group>"; };
-		38B938241DBE8BC30013DCD0 /* WBTry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBTry.h; sourceTree = "<group>"; };
-		38B938251DBE8BC30013DCD0 /* WBTry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBTry.m; sourceTree = "<group>"; };
 		38BC98121C7C9F3400E8F2F4 /* CDAKRecordModels_Common.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CDAKRecordModels_Common.png; sourceTree = "<group>"; };
 		38BC98141C7C9F5600E8F2F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		38BC98181C7CF19D00E8F2F4 /* CDAKitGithubLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CDAKitGithubLogo.png; sourceTree = "<group>"; };
@@ -959,9 +953,6 @@
 				389170BE1C6CD7FF00A31299 /* code_system_helper.swift */,
 				380A41081C77AECF00E5D7B8 /* CDAKVocabularyStructs.swift */,
 				389170BF1C6CD7FF00A31299 /* hl7_helper.swift */,
-				38B938231DBE8BC30013DCD0 /* trap.swift */,
-				38B938241DBE8BC30013DCD0 /* WBTry.h */,
-				38B938251DBE8BC30013DCD0 /* WBTry.m */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -1347,7 +1338,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				389170351C6CC1EE00A31299 /* CDAKit.h in Headers */,
-				38B938271DBE8BC30013DCD0 /* WBTry.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1689,7 +1679,6 @@
 				389170C11C6CD7FF00A31299 /* hl7_helper.swift in Sources */,
 				389170BA1C6CD7C800A31299 /* thing_with_times.swift in Sources */,
 				389170B71C6CD7C800A31299 /* support.swift in Sources */,
-				38B938261DBE8BC30013DCD0 /* trap.swift in Sources */,
 				3891706B1C6CD7A500A31299 /* pedigree.swift in Sources */,
 				389171181C6CD8A500A31299 /* Dictionary+Extensions.swift in Sources */,
 				389170B91C6CD7C800A31299 /* thing_with_codes.swift in Sources */,
@@ -1777,7 +1766,6 @@
 				3891711F1C6CD8A500A31299 /* String+CryptoExtensions.swift in Sources */,
 				389171031C6CD88A00A31299 /* ccda_insurance_provider_importer.swift in Sources */,
 				389170B31C6CD7C800A31299 /* record.swift in Sources */,
-				38B938281DBE8BC30013DCD0 /* WBTry.m in Sources */,
 				389170E41C6CD86D00A31299 /* cda_allergy_importer.swift in Sources */,
 				389170A81C6CD7C800A31299 /* medication.swift in Sources */,
 				389170611C6CD74500A31299 /* CDAKitHealthKitBridge.swift in Sources */,
