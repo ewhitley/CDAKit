@@ -3,7 +3,7 @@
 
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/CDAKit.svg)](https://cocoapods.org/pods/CDAKit)
 [![License](https://img.shields.io/cocoapods/l/CDAKit.svg?style=flat&color=gray)](https://opensource.org/licenses/Apache-2.0)
-
+![Zeonodo DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1342008.svg)
 
 # CDAKit
 
