@@ -9,6 +9,36 @@
 import Foundation
 import Mustache
 
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
+
 public struct code_and_name {
   var code: String
   var name: String
@@ -49,30 +79,30 @@ Primary container for all patient data that is to be represented with CDA
  ```
  
 */
-public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
+open class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
 
   // MARK: CDA properties
   ///patient prefix (was title)
-  public var prefix: String?
+  open var prefix: String?
   ///patient first / given name
-  public var first: String?
+  open var first: String?
   ///patient last / family name
-  public var last: String?
+  open var last: String?
   ///patient suffix
-  public var suffix: String?
+  open var suffix: String?
   ///patient gender. Please consider using an HL7 Administrative Gender
-  public var gender: String?
+  open var gender: String?
   ///birthdate (using time since 1970)
-  public var birthdate: Double?
+  open var birthdate: Double?
   ///date of death (using time since 1970)
-  public var deathdate: Double?
+  open var deathdate: Double?
   ///religious affiliation(s)
-  public var religious_affiliation: CDAKCodedEntries = CDAKCodedEntries()
+  open var religious_affiliation: CDAKCodedEntries = CDAKCodedEntries()
   ///effective time for record (not date created - date last valid)
-  public var effective_time: Double?
+  open var effective_time: Double?
   
   ///global unique identifier for record. Defaulted.
-  public var _id: String = NSUUID().UUIDString
+  open var _id: String = UUID().uuidString
   
   /**
   When creating this record, you may wish to supply a custom header (CDAKQRDAHeader) or during CDA XML generation a default boilerplate header will be applied
@@ -81,7 +111,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
    
    Optionally, you can disable the global header import by toggling `disableGlobalHeader`
    */
-  public var header: CDAKQRDAHeader? {
+  open var header: CDAKQRDAHeader? {
     get {
       if let local_header = _header {
         return local_header
@@ -95,10 +125,10 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
       _header = newValue
     }
   }
-  private var _header: CDAKQRDAHeader?
+  fileprivate var _header: CDAKQRDAHeader?
 
   ///Allows you to toggle whether the global header is completely disabled for this record
-  public var disableGlobalHeader = false
+  open var disableGlobalHeader = false
   
   // FIX_ME:  - apparently the JSON has "pregnancies" as its own item
   // that's not on the dx or problem list (which makes sense - sort of)
@@ -106,36 +136,36 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   // figure out where this is coming from and how to handle
   // for now, making it an "entry"
   ///any known patient pregnancies
-  public var pregnancies: [CDAKEntry] = []
+  open var pregnancies: [CDAKEntry] = []
   
   // CHANGED: - race / ethnicity really should be a multi-value fields. Original did NOT do this
   // MU2 allows for multiple
   ///patient race (coded)
-  public var race: CDAKCodedEntries = CDAKCodedEntries()
+  open var race: CDAKCodedEntries = CDAKCodedEntries()
   ///patient ethnicities (coded)
-  public var ethnicity: CDAKCodedEntries = CDAKCodedEntries()
+  open var ethnicity: CDAKCodedEntries = CDAKCodedEntries()
   ///patient languages (coded)
-  public var languages: [CDAKCodedEntries] = [] //Array, default: []
+  open var languages: [CDAKCodedEntries] = [] //Array, default: []
   ///patient martial status (coded)
-  public var marital_status: CDAKCodedEntries = CDAKCodedEntries()
+  open var marital_status: CDAKCodedEntries = CDAKCodedEntries()
   ///patient medical record number
-  public var medical_record_number: String?
+  open var medical_record_number: String?
   ///patient medical record assigner
-  public var medical_record_assigner: String?
+  open var medical_record_assigner: String?
   ///is patient expired? (deceased)
-  public var expired: Bool?
+  open var expired: Bool?
   
   //NOT IN MODEL
   ///is this patient a clinical trial participant? Please refer to CMS guidance on implications
-  public var clinicalTrialParticipant: Bool? //NOT in model, but in Mongo JSON (probably for QRDA)
+  open var clinicalTrialParticipant: Bool? //NOT in model, but in Mongo JSON (probably for QRDA)
   ///name of record custodian?
-  public var custodian: String? //NOT in model, but in Mongo JSON (probably for QRDA)
+  open var custodian: String? //NOT in model, but in Mongo JSON (probably for QRDA)
   ///any patient identifiers.  This may include collections of MRNs if you use multiple EMRs, etc.  Could conceivably include identifiers like SSN
-  public var identifiers: [CDAKCDAIdentifier] = [] // NOT in the orignal model, but we want to have these on hand
+  open var identifiers: [CDAKCDAIdentifier] = [] // NOT in the orignal model, but we want to have these on hand
   
-  private var _addresses = [CDAKAddress]() //, as: :locatable
+  fileprivate var _addresses = [CDAKAddress]() //, as: :locatable
   ///patient addresses
-  public var addresses: [CDAKAddress] {
+  open var addresses: [CDAKAddress] {
     get {return _addresses}
     set {
 //      for c in newValue {
@@ -145,9 +175,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _telecoms = [CDAKTelecom]() //, as: :contactable
+  fileprivate var _telecoms = [CDAKTelecom]() //, as: :contactable
   ///patient telecoms
-  public var telecoms: [CDAKTelecom] {
+  open var telecoms: [CDAKTelecom] {
     get {return _telecoms}
     set {
 //      for c in newValue {
@@ -159,19 +189,19 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
 
   
   ///Determines whether patient is currently over the age of 18
-  public var over_18: Bool {
+  open var over_18: Bool {
     //Time.at(birthdate) < Time.now.years_ago(18)
     guard let birthdate = birthdate else {
       return false
     }
     
     //http://stackoverflow.com/questions/24723431/swift-days-between-two-nsdates
-    let start_date = NSDate(timeIntervalSince1970: NSTimeInterval(birthdate))
-    let end_date = NSDate() //now
+    let start_date = Date(timeIntervalSince1970: TimeInterval(birthdate))
+    let end_date = Date() //now
     
-    let cal = NSCalendar.currentCalendar()
-    let year_unit : NSCalendarUnit = NSCalendarUnit.Year
-    let components = cal.components(year_unit, fromDate: start_date, toDate: end_date, options: [])
+    let cal = Calendar.current
+    let year_unit : NSCalendar.Unit = NSCalendar.Unit.year
+    let components = (cal as NSCalendar).components(year_unit, from: start_date, to: end_date, options: [])
     
     if components.year >= 18 {
       return true
@@ -185,9 +215,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   // When we create an entry and append it to the entry array(s), we create a reference back to this Record
 
   // MARK: - Collections of child Entries for CDA Sections
-  private var _allergies = [CDAKAllergy]()
+  fileprivate var _allergies = [CDAKAllergy]()
   ///Allergies collection
-  public var allergies: [CDAKAllergy] {
+  open var allergies: [CDAKAllergy] {
     get {return _allergies}
     set {
       for c in newValue {
@@ -197,9 +227,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
 
-  private var _care_goals = [CDAKEntry]()
+  fileprivate var _care_goals = [CDAKEntry]()
   ///This can be any number of different entry types
-  public var care_goals: [CDAKEntry] {
+  open var care_goals: [CDAKEntry] {
     get {return _care_goals}
     set {
       for c in newValue {
@@ -209,9 +239,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
 
-  private var _conditions = [CDAKCondition]()
+  fileprivate var _conditions = [CDAKCondition]()
   ///conditions collection
-  public var conditions: [CDAKCondition] {
+  open var conditions: [CDAKCondition] {
     get {return _conditions}
     set {
       for c in newValue {
@@ -221,9 +251,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _encounters = [CDAKEncounter]()
+  fileprivate var _encounters = [CDAKEncounter]()
   ///encounters collection
-  public var encounters: [CDAKEncounter] {
+  open var encounters: [CDAKEncounter] {
     get {return _encounters}
     set {
       for c in newValue {
@@ -233,9 +263,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _communications = [CDAKCommunication]()
+  fileprivate var _communications = [CDAKCommunication]()
   ///communications collection
-  public var communications: [CDAKCommunication] {
+  open var communications: [CDAKCommunication] {
     get {return _communications}
     set {
       for c in newValue {
@@ -245,9 +275,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
 
-  private var _family_history = [CDAKFamilyHistory]()
+  fileprivate var _family_history = [CDAKFamilyHistory]()
   ///family history collection
-  public var family_history: [CDAKFamilyHistory] {
+  open var family_history: [CDAKFamilyHistory] {
     get {return _family_history}
     set {
       for c in newValue {
@@ -257,9 +287,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _immunizations = [CDAKImmunization]()
+  fileprivate var _immunizations = [CDAKImmunization]()
   ///immunizations collection
-  public var immunizations: [CDAKImmunization] {
+  open var immunizations: [CDAKImmunization] {
     get {return _immunizations}
     set {
       for c in newValue {
@@ -269,9 +299,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _medical_equipment = [CDAKMedicalEquipment]()
+  fileprivate var _medical_equipment = [CDAKMedicalEquipment]()
   ///medical equipment collection
-  public var medical_equipment: [CDAKMedicalEquipment] {
+  open var medical_equipment: [CDAKMedicalEquipment] {
     get {return _medical_equipment}
     set {
       for c in newValue {
@@ -282,9 +312,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
 
   
-  private var _medications = [CDAKMedication]()
+  fileprivate var _medications = [CDAKMedication]()
   ///medications collection
-  public var medications: [CDAKMedication] {
+  open var medications: [CDAKMedication] {
     get {return _medications}
     set {
       for c in newValue {
@@ -294,9 +324,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _procedures = [CDAKProcedure]()
+  fileprivate var _procedures = [CDAKProcedure]()
   ///procedures collection
-  public var procedures: [CDAKProcedure] {
+  open var procedures: [CDAKProcedure] {
     get {return _procedures}
     set {
       for c in newValue {
@@ -306,9 +336,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _results = [CDAKLabResult]()//, class_name: "CDAKLabResult"
+  fileprivate var _results = [CDAKLabResult]()//, class_name: "CDAKLabResult"
   ///lab results collection
-  public var results: [CDAKLabResult] {
+  open var results: [CDAKLabResult] {
     get {return _results}
     set {
       for c in newValue {
@@ -318,9 +348,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _socialhistories = [CDAKSocialHistory]() //, class_name: "CDAKEntry"
+  fileprivate var _socialhistories = [CDAKSocialHistory]() //, class_name: "CDAKEntry"
   ///social histories collection
-  public var social_history: [CDAKSocialHistory] {
+  open var social_history: [CDAKSocialHistory] {
     get { return socialhistories }
     set { socialhistories = newValue }
   }
@@ -334,9 +364,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
 
-  private var _vital_signs = [CDAKVitalSign]()
+  fileprivate var _vital_signs = [CDAKVitalSign]()
   ///vital signs collection
-  public var vital_signs: [CDAKVitalSign] {
+  open var vital_signs: [CDAKVitalSign] {
     get {return _vital_signs}
     set {
       for c in newValue {
@@ -346,9 +376,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _support = [CDAKSupport]()
+  fileprivate var _support = [CDAKSupport]()
   ///support collection
-  public var support: [CDAKSupport] {
+  open var support: [CDAKSupport] {
     get {return _support}
     set {
       for c in newValue {
@@ -358,9 +388,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
 
-  private var _advance_directives = [CDAKEntry]() //, class_name: "CDAKEntry"
+  fileprivate var _advance_directives = [CDAKEntry]() //, class_name: "CDAKEntry"
   ///advance directives collection
-  public var advance_directives: [CDAKEntry] {
+  open var advance_directives: [CDAKEntry] {
     get {return _advance_directives}
     set {
       for c in newValue {
@@ -370,9 +400,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _insurance_providers = [CDAKInsuranceProvider]()
+  fileprivate var _insurance_providers = [CDAKInsuranceProvider]()
   ///insurance providers collection
-  public var insurance_providers: [CDAKInsuranceProvider] {
+  open var insurance_providers: [CDAKInsuranceProvider] {
     get {return _insurance_providers}
     set {
       for c in newValue {
@@ -382,9 +412,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  private var _functional_statuses = [CDAKFunctionalStatus]()
+  fileprivate var _functional_statuses = [CDAKFunctionalStatus]()
   ///functional status collection
-  public var functional_statuses: [CDAKFunctionalStatus] {
+  open var functional_statuses: [CDAKFunctionalStatus] {
     get {return _functional_statuses}
     set {
       for c in newValue {
@@ -395,12 +425,12 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   //FIX_ME: - I think "provider_performances" shoud be handled differently here
-  private var _provider_performances = [CDAKProviderPerformance]()
+  fileprivate var _provider_performances = [CDAKProviderPerformance]()
   /**
   provider performances collection
    This is really only relevant for QRDA III
    */
-  public var provider_performances: [CDAKProviderPerformance] {
+  open var provider_performances: [CDAKProviderPerformance] {
     get {return _provider_performances}
     set {
       for c in newValue {
@@ -414,12 +444,12 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   //MARK: Legacy Ruby
   
   ///list of section identifiers. Legacy Ruby
-  private var Sections = ["allergies", "care_goals", "conditions", "encounters", "immunizations", "medical_equipment",
+  fileprivate var Sections = ["allergies", "care_goals", "conditions", "encounters", "immunizations", "medical_equipment",
     "medications", "procedures", "results", "communications", "family_history", "social_history", "vital_signs", "support", "advance_directives",
     "insurance_providers", "functional_statuses"]
   
   ///Legacy Ruby. Search for record(s) by provider.
-  internal class func by_provider(provider: CDAKProvider, effective_date: Double?) -> [CDAKRecord] {
+  internal class func by_provider(_ provider: CDAKProvider, effective_date: Double?) -> [CDAKRecord] {
     // FIX_ME: this is a mess
     var records = [CDAKRecord]()
     if let effective_date = effective_date {
@@ -448,7 +478,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   //scope :by_patient_id, ->(id) { where(:medical_record_number => id) }
   ///Legacy Ruby. Searches for a patient record by patient MRN
-  internal class func by_patient_id(id: String) -> [CDAKRecord] {
+  internal class func by_patient_id(_ id: String) -> [CDAKRecord] {
     //FIX_ME: Should this return just one record?
     var records = [CDAKRecord]()
     for record in CDAKGlobals.sharedInstance.CDAKRecords {
@@ -460,7 +490,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   ///Legacy Ruby. Determines if a record exists already in the record collection
-  internal class func update_or_create(data: CDAKRecord) -> CDAKRecord {
+  internal class func update_or_create(_ data: CDAKRecord) -> CDAKRecord {
     //existing = CDAKRecord.where(medical_record_number: data.medical_record_number).first
     var existing: CDAKRecord?
     for record in CDAKGlobals.sharedInstance.CDAKRecords {
@@ -478,7 +508,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
       return data
     }
   }
-  
+
   ///Legacy Ruby. Returns all providers contained in provider performances
   internal func providers() -> [CDAKProvider] {
     return provider_performances.filter({pp in pp.provider != nil}).map({pp in pp.provider!})
@@ -486,7 +516,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
 
 
     ///returns a specific set of patient entry records based on the supplied section name (if found)
-  private func getSection(section: String) -> [CDAKEntry] {
+  fileprivate func getSection(_ section: String) -> [CDAKEntry] {
     //FIX_ME: move this into the CDAK helper stuff
     switch section {
     case "allergies" : return allergies
@@ -511,7 +541,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   ///based on the supplied section name (if found), replaces entries with supplied collection
-  private func setSection(section: String, entries: [CDAKEntry]) {
+  fileprivate func setSection(_ section: String, entries: [CDAKEntry]) {
       switch section {
       case "allergies" :  allergies = (entries as! [CDAKAllergy])
       case "care_goals" :  care_goals = entries
@@ -535,7 +565,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   ///For a given OID, searches all entries and returns entries with matching OID
-  internal func entries_for_oid(oid: String) -> [CDAKEntry] {
+  internal func entries_for_oid(_ oid: String) -> [CDAKEntry] {
     //OK, so this appears to be sort of reflecting on the Ruby attributes by "section"
     // EX: section string "allergies" -> looks at object property "allergies"
     // I don't want to start doing wonky things to work around reflection challenges, so I'm just going to 
@@ -545,24 +575,24 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
       
     for section in Sections {
       let entries = getSection(section)
-      matching_entries_by_section.appendContentsOf(entries.filter({entry in entry.oid == oid}))
+      matching_entries_by_section.append(contentsOf: entries.filter({entry in entry.oid == oid}))
 
     }
     
     //removed the original "flatten" since we're just merging the contents of the array and not arrays in arrays
     return matching_entries_by_section
   }
-  
+
   ///Combines all entries into a single collection and returns them
   internal var entries: [CDAKEntry] {
     var all_entries = [CDAKEntry]()
     for section in Sections {
       let entries = getSection(section)
-      all_entries.appendContentsOf(entries)
+      all_entries.append(contentsOf: entries)
     }
     return all_entries
   }
-  
+
   /**
   Remove duplicate entries from a section based on cda_identifier or id.
 
@@ -570,7 +600,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   Warning: Marked as mutating / "dangerous" in Ruby
   */
-  internal func dedup_section_ignoring_content(section: String) {
+  internal func dedup_section_ignoring_content(_ section: String) {
     // http://stackoverflow.com/questions/612189/why-are-exclamation-marks-used-in-ruby-methods
     // In general, methods that end in ! indicate that the method will modify the object it's called on. Ruby calls these "dangerous methods" because they change state that someone else might have a reference to.
 
@@ -613,7 +643,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   Attempts to determine if there are duplicate entries in the Record and removes any extras.
   */
-  internal func dedup_section_merging_codes_and_values(section: String) {
+  internal func dedup_section_merging_codes_and_values(_ section: String) {
     var unique_entries = [String:CDAKEntry]()
               
     let entries = getSection(section)
@@ -627,7 +657,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
       // "new" is based on the entry identifier
       if unique_entries[entry.identifier_as_string] != nil {
         unique_entries[entry.identifier_as_string]!.codes = mergeCodes(unique_entries[entry.identifier_as_string]!.codes, ar2: entry.codes)
-        unique_entries[entry.identifier_as_string]?.values.appendContentsOf(entry.values)
+        unique_entries[entry.identifier_as_string]?.values.append(contentsOf: entry.values)
       } else {
         unique_entries[entry.identifier_as_string] = entry
       }
@@ -637,14 +667,15 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   ///DO NOT USE.  Alternate method exists in Coded Entries. Merges codes between two sets of coded entries
-  private func mergeCodes(var ar1: CDAKCodedEntries, ar2: CDAKCodedEntries) -> CDAKCodedEntries {
+  private func mergeCodes(_ ar1: CDAKCodedEntries, ar2: CDAKCodedEntries) -> CDAKCodedEntries {
+    var ar1 = ar1
     for (_, CDAKCodedEntry) in ar2 {
       ar1.addCodes(CDAKCodedEntry)
     }
     return ar1
   }
   
-  internal func dedup_section(section: String) {
+  internal func dedup_section(_ section: String) {
     if ["encounters", "procedures", "results"].contains(section) {
       dedup_section_merging_codes_and_values(section)
     } else {
@@ -660,7 +691,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   // MARK: Health-Data-Standards Functions
   ///Offset all dates by specified double
-  func shift_dates(date_diff: Double) {
+  func shift_dates(_ date_diff: Double) {
     
     if let birthdate = birthdate {
       self.birthdate = birthdate + date_diff
@@ -673,7 +704,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
     for sec in Sections {
       if let property_name = self.propertyNames().filter({$0 == sec}).first {
-        if let entries = self.valueForKey(property_name) as? [CDAKEntry] {
+        if let entries = self.value(forKey: property_name) as? [CDAKEntry] {
           for entry in entries {
             entry.shift_dates(date_diff)
           }
@@ -682,8 +713,8 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
   }
   
-  
-  private class func provider_queries(provider_id: String, effective_date: Double) -> CDAKProvider? {
+
+  fileprivate class func provider_queries(_ provider_id: String, effective_date: Double) -> CDAKProvider? {
     //FIX_ME: - review implementation for accuracy
     //Making the (probably bad) assumption these return a single value - provider_id assumed to be unique
     // see warning about NPI vs. provider_id on provider_query
@@ -700,7 +731,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     return nil
   }
 
-  private class func provider_query(provider_id: String, start_before: Double?, end_before: Double?) -> CDAKProvider? {
+  fileprivate class func provider_query(_ provider_id: String, start_before: Double?, end_before: Double?) -> CDAKProvider? {
     for record in CDAKGlobals.sharedInstance.CDAKRecords {
       for perf in record.provider_performances {
         if let provider = perf.provider {
@@ -715,7 +746,7 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
     }
     return nil
   }
-  
+
   // MARK: - Initializers
 
   required override public init() { // <== Need "required" because we need to call dynamicType() below
@@ -725,9 +756,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   }
   
   deinit {
-    for (index, record) in CDAKGlobals.sharedInstance.CDAKRecords.enumerate() {
+    for (index, record) in CDAKGlobals.sharedInstance.CDAKRecords.enumerated() {
       if record == self {
-        CDAKGlobals.sharedInstance.CDAKRecords.removeAtIndex(index)
+        CDAKGlobals.sharedInstance.CDAKRecords.remove(at: index)
         break
       }
     }
@@ -779,9 +810,9 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   //MARK: Copying
   //http://stackoverflow.com/questions/25808972/how-to-implement-copy-constructor-in-swift-subclass
-  public func copyWithZone(zone: NSZone) -> AnyObject { // <== NSCopying
+  open func copy(with zone: NSZone?) -> Any { // <== NSCopying
     // *** Construct "one of my current class". This is why init() is a required initializer
-    let theCopy = self.dynamicType.init()
+    let theCopy = type(of: self).init()
     
     theCopy.prefix = self.prefix
     theCopy.first = self.first
@@ -828,292 +859,303 @@ public class CDAKRecord: NSObject, NSCopying, CDAKPropertyAddressable {
   
   // MARK: Standard properties
   ///Debugging description
-  override public var description : String {
+
+  override open var description : String {
     return "CDAKRecord => prefix: \(prefix), first: \(first), last: \(last), suffix: \(suffix), gender: \(gender), birthdate: \(birthdate), deathdate: \(deathdate), religious_affiliation: \(religious_affiliation), effective_time: \(effective_time), race: \(race), ethnicity: \(ethnicity), languages = \(languages), marital_status: \(marital_status), medical_record_number: \(medical_record_number), medical_record_assigner: \(medical_record_assigner), expired: \(expired), clinicalTrialParticipant: \(clinicalTrialParticipant), allergies: \(allergies), care_goals: \(care_goals), conditions: \(conditions), encounters: \(encounters), communications: \(communications), family_history: \(family_history), immunizations: \(immunizations), medical_equipment: \(medical_equipment), medications: \(medications), procedures: \(procedures), results: \(results), social_history: \(social_history), vital_signs: \(vital_signs), advance_directives: \(advance_directives), insurance_providers: \(insurance_providers), functional_statuses: \(functional_statuses), provider_performances: \(provider_performances), addresses: \(addresses), telecoms: \(telecoms)"
   }
-  
+
 }
 
 
 extension CDAKRecord {
-  // MARK: - Mustache marshalling
-  override public var mustacheBox: MustacheBox {
-    var vals: [String:MustacheBox] = [String:MustacheBox]()
-    var defaultLanguage: CDAKCodedEntries = CDAKCodedEntries()
-    defaultLanguage.addCodes("IETF", code: "en-US")
-    let defaultLanguages: [CDAKCodedEntries] = [defaultLanguage]
-    vals = [
-      "id": Box(self._id),
-      "prefix": Box(self.prefix),
-      "first": Box(self.first),
-      "last": Box(self.last),
-      "suffix": Box(self.suffix),
-      "gender": Box(self.gender),
-      "birthdate": Box(self.birthdate),
-      "deathdate": Box(self.deathdate),
-      "religious_affiliation": Box(self.religious_affiliation),
-      "effective_time": Box(self.effective_time),
-      "race": Box(self.race),
-      "ethnicity": Box(self.ethnicity),
-      "languages": self.languages.count > 0 ? Box(self.languages) : Box(defaultLanguages),
-      "marital_status": Box(self.marital_status),
-      "medical_record_number": Box(self.medical_record_number),
-      "medical_record_assigner": Box(self.medical_record_assigner),
-      "expired": Box(self.expired),
-      "addresses": Box(self.addresses),
-      "telecoms": Box(self.telecoms)
-    ]
 
-    if identifiers.count > 0 {
-      vals["identifiers"] = Box(self.identifiers)
+    // MARK: - Mustache marshalling
+    override open var mustacheBox: MustacheBox {
+
+        //var vals: [String:MustacheBox] = [:] // [String:MustacheBox]()
+        var defaultLanguage: CDAKCodedEntries = CDAKCodedEntries()
+        defaultLanguage.addCodes("IETF", code: "en-US")
+        let defaultLanguages: [CDAKCodedEntries] = [defaultLanguage]
+
+        var vals: [String:MustacheBox] = [
+            "id": Box(self._id),
+            "prefix": Box(self.prefix),
+            "first": Box(self.first),
+            "last": Box(self.last),
+            "suffix": Box(self.suffix),
+            "gender": Box(self.gender),
+            "birthdate": Box(self.birthdate),
+            "deathdate": Box(self.deathdate),
+            "religious_affiliation": Box(self.religious_affiliation),
+            "effective_time": Box(self.effective_time),
+            "race": Box(self.race),
+            "ethnicity": Box(self.ethnicity),
+            "languages": self.languages.count > 0 ? Box(self.languages) : Box(defaultLanguages),
+            "marital_status": Box(self.marital_status),
+            "medical_record_number": Box(self.medical_record_number),
+            "medical_record_assigner": Box(self.medical_record_assigner),
+            "expired": Box(self.expired),
+            "addresses": Box(self.addresses),
+            "telecoms": Box(self.telecoms)
+        ]
+
+        if identifiers.count > 0 {
+            vals["identifiers"] = Box(self.identifiers)
+        }
+
+
+        // we can't pass locals into mustache like we can with erb, so we're cheating
+        //  when we marshall the data, we're setting up template block values here instead
+        //  you can use template values from here
+        /*
+         key, section, entries, status, value
+         */
+        if let entries = boxEntries(allergies, section: "allergies") {
+            vals["allergies"] = entries
+        }
+        if let entries = boxEntries(results, section: "results", value: true) {
+            vals["results"] = entries
+        }
+        if let entries = boxEntries(medications, section: "medications") {
+            vals["medications"] = entries
+        }
+        if let entries = boxEntries(care_goals, section: "plan_of_care") {
+            vals["care_goals"] = entries
+        }
+        if let entries = boxEntries(conditions, section: "conditions", status: true) {
+            vals["conditions"] = entries
+        }
+        if let entries = boxEntries(social_history, section: "social_history") {
+            vals["social_history"] = entries
+        }
+        if let entries = boxEntries(immunizations, section: "immunizations") {
+            vals["immunizations"] = entries
+        }
+        if let entries = boxEntries(medical_equipment, section: "medical_equipment") {
+            vals["medical_equipment"] = entries
+        }
+        if let entries = boxEntries(encounters, section: "encounters") {
+            vals["encounters"] = entries
+        }
+        if let entries = boxEntries(procedures, section: "procedures") {
+            vals["procedures"] = entries
+        }
+        if let entries = boxEntries(vital_signs, section: "vitals", value: true) {
+            vals["vital_signs"] = entries
+        }
+
+        if let header = header {
+            vals["header"] = Box(header)
+        }
+
+        if provider_performances.count > 0 {
+            vals["provider_performances"] = Box(provider_performances)
+        }
+
+
+        return Box(vals)
     }
 
+    func boxEntries(_ entries: [CDAKEntry], section: String, status: Bool = false, value: Bool = false) -> MustacheBox? {
+
+        if entries.count > 0 {
+
+            let toBox = [
+                "section" : Box(section),
+                "status" : Box(status),
+                "value" : Box(value),
+                "entries": Box(entries)
+            ]
+            
+            return Box(toBox)
+        }
+        
+        return nil
+    }
     
-    // we can't pass locals into mustache like we can with erb, so we're cheating
-    //  when we marshall the data, we're setting up template block values here instead
-    //  you can use template values from here
-    /*
-    key, section, entries, status, value
-    */
-    if let entries = boxEntries(allergies, section: "allergies") {
-      vals["allergies"] = entries
-    }
-    if let entries = boxEntries(results, section: "results", value: true) {
-      vals["results"] = entries
-    }
-    if let entries = boxEntries(medications, section: "medications") {
-      vals["medications"] = entries
-    }
-    if let entries = boxEntries(care_goals, section: "plan_of_care") {
-      vals["care_goals"] = entries
-    }
-    if let entries = boxEntries(conditions, section: "conditions", status: true) {
-      vals["conditions"] = entries
-    }
-    if let entries = boxEntries(social_history, section: "social_history") {
-      vals["social_history"] = entries
-    }
-    if let entries = boxEntries(immunizations, section: "immunizations") {
-      vals["immunizations"] = entries
-    }
-    if let entries = boxEntries(medical_equipment, section: "medical_equipment") {
-      vals["medical_equipment"] = entries
-    }
-    if let entries = boxEntries(encounters, section: "encounters") {
-      vals["encounters"] = entries
-    }
-    if let entries = boxEntries(procedures, section: "procedures") {
-      vals["procedures"] = entries
-    }
-    if let entries = boxEntries(vital_signs, section: "vitals", value: true) {
-      vals["vital_signs"] = entries
-    }
-
-    if let header = header {
-      vals["header"] = Box(header)
-    }
-
-    if provider_performances.count > 0 {
-      vals["provider_performances"] = Box(provider_performances)
-    }
-
-    
-    return Box(vals)
-  }
-  
-  func boxEntries(entries: [CDAKEntry], section: String, status: Bool = false, value: Bool = false) -> MustacheBox? {
-    if entries.count > 0 {
-      return Box([
-        "section" : Box(section),
-        "status" : Box(status),
-        "value" : Box(value),
-        "entries": Box(entries)
-        ])
-    }
-    return nil
-  }
-  
 }
-
 
 
 extension CDAKRecord {
-  //MARK: Primary CDA import / export Methods
-  /**
-  Master public convenience method for exporting record to CDA
-   
-   Formats defined in: CDAKExport.CDAKExportFormat
-   
-   EX: .ccda or .c32
-   
-   */
-  public func export(inFormat format: CDAKExport.CDAKExportFormat) -> String {
-    return CDAKExport.export(patientRecord: self, inFormat: format)
-  }
+    //MARK: Primary CDA import / export Methods
+    /**
+     Master public convenience method for exporting record to CDA
 
-  /**
-   Creates a new record from CDA XML
-   */
-  public convenience init(fromXML doc: String) throws   {
-    let x = try CDAKImport_BulkRecordImporter.importRecord(doc)
-    self.init(copyFrom: x)
-  }
+     Formats defined in: CDAKExport.CDAKExportFormat
 
-  //MARK: Convenience copying
-  public convenience init(copyFrom record: CDAKRecord) {
-    self.init()
-    self.prefix = record.prefix
-    self.first = record.first
-    self.last = record.last
-    self.suffix = record.suffix
-    self.gender = record.gender
-    self.birthdate = record.birthdate
-    self.deathdate = record.deathdate
-    self.religious_affiliation = record.religious_affiliation
-    self.effective_time = record.effective_time
-    self.race = record.race
-    self.ethnicity = record.ethnicity
-    self.languages = record.languages
-    self.marital_status = record.marital_status
-    self.medical_record_number = record.medical_record_number
-    self.medical_record_assigner = record.medical_record_assigner
-    self.expired = record.expired
-    self.allergies = record.allergies
-    self.care_goals = record.care_goals
-    self.conditions = record.conditions
-    self.encounters = record.encounters
-    self.communications = record.communications
-    self.family_history = record.family_history
-    self.immunizations = record.immunizations
-    self.medical_equipment = record.medical_equipment
-    self.medications = record.medications
-    self.procedures = record.procedures
-    self.results = record.results
-    self.socialhistories = record.socialhistories
-    self.vital_signs = record.vital_signs
-    self.support = record.support
-    self.advance_directives = record.advance_directives
-    self.insurance_providers = record.insurance_providers
-    self.functional_statuses = record.functional_statuses
-    self.provider_performances = record.provider_performances
-    self.addresses = record.addresses
-    self.telecoms = record.telecoms
-    self.identifiers = record.identifiers
-    self.custodian = record.custodian
-    self.clinicalTrialParticipant = record.clinicalTrialParticipant
+     EX: .ccda or .c32
 
-  }
+     */
+    public func export(inFormat format: CDAKExport.CDAKExportFormat) -> String {
+        return CDAKExport.export(patientRecord: self, inFormat: format)
+    }
 
-  
+    /**
+     Creates a new record from CDA XML
+     */
+    public convenience init(fromXML doc: String) throws   {
+        let x = try CDAKImport_BulkRecordImporter.importRecord(doc)
+        self.init(copyFrom: x)
+    }
+
+    //MARK: Convenience copying
+    public convenience init(copyFrom record: CDAKRecord) {
+        self.init()
+
+        self.prefix = record.prefix
+        self.first = record.first
+        self.last = record.last
+        self.suffix = record.suffix
+        self.gender = record.gender
+        self.birthdate = record.birthdate
+        self.deathdate = record.deathdate
+        self.religious_affiliation = record.religious_affiliation
+        self.effective_time = record.effective_time
+        self.race = record.race
+        self.ethnicity = record.ethnicity
+        self.languages = record.languages
+        self.marital_status = record.marital_status
+        self.medical_record_number = record.medical_record_number
+        self.medical_record_assigner = record.medical_record_assigner
+        self.expired = record.expired
+        self.allergies = record.allergies
+        self.care_goals = record.care_goals
+        self.conditions = record.conditions
+        self.encounters = record.encounters
+        self.communications = record.communications
+        self.family_history = record.family_history
+        self.immunizations = record.immunizations
+        self.medical_equipment = record.medical_equipment
+        self.medications = record.medications
+        self.procedures = record.procedures
+        self.results = record.results
+        self.socialhistories = record.socialhistories
+        self.vital_signs = record.vital_signs
+        self.support = record.support
+        self.advance_directives = record.advance_directives
+        self.insurance_providers = record.insurance_providers
+        self.functional_statuses = record.functional_statuses
+        self.provider_performances = record.provider_performances
+        self.addresses = record.addresses
+        self.telecoms = record.telecoms
+        self.identifiers = record.identifiers
+        self.custodian = record.custodian
+        self.clinicalTrialParticipant = record.clinicalTrialParticipant
+    }
+    
+    
 }
-
 
 extension CDAKRecord: CDAKJSONExportable {
-  // MARK: - JSON Generation
-  ///Dictionary for JSON data
-  public var jsonDict: [String: AnyObject] {
-    var dict: [String: AnyObject] = [:]
-    
-    if identifiers.count > 0 {
-      dict["identifiers"] = identifiers.map({$0.jsonDict})
-    }
-    
-    if let prefix = prefix {
-      dict["prefix"] = prefix
-    }
-    if let first = first {
-      dict["first"] = first
-    }
-    if let last = last {
-      dict["last"] = last
-    }
-    if let suffix = suffix {
-      dict["suffix"] = suffix
-    }
-    if let gender = gender {
-      dict["gender"] = gender
-    }
-    if let birthdate = birthdate {
-      dict["birthdate"] = birthdate
-    }
-    if let deathdate = deathdate {
-      dict["deathdate"] = deathdate
-    }
-    
-    if religious_affiliation.count > 0 {
-      dict["religious_affiliation"] = religious_affiliation.codes.map({$0.jsonDict})
-    }
-    
-    if let effective_time = effective_time {
-      dict["effective_time"] = effective_time
-    }
-    
-    dict["id"] = _id
-    
-    if let header = header {
-      dict["header"] = header.jsonDict
-    }
-    
-    if pregnancies.count > 0 {
-      dict["pregnancies"] = pregnancies.map({$0.jsonDict})
-    }
-    if race.count > 0 {
-      dict["race"] = race.codes.map({$0.jsonDict})
-    }
-    if ethnicity.count > 0 {
-      dict["ethnicity"] = ethnicity.codes.map({$0.jsonDict})
-    }
-    
-    if languages.count > 0 {
-      dict["languages"] = languages.map({$0.jsonDict})
-    }
-    
-    if marital_status.count > 0 {
-      dict["marital_status"] = marital_status.codes.map({$0.jsonDict})
-    }
-    
-    if let medical_record_number = medical_record_number {
-      dict["medical_record_number"] = medical_record_number
-    }
-    
-    if let medical_record_assigner = medical_record_assigner {
-      dict["medical_record_assigner"] = medical_record_assigner
-    }
-    
-    if let expired = expired {
-      dict["expired"] = expired
-    }
-    
-    if let clinicalTrialParticipant = clinicalTrialParticipant {
-      dict["clinicalTrialParticipant"] = clinicalTrialParticipant
-    }
-    
-    if let custodian = custodian {
-      dict["custodian"] = custodian
-    }
-    
-    if allergies.count > 0 { dict["allergies"] = allergies.map({$0.jsonDict}) }
-    if care_goals.count > 0 { dict["care_goals"] = care_goals.map({$0.jsonDict}) }
-    if conditions.count > 0 { dict["conditions"] = conditions.map({$0.jsonDict}) }
-    if encounters.count > 0 { dict["encounters"] = encounters.map({$0.jsonDict}) }
-    if communications.count > 0 { dict["communications"] = communications.map({$0.jsonDict}) }
-    if family_history.count > 0 { dict["family_history"] = family_history.map({$0.jsonDict}) }
-    if immunizations.count > 0 { dict["immunizations"] = immunizations.map({$0.jsonDict}) }
-    if medical_equipment.count > 0 { dict["medical_equipment"] = medical_equipment.map({$0.jsonDict}) }
-    if medications.count > 0 { dict["medications"] = medications.map({$0.jsonDict}) }
-    if procedures.count > 0 { dict["procedures"] = procedures.map({$0.jsonDict}) }
-    if results.count > 0 { dict["results"] = results.map({$0.jsonDict}) }
-    if social_history.count > 0 { dict["social_history"] = social_history.map({$0.jsonDict}) }
-    if vital_signs.count > 0 { dict["vital_signs"] = vital_signs.map({$0.jsonDict}) }
-    if support.count > 0 { dict["support"] = support.map({$0.jsonDict}) }
-    if advance_directives.count > 0 { dict["advance_directives"] = advance_directives.map({$0.jsonDict}) }
-    if insurance_providers.count > 0 { dict["insurance_providers"] = insurance_providers.map({$0.jsonDict}) }
-    if functional_statuses.count > 0 { dict["functional_statuses"] = functional_statuses.map({$0.jsonDict}) }
-    if provider_performances.count > 0 { dict["provider_performances"] = provider_performances.map({$0.jsonDict}) }
-    if addresses.count > 0 { dict["addresses"] = addresses.map({$0.jsonDict}) }
-    if telecoms.count > 0 { dict["telecoms"] = telecoms.map({$0.jsonDict}) }
+    // MARK: - JSON Generation
+    ///Dictionary for JSON data
 
-    
-    return dict
-  }
+    //public var jsonDict: [String: AnyObject] = [:]
+
+
+    public var jsonDict: [String: AnyObject] {
+        var dict: [String: AnyObject] = [:]
+
+        if identifiers.count > 0 {
+            dict["identifiers"] = identifiers.map({$0.jsonDict}) as AnyObject?
+        }
+
+        if let prefix = prefix {
+            dict["prefix"] = prefix as AnyObject?
+        }
+        if let first = first {
+            dict["first"] = first as AnyObject?
+        }
+        if let last = last {
+            dict["last"] = last as AnyObject?
+        }
+        if let suffix = suffix {
+            dict["suffix"] = suffix as AnyObject?
+        }
+        if let gender = gender {
+            dict["gender"] = gender as AnyObject?
+        }
+        if let birthdate = birthdate {
+            dict["birthdate"] = birthdate as AnyObject?
+        }
+        if let deathdate = deathdate {
+            dict["deathdate"] = deathdate as AnyObject?
+        }
+
+        if religious_affiliation.count > 0 {
+            dict["religious_affiliation"] = religious_affiliation.codes.map({$0.jsonDict}) as AnyObject?
+        }
+
+        if let effective_time = effective_time {
+            dict["effective_time"] = effective_time as AnyObject?
+        }
+
+        dict["id"] = _id as AnyObject?
+
+        if let header = header {
+            dict["header"] = header.jsonDict as AnyObject?
+        }
+
+        if pregnancies.count > 0 {
+            dict["pregnancies"] = pregnancies.map({$0.jsonDict}) as AnyObject?
+        }
+        if race.count > 0 {
+            dict["race"] = race.codes.map({$0.jsonDict}) as AnyObject?
+        }
+        if ethnicity.count > 0 {
+            dict["ethnicity"] = ethnicity.codes.map({$0.jsonDict}) as AnyObject?
+        }
+
+        if languages.count > 0 {
+            dict["languages"] = languages.map({$0.jsonDict}) as AnyObject?
+        }
+
+        if marital_status.count > 0 {
+            dict["marital_status"] = marital_status.codes.map({$0.jsonDict}) as AnyObject?
+        }
+
+        if let medical_record_number = medical_record_number {
+            dict["medical_record_number"] = medical_record_number as AnyObject?
+        }
+
+        if let medical_record_assigner = medical_record_assigner {
+            dict["medical_record_assigner"] = medical_record_assigner as AnyObject?
+        }
+
+        if let expired = expired {
+            dict["expired"] = expired as AnyObject?
+        }
+
+        if let clinicalTrialParticipant = clinicalTrialParticipant {
+            dict["clinicalTrialParticipant"] = clinicalTrialParticipant as AnyObject?
+        }
+
+        if let custodian = custodian {
+            dict["custodian"] = custodian as AnyObject?
+        }
+
+        if allergies.count > 0 { dict["allergies"] = allergies.map({$0.jsonDict}) as AnyObject? }
+        if care_goals.count > 0 { dict["care_goals"] = care_goals.map({$0.jsonDict})  as AnyObject?}
+        if conditions.count > 0 { dict["conditions"] = conditions.map({$0.jsonDict}) as AnyObject? }
+        if encounters.count > 0 { dict["encounters"] = encounters.map({$0.jsonDict}) as AnyObject? }
+        if communications.count > 0 { dict["communications"] = communications.map({$0.jsonDict}) as AnyObject? }
+        if family_history.count > 0 { dict["family_history"] = family_history.map({$0.jsonDict}) as AnyObject? }
+        if immunizations.count > 0 { dict["immunizations"] = immunizations.map({$0.jsonDict}) as AnyObject? }
+        if medical_equipment.count > 0 { dict["medical_equipment"] = medical_equipment.map({$0.jsonDict})  as AnyObject?}
+        if medications.count > 0 { dict["medications"] = medications.map({$0.jsonDict}) as AnyObject? }
+        if procedures.count > 0 { dict["procedures"] = procedures.map({$0.jsonDict}) as AnyObject? }
+        if results.count > 0 { dict["results"] = results.map({$0.jsonDict}) as AnyObject? }
+        if social_history.count > 0 { dict["social_history"] = social_history.map({$0.jsonDict}) as AnyObject? }
+        if vital_signs.count > 0 { dict["vital_signs"] = vital_signs.map({$0.jsonDict}) as AnyObject? }
+        if support.count > 0 { dict["support"] = support.map({$0.jsonDict}) as AnyObject? }
+        if advance_directives.count > 0 { dict["advance_directives"] = advance_directives.map({$0.jsonDict}) as AnyObject? }
+        if insurance_providers.count > 0 { dict["insurance_providers"] = insurance_providers.map({$0.jsonDict})  as AnyObject?}
+        if functional_statuses.count > 0 { dict["functional_statuses"] = functional_statuses.map({$0.jsonDict})  as AnyObject?}
+        if provider_performances.count > 0 { dict["provider_performances"] = provider_performances.map({$0.jsonDict})  as AnyObject?}
+        if addresses.count > 0 { dict["addresses"] = addresses.map({$0.jsonDict}) as AnyObject? }
+        if telecoms.count > 0 { dict["telecoms"] = telecoms.map({$0.jsonDict})  as AnyObject?}
+        
+        
+        return dict
+    }
 }

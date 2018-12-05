@@ -32,7 +32,7 @@ class CDAKImport_CCDA_PatientImporter: CDAKImport_C32_PatientImporter {
   }
   
   
-  func parse_ccda(doc: XMLDocument) -> CDAKRecord {
+  func parse_ccda(_ doc: XMLDocument) -> CDAKRecord {
     return parse_c32(doc)
   }
 

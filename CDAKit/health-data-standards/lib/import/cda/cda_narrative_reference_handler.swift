@@ -12,7 +12,7 @@ import Fuzi
 class CDAKImport_CDA_NarrativeReferenceHandler {
   var id_map: [String:String] = [:] // this might be an XMLElement - not clear yet
 
-  func build_id_map(doc: XMLDocument) {
+  func build_id_map(_ doc: XMLDocument) {
     let path = "//*[@ID]"
     let ids = doc.xpath(path)
     for id in ids {
@@ -27,7 +27,8 @@ class CDAKImport_CDA_NarrativeReferenceHandler {
   - parameter tag: the XML tag you're looking for
   - returns: text description of the tag
   */
-  func lookup_tag(var tag: String) -> String? {
+  func lookup_tag(_ tag: String) -> String? {
+    var tag = tag
     var value = id_map[tag]
     //# Not sure why, but sometimes the reference is #<Reference> and the ID value is <Reference>, and
     //# sometimes it is #<Reference>.  We look for both.

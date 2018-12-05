@@ -9,10 +9,10 @@
 import Foundation
 import Mustache
 
-public class CDAKQRDACustodian {
-  public var ids: [CDAKCDAIdentifier] = []
-  public var person: CDAKPerson? //I see no cases where this is used in CDA
-  public var organization: CDAKOrganization?
+open class CDAKQRDACustodian {
+  open var ids: [CDAKCDAIdentifier] = []
+  open var person: CDAKPerson? //I see no cases where this is used in CDA
+  open var organization: CDAKOrganization?
 }
 
 extension CDAKQRDACustodian: CustomStringConvertible {
@@ -39,13 +39,13 @@ extension CDAKQRDACustodian: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     if ids.count > 0 {
-      dict["ids"] = ids.map({$0.jsonDict})
+      dict["ids"] = ids.map({$0.jsonDict}) as AnyObject?
     }
     if let person = person {
-      dict["person"] = person.jsonDict
+      dict["person"] = person.jsonDict as AnyObject?
     }
     if let organization = organization {
-      dict["organization"] = organization.jsonDict
+      dict["organization"] = organization.jsonDict as AnyObject?
     }
     return dict
   }

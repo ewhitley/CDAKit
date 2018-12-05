@@ -9,14 +9,14 @@
 import Foundation
 import Mustache
 
-public class CDAKQRDAAuthor {
-  public var time = NSDate()
-  public var ids: [CDAKCDAIdentifier] = []
-  public var addresses: [CDAKAddress] = []
-  public var telecoms: [CDAKTelecom] = []
-  public var person: CDAKPerson?
-  public var device: CDAKQRDADevice?
-  public var organization: CDAKOrganization?
+open class CDAKQRDAAuthor {
+  open var time = Date()
+  open var ids: [CDAKCDAIdentifier] = []
+  open var addresses: [CDAKAddress] = []
+  open var telecoms: [CDAKTelecom] = []
+  open var person: CDAKPerson?
+  open var device: CDAKQRDADevice?
+  open var organization: CDAKOrganization?
 }
 
 extension CDAKQRDAAuthor: CustomStringConvertible {
@@ -46,24 +46,24 @@ extension CDAKQRDAAuthor: MustacheBoxable {
 extension CDAKQRDAAuthor: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
-    dict["time"] = time.description
+    dict["time"] = time.description as AnyObject?
     if ids.count > 0 {
-      dict["ids"] = ids.map({$0.jsonDict})
+      dict["ids"] = ids.map({$0.jsonDict}) as AnyObject?
     }
     if addresses.count > 0 {
-      dict["addresses"] = addresses.map({$0.jsonDict})
+      dict["addresses"] = addresses.map({$0.jsonDict}) as AnyObject?
     }
     if telecoms.count > 0 {
-      dict["telecoms"] = telecoms.map({$0.jsonDict})
+      dict["telecoms"] = telecoms.map({$0.jsonDict}) as AnyObject?
     }
     if let person = person {
-      dict["person"] = person.jsonDict
+      dict["person"] = person.jsonDict as AnyObject?
     }
     if let device = device {
-      dict["device"] = device.jsonDict
+      dict["device"] = device.jsonDict as AnyObject?
     }
     if let organization = organization {
-      dict["organization"] = organization.jsonDict
+      dict["organization"] = organization.jsonDict as AnyObject?
     }
     return dict
   }

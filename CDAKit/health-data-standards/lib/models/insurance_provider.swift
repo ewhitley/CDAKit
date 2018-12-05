@@ -10,31 +10,31 @@ import Foundation
 /**
 Insurance Provider
 */
-public class CDAKInsuranceProvider: CDAKEntry {
+open class CDAKInsuranceProvider: CDAKEntry {
 
   // MARK: CDA properties
 
   ///Payer (insurance provider)
-  public var payer: CDAKOrganization? //, class_name: "CDAKOrganization"
+  open var payer: CDAKOrganization? //, class_name: "CDAKOrganization"
   ///Insurance guarantor
-  public var guarantors = [CDAKGuarantor]()//, class_name: "CDAKGuarantor"
+  open var guarantors = [CDAKGuarantor]()//, class_name: "CDAKGuarantor"
   ///Insurance subscriber
-  public var subscriber: CDAKPerson? //, class_name: "CDAKPerson"
+  open var subscriber: CDAKPerson? //, class_name: "CDAKPerson"
   
   ///Type
-  public var type: String?
+  open var type: String?
   ///Member ID
-  public var member_id: String?
+  open var member_id: String?
   ///Relationship
-  public var relationship : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
+  open var relationship : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
   ///Financial responsibility type
-  public var financial_responsibility_type : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
+  open var financial_responsibility_type : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
   ///Name
-  public var name: String?
+  open var name: String?
   
   // MARK: Health-Data-Standards Functions
   ///Offset all dates by specified double
-  override func shift_dates(date_diff: Double) {
+  override func shift_dates(_ date_diff: Double) {
     super.shift_dates(date_diff)
 
     for g in guarantors {
@@ -44,7 +44,7 @@ public class CDAKInsuranceProvider: CDAKEntry {
   
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
+  override open var description: String {
     return super.description + ", name: \(name), type: \(type), member_id: \(member_id), relationship: \(relationship), financial_responsibility_type: \(financial_responsibility_type), financial_responsibility_type: \(financial_responsibility_type), payer: \(payer), guarantors: \(guarantors), subscriber: \(subscriber)"
   }
 
@@ -58,25 +58,25 @@ extension CDAKInsuranceProvider {
     var dict = super.jsonDict
     
     if let payer = payer {
-      dict["payer"] = payer.jsonDict
+      dict["payer"] = payer.jsonDict as AnyObject?
     }
     if guarantors.count > 0 {
-      dict["guarantors"] = guarantors.map({$0.jsonDict})
+      dict["guarantors"] = guarantors.map({$0.jsonDict}) as AnyObject?
     }
     if let type = type {
-      dict["type"] = type
+      dict["type"] = type as AnyObject?
     }
     if let member_id = member_id {
-      dict["member_id"] = member_id
+      dict["member_id"] = member_id as AnyObject?
     }
     if relationship.count > 0 {
-      dict["relationship"] = relationship.codes.map({$0.jsonDict})
+      dict["relationship"] = relationship.codes.map({$0.jsonDict}) as AnyObject?
     }
     if financial_responsibility_type.count > 0 {
-      dict["financial_responsibility_type"] = financial_responsibility_type.codes.map({$0.jsonDict})
+      dict["financial_responsibility_type"] = financial_responsibility_type.codes.map({$0.jsonDict}) as AnyObject?
     }
     if let name = name {
-      dict["name"] = name
+      dict["name"] = name as AnyObject?
     }
 
     return dict

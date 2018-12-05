@@ -22,7 +22,7 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
   
   //# TODO Extract Discharge Disposition
     
-  override func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEncounter? {
+  override func create_entry(_ entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEncounter? {
     
     if let encounter = super.create_entry(entry_element, nrh: nrh) as? CDAKEncounter {
       
@@ -46,13 +46,13 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
   }
 
   
-  private func extract_performer(parent_element: XMLElement, encounter: CDAKEncounter) {
+  fileprivate func extract_performer(_ parent_element: XMLElement, encounter: CDAKEncounter) {
     if let performer_element = parent_element.xpath("./cda:performer").first {
       encounter.performer = import_actor(performer_element)
     }
   }
   
-  private func extract_facility(parent_element: XMLElement, encounter: CDAKEncounter) {
+  fileprivate func extract_facility(_ parent_element: XMLElement, encounter: CDAKEncounter) {
     if let participant_element = parent_element.xpath("./cda:participant[@typeCode='LOC']/cda:participantRole[@classCode='SDLOC']").first {
       
       let facility = CDAKFacility()
@@ -69,7 +69,7 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
     }
   }
   
-  private func extract_reason(parent_element: XMLElement, encounter: CDAKEncounter, nrh: CDAKImport_CDA_NarrativeReferenceHandler) {
+  fileprivate func extract_reason(_ parent_element: XMLElement, encounter: CDAKEncounter, nrh: CDAKImport_CDA_NarrativeReferenceHandler) {
     if let reason_element = parent_element.xpath(reason_xpath).first {
       let reason = CDAKReason() //NOTE: was originally CDAKEntry - we made it a "CDAKReason" since it was a dedicated type
       extract_codes(reason_element, entry: reason)
@@ -80,21 +80,21 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
     }
   }
   
-  private func extract_admission(parent_element: XMLElement, encounter: CDAKEncounter) {
+  fileprivate func extract_admission(_ parent_element: XMLElement, encounter: CDAKEncounter) {
     encounter.admit_type.addCodes(CDAKImport_CDA_SectionImporter.extract_code(parent_element, code_xpath: "./cda:priorityCode"))
   }
   
-  private func extract_discharge_disposition(parent_element: XMLElement, encounter: CDAKEncounter) {
+  fileprivate func extract_discharge_disposition(_ parent_element: XMLElement, encounter: CDAKEncounter) {
     encounter.discharge_time = encounter.end_time
     encounter.discharge_disposition.addCodes(CDAKImport_CDA_SectionImporter.extract_code(parent_element, code_xpath: "./sdtc:dischargeDispositionCode"))
   }
   
-  private func extract_transfers(parent_element: XMLElement, encounter: CDAKEncounter) {
+  fileprivate func extract_transfers(_ parent_element: XMLElement, encounter: CDAKEncounter) {
     
     
     if let transfer_from_element = parent_element.xpath("./cda:participant[@typeCode='ORG']").first {
       let transfer_from = CDAKTransfer()
-      if let a_time = transfer_from_element.xpath("./cda:time").first, time_value = a_time["value"] {
+      if let a_time = transfer_from_element.xpath("./cda:time").first, let time_value = a_time["value"] {
         transfer_from.time = Double(time_value)
       }
       if let transfer_from_subelement = transfer_from_element.xpath("./cda:participantRole[@classCode='LOCE']").first {
@@ -105,7 +105,7 @@ class CDAKImport_CDA_EncounterImporter: CDAKImport_CDA_SectionImporter {
     
     if let transfer_to_element = parent_element.xpath("./cda:participant[@typeCode='DST']").first {
       let transfer_to = CDAKTransfer()
-      if let a_time = transfer_to_element.xpath("./cda:time").first, time_value = a_time["value"] {
+      if let a_time = transfer_to_element.xpath("./cda:time").first, let time_value = a_time["value"] {
         transfer_to.time = Double(time_value)
       }
       if let transfer_from_subelement = transfer_to_element.xpath("./cda:participantRole[@classCode='LOCE']").first {

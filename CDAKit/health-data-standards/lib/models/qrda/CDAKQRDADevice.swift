@@ -9,9 +9,9 @@
 import Foundation
 import Mustache
 
-public class CDAKQRDADevice {
-  public var name: String?
-  public var model: String?
+open class CDAKQRDADevice {
+  open var name: String?
+  open var model: String?
 }
 
 extension CDAKQRDADevice: CustomStringConvertible {
@@ -38,10 +38,10 @@ extension CDAKQRDADevice: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     if let name = name {
-      dict["name"] = name
+      dict["name"] = name as AnyObject?
     }
     if let model = model {
-      dict["model"] = model
+      dict["model"] = model as AnyObject?
     }
     return dict
   }

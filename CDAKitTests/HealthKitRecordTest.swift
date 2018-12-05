@@ -38,8 +38,8 @@ class HealthKitRecordTest: XCTestCase {
       let aVital = CDAKVitalSign()
       aVital.codes.addCodes("LOINC", code: "3141-9", displayName: "weight") //weight
       aVital.values.append(CDAKPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
-      aVital.start_time = NSDate().timeIntervalSince1970
-      aVital.end_time = NSDate().timeIntervalSince1970
+      aVital.start_time = Date().timeIntervalSince1970
+      aVital.end_time = Date().timeIntervalSince1970
 
       //append our height to our record
       record.vital_signs.append(aVital)
@@ -78,8 +78,8 @@ class HealthKitRecordTest: XCTestCase {
     let aVital = CDAKVitalSign()
     aVital.codes.addCodes("LOINC", code: "3141-9", displayName: "Weight") //weight
     aVital.values.append(CDAKPhysicalQuantityResultValue(scalar: 155.0, units: "lb"))
-    aVital.start_time = NSDate().timeIntervalSince1970
-    aVital.end_time = NSDate().timeIntervalSince1970
+    aVital.start_time = Date().timeIntervalSince1970
+    aVital.end_time = Date().timeIntervalSince1970
     
     //let xmlString = aRecord.export(inFormat: .ccda)
     //print(xmlString)
@@ -89,10 +89,10 @@ class HealthKitRecordTest: XCTestCase {
     XCTAssertEqual(hkRecord.samples.count, aRecord.vital_signs.count)
     
     //HKQuantityTypeIdentifierHeight
-    let aUnit = HKUnit(fromString: "in")
+    let aUnit = HKUnit(from: "in")
     let aQty = HKQuantity(unit: aUnit, doubleValue: 72 )
-    let aQtyType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeight)
-    let hkHeight = HKQuantitySample(type: aQtyType!, quantity: aQty, startDate: NSDate(), endDate: NSDate())
+    let aQtyType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.height)
+    let hkHeight = HKQuantitySample(type: aQtyType!, quantity: aQty, start: Date(), end: Date())
     hkRecord.samples.append(hkHeight)
     //print(hkRecord)
     
@@ -122,9 +122,9 @@ class HealthKitRecordTest: XCTestCase {
   
   func testSampleTypes() {
     let bmi: Double = 24.1
-    let bmiType = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMassIndex)
-    let bmiQuantity = HKQuantity(unit: HKUnit.countUnit(), doubleValue: bmi)
-    let bmiSample = HKQuantitySample(type: bmiType!, quantity: bmiQuantity, startDate: NSDate(), endDate: NSDate())
+    let bmiType = HKQuantityType.quantityType(forIdentifier: HKQuantityTypeIdentifier.bodyMassIndex)
+    let bmiQuantity = HKQuantity(unit: HKUnit.count(), doubleValue: bmi)
+    let bmiSample = HKQuantitySample(type: bmiType!, quantity: bmiQuantity, start: Date(), end: Date())
     print(bmiSample)
   }
   
@@ -224,7 +224,7 @@ class HealthKitRecordTest: XCTestCase {
     let hds_hr = CDAKPhysicalQuantityResultValue(scalar: 86, units: hr_unit)
     
     // and we can build a HealthKit version
-    let hk_hr: HKQuantity = HKQuantity(unit: HKUnit(fromString: hr_unit), doubleValue: hr_value)
+    let hk_hr: HKQuantity = HKQuantity(unit: HKUnit(from: hr_unit), doubleValue: hr_value)
     
     
     
@@ -266,7 +266,7 @@ class HealthKitRecordTest: XCTestCase {
   func testCustomBridgeCDAStringFinder() {
     //var cdaStringUnitFinder : ((unit_string: String?, typeIdentifier: String? ) -> HKUnit?)?
     
-    var cdaStringUnitFinder_nil : ((unit_string: String?, typeIdentifier: String? ) -> HKUnit?) = {
+    var cdaStringUnitFinder_nil : ((_ unit_string: String?, _ typeIdentifier: String? ) -> HKUnit?) = {
       (unit_string: String?, typeIdentifier: String?) -> HKUnit? in
       
       return nil
@@ -284,11 +284,11 @@ class HealthKitRecordTest: XCTestCase {
 
     XCTAssertNil(hk_hrEntry_nil)
     
-    var cdaStringUnitFinder : ((unit_string: String?, typeIdentifier: String? ) -> HKUnit?) = {
+    var cdaStringUnitFinder : ((_ unit_string: String?, _ typeIdentifier: String? ) -> HKUnit?) = {
       (unit_string: String?, typeIdentifier: String?) -> HKUnit? in
       
       if unit_string == "beats" {
-        return HKUnit(fromString: "count/min")
+        return HKUnit(from: "count/min")
       }
       
       return nil

@@ -1,5 +1,5 @@
 #import "SwiftTryCatch.h"
-
+#import "WBTry.h"
 /*
  make sure you add the obj-c bridging header setting
  -> project\Build Settings\(search for "bridging")\(add to "Objective-C Briding Header")

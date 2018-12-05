@@ -44,13 +44,13 @@ class CDAKImport_CDA_SectionImporter {
   - parameter doc: It is expected that the root node of this document will have the "cda" namespace registered to "urn:hl7-org:v3" measure definition
   - returns: will be a list of CDAKEntry objects
   */
-  func create_entries(doc: XMLDocument, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> [CDAKEntry] {
+  func create_entries(_ doc: XMLDocument, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> [CDAKEntry] {
 
     var entry_list: [CDAKEntry] = []
     let entry_elements = entry_finder.entries(doc)
-    
-    for entry_element in entry_elements {
-      if let entry = create_entry(entry_element, nrh: nrh) {
+
+    for entry_element in entry_elements.enumerated() {
+      if let entry = create_entry(entry_element.element, nrh: nrh) {
         if check_for_usable == true {
           if entry.usable() {
             entry_list.append(entry)
@@ -65,7 +65,7 @@ class CDAKImport_CDA_SectionImporter {
   }
 
   
-  func create_entry(entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEntry? {
+  func create_entry(_ entry_element: XMLElement, nrh: CDAKImport_CDA_NarrativeReferenceHandler = CDAKImport_CDA_NarrativeReferenceHandler()) -> CDAKEntry? {
     
     let entry = entry_class.init()
     extract_id(entry_element, entry: entry)
@@ -84,7 +84,7 @@ class CDAKImport_CDA_SectionImporter {
   }
 
   
-  func extract_indication(entry_element: XMLElement, entry: CDAKEntry, indication_xpath: String) -> CDAKEntry? {
+  func extract_indication(_ entry_element: XMLElement, entry: CDAKEntry, indication_xpath: String) -> CDAKEntry? {
     if let indication_element = entry_element.xpath(indication_xpath).first {
       //NOTE: we're not capturing xsi:type="CD" / "CE" etc.
       // we're goign to flag everything as CE ("Coded with Equivalents")
@@ -100,25 +100,25 @@ class CDAKImport_CDA_SectionImporter {
 
   }
 
-  func extract_description(parent_element: XMLElement, entry: CDAKEntry, nrh: CDAKImport_CDA_NarrativeReferenceHandler) {
+  func extract_description(_ parent_element: XMLElement, entry: CDAKEntry, nrh: CDAKImport_CDA_NarrativeReferenceHandler) {
     let orig_text_ref_element = parent_element.xpath(description_xpath).first
     let desc_ref_element = parent_element.xpath("./cda:text/cda:reference").first
-    if let orig_text_ref_element = orig_text_ref_element, val = orig_text_ref_element["value"] {
+    if let orig_text_ref_element = orig_text_ref_element, let val = orig_text_ref_element["value"] {
       entry.item_description = nrh.lookup_tag(val)
-    } else if let desc_ref_element = desc_ref_element, val = desc_ref_element["value"] {
+    } else if let desc_ref_element = desc_ref_element, let val = desc_ref_element["value"] {
       entry.item_description = nrh.lookup_tag(val)
     } else if let elem = parent_element.xpath("./cda:text").first {
       entry.item_description = elem.stringValue
     }
   }
 
-  func extract_status(parent_element: XMLElement, entry: CDAKEntry) {
-    if let status_xpath = status_xpath, status_element = parent_element.xpath(status_xpath).first {
+  func extract_status(_ parent_element: XMLElement, entry: CDAKEntry) {
+    if let status_xpath = status_xpath, let status_element = parent_element.xpath(status_xpath).first {
       entry.status_code.addCodes(CDAKImport_CDA_SectionImporter.extract_code(status_element, code_xpath: "."))
     }
   }
 
-  func extract_id(parent_element: XMLElement, entry: CDAKThingWithIdentifier) {
+  func extract_id(_ parent_element: XMLElement, entry: CDAKThingWithIdentifier) {
     if let id_element = parent_element.xpath(id_xpath).first {
       let identifier = CDAKCDAIdentifier()
       identifier.root = id_element["root"]
@@ -127,7 +127,7 @@ class CDAKImport_CDA_SectionImporter {
     }
   }
 
-  func extract_reason_description(parent_element: XMLElement, entry: CDAKEntry, nrh: CDAKImport_CDA_NarrativeReferenceHandler) {
+  func extract_reason_description(_ parent_element: XMLElement, entry: CDAKEntry, nrh: CDAKImport_CDA_NarrativeReferenceHandler) {
     let code_elements = parent_element.xpath(description_xpath)
     for code_element in code_elements {
       if let tag = code_element["value"] {
@@ -136,7 +136,7 @@ class CDAKImport_CDA_SectionImporter {
     }
   }
 
-  func extract_codes(parent_element: XMLElement, entry: CDAKThingWithCodes, codes_xpath: String? = nil) {
+  func extract_codes(_ parent_element: XMLElement, entry: CDAKThingWithCodes, codes_xpath: String? = nil) {
     let xpath = codes_xpath ?? code_xpath
     let code_elements = parent_element.xpath(xpath)
     for code_element in code_elements {
@@ -148,11 +148,11 @@ class CDAKImport_CDA_SectionImporter {
     }
   }
 
-  func add_code_if_present(code_element: XMLElement, entry: CDAKThingWithCodes) {
+  func add_code_if_present(_ code_element: XMLElement, entry: CDAKThingWithCodes) {
     entry.codes.addCodes(CDAKImport_CDA_SectionImporter.extract_code(code_element, code_xpath: "."))
   }
 
-  func extract_dates(parent_element: XMLElement, entry: CDAKThingWithTimes, element_name: String = "effectiveTime") {
+  func extract_dates(_ parent_element: XMLElement, entry: CDAKThingWithTimes, element_name: String = "effectiveTime") {
     if let elem = parent_element.xpath("cda:\(element_name)/@value").first {
       entry.time = CDAKHL7Helper.timestamp_to_integer(elem.stringValue)
     }
@@ -167,7 +167,7 @@ class CDAKImport_CDA_SectionImporter {
     }
   }
 
-  func extract_values(parent_element: XMLElement, entry: CDAKEntry) {
+  func extract_values(_ parent_element: XMLElement, entry: CDAKEntry) {
     if let value_xpath = value_xpath {
       for elem in parent_element.xpath(value_xpath) {
         extract_value(parent_element, value_element: elem, entry: entry)
@@ -175,12 +175,12 @@ class CDAKImport_CDA_SectionImporter {
     }
   }
 
-  func extract_value(parent_element: XMLElement, value_element: XMLElement?, entry: CDAKEntry) {
+  func extract_value(_ parent_element: XMLElement, value_element: XMLElement?, entry: CDAKEntry) {
     //FIX_ME: - I had to comment some of this out... not the type I was expecting
     if let value_element = value_element {
       if let value = value_element["value"] {
         let unit = value_element["unit"]
-        entry.set_value(value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()), units: unit)
+        entry.set_value(value.trimmingCharacters(in: .whitespaces), units: unit)
       } else if let _ = value_element["code"] {
         // there is one example I found where this is being called:
         // bundle exec rake test TEST=test/unit/import/cat1/tobacco_use_importer_test.rb
@@ -194,21 +194,21 @@ class CDAKImport_CDA_SectionImporter {
       } else {
         let value = value_element.stringValue
         let unit = value_element["unit"]
-        entry.set_value(value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()), units: unit)
+        entry.set_value(value.trimmingCharacters(in: .whitespaces), units: unit)
       }
     }
   }
 
-  func import_actor(actor_element: XMLElement) -> CDAKProvider {
+  func import_actor(_ actor_element: XMLElement) -> CDAKProvider {
     return CDAKImport_ProviderImportUtils.extract_provider(actor_element)
   }
 
-  func import_organization(organization_element: XMLElement) -> CDAKOrganization? {
+  func import_organization(_ organization_element: XMLElement) -> CDAKOrganization? {
     return CDAKImport_CDA_OrganizationImporter.extract_organization(organization_element)
   }
 
   
-  func import_person(person_element: XMLElement?) -> CDAKPerson? {
+  func import_person(_ person_element: XMLElement?) -> CDAKPerson? {
     
     guard let person_element = person_element else {
       return nil
@@ -225,10 +225,10 @@ class CDAKImport_CDA_SectionImporter {
     return person
   }
 
-  func extract_negation(parent_element: XMLElement, entry: CDAKEntry) {
+  func extract_negation(_ parent_element: XMLElement, entry: CDAKEntry) {
     //FIX_ME: does not appear to pull translations
     if let negation_indicator = parent_element["negationInd"] {
-      entry.negation_ind = negation_indicator.lowercaseString == "true"
+      entry.negation_ind = negation_indicator.lowercased() == "true"
       if entry.negation_ind == true {
         if let negation_reason_element = parent_element.xpath("./cda:entryRelationship[@typeCode='RSON']/cda:observation[cda:templateId/@root='2.16.840.1.113883.10.20.24.3.88']/cda:value | ./cda:entryRelationship[@typeCode='RSON']/cda:act[cda:templateId/@root='2.16.840.1.113883.10.20.1.27']/cda:code").first {
           entry.negation_reason.addCodes(CDAKImport_CDA_SectionImporter.extract_code(negation_reason_element, code_xpath: "."))
@@ -244,7 +244,7 @@ class CDAKImport_CDA_SectionImporter {
    - parameter code_xpath: XPath query to your coded element within the parent.  Could even be "."
    - parameter code_system: optional string to override (or just directly supply) a given code system for this entry.  Certain entries (EX: language, race, ethnicity) do not supply a code system directly, but instead rely on an "implied" code system like "CDC Race" which aren't defined in the XML. In this case, the code system tag/name can be supplied directly and then looked up internally (if possible) to obtain the OID, etc.
   */
-  class func extract_code(parent_element: XMLElement, code_xpath: String, code_system: String? = nil) -> CDAKCodedEntry? {
+  class func extract_code(_ parent_element: XMLElement, code_xpath: String, code_system: String? = nil) -> CDAKCodedEntry? {
     if let code_element = parent_element.xpath(code_xpath).first {
       if let code = code_element["code"] {
         let display_name = code_element["displayName"]
@@ -261,7 +261,7 @@ class CDAKImport_CDA_SectionImporter {
     return nil
   }
   
-  class func extract_codes(parent_element: XMLElement, code_xpath: String) -> CDAKCodedEntries? {
+  class func extract_codes(_ parent_element: XMLElement, code_xpath: String) -> CDAKCodedEntries? {
     let code_elements = parent_element.xpath(code_xpath)
     if code_elements.count > 0 {
       var codes = CDAKCodedEntries()
@@ -270,7 +270,7 @@ class CDAKImport_CDA_SectionImporter {
         codes.addCodes(extract_code(code_element, code_xpath: "."))
         let translations = code_element.xpath("cda:translation")
         for translation in translations {
-          extract_code(translation, code_xpath: ".")
+          _ = extract_code(translation, code_xpath: ".")
         }
       }
       return codes
@@ -278,7 +278,7 @@ class CDAKImport_CDA_SectionImporter {
     return nil
   }
 
-  func extract_entry_detail(parent_element: XMLElement, xpath: String = ".", codes_xpath: String = "cda:value") -> CDAKEntryDetail? {
+  func extract_entry_detail(_ parent_element: XMLElement, xpath: String = ".", codes_xpath: String = "cda:value") -> CDAKEntryDetail? {
     if let element = parent_element.xpath(xpath).first {
       let detail = CDAKEntryDetail()
       if let codes = CDAKImport_CDA_SectionImporter.extract_codes(element, code_xpath: codes_xpath) {
@@ -292,7 +292,7 @@ class CDAKImport_CDA_SectionImporter {
   }
   
   //Revised - with fixed CDAKValueAndUnit type
-  func extract_scalar(parent_element: XMLElement, scalar_xpath: String) -> CDAKValueAndUnit? {
+  func extract_scalar(_ parent_element: XMLElement, scalar_xpath: String) -> CDAKValueAndUnit? {
     if let scalar_element = parent_element.xpath(scalar_xpath).first {
       //had to change htis from the original version a bit
       // we can have doseQuantity, for example, that only has a value and NOT a unit
@@ -304,7 +304,7 @@ class CDAKImport_CDA_SectionImporter {
         if let unit = unit {
           scalar.unit = unit
         }
-        if let value = value, value_as_float = Double(value) {
+        if let value = value, let value_as_float = Double(value) {
           scalar.value = value_as_float
         }
         return scalar

@@ -11,31 +11,31 @@ import Foundation
 /**
  Support
 */
-public class CDAKSupport: CDAKEntry {
+open class CDAKSupport: CDAKEntry {
 
   // MARK: CDA properties
 
   ///types of support available
-  public static let Types = ["Guardian", "Next of Kin", "Caregiver", "Emergency Contact"]
+  open static let Types = ["Guardian", "Next of Kin", "Caregiver", "Emergency Contact"]
   
   ///address
-  public var address: CDAKAddress?
+  open var address: CDAKAddress?
   ///telecom
-  public var telecom: CDAKTelecom?
+  open var telecom: CDAKTelecom?
   ///prefix (was Title)
-  public var prefix: String?
+  open var prefix: String?
   ///first / given name
-  public var given_name: String?
+  open var given_name: String?
   ///family / past name
-  public var family_name: String?
+  open var family_name: String?
   ///suffix
-  public var suffix: String?
+  open var suffix: String?
   ///mother's maiden name
-  public var mothers_maiden_name: String?
+  open var mothers_maiden_name: String?
   ///type (see types)
-  public var type: String?
+  open var type: String?
   ///relationship
-  public var relationship: String?
+  open var relationship: String?
   
   //# validates_inclusion_of :type, :in => Types
   
@@ -48,32 +48,32 @@ extension CDAKSupport {
     var dict = super.jsonDict
     
     if let address = address {
-      dict["address"] = address.jsonDict
+      dict["address"] = address.jsonDict as AnyObject?
     }
     if let telecom = telecom {
-      dict["telecom"] = telecom.jsonDict
+      dict["telecom"] = telecom.jsonDict as AnyObject?
     }
     
     if let prefix = prefix {
-      dict["prefix"] = prefix
+      dict["prefix"] = prefix as AnyObject?
     }
     if let given_name = given_name {
-      dict["given_name"] = given_name
+      dict["given_name"] = given_name as AnyObject?
     }
     if let family_name = family_name {
-      dict["family_name"] = family_name
+      dict["family_name"] = family_name as AnyObject?
     }
     if let suffix = suffix {
-      dict["suffix"] = suffix
+      dict["suffix"] = suffix as AnyObject?
     }
     if let mothers_maiden_name = mothers_maiden_name {
-      dict["mothers_maiden_name"] = mothers_maiden_name
+      dict["mothers_maiden_name"] = mothers_maiden_name as AnyObject?
     }
     if let type = type {
-      dict["type"] = type
+      dict["type"] = type as AnyObject?
     }
     if let relationship = relationship {
-      dict["relationship"] = relationship
+      dict["relationship"] = relationship as AnyObject?
     }
     
     return dict

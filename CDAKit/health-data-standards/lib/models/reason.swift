@@ -16,10 +16,10 @@ import Mustache
 /**
   Reason
 */
-public class CDAKReason: CDAKEntry {
+open class CDAKReason: CDAKEntry {
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
+  override open var description: String {
     return "CDAKReason => description: \(item_description), codes: \(codes)"
   }
   

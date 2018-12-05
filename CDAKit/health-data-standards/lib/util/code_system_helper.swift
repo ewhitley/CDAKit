@@ -11,7 +11,7 @@ import Foundation
 /** 
 General helpers for working with codes and code system
 */
-public class CDAKCodeSystemHelper {
+open class CDAKCodeSystemHelper {
   
   /**
   code system name for a given code system OID
@@ -65,7 +65,7 @@ public class CDAKCodeSystemHelper {
   
    EX: "FDA SPL" : "NCI Thesaurus"
   */
-  public static let CODE_SYSTEM_ALIASES: [String:String] = [
+  open static let CODE_SYSTEM_ALIASES: [String:String] = [
     "FDA SPL" : "NCI Thesaurus", //Structured Product Labeling?
     "HSLOC" : "HL7 Healthcare Service Location",
     "SOP" : "Source of Payment Typology",
@@ -74,7 +74,7 @@ public class CDAKCodeSystemHelper {
   
   /// Some old OID are still around in data, this hash maps retired OID values to
   /// the new value
-  public static let OID_ALIASES: [String:String] = [
+  open static let OID_ALIASES: [String:String] = [
     "2.16.840.1.113883.6.59" : "2.16.840.1.113883.12.292" //# CVX
   ]
   
@@ -82,7 +82,7 @@ public class CDAKCodeSystemHelper {
   /// Returns the name of a code system given an oid
   /// - parameter oid: [String] oid of a code system
   /// - returns: [String] the name of the code system as described in the measure definition JSON
-  public class func code_system_for(oid: String) -> String {
+  open class func code_system_for(_ oid: String) -> String {
     var an_oid = oid
     if let an_alias = OID_ALIASES[oid] {
       an_oid = an_alias
@@ -98,7 +98,8 @@ public class CDAKCodeSystemHelper {
   /// Returns the oid for a code system given a codesystem name
   /// - parameter code_system: [String] the name of the code system
   /// - returns: [String] the oid of the code system
-  public class func oid_for_code_system(var code_system: String) -> String {
+  public class func oid_for_code_system(_ code_system: String) -> String {
+    var code_system = code_system
   
     if let an_alias = CODE_SYSTEM_ALIASES[code_system] {
       code_system = an_alias
@@ -115,7 +116,7 @@ public class CDAKCodeSystemHelper {
   
   /// Returns the whole map of OIDs to code systems
   /// - returns: [Hash] oids as keys, code system names as values
-  public class func code_systems() -> [String:String] {
+  open class func code_systems() -> [String:String] {
     return CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS
   }
   
@@ -124,14 +125,14 @@ public class CDAKCodeSystemHelper {
   
    This can be used manually or happens automatically as code system/oid pairs are discovered during CDA import
   */
-  public class func addCodeSystem(code_system: String, oid: String? = "UNK") {
+  open class func addCodeSystem(_ code_system: String, oid: String? = "UNK") {
     if let oid = oid {
       if let  _ = CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS[oid] {
       //we already have this code system
       return
       }
       let cs = CDAKGlobals.sharedInstance.CDAK_EXTENDED_CODE_SYSTEMS.inverse()
-      if let existing_oid = cs[code_system] {
+      if cs[code_system] != nil {
         // do a reverse look-up for this code_system
         // we already have someting in the set - don't re-add the value for a different key
         // this can happen for things like bogus entries

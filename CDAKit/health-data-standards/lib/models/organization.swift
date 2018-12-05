@@ -12,17 +12,17 @@ import Mustache
 /**
 Organization
 */
-public class CDAKOrganization: CDAKJSONInstantiable, CustomStringConvertible, Equatable, Hashable {
+open class CDAKOrganization: CDAKJSONInstantiable, CustomStringConvertible, Equatable, Hashable {
   
   // MARK: CDA properties
   ///organization name
-  public var name: String?
+  open var name: String?
   ///OIds etc. for organization
-  public var ids: [CDAKCDAIdentifier] = [] //not used in original model. Merged from QRDA ORG model
+  open var ids: [CDAKCDAIdentifier] = [] //not used in original model. Merged from QRDA ORG model
   ///physical address
-  public var addresses: [CDAKAddress] = [CDAKAddress]()
+  open var addresses: [CDAKAddress] = [CDAKAddress]()
   ///telecoms
-  public var telecoms: [CDAKTelecom] = [CDAKTelecom]()
+  open var telecoms: [CDAKTelecom] = [CDAKTelecom]()
 
   
   // MARK: - Initializers
@@ -36,7 +36,7 @@ public class CDAKOrganization: CDAKJSONInstantiable, CustomStringConvertible, Eq
   }
   
   ///Do not use - will be removed. Was used in HDS Ruby.
-  private func initFromEventList(event: [String:Any?]) {
+  fileprivate func initFromEventList(_ event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)
     }
@@ -44,7 +44,7 @@ public class CDAKOrganization: CDAKJSONInstantiable, CustomStringConvertible, Eq
   
   // MARK: Standard properties
   ///Debugging description
-  public var description: String {
+  open var description: String {
     return "CDAKOrganization => name: \(name), addresses: \(addresses), telecoms: \(telecoms)"
   }
   
@@ -104,16 +104,16 @@ extension CDAKOrganization: CDAKJSONExportable {
     var dict: [String: AnyObject] = [:]
     
     if let name = name {
-      dict["name"] = name
+      dict["name"] = name as AnyObject?
     }
     if ids.count > 0 {
-      dict["ids"] = ids.map({$0.jsonDict})
+      dict["ids"] = ids.map({$0.jsonDict}) as AnyObject?
     }
     if telecoms.count > 0 {
-      dict["telecoms"] = telecoms.map({$0.jsonDict})
+      dict["telecoms"] = telecoms.map({$0.jsonDict}) as AnyObject?
     }
     if addresses.count > 0 {
-      dict["addresses"] = addresses.map({$0.jsonDict})
+      dict["addresses"] = addresses.map({$0.jsonDict}) as AnyObject?
     }
     
     return dict

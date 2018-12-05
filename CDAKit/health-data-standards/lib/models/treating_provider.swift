@@ -11,12 +11,12 @@ import Foundation
 /**
 Information about provider who rendered care
 */
-public class CDAKTreatingProvider: CDAKEntry {
+open class CDAKTreatingProvider: CDAKEntry {
   
   // MARK: CDA properties
 
   ///identifier
-  public var treatingProviderID: Int?
+  open var treatingProviderID: Int?
 }
 
 extension CDAKTreatingProvider {
@@ -26,7 +26,7 @@ extension CDAKTreatingProvider {
     var dict = super.jsonDict
     
     if let treatingProviderID = treatingProviderID {
-      dict["treatingProviderID"] = treatingProviderID
+      dict["treatingProviderID"] = treatingProviderID as AnyObject?
     }
     
     return dict

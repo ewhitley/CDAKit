@@ -284,7 +284,7 @@ class DateShiftTest: XCTestCase {
 
   //helper method for other tests
   //field_values appear to be things like ["start_time":1] or ["start_time":nil]
-  func entry_shift_assertions(field_values:[String:Any?], shift: Double, entry: CDAKPropertyAddressable, block: (()->())? = nil ) {
+  func entry_shift_assertions(_ field_values:[String:Any?], shift: Double, entry: CDAKPropertyAddressable, block: (()->())? = nil ) {
 
     for (field, value) in field_values {
       //get the value from the entry

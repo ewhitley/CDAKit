@@ -12,10 +12,10 @@ import Foundation
  Communication
  Could represent provider to patient, etc.
 */
-public class CDAKCommunication: CDAKEntry {
+open class CDAKCommunication: CDAKEntry {
   // MARK: CDA properties
   ///Direction of communication
-  public var direction: String?
+  open var direction: String?
 }
 
 extension CDAKCommunication {
@@ -25,7 +25,7 @@ extension CDAKCommunication {
     var dict = super.jsonDict
     
     if let direction = direction {
-      dict["direction"] = direction
+      dict["direction"] = direction as AnyObject?
     }
     
     return dict

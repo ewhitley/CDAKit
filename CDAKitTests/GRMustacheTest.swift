@@ -15,10 +15,10 @@ class GRMustacheTest: XCTestCase {
 
   let data = [
     "name": "Arthur",
-    "date": NSDate(),
-    "realDate": NSDate().dateByAddingTimeInterval(60*60*24*3),
+    "date": Date(),
+    "realDate": Date().addingTimeInterval(60*60*24*3),
     "late": true
-  ]
+  ] as [String : Any]
   
   override func setUp() {
       super.setUp()
@@ -71,14 +71,14 @@ class GRMustacheTest: XCTestCase {
 
   func testFileWithFile() {
     do {
-      let bundle = NSBundle(forClass: self.dynamicType)
-      let path = bundle.pathForResource("document", ofType: "mustache")
+      let bundle = Bundle(for: type(of: self))
+      let path = bundle.path(forResource: "document", ofType: "mustache")
       let template = try Template(path: path!)
       
       // Let template format dates with `{{format(...)}}`
-      let dateFormatter = NSDateFormatter()
-      dateFormatter.dateStyle = .MediumStyle
-      template.registerInBaseContext("format", Box(dateFormatter))
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateStyle = .medium
+      template.register(Box(dateFormatter), forKey:"format")
       
       let rendering = try template.render(Box(data))
       print(rendering)
@@ -90,7 +90,7 @@ class GRMustacheTest: XCTestCase {
 
   func testFileWithURL() {
     do {
-      let templateURL = NSURL(fileURLWithPath: "document.mustache")
+      let templateURL = URL(fileURLWithPath: "document.mustache")
       let template = try Template(URL: templateURL)
       let rendering = try template.render(Box(data))
       print(rendering)
@@ -117,7 +117,7 @@ class GRMustacheTest: XCTestCase {
 //    static let sharedInstance = UUIDGenerator()
 //  }
 
-  public class UUIDGenerator: MustacheBoxable {
+  open class UUIDGenerator: MustacheBoxable {
     
 //    required init?(coder aDecoder: NSCoder) {
 //      //super.init(value: aDecoder)
@@ -136,8 +136,8 @@ class GRMustacheTest: XCTestCase {
 //      )
 //    }
 
-    public var mustacheBox: MustacheBox {
-      return Box(NSUUID().UUIDString)
+    open var mustacheBox: MustacheBox {
+      return Box(NSUUID().uuidString)
     }
 
     static let sharedInstance = UUIDGenerator()
@@ -149,12 +149,12 @@ class GRMustacheTest: XCTestCase {
     
     //let uuid = NSUUID().UUIDString
     
-    let percentFormatter = NSNumberFormatter()
-    percentFormatter.numberStyle = .PercentStyle
+    let percentFormatter = NumberFormatter()
+    percentFormatter.numberStyle = .percent
     
     do {
       let template = try Template(string: "{{ percent(x) }}")
-      template.registerInBaseContext("percent", Box(percentFormatter))
+      template.register(Box(percentFormatter), forKey: "percent")
       
       // Rendering: 50%
       let data = ["x": 0.5]
@@ -163,7 +163,7 @@ class GRMustacheTest: XCTestCase {
       XCTAssertEqual(rendering, "50%")
     }
     catch {
-      
+
     }
     
   }
@@ -196,7 +196,7 @@ class GRMustacheTest: XCTestCase {
   func testFilter() {
     
     let reverse = Filter { (rendering: Rendering) in
-      let reversedString = String(rendering.string.characters.reverse())
+      let reversedString = String(rendering.string.characters.reversed())
       return Rendering(reversedString, rendering.contentType)
     }
 
@@ -213,7 +213,7 @@ class GRMustacheTest: XCTestCase {
 
       
       let template = try Template(string: "{{ UUID_generate(nil) }}")
-      template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
+      template.register(Box(MustacheFilters.UUID_generate), forKey: "UUID_generate")
 
       // Rendering: 50%
       let data = ["x": 0.5]
@@ -234,33 +234,33 @@ class GRMustacheTest: XCTestCase {
     let DateAsNumber = Filter { (box: MustacheBox) in
       
       if box.value == nil {
-        return Box(NSDate().stringFormattedAsHDSDateNumber)
+        return Box(Date().stringFormattedAsHDSDateNumber)
       }
       
         switch box.value {
         case let int as Int:
           print("I'm an Int")
-          let d = NSDate(timeIntervalSince1970: Double(int))
+          let d = Date(timeIntervalSince1970: Double(int))
           return Box(d.stringFormattedAsHDSDateNumber)
         case let double as Double:
           print("I'm a double")
-          let d = NSDate(timeIntervalSince1970: double)
+          let d = Date(timeIntervalSince1970: double)
           return Box(d.stringFormattedAsHDSDateNumber)
-        case let date as NSDate:
+        case let date as Date:
           print("I'm a date")
           return Box(date.stringFormattedAsHDSDateNumber)
         default:
           // GRMustache does not support any other numeric types: give up.
-          print("I'm of type \(box.value.dynamicType)")
-          return Box()
+          print("I'm of type \(type(of: box.value))")
+          return nil
         }
     }
 
     
     do {
       let template = try Template(string: "Date: {{ date_as_number(x) }}, Int: {{date_as_number(y)}} , Double: {{ date_as_number(z) }}, nil: {{ date_as_number(nil) }}")
-      template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
-      let data = ["x": NSDate(), "y":Int(NSDate().timeIntervalSince1970), "z":NSDate().timeIntervalSince1970]
+      template.register(Box(MustacheFilters.DateAsNumber), forKey: "date_as_number")
+      let data = ["x": Date(), "y":Int(Date().timeIntervalSince1970), "z":Date().timeIntervalSince1970] as [String : Any]
       let rendering = try template.render(Box(data))
       print(rendering)
     }
@@ -286,10 +286,10 @@ class GRMustacheTest: XCTestCase {
 //      return Box(result)
 //    }
     
-    func convertStringToDictionary(text: String) -> [String:Any] {
-      if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+    func convertStringToDictionary(_ text: String) -> [String:Any] {
+      if let data = text.data(using: String.Encoding.utf8) {
         do {
-          let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? [String:AnyObject]
+          let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:AnyObject]
           
           var otherJson: [String:Any] = [:]
           if let json = json {
@@ -331,7 +331,7 @@ class GRMustacheTest: XCTestCase {
     do {
       let template = try Template(string: "code_display = {{# code_display(x)}}{\"tag_name\":\"value\",\"extra_content\":\"xsi:type=CD\",\"preferred_code_sets\":[\"SNOMED-CT\"]}{{/ }}")
 
-      template.registerInBaseContext("code_display", Box(code_display))
+      template.register(Box(code_display), forKey: "code_display")
       
       let entry = CDAKEntry()
       entry.time = 1270598400
@@ -362,8 +362,8 @@ class GRMustacheTest: XCTestCase {
       let template = try Template(string: "time:{{entry.time}}  codes:{{#each(entry.codes)}}{{@key}} {{#each(.)}} {{.}} {{/}} {{/}}")
       //each(entry.codes)
       let data = ["entry": entry]
-      template.registerInBaseContext("each", Box(StandardLibrary.each))
-      let rendering = try template.render(Box(data))
+      template.register(Box(StandardLibrary.each), forKey: "each")
+      let rendering = try template.render((data))
 
       print("trying to render...")
       print(rendering)
@@ -459,26 +459,26 @@ class GRMustacheTest: XCTestCase {
       // disables all HTML escaping
    //   Mustache.DefaultConfiguration.contentType = .Text
 
-      let bundle = NSBundle(forClass: self.dynamicType)
-      let path = bundle.pathForResource("record", ofType: "mustache")
+      let bundle = Bundle(for: type(of: self))
+      let path = bundle.path(forResource: "record", ofType: "mustache")
       let template = try Template(path: path!)
 
       let data = ["patient": bigTestRecord]
       // USE: telecoms:{{#each(patient.telecoms)}} hi {{value}} {{use}} {{/}}
-      template.registerInBaseContext("each", Box(StandardLibrary.each))
+      template.register(Box(StandardLibrary.each), forKey: "each")
       // USE: {{ UUID_generate(nil) }}
-      template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
+      template.register(Box(MustacheFilters.UUID_generate), forKey: "UUID_generate")
       // USE: {{ date_as_number(z) }}, nil: {{ date_as_number(nil) }}
-      template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
+      template.register(Box(MustacheFilters.DateAsNumber), forKey: "date_as_number")
       
       // USE: {{ value_or_null_flavor(entry.as_point_in_time) }}
-      template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
+      template.register(Box(MustacheFilters.value_or_null_flavor), forKey: "value_or_null_flavor")
 
-      template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
+      template.register(Box(MustacheFilters.oid_for_code_system), forKey: "oid_for_code_system")
       
       
-      template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
-      template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
+      template.register(Box(MustacheFilters.is_numeric), forKey: "is_numeric")
+      template.register(Box(MustacheFilters.is_bool), forKey: "is_bool")
       
       
       //Removing this registration
@@ -551,7 +551,7 @@ class GRMustacheTest: XCTestCase {
 //    
 //  }
   
-  func transformAnyObjectDict(dict: [String:AnyObject]) -> [String:Any?] {
+  func transformAnyObjectDict(_ dict: [String:AnyObject]) -> [String:Any?] {
     var otherJson: [String:Any?] = [:]
     for(key, value) in dict {
       if let value = value as? [String:AnyObject] {
@@ -642,19 +642,19 @@ class GRMustacheTest: XCTestCase {
 //    
 //  }
   
-  func loadJSONFromBundleFile(filename: String) -> [String:AnyObject]? {
+  func loadJSONFromBundleFile(_ filename: String) -> [String:AnyObject]? {
     
     let fileName = "\(filename)"
     let directory: String? = nil
-    let bundle = NSBundle(forClass: self.dynamicType)
+    let bundle = Bundle(for: type(of: self))
     //NSBundle.mainBundle()
 
-    guard let filePath = bundle.pathForResource(fileName, ofType: "json", inDirectory: directory) else {
+    guard let filePath = bundle.path(forResource: fileName, ofType: "json", inDirectory: directory) else {
       fatalError("Failed to find file '\(fileName)' in path '\(directory)' ")
     }
     
-    let templateURL = NSURL(fileURLWithPath: filePath)
-    if let data = NSData(contentsOfURL: templateURL) {
+    let templateURL = URL(fileURLWithPath: filePath)
+    if let data = try? Data(contentsOf: templateURL) {
       return convertDataToDictionary(data)
     }
     return nil
@@ -662,8 +662,8 @@ class GRMustacheTest: XCTestCase {
   
   
   //http://stackoverflow.com/questions/30480672/how-to-convert-a-json-string-to-a-dictionary
-  func convertStringToDictionary(text: String) -> [String:AnyObject]? {
-    if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+  func convertStringToDictionary(_ text: String) -> [String:AnyObject]? {
+    if let data = text.data(using: String.Encoding.utf8) {
 //      do {
 //        let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? [String:AnyObject]
 //        return json
@@ -676,9 +676,9 @@ class GRMustacheTest: XCTestCase {
     return nil
   }
   
-  func convertDataToDictionary(data: NSData) -> [String:AnyObject]? {
+  func convertDataToDictionary(_ data: Data) -> [String:AnyObject]? {
     do {
-      let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? [String:AnyObject]
+      let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:AnyObject]
       return json
     }
     catch let error as NSError {
@@ -815,14 +815,14 @@ class GRMustacheTest: XCTestCase {
         
         let data = ["patient": record]
         
-        template.registerInBaseContext("each", Box(StandardLibrary.each))
-        template.registerInBaseContext("UUID_generate", Box(MustacheFilters.UUID_generate))
-        template.registerInBaseContext("date_as_number", Box(MustacheFilters.DateAsNumber))
-        template.registerInBaseContext("date_as_string", Box(MustacheFilters.DateAsHDSString))
-        template.registerInBaseContext("value_or_null_flavor", Box(MustacheFilters.value_or_null_flavor))
-        template.registerInBaseContext("oid_for_code_system", Box(MustacheFilters.oid_for_code_system))
-        template.registerInBaseContext("is_numeric", Box(MustacheFilters.is_numeric))
-        template.registerInBaseContext("is_bool", Box(MustacheFilters.is_bool))
+        template.register(Box(StandardLibrary.each), forKey: "each")
+        template.register(Box(MustacheFilters.UUID_generate), forKey: "UUID_generate")
+        template.register(Box(MustacheFilters.DateAsNumber), forKey: "date_as_number")
+        template.register(Box(MustacheFilters.DateAsHDSString), forKey: "date_as_string")
+        template.register(Box(MustacheFilters.value_or_null_flavor), forKey: "value_or_null_flavor")
+        template.register(Box(MustacheFilters.oid_for_code_system), forKey: "oid_for_code_system")
+        template.register(Box(MustacheFilters.is_numeric), forKey: "is_numeric")
+        template.register(Box(MustacheFilters.is_bool), forKey: "is_bool")
         
         
         do {

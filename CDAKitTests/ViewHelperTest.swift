@@ -34,8 +34,8 @@ class ViewHelperTest: XCTestCase {
     let code_xml = ViewHelper.code_display(entry)
     print("code_xml = \n\n\(code_xml)\n\n")
 
-    XCTAssert(!code_xml.containsString("bacon > cheese"))
-    XCTAssert(code_xml.containsString("bacon &gt; cheese"))
+    XCTAssert(!(code_xml.range(of:"bacon > cheese") != nil))
+    XCTAssert((code_xml.range(of: "bacon &gt; cheese") != nil))
     //Original test case.  Changing the test case because I want to have codeSystemName in entries
     //XCTAssertEqual(code_xml, "<code nullFlavor=\"UNK\" ><originalText>bacon &gt; cheese</originalText><translation code=\"1234\" codeSystem=\"2.16.840.1.113883.6.12\"/>\n</code>")
     XCTAssertEqual(code_xml, "<code nullFlavor=\"UNK\" ><originalText>bacon &gt; cheese</originalText><translation code=\"1234\" codeSystemName=\"CPT\" codeSystem=\"2.16.840.1.113883.6.12\"/>\n</code>")
@@ -47,9 +47,9 @@ class ViewHelperTest: XCTestCase {
     XCTAssertNil(ViewHelper.time_if_not_nil(nil, nil))
     XCTAssertNotNil(ViewHelper.time_if_not_nil(nil, 7))
     XCTAssertNotNil(ViewHelper.time_if_not_nil(7))
-    XCTAssertEqual(NSDate(timeIntervalSince1970: 7), ViewHelper.time_if_not_nil(nil, 7))
-    XCTAssertEqual(NSDate(timeIntervalSince1970: 7), ViewHelper.time_if_not_nil(7))
-    XCTAssertEqual(NSDate(timeIntervalSince1970: 7), ViewHelper.time_if_not_nil(7, 8))
+    XCTAssertEqual(Date(timeIntervalSince1970: 7), ViewHelper.time_if_not_nil(nil, 7))
+    XCTAssertEqual(Date(timeIntervalSince1970: 7), ViewHelper.time_if_not_nil(7))
+    XCTAssertEqual(Date(timeIntervalSince1970: 7), ViewHelper.time_if_not_nil(7, 8))
   }
     
 }

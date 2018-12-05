@@ -11,35 +11,35 @@ import Foundation
 /**
 Represents a physical address
 */
-public class CDAKAddress: NSObject, CDAKJSONInstantiable {
+open class CDAKAddress: NSObject, CDAKJSONInstantiable {
   
   //Pointer back to parent record
   weak var record: CDAKRecord?
   
   // MARK: CDA properties
   ///Street
-  public var street: [String] = [String]()
+  open var street: [String] = [String]()
   ///City
-  public var city: String?
+  open var city: String?
   ///State
-  public var state: String?
+  open var state: String?
   ///Zip code
-  public var zip: String?
+  open var zip: String?
   ///Country code
-  public var country: String?
+  open var country: String?
   /**
    HL7 Address Use codes
    HL7 OID: 2.16.840.1.113883.5.1119
    [Reference] (https://www.hl7.org/fhir/v3/AddressUse/index.html)
   */
-  public var use: String?
+  open var use: String?
   
   /**
    Determines whether the address is empty
   */
-  public var is_empty: Bool {
+  open var is_empty: Bool {
     
-    let someText: String = "\(street.flatMap({$0}).joinWithSeparator(""))\(city ?? "")\(state ?? "")\(zip ?? "")\(country ?? "")".stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    let someText: String = "\(street.flatMap({$0}).joined(separator: ""))\(city ?? "")\(state ?? "")\(zip ?? "")\(country ?? "")".trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     
     if someText.characters.count > 0 {
       return false
@@ -71,7 +71,7 @@ public class CDAKAddress: NSObject, CDAKJSONInstantiable {
   }
   
   ///Do not use - will be removed. Was used in HDS Ruby.
-  private func initFromEventList(event: [String:Any?]) {
+  fileprivate func initFromEventList(_ event: [String:Any?]) {
     for (key, value) in event {
       CDAKUtility.setProperty(self, property: key, value: value)
     }
@@ -79,7 +79,7 @@ public class CDAKAddress: NSObject, CDAKJSONInstantiable {
 
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
+  override open var description: String {
     return "CDAKAddress => street: \(street), city: \(city), state: \(state), zip: \(zip), country: \(country), use: \(use)"
   }
   
@@ -91,22 +91,22 @@ extension CDAKAddress: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     if street.count > 0 {
-      dict["street"] = street
+      dict["street"] = street as AnyObject?
     }
     if let city = city {
-      dict["city"] = city
+      dict["city"] = city as AnyObject?
     }
     if let state = state {
-      dict["state"] = state
+      dict["state"] = state as AnyObject?
     }
     if let zip = zip {
-      dict["zip"] = zip
+      dict["zip"] = zip as AnyObject?
     }
     if let country = country {
-      dict["country"] = country
+      dict["country"] = country as AnyObject?
     }
     if let use = use {
-      dict["use"] = use
+      dict["use"] = use as AnyObject?
     }
     return dict
   }

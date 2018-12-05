@@ -13,19 +13,19 @@ import Foundation
 CDA Guarantor.
 Individual legally responsible for all patient charges
 */
-public class CDAKGuarantor: CDAKEntry {
+open class CDAKGuarantor: CDAKEntry {
 
   // MARK: CDA properties
   
   ///Organization
-  public var organization: CDAKOrganization?
+  open var organization: CDAKOrganization?
   ///Person
-  public var person: CDAKPerson?
+  open var person: CDAKPerson?
   
 
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
+  override open var description: String {
     return super.description + " person: \(person), organization: \(organization)"
   }
   
@@ -38,10 +38,10 @@ extension CDAKGuarantor {
     var dict = super.jsonDict
     
     if let organization = organization {
-      dict["organization"] = organization.jsonDict
+      dict["organization"] = organization.jsonDict as AnyObject?
     }
     if let person = person {
-      dict["person"] = person.jsonDict
+      dict["person"] = person.jsonDict as AnyObject?
     }
     
     return dict

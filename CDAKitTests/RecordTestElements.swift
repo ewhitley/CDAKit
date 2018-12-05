@@ -21,7 +21,7 @@ class TestRecord {
   //    return test_record_sequence
   //  }
   
-  func allergy(sequence: Int = 1) -> CDAKAllergy {
+  func allergy(_ sequence: Int = 1) -> CDAKAllergy {
     let _allergy = CDAKAllergy()
     _allergy.codes = CDAKCodedEntries(codeSystem: "RxNorm", code: "70618")
     _allergy.start_time = 1264529050
@@ -36,7 +36,7 @@ class TestRecord {
     return _allergy
   }
   
-  func condition(sequence: Int = 1) -> CDAKCondition {
+  func condition(_ sequence: Int = 1) -> CDAKCondition {
     let _condition = CDAKCondition()
     _condition.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "16356006")
     _condition.cause_of_death = false
@@ -48,7 +48,7 @@ class TestRecord {
     return _condition
   }
   
-  func encounter(sequence: Int = 1) -> CDAKEncounter {
+  func encounter(_ sequence: Int = 1) -> CDAKEncounter {
     let _encounter = CDAKEncounter()
     _encounter.codes = CDAKCodedEntries(codeSystem: "CPT", code: "16356006")
     _encounter.start_time = 1267322332
@@ -64,7 +64,7 @@ class TestRecord {
     return _encounter
   }
   
-  func entry(sequence: Int = 1) -> CDAKEntry {
+  func entry(_ sequence: Int = 1) -> CDAKEntry {
     let _entry = CDAKEntry()
     _entry.codes = CDAKCodedEntries(codeSystem: "CPT", code: "99201")
     _entry.start_time = 1267322332
@@ -72,7 +72,7 @@ class TestRecord {
     return _entry
   }
   
-  func medical_equipment(sequence: Int = 1) -> CDAKMedicalEquipment {
+  func medical_equipment(_ sequence: Int = 1) -> CDAKMedicalEquipment {
     let _medical_equipment = CDAKMedicalEquipment()
     _medical_equipment.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "598721")
     _medical_equipment.start_time = 1267322332
@@ -82,7 +82,7 @@ class TestRecord {
     return _medical_equipment
   }
   
-  func support(sequence: Int = 1) -> CDAKSupport {
+  func support(_ sequence: Int = 1) -> CDAKSupport {
     let _support = CDAKSupport()
     _support.given_name = "Bob"
     _support.family_name = "Loblaw"
@@ -93,7 +93,7 @@ class TestRecord {
     return _support
   }
   
-  func orderInformation(sequence: Int = 1) -> CDAKOrderInformation {
+  func orderInformation(_ sequence: Int = 1) -> CDAKOrderInformation {
     let _orderInformation = CDAKOrderInformation()
     _orderInformation.order_number = "5"
     _orderInformation.fills = 4
@@ -104,7 +104,7 @@ class TestRecord {
     return _orderInformation
   }
   
-  func fulfillment_history(sequence: Int = 1) -> CDAKFulfillmentHistory {
+  func fulfillment_history(_ sequence: Int = 1) -> CDAKFulfillmentHistory {
     let _fulfillment_history = CDAKFulfillmentHistory()
     _fulfillment_history.prescription_number = "B324"
     _fulfillment_history.dispense_date = 1267332349
@@ -115,13 +115,13 @@ class TestRecord {
     return _fulfillment_history
   }
   
-  func organization(sequence: Int = 1) -> CDAKOrganization {
+  func organization(_ sequence: Int = 1) -> CDAKOrganization {
     let _organization = CDAKOrganization()
     _organization.name = "Doctor Worm & Associates"
     return _organization
   }
   
-  func address(sequence: Int = 1) -> CDAKAddress {
+  func address(_ sequence: Int = 1) -> CDAKAddress {
     let _address = CDAKAddress()
     _address.street = ["\(sequence) Sesame Street", "Apt \(sequence)"]
     _address.city = "Bedford"
@@ -130,7 +130,7 @@ class TestRecord {
     return _address
   }
   
-  func telecom(sequence: Int = 1) -> CDAKTelecom {
+  func telecom(_ sequence: Int = 1) -> CDAKTelecom {
     let _telecom = CDAKTelecom()
     _telecom.value = String(18005555555 + sequence)
     _telecom.use = ["fax", "phone", "mobile"].randomItem()
@@ -139,7 +139,7 @@ class TestRecord {
   }
   
   //is this not supposed to be of type "CDAKEntry" ?  Maybe "CDAKCondition" ?
-  func social_history(sequence: Int = 1) -> CDAKEntry {
+  func social_history(_ sequence: Int = 1) -> CDAKEntry {
     let _social_history = CDAKEntry()
     //_social_history.type = ["SNOMED-CT": ["398705004"]] //ok, this doesn't appear to be anywhere
     //the code does seem to state pretty clearly that this is an "CDAKEntry"
@@ -149,24 +149,24 @@ class TestRecord {
     return _social_history
   }
   
-  func advance_directive(sequence: Int = 1) -> CDAKEntry {
+  func advance_directive(_ sequence: Int = 1) -> CDAKEntry {
     let _advance_directive = CDAKEntry()
     _advance_directive.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "4234322")
     
-    let components: NSDateComponents = NSDateComponents()
-    components.setValue(-1, forComponent: NSCalendarUnit.Month)
-    let date: NSDate = NSDate()
-    let newDate = NSCalendar.currentCalendar().dateByAddingComponents(components, toDate: date, options: NSCalendarOptions(rawValue: 0))
-    let month_ago = NSNumber(double: (newDate!.timeIntervalSince1970)).doubleValue
+    let components: DateComponents = DateComponents()
+    (components as NSDateComponents).setValue(-1, forComponent: NSCalendar.Unit.month)
+    let date: Date = Date()
+    let newDate = (Calendar.current as NSCalendar).date(byAdding: components, to: date, options: NSCalendar.Options(rawValue: 0))
+    let month_ago = NSNumber(value: (newDate!.timeIntervalSince1970) as Double).doubleValue
     _advance_directive.start_time = month_ago
     
-    _advance_directive.end_time = NSNumber(double: (NSDate().timeIntervalSince1970)).doubleValue
+    _advance_directive.end_time = NSNumber(value: (Date().timeIntervalSince1970)).doubleValue
     
     _advance_directive.item_description = "Go insane"
     return _advance_directive
   }
   
-  func immunization(sequence: Int = 1) -> CDAKImmunization {
+  func immunization(_ sequence: Int = 1) -> CDAKImmunization {
     let _immunization = CDAKImmunization()
     _immunization.codes = CDAKCodedEntries(codeSystem: "RxNorm", code: "854931")
     _immunization.time = 1264529050
@@ -178,13 +178,13 @@ class TestRecord {
     return _immunization
   }
   
-  func lab_result(sequence: Int = 1) -> CDAKLabResult {
+  func lab_result(_ sequence: Int = 1) -> CDAKLabResult {
     let _lab_result = CDAKLabResult()
     return _lab_result
   }
   
   
-  func medication(sequence: Int = 1) -> CDAKMedication {
+  func medication(_ sequence: Int = 1) -> CDAKMedication {
     let _medication = CDAKMedication()
     _medication.codes = CDAKCodedEntries(codeSystem: "RxNorm", code: "105075")
     _medication.item_description = "Tobacco Cessation Agent"
@@ -231,7 +231,7 @@ class TestRecord {
     return _medication
   }
   
-  func order_information(sequence: Int = 1) -> CDAKOrderInformation {
+  func order_information(_ sequence: Int = 1) -> CDAKOrderInformation {
     let _order_information = CDAKOrderInformation()
     return _order_information
   }
@@ -241,7 +241,7 @@ class TestRecord {
     return _physical_quantity_result_value
   }
   
-  func procedure(sequence: Int = 1) -> CDAKProcedure {
+  func procedure(_ sequence: Int = 1) -> CDAKProcedure {
     let _procedure = CDAKProcedure()
     _procedure.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "171055003")
     _procedure.start_time = 1257901150
@@ -251,14 +251,14 @@ class TestRecord {
     return _procedure
   }
   
-  func record(sequence: Int = 1) -> CDAKRecord {
+  func record(_ sequence: Int = 1) -> CDAKRecord {
     let _record = CDAKRecord()
     _record.encounters = [encounter()]
     
     return _record
   }
   
-  func bigger_record(sequence: Int = 1) -> CDAKRecord {
+  func bigger_record(_ sequence: Int = 1) -> CDAKRecord {
     let _bigger_record = CDAKRecord()
     for x in 1...3 {
       _bigger_record.encounters.append(encounter(x))
@@ -270,7 +270,7 @@ class TestRecord {
     return _bigger_record
   }
   
-  func vital_sign(sequence: Int = 1) -> CDAKVitalSign {
+  func vital_sign(_ sequence: Int = 1) -> CDAKVitalSign {
     let _vital_sign = CDAKVitalSign()
     _vital_sign.codes = CDAKCodedEntries(codeSystem: "SNOMED-CT", code: "225171007")
     _vital_sign.time = 1266664414

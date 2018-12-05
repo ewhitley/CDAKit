@@ -13,22 +13,22 @@ import Fuzi
 
 class CDAKImport_ProviderImportUtils {
   
-  class func extract_provider(performer: XMLElement, element_name:String = "assignedEntity") -> CDAKProvider {
+  class func extract_provider(_ performer: XMLElement, element_name:String = "assignedEntity") -> CDAKProvider {
     let provider_data = CDAKImport_CDA_ProviderImporter.extract_provider_data(performer, use_dates: false, entity_path: "./cda:\(element_name)")
     return find_or_create_provider(provider_data)
   }
 
-  class func find_or_create_provider(provider_hash: [String:Any], patient: CDAKPerson? = nil) -> CDAKProvider {
+  class func find_or_create_provider(_ provider_hash: [String:Any], patient: CDAKPerson? = nil) -> CDAKProvider {
 
     //see if we can find our provider by NPI
-    if let npi = provider_hash["npi"] as? String where npi != "" {
+    if let npi = provider_hash["npi"] as? String , npi != "" {
       if let a_provider = CDAKProvider.by_npi(npi) {
         
         return a_provider
       }
     } else {
       //if we have cda identifiers
-      if let cda_identifiers = provider_hash["cda_identifiers"] as? [CDAKCDAIdentifier] where cda_identifiers.count > 0 {
+      if let cda_identifiers = provider_hash["cda_identifiers"] as? [CDAKCDAIdentifier] , cda_identifiers.count > 0 {
         //try to find a Provider entry where the identifiers are common
         if let a_provider = CDAKGlobals.sharedInstance.CDAKProviders.filter({ p in p.cda_identifiers.filter({
           id in cda_identifiers.contains(id)
@@ -72,7 +72,7 @@ class CDAKImport_ProviderImportUtils {
     // the CDA identifier array, then written _over_ by the _real_ CDA Identifiers that the record pulls in from the XML
     // So - ordering (for the moment) matters - until I work around this in the provider NPI retrieval
     if let npi = provider_hash["npi"] {
-      provider.npi = String(npi)
+      provider.npi = String(describing: npi)
     }
     if let cda_identifiers = provider_hash["cda_identifiers"] as? [CDAKCDAIdentifier] {
       var filteredValues: [CDAKCDAIdentifier] = [CDAKCDAIdentifier]()
@@ -85,7 +85,7 @@ class CDAKImport_ProviderImportUtils {
         }
       }
       //we're APPENDING since we don't want to remove the NPI CDA identifiers
-      provider.cda_identifiers.appendContentsOf(filteredValues)
+      provider.cda_identifiers.append(contentsOf: filteredValues)
     }
     
     if let addresses = provider_hash["addresses"] as? [CDAKAddress] {
@@ -103,8 +103,8 @@ class CDAKImport_ProviderImportUtils {
   
   
   //# Returns nil if result is an empty string, block allows text munging of result if there is one
-  class func extract_data(subject: XMLElement, query: String) -> String? {
-    if let result = subject.xpath(query).first?.stringValue where result != "" {
+  class func extract_data(_ subject: XMLElement, query: String) -> String? {
+    if let result = subject.xpath(query).first?.stringValue , result != "" {
       return result
     }
     return nil

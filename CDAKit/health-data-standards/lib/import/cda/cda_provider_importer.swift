@@ -18,7 +18,7 @@ class CDAKImport_CDA_ProviderImporter {
   - parameter doc: It is expected that the root node of this document will have the "cda" namespace registered to "urn:hl7-org:v3"
   - returns: an array of providers found in the document
   */
-  class func extract_providers(doc: XMLDocument, patient:CDAKPerson? = nil) -> [CDAKProviderPerformance] {
+  class func extract_providers(_ doc: XMLDocument, patient:CDAKPerson? = nil) -> [CDAKProviderPerformance] {
     
     let performers = doc.xpath("//cda:documentationOf/cda:serviceEvent/cda:performer")
     
@@ -47,7 +47,7 @@ class CDAKImport_CDA_ProviderImporter {
     return performances
   }
   
-  class func extract_provider_data(performer:XMLElement, use_dates:Bool = true, entity_path: String = "./cda:assignedEntity") -> [String:Any] {
+  class func extract_provider_data(_ performer:XMLElement, use_dates:Bool = true, entity_path: String = "./cda:assignedEntity") -> [String:Any] {
     
     var provider_data: [String:Any] = [:]
 
@@ -115,9 +115,9 @@ class CDAKImport_CDA_ProviderImporter {
   }
   
   
-  class func extract_date(subject: XMLElement, query: String) -> Double? {
+  class func extract_date(_ subject: XMLElement, query: String) -> Double? {
     if let date = extract_data(subject, query: query) {
-      return NSDate.dateFromHDSFormattedString(date)?.timeIntervalSince1970
+      return Date.dateFromHDSFormattedString(date)?.timeIntervalSince1970
     }
     return nil
   }
@@ -125,9 +125,9 @@ class CDAKImport_CDA_ProviderImporter {
   /**
   - returns: nil if result is an empty string, block allows text munging of result if there is one
   */
-  class func extract_data(subject: XMLElement, query: String) -> String? {
+  class func extract_data(_ subject: XMLElement, query: String) -> String? {
     let result = subject.xpath(query).first?.stringValue
-    if let result = result where result != "" {
+    if let result = result , result != "" {
       return result
     }
     return nil

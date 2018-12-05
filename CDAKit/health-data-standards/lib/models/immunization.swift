@@ -10,27 +10,27 @@ import Foundation
 /**
 Record of immunization
 */
-public class CDAKImmunization: CDAKEntry {
+open class CDAKImmunization: CDAKEntry {
   
   // MARK: CDA properties
 
   ///Vaccine series number
-  public var series_number: Int? //, type: Integer
+  open var series_number: Int? //, type: Integer
   ///Reaction to vaccine
-  public var reaction: CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
+  open var reaction: CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
   ///Provider who performed administration
-  public var performer: CDAKProvider?
+  open var performer: CDAKProvider?
   ///Vaccine medication product
-  public var medication_product: CDAKMedication?
+  open var medication_product: CDAKMedication?
 
   ///Was this immunization refused by the patient?
-  public var refusal_ind: Bool? {
+  open var refusal_ind: Bool? {
     get { return negation_ind }
     set (value) { negation_ind = value }
   }
   
   ///If the patient refused the vaccine, why did they refuse?
-  public var refusal_reason: CDAKCodedEntries {
+  open var refusal_reason: CDAKCodedEntries {
     get {return negation_reason }
     set (value) {negation_reason = value}
   }
@@ -44,16 +44,16 @@ extension CDAKImmunization {
     var dict = super.jsonDict
     
     if let series_number = series_number {
-      dict["series_number"] = series_number
+      dict["series_number"] = series_number as AnyObject?
     }
     if reaction.count > 0 {
-      dict["reaction"] = reaction.codes.map({$0.jsonDict})
+      dict["reaction"] = reaction.codes.map({$0.jsonDict}) as AnyObject?
     }
     if let performer = performer {
-      dict["performer"] = performer.jsonDict
+      dict["performer"] = performer.jsonDict as AnyObject?
     }
     if let medication_product = medication_product {
-      dict["medication_product"] = medication_product.jsonDict
+      dict["medication_product"] = medication_product.jsonDict as AnyObject?
     }
     
     return dict

@@ -12,27 +12,27 @@ import Foundation
 /**
 CDA Fulfillment History
 */
-public class CDAKFulfillmentHistory: CDAKEntry {
+open class CDAKFulfillmentHistory: CDAKEntry {
   
   // MARK: CDA properties
   
   ///Prescription number
-  public var prescription_number: String? //, as: :prescription_number, type: String
+  open var prescription_number: String? //, as: :prescription_number, type: String
   ///Dispense Date
-  public var dispense_date: Double? //, as: :dispense_date, type: Integer
+  open var dispense_date: Double? //, as: :dispense_date, type: Integer
   ///Quantity dispensed
-  public var quantity_dispensed = CDAKValueAndUnit() //, as: :quantity_dispensed, type: Hash
+  open var quantity_dispensed = CDAKValueAndUnit() //, as: :quantity_dispensed, type: Hash
   ///Fill number if available
-  public var fill_number: Int? //, as: :fill_number, type: Integer
+  open var fill_number: Int? //, as: :fill_number, type: Integer
   ///Fill status
-  public var fill_status: String? //, as: :fill_status, type: String
+  open var fill_status: String? //, as: :fill_status, type: String
 
   ///Ordering provider
-  public var provider: CDAKProvider?
+  open var provider: CDAKProvider?
   
   // MARK: Health-Data-Standards Functions
   ///Offset all dates by specified double
-  override func shift_dates(date_diff: Double) {
+  override func shift_dates(_ date_diff: Double) {
     
     super.shift_dates(date_diff)
     
@@ -43,7 +43,7 @@ public class CDAKFulfillmentHistory: CDAKEntry {
   
   // MARK: Standard properties
   ///Debugging description
-  override public var description: String {
+  override open var description: String {
     return super.description + " , prescription_number: \(prescription_number), dispense_date: \(dispense_date), fill_number: \(fill_number), fill_status: \(fill_status), quantity_dispensed: \(quantity_dispensed)"
   }
 
@@ -56,22 +56,22 @@ extension CDAKFulfillmentHistory {
     var dict = super.jsonDict
     
     if let prescription_number = prescription_number {
-      dict["prescription_number"] = prescription_number
+      dict["prescription_number"] = prescription_number as AnyObject?
     }
     if quantity_dispensed.jsonDict.count > 0 {
-      dict["quantity_dispensed"] = quantity_dispensed.jsonDict
+      dict["quantity_dispensed"] = quantity_dispensed.jsonDict as AnyObject?
     }
     if let dispense_date = dispense_date {
-      dict["dispense_date"] = dispense_date
+      dict["dispense_date"] = dispense_date as AnyObject?
     }
     if let fill_number = fill_number {
-      dict["fill_number"] = fill_number
+      dict["fill_number"] = fill_number as AnyObject?
     }
     if let fill_status = fill_status {
-      dict["fill_status"] = fill_status
+      dict["fill_status"] = fill_status as AnyObject?
     }
     if let provider = provider {
-      dict["provider"] = provider.jsonDict
+      dict["provider"] = provider.jsonDict as AnyObject?
     }
     
     return dict

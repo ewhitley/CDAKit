@@ -9,18 +9,18 @@
 import Foundation
 import Mustache
 
-public class CDAKQRDAHeader {
-  public var identifier: CDAKCDAIdentifier?
-  public var authors: [CDAKQRDAAuthor] = []
-  public var custodian: CDAKQRDACustodian?
-  public var legal_authenticator: CDAKQRDALegalAuthenticator?
-  public var performers: [CDAKProvider] = []
+open class CDAKQRDAHeader {
+  open var identifier: CDAKCDAIdentifier?
+  open var authors: [CDAKQRDAAuthor] = []
+  open var custodian: CDAKQRDACustodian?
+  open var legal_authenticator: CDAKQRDALegalAuthenticator?
+  open var performers: [CDAKProvider] = []
   //FIX_ME: For now, ignore this.  This is probably coming from the record that contains the header and the performers (providers) related to this record. I'm not sure how they do this in Mongo, but I can't find any direct cases of this being explicilty populated in the header. This is really only used for QRDA3 right now, so let's just defer doing this.
-  public var time = NSDate()
+  open var time = Date()
   
   //NOTE: not originally in QRDA header.  Adding because we want to be able to vary this
-  public var confidentiality: CDAKConfidentialityCodes = .Normal
-  public var title: String?
+  open var confidentiality: CDAKConfidentialityCodes = .Normal
+  open var title: String?
 }
 
 extension CDAKQRDAHeader: CustomStringConvertible {
@@ -70,23 +70,23 @@ extension CDAKQRDAHeader: CDAKJSONExportable {
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     if let identifier = identifier {
-      dict["identifier"] = identifier.jsonDict
+      dict["identifier"] = identifier.jsonDict as AnyObject?
     }
     if authors.count > 0 {
-      dict["authors"] = authors.map({$0.jsonDict})
+      dict["authors"] = authors.map({$0.jsonDict}) as AnyObject?
     }
     if let custodian = custodian {
-      dict["custodian"] = custodian.jsonDict
+      dict["custodian"] = custodian.jsonDict as AnyObject?
     }
     if let legal_authenticator = legal_authenticator {
-      dict["legal_authenticator"] = legal_authenticator.jsonDict
+      dict["legal_authenticator"] = legal_authenticator.jsonDict as AnyObject?
     }
     if performers.count > 0 {
-      dict["performers"] = performers
+      dict["performers"] = performers as AnyObject?
     }
-    dict["time"] = time.description
+    dict["time"] = time.description as AnyObject?
     if let title = title {
-      dict["title"] = title
+      dict["title"] = title as AnyObject?
     }
     return dict
   }

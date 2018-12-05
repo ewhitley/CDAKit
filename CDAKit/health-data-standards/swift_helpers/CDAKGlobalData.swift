@@ -13,12 +13,12 @@ import Foundation
 /**
 Stores and manages all cross-record data and settings for CDA import and export
 */
-public class CDAKGlobals {
+open class CDAKGlobals {
 
   ///allows access to all global properties
-  public static let sharedInstance = CDAKGlobals()
+  open static let sharedInstance = CDAKGlobals()
   
-  private init() {
+  fileprivate init() {
     //CDAKDefaultMetadata = CDAKQRDAHeader()
     //CDAKDefaultMetadata.confidentiality = .Normal
   }
@@ -28,7 +28,7 @@ public class CDAKGlobals {
    
    If Record-specific metadata is found, that will be used instead.
   */
-  public var CDAKDefaultMetadata: CDAKQRDAHeader?
+  open var CDAKDefaultMetadata: CDAKQRDAHeader?
 
   
   /**
@@ -38,7 +38,7 @@ public class CDAKGlobals {
    
    The default value is "false."  You will need to explicitly enable this if you want to attempt to import unknown document types.
   */
-  public var attemptNonStandardCDAImport = false
+  open var attemptNonStandardCDAImport = false
   
   /**
    Returns all providers discovered during import of all records.
@@ -84,7 +84,7 @@ public class CDAKGlobals {
    
    You can inject any custom code systems and OIDs here
    */
-  public var CDAK_EXTENDED_CODE_SYSTEMS: [String:String] = CDAKCodeSystemHelper.CODE_SYSTEMS
+  open var CDAK_EXTENDED_CODE_SYSTEMS: [String:String] = CDAKCodeSystemHelper.CODE_SYSTEMS
   
 }
 

@@ -14,15 +14,15 @@ import Mustache
 /**
 Represents an Allergy entry
 */
-public class CDAKAllergy: CDAKEntry {
+open class CDAKAllergy: CDAKEntry {
 
   // MARK: CDA properties
   ///type
-  public var type: CDAKCodedEntries = CDAKCodedEntries()
+  open var type: CDAKCodedEntries = CDAKCodedEntries()
   ///reaction
-  public var reaction: CDAKEntryDetail?// = CDAKCodedEntries() //flat code list
+  open var reaction: CDAKEntryDetail?// = CDAKCodedEntries() //flat code list
   ///severity
-  public var severity: CDAKEntryDetail?// = CDAKCodedEntries() //flat code list
+  open var severity: CDAKEntryDetail?// = CDAKCodedEntries() //flat code list
   
   // MARK: - Initializers
   public init(type:CDAKCodedEntries, reaction: CDAKEntryDetail? = nil, severity: CDAKEntryDetail? = nil) {
@@ -65,7 +65,7 @@ extension CDAKAllergy {
     var dict = super.jsonDict
     
     if type.count > 0 {
-      dict["type"] = type.codes.map({$0.jsonDict})
+      dict["type"] = type.codes.map({$0.jsonDict}) as AnyObject?
     }
 //    if reaction.count > 0 {
 //      dict["reaction"] = reaction.codes.map({$0.jsonDict})
@@ -74,10 +74,10 @@ extension CDAKAllergy {
 //      dict["severity"] = severity.codes.map({$0.jsonDict})
 //    }
     if let reaction = reaction {
-      dict["reaction"] = reaction.jsonDict
+      dict["reaction"] = reaction.jsonDict as AnyObject?
     }
     if let severity = severity {
-      dict["severity"] = severity.jsonDict
+      dict["severity"] = severity.jsonDict as AnyObject?
     }
     
     return dict

@@ -12,17 +12,17 @@ import Mustache
 /**
 Represents a transfer event.  EX: "transferred to federal holding"
 */
-public class CDAKTransfer: CDAKThingWithCodes, CustomStringConvertible {
+open class CDAKTransfer: CDAKThingWithCodes, CustomStringConvertible {
   
   // MARK: CDA properties
   ///time of transfer
-  public var time: Double?
+  open var time: Double?
   ///codes that define transfer
-  public var codes = CDAKCodedEntries()
+  open var codes = CDAKCodedEntries()
 
   // MARK: Standard properties
   ///Debugging description
-  public var description : String {
+  open var description : String {
     return "CDAKTransfer => time: \(time), codes: \(codes)"
   }
 }
@@ -49,11 +49,11 @@ extension CDAKTransfer: CDAKJSONExportable {
     var dict: [String: AnyObject] = [:]
     
     if codes.count > 0 {
-      dict["codes"] = codes.codes.map({$0.jsonDict})
+      dict["codes"] = codes.codes.map({$0.jsonDict}) as AnyObject?
     }
     
     if let time = time {
-      dict["time"] = time
+      dict["time"] = time as AnyObject?
     }
     
     return dict

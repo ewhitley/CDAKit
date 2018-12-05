@@ -15,18 +15,18 @@ There is a recurring need to capture entry-like things witin an entry.  Instead 
  
  //this is probably a mistake... but we can change this later if we need to
 
- public class CDAKEntryDetail: CDAKThingWithCodes, CDAKThingWithTimes, CDAKThingWithIdentifier, CustomStringConvertible {
+ open class CDAKEntryDetail: CDAKThingWithCodes, CDAKThingWithTimes, CDAKThingWithIdentifier, CustomStringConvertible {
 
   // MARK: CDA properties
   ///A generalized "time" associated with the entry
-  public var time: Double?
+  open var time: Double?
   ///A start time associated with this entry
-  public var start_time: Double?
+  open var start_time: Double?
   ///an end time associated with this entry
-  public var end_time: Double?
+  open var end_time: Double?
 
   ///Type of CDA Entry if available
-  public var cda_identifier: CDAKCDAIdentifier? //, class_name: "CDAKCDAIdentifier", as: :cda_identifiable
+  open var cda_identifier: CDAKCDAIdentifier? //, class_name: "CDAKCDAIdentifier", as: :cda_identifiable
   
   /**
   Core coded entries that represent any "meaning" behind the entry
@@ -35,19 +35,19 @@ There is a recurring need to capture entry-like things witin an entry.  Instead 
   Like
   LOINC:12345
   */
-  public var codes: CDAKCodedEntries = CDAKCodedEntries()
+  open var codes: CDAKCodedEntries = CDAKCodedEntries()
   
 
   // MARK: Standard properties
   ///Internal object hash value
-  public var hashValue: Int {
+  open var hashValue: Int {
     //FIX_ME: - not using the hash - just using native properties
     
     var hv: Int
     
     hv = "\(codes)".hashValue
     
-    if let start_time = start_time, end_time = end_time {
+    if let start_time = start_time, let end_time = end_time {
       hv = hv ^ start_time.hashValue
       hv = hv ^ end_time.hashValue
     } else {
@@ -59,8 +59,8 @@ There is a recurring need to capture entry-like things witin an entry.  Instead 
   
   // MARK: Standard properties
   ///Debugging description
-  public var description : String {
-    return "\(self.dynamicType) => codes: \(codes), cda_identifier: \(cda_identifier), time: \(time), start_time: \(start_time), end_time: \(end_time)"
+  open var description : String {
+    return "\(type(of: self)) => codes: \(codes), cda_identifier: \(cda_identifier), time: \(time), start_time: \(start_time), end_time: \(end_time)"
   }
 
  }
@@ -96,20 +96,20 @@ extension CDAKEntryDetail: CDAKJSONExportable {
     var dict: [String: AnyObject] = [:]
     
     if codes.count > 0 {
-      dict["codes"] = codes.codes.map({$0.jsonDict})
+      dict["codes"] = codes.codes.map({$0.jsonDict}) as AnyObject?
     }
     
     if let cda_identifier = cda_identifier {
-      dict["cda_identifier"] = cda_identifier.jsonDict
+      dict["cda_identifier"] = cda_identifier.jsonDict as AnyObject?
     }
     if let time = time {
-      dict["time"] = time
+      dict["time"] = time as AnyObject?
     }
     if let start_time = start_time {
-      dict["start_time"] = start_time
+      dict["start_time"] = start_time as AnyObject?
     }
     if let end_time = end_time {
-      dict["end_time"] = end_time
+      dict["end_time"] = end_time as AnyObject?
     }
     return dict
   }

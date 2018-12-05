@@ -10,25 +10,25 @@ import Foundation
 
 
 
-extension NSDate {
+extension Date {
   
   var stringFormattedAsRFC3339: String {
-    return rfc3339formatter.stringFromDate(self)
+    return rfc3339formatter.string(from: self)
   }
   
   //http://stackoverflow.com/questions/24089999/how-do-you-create-a-swift-date-object
   //NSDate(dateString:"2014-06-06")
   //https://gist.github.com/algal/09b08515460b7bd229fa
-  class func dateFromRFC3339FormattedString(rfc3339FormattedString:String) -> NSDate?
+  static func dateFromRFC3339FormattedString(_ rfc3339FormattedString:String) -> Date?
   {
     /*
     NOTE: will replace this with a failible initializer when Apple fixes the bug
     that requires the initializer to initialize all stored properties before returning nil,
     even when this is impossible.
     */
-    if let d = rfc3339formatter.dateFromString(rfc3339FormattedString)
+    if let d = rfc3339formatter.date(from: rfc3339FormattedString)
     {
-      return NSDate(timeInterval:0,sinceDate:d)
+      return Date(timeInterval:0,since:d)
     }
     else {
       return nil
@@ -37,27 +37,27 @@ extension NSDate {
   
   
   var stringFormattedAsHDSDate: String {
-    return hdsDateformatter.stringFromDate(self).stringByReplacingOccurrencesOfString(",", withString: daySuffix(self)+",")
+    return hdsDateformatter.string(from: self).replacingOccurrences(of: ",", with: daySuffix(self)+",")
   }
 
   var stringFormattedAsHDSDateNumber: String {
-    return hdsDateNumberformatter.stringFromDate(self)
+    return hdsDateNumberformatter.string(from: self)
   }
   
-  class func dateFromHDSFormattedString(hdsFormattedString:String) -> NSDate?
+  static func dateFromHDSFormattedString(_ hdsFormattedString:String) -> Date?
   {
     //we're abusing the possible formats here
     // if we have "December 31, 2009" we're OK for date formatter
     // if we have "December 31st, 2009" then we have to rip out st, nd, rd, th day suffixes
-    if let d = hdsDateformatter.dateFromString(CDAKCommonUtility.Regex.replaceMatches("(\\d)(st|nd|rd|th)(,)", inString: hdsFormattedString, withString: "$1$3")!)
+    if let d = hdsDateformatter.date(from: CDAKCommonUtility.Regex.replaceMatches("(\\d)(st|nd|rd|th)(,)", inString: hdsFormattedString, withString: "$1$3")!)
     {
-      return NSDate(timeInterval:0,sinceDate:d)
-    } else if let d = hdsDateNumberformatter.dateFromString(hdsFormattedString) {
-      return NSDate(timeInterval: 0, sinceDate: d)
-    } else if let d = hdsDateNumberFormatterShort.dateFromString(hdsFormattedString) {
-      return NSDate(timeInterval: 0, sinceDate: d)
-    } else if let d = hdsDateNumberFormatterYearOnly.dateFromString(hdsFormattedString) {
-      return NSDate(timeInterval: 0, sinceDate: d)
+      return Date(timeInterval:0,since:d)
+    } else if let d = hdsDateNumberformatter.date(from: hdsFormattedString) {
+      return Date(timeInterval: 0, since: d)
+    } else if let d = hdsDateNumberFormatterShort.date(from: hdsFormattedString) {
+      return Date(timeInterval: 0, since: d)
+    } else if let d = hdsDateNumberFormatterYearOnly.date(from: hdsFormattedString) {
+      return Date(timeInterval: 0, since: d)
     }
     else {
       return nil
@@ -66,11 +66,11 @@ extension NSDate {
   
   //http://stackoverflow.com/questions/7416865/date-formatter-for-converting-14-sept-2011-in-14th-sept
   //http://stackoverflow.com/questions/1283045/ordinal-month-day-suffix-option-for-nsdateformatter-setdateformat
-  func daySuffix(date: NSDate) -> String {
+  func daySuffix(_ date: Date) -> String {
     //let calendar = NSCalendar.currentCalendar()
-    let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-    calendar.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-    let dayOfMonth = calendar.component(.Day, fromDate: date)
+    var calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+    calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+    let dayOfMonth = (calendar as NSCalendar).component(.day, from: date)
     switch dayOfMonth {
     case 1, 21, 31: return "st"
     case 2, 22: return "nd"
@@ -83,55 +83,55 @@ extension NSDate {
   
 }
 
-private var rfc3339formatter:NSDateFormatter = {
-  let formatter = NSDateFormatter()
+private var rfc3339formatter:DateFormatter = {
+  let formatter = DateFormatter()
   formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z"
-  formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-  formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-  formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+  formatter.timeZone = TimeZone(secondsFromGMT: 0)
+  formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+  formatter.locale = Locale(identifier: "en_US_POSIX")
   return formatter
 }()
 
 // http://apidock.com/rails/ActiveSupport/CoreExtensions/DateTime/Conversions/to_formatted_s
 // datetime.to_formatted_s(:long_ordinal)  # => "December 4th, 2007 00:00"
 // http://www.codingexplorer.com/swiftly-getting-human-readable-date-nsdateformatter/
-private var hdsDateformatter:NSDateFormatter = {
-  let formatter = NSDateFormatter()
+private var hdsDateformatter:DateFormatter = {
+  let formatter = DateFormatter()
   formatter.dateFormat = "MMMM d, yyyy HH:mm"
-  formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-  formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-  formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+  formatter.timeZone = TimeZone(secondsFromGMT: 0)
+  formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+  formatter.locale = Locale(identifier: "en_US_POSIX")
   return formatter
 }()
 
 
 //20070118061017
 //http://apidock.com/rails/Time/to_formatted_s
-private var hdsDateNumberformatter:NSDateFormatter = {
-  let formatter = NSDateFormatter()
+private var hdsDateNumberformatter:DateFormatter = {
+  let formatter = DateFormatter()
   formatter.dateFormat = "yyyyMMddHHmmss"
-  formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-  formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-  formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+  formatter.timeZone = TimeZone(secondsFromGMT: 0)
+  formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+  formatter.locale = Locale(identifier: "en_US_POSIX")
   return formatter
 }()
 //we've seen some files not following spec and failing to include HHmmss
 //200701180
-private var hdsDateNumberFormatterShort:NSDateFormatter = {
-  let formatter = NSDateFormatter()
+private var hdsDateNumberFormatterShort:DateFormatter = {
+  let formatter = DateFormatter()
   formatter.dateFormat = "yyyyMMdd"
-  formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-  formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-  formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+  formatter.timeZone = TimeZone(secondsFromGMT: 0)
+  formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+  formatter.locale = Locale(identifier: "en_US_POSIX")
   return formatter
 }()
 //as well as just years.... social history with just "1947"
 //200701180
-private var hdsDateNumberFormatterYearOnly:NSDateFormatter = {
-  let formatter = NSDateFormatter()
+private var hdsDateNumberFormatterYearOnly:DateFormatter = {
+  let formatter = DateFormatter()
   formatter.dateFormat = "yyyy"
-  formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-  formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)!
-  formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+  formatter.timeZone = TimeZone(secondsFromGMT: 0)
+  formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
+  formatter.locale = Locale(identifier: "en_US_POSIX")
   return formatter
 }()

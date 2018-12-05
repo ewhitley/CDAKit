@@ -6,7 +6,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "CDAKit"
-  s.version      = "1.0.2"
+  s.version      = "1.1.0"
   s.summary      = "CDAKit for iOS, the Open Source Clinical Document Architecture Library with HealthKit Connectivity."
   s.description  = <<-DESC
     Swift framework port of the the Ruby Health-Data-Standards GEM's C32 and C-CDA import and export functionality. Allows for bridging between CDA and HealthKit so you can integrate with an Electronic Medical Records system.
@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
     ]
   }
   s.frameworks = 'HealthKit'
-  s.dependency 'GRMustache.swift', '~> 0.11.0'
-  s.dependency 'Fuzi', '0.3.0'
-  s.dependency 'Try', '~> 1.0.0'
+  s.dependency 'GRMustache.swift', '~> 2.0.0'
+  s.dependency 'Fuzi', '~> 1.0.0'
+  s.dependency 'Try', '~> 2.0.0'
 end

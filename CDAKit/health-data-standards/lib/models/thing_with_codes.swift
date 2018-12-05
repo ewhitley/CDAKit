@@ -31,16 +31,17 @@ extension CDAKThingWithCodes {
     return convert_codes_to_s(codes)
   }
   
-  internal func convert_codes_to_s(codes: CDAKCodedEntries) -> String {
+  internal func convert_codes_to_s(_ codes: CDAKCodedEntries) -> String {
 //    return codes.map { (code_set, codes) in ("\(code_set): " + codes.map({$0.code}).joinWithSeparator(", ")) }.joinWithSeparator(" ")
-    return codes.map { (code_set, codes) in ("\(code_set): " + codes.map({$0.friendlyNarrativeDescription}).joinWithSeparator(", ")) }.joinWithSeparator(" ")
+    return codes.map { (code_set, codes) in ("\(code_set): " + codes.map({$0.friendlyNarrativeDescription}).joined(separator: ", ")) }.joined(separator: " ")
   }
   
   /**
    Will return a single code and code set if one exists in the code sets that are passed in. Returns a hash with a key of code and code_set if found, nil otherwise
   */
-  internal func preferred_code(var preferred_code_sets: [String], codes_attribute: String? = "codes", value_set_map: [CDAKCodedEntries] = []) -> CDAKCodedEntry?//[String:String]?
+  internal func preferred_code(_ preferred_code_sets: [String], codes_attribute: String? = "codes", value_set_map: [CDAKCodedEntries] = []) -> CDAKCodedEntry?//[String:String]?
   {
+    let preferred_code_sets = preferred_code_sets
 
     //FIX_ME: - likely issues here with send() and the way I'm pulling this in
     // count here doesn't really make sense relative to nil, but...
@@ -67,7 +68,7 @@ extension CDAKThingWithCodes {
       }
     }
     
-    if let code_set = Array(Set(preferred_code_sets).intersect(codes.keys)).first {
+    if let code_set = Array(Set(preferred_code_sets).intersection(codes.keys)).first {
       return codes[code_set]?.first
     }
       //code sets that this entry shares with the requested preferred code set
@@ -125,7 +126,7 @@ extension CDAKThingWithCodes {
      preferred_code_sets looks like...
      ["SOP", "Source of Payment Typology"]
   */
-  internal func translation_codes(preferred_code_sets: [String], value_set_map: [CDAKCodedEntries] = []) -> CDAKCodedEntries {
+  internal func translation_codes(_ preferred_code_sets: [String], value_set_map: [CDAKCodedEntries] = []) -> CDAKCodedEntries {
     
     var tx_codes: CDAKCodedEntries = CDAKCodedEntries()
     
@@ -151,7 +152,7 @@ extension CDAKThingWithCodes {
      - returns: all codes that are in the code set
 
   */
-  internal func codes_in_code_set(code_set: [CDAKCodedEntries]) -> CDAKCodedEntries {
+  internal func codes_in_code_set(_ code_set: [CDAKCodedEntries]) -> CDAKCodedEntries {
     var matching: CDAKCodedEntries = CDAKCodedEntries()
     
     for some_codes in code_set {
@@ -184,8 +185,8 @@ extension CDAKThingWithCodes {
   
     - parameter code_system: the code system that the code belongs to
   */
-  internal func add_code(code:Any, code_system:String, code_system_oid: String? = nil, display_name: String? = nil) {
-    let code_str = String(code)
+  internal func add_code(_ code:Any, code_system:String, code_system_oid: String? = nil, display_name: String? = nil) {
+    let code_str = String(describing: code)
     codes.addCodes(code_system, code: code_str, codeSystemOid: code_system_oid, displayName: display_name)
 
     //    let code_str = String(code)
@@ -209,7 +210,7 @@ extension CDAKThingWithCodes {
     var dict: [String: AnyObject] = [:]
     
     if codes.count > 0 {
-      dict["codes"] = codes.codes.map({$0.jsonDict})
+      dict["codes"] = codes.codes.map({$0.jsonDict}) as AnyObject?
     }
     
     return dict

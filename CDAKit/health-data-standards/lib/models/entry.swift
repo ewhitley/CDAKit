@@ -8,12 +8,32 @@
 
 import Foundation
 import Mustache
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 /**
 Root type of generic CDA Entry.  All other "entry-like" types inherit from CDAKEntry
 */
  
-public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, CDAKThingWithTimes, CDAKJSONInstantiable, CDAKThingWithIdentifier {
+open class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, CDAKThingWithTimes, CDAKJSONInstantiable, CDAKThingWithIdentifier {
   
   //Equatable, Hashable,
   
@@ -31,10 +51,10 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   Like
     LOINC:12345
   */
-  public var codes: CDAKCodedEntries = CDAKCodedEntries()
+  open var codes: CDAKCodedEntries = CDAKCodedEntries()
   
   ///Type of CDA Entry if available
-  public var cda_identifier: CDAKCDAIdentifier? //, class_name: "CDAKCDAIdentifier", as: :cda_identifiable
+  open var cda_identifier: CDAKCDAIdentifier? //, class_name: "CDAKCDAIdentifier", as: :cda_identifiable
   //FIX_ME: - I changed the class to PhysicalQuantityResultValue here
   // the test cases all made it appear we're using that and not ResultValue
   /**
@@ -44,60 +64,60 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   
   EX: Result of "Weight" is 160 lbs.
   */
-  public var values = [CDAKResultValue]() //, class_name: "ResultValue"... and yet... it wants PhysicalQuantityResultValue - but in other places... ResultValue (PhysicalQuantityResultValue is a subclass of ResultValue)
+  open var values = [CDAKResultValue]() //, class_name: "ResultValue"... and yet... it wants PhysicalQuantityResultValue - but in other places... ResultValue (PhysicalQuantityResultValue is a subclass of ResultValue)
   ///CDA Reference
-  public var references = [CDAKReference]() //
+  open var references = [CDAKReference]() //
   ///CDA Provider preference
-  public var provider_preference = [CDAKEntry]() //, class_name: "CDAKEntry"
+  open var provider_preference = [CDAKEntry]() //, class_name: "CDAKEntry"
   ///CDA patient preference
-  public var patient_preference = [CDAKEntry]() //, class_name: "CDAKEntry"
+  open var patient_preference = [CDAKEntry]() //, class_name: "CDAKEntry"
   
   ///CDA Description
-  public var item_description: String?
+  open var item_description: String?
   ///CDA specifics
-  public var specifics: String?
+  open var specifics: String?
   ///A generalized "time" associated with the entry
-  public var time: Double?
+  open var time: Double?
   ///A start time associated with this entry
-  public var start_time: Double?
+  open var start_time: Double?
   ///an end time associated with this entry
-  public var end_time: Double?
+  open var end_time: Double?
   
   ///CDA status code
-  public var status_code : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
+  open var status_code : CDAKCodedEntries = CDAKCodedEntries() //, type: Hash
   /**
   CDA moodCode.  Defaulted to "EVN"
   [Reference](http://www.cdapro.com/know/25027)
   */
-  public var mood_code: String = "EVN" //, type: String, default: "EVN"
+  open var mood_code: String = "EVN" //, type: String, default: "EVN"
   ///CDA negation indicator.  Is this a "negation" of the act?
-  public var negation_ind: Bool? = false //, as: :negation_ind, type: Boolean
+  open var negation_ind: Bool? = false //, as: :negation_ind, type: Boolean
   ///CDA negation reason
-  public var negation_reason : CDAKCodedEntries = CDAKCodedEntries()//, as: :negation_reason, type: Hash
+  open var negation_reason : CDAKCodedEntries = CDAKCodedEntries()//, as: :negation_reason, type: Hash
   ///CDA OID
-  public var oid: String? //, type: String
+  open var oid: String? //, type: String
   ///CDA Reason
-  public var reason: CDAKReason?//, type: Hash
+  open var reason: CDAKReason?//, type: Hash
   
   ///Comments support
-  public var comment: String? // not in original model, but found in some other CDAKEntry items like pregnancies
+  open var comment: String? // not in original model, but found in some other CDAKEntry items like pregnancies
   
   ///Version of entry
-  public var version: Int = 1
+  open var version: Int = 1
   ///id
-  public var id: String?
+  open var id: String?
   ///Date of entry creation
-  public var created_at = NSDate()
+  open var created_at = Date()
   ///Date of last entry update
-  public var updated_at = NSDate()
+  open var updated_at = Date()
 
   ///Allows you to provide a custom list of code set keys / tags to override the default behavior for this entry.  All entries have defined preferred code sets like "SNOMED-CT" or "LOINC", but if you use a generic CDAKEntry, none are defined.  You can use this to either completely override the default code sets supplied by the system or provide a specific set of preferred code sets for generic entries (as is required for things like an `Indication` within an `encounter` or `medication`.
-  public var explicit_preferred_code_sets : [String] = []
+  open var explicit_preferred_code_sets : [String] = []
   
   //Condition
   //method "builds" (new) object and reflects on properties (response to -> class, id)
   // any of the CDAKEntry types should have this
-  func add_reference(entry: CDAKEntry, type: String) {
+  func add_reference(_ entry: CDAKEntry, type: String) {
     let ref = CDAKReference(type: type, referenced_type: CDAKCommonUtility.classNameAsString(entry), referenced_id: entry.id, entry: entry)
     references.append(ref)
     //references.build(type: type, referenced_type: entry.class, referenced_id: entry.id)
@@ -107,7 +127,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   
   // MARK: Health-Data-Standards Functions
   ///Convert times to CDA strings
-  func times_to_s(nil_string: String = "UNK") -> String {
+  func times_to_s(_ nil_string: String = "UNK") -> String {
     
     var ret = ""
     
@@ -117,18 +137,18 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
       ret = "\(start_string) - \(end_string)"
     } else if let time = time {
       //Time.at(time).utc.to_formatted_s(:long_ordinal)
-      return NSDate(timeIntervalSince1970: Double(time)).stringFormattedAsHDSDate
+      return Date(timeIntervalSince1970: Double(time)).stringFormattedAsHDSDate
     }
     
     return ret
   }
   
   ///Convert times to CDA strings
-  class func time_to_s(input_time: Double) -> String {
+  class func time_to_s(_ input_time: Double) -> String {
     //original code
     //Time.at(input_time).utc.to_formatted_s(:long_ordinal)
     
-    let date = NSDate(timeIntervalSince1970: NSTimeInterval(input_time))
+    let date = Date(timeIntervalSince1970: TimeInterval(input_time))
     let date_string = date.stringFormattedAsHDSDate
     return date_string
     
@@ -175,7 +195,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   // I realize this is ugly - I'm trying to retain the initial code as much as possible, even where not "Swifty"
   
   ///CDA status string
-  public var status: String? {
+  open var status: String? {
   
     get { return status_legacy() }
     
@@ -218,12 +238,12 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   - parameter scalar: the value.  Anything we can convert to a String
   - parameter units: the units of the scalar value
   */
-  public func set_value(scalar: Any?, units: String?) {
+  open func set_value(_ scalar: Any?, units: String?) {
 
     var a_scalar: String?
     if let val = scalar {
       //if we have an optional, unwrap it and attempt to make it a String
-      a_scalar = String(val)
+      a_scalar = String(describing: val)
     }
     
     let pq_value = CDAKPhysicalQuantityResultValue(scalar: a_scalar, units: units)
@@ -236,7 +256,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
    - parameter code_set: array of CodedEntries. Describe the values for code sets
    - returns: true / false whether the code is in the list of desired codes
    */
-  func is_in_code_set(code_set: [CDAKCodedEntries]) -> Bool {
+  func is_in_code_set(_ code_set: [CDAKCodedEntries]) -> Bool {
     for entries in code_set {
 //      for (key, entry) in entries {
 //        if codes.findIntersectingCodes(forCodeSystem: key, matchingCodes: entry.codes)?.count > 0 {
@@ -291,7 +311,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
   
   ///Offset all dates by specified double
-  func shift_dates(date_diff: Double) {
+  func shift_dates(_ date_diff: Double) {
     if let start_time = start_time {
       self.start_time = start_time + date_diff
     }
@@ -354,17 +374,17 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
   
   ///Returns CDA identifier or fixed id if not present
-  public var identifier: AnyObject? {
+  open var identifier: AnyObject? {
     //FIX_ME: - not sure this whole "identifier" business is right here
     if let cda_identifier = cda_identifier {
       return cda_identifier
     } else {
-      return id
+      return id as AnyObject?
     }
   }
   
   ///Converts CDA identifier to string for use
-  public var identifier_as_string: String {
+  open var identifier_as_string: String {
     //FIX_ME:: this is a bad placeholder to deal with typing - I just need an "identifier" I can use as a key
     if let cda_identifier = cda_identifier {
       return cda_identifier.as_string
@@ -377,7 +397,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   
   // MARK: Standard properties
   ///Internal object hash value
-  override public var hashValue: Int {
+  override open var hashValue: Int {
     //FIX_ME: - not using the hash - just using native properties
     
     var hv: Int
@@ -387,7 +407,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
     if values.count > 0 {
       hv = hv ^ "\(values)".hashValue
     }
-    if let start_time = start_time, end_time = end_time {
+    if let start_time = start_time, let end_time = end_time {
       hv = hv ^ start_time.hashValue
       hv = hv ^ end_time.hashValue
     } else {
@@ -442,15 +462,16 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   }
   
   ///Do not use - will be removed. Was used in HDS Ruby.
-  private func initFromEventList(event: [String:Any?]) {
+  fileprivate func initFromEventList(_ event: [String:Any?]) {
     let ignore_props: [String] = ["code", "code_set", "value", "unit"]
     
     //in some cases we'll have key-value PAIRS like...
     // code_set / code
     // value / unit
     // these won't work for the single key-value entries
-    if let code = event["code"], code_set = event["code_set"] as? String {
-      add_code(code, code_system: code_set)
+    if let code = event["code"], let code_set = event["code_set"] as? String {
+      add_code(code!, code_system: code_set)
+      //- add_code(code, code_system: code_set)
     }
     
     if let value = event["value"] {
@@ -471,8 +492,8 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
   
   // MARK: Standard properties
   ///Debugging description
-  override public var description : String {
-    return "\(self.dynamicType) => codes: \(codes), cda_identifier: \(identifier_as_string), values: \(values), references: \(references), provider_preference: \(provider_preference), patient_preference: \(patient_preference), item_description: \(item_description), specifics: \(specifics), time: \(time), start_time: \(start_time), end_time: \(end_time), status_code: \(status_code), mood_code: \(mood_code), negation_ind: \(negation_ind), negation_reason: \(negation_reason), oid: \(oid), reason: \(reason), version: \(version), id: \(id), created_at: \(created_at), updated_at: \(updated_at)"
+  override open var description : String {
+    return "\(type(of: self)) => codes: \(codes), cda_identifier: \(identifier_as_string), values: \(values), references: \(references), provider_preference: \(provider_preference), patient_preference: \(patient_preference), item_description: \(item_description), specifics: \(specifics), time: \(time), start_time: \(start_time), end_time: \(end_time), status_code: \(status_code), mood_code: \(mood_code), negation_ind: \(negation_ind), negation_reason: \(negation_reason), oid: \(oid), reason: \(reason), version: \(version), id: \(id), created_at: \(created_at), updated_at: \(updated_at)"
   }
   
 }
@@ -481,7 +502,7 @@ public class CDAKEntry: NSObject , CDAKThingWithCodes, CDAKPropertyAddressable, 
 //new in Swift 2.x with NSObject
 // http://mgrebenets.github.io/swift/2015/06/21/equatable-nsobject-with-swift-2/
 extension CDAKEntry {
-  override public func isEqual(object: AnyObject?) -> Bool {
+  override open func isEqual(_ object: Any?) -> Bool {
     if let rhs = object as? CDAKEntry {
       return hashValue == rhs.hashValue && CDAKCommonUtility.classNameAsString(self) == CDAKCommonUtility.classNameAsString(rhs)
     }
@@ -502,7 +523,7 @@ extension CDAKEntry {
       return explicit_preferred_code_sets
     }
     
-    switch String(self.dynamicType) {
+    switch String(describing: type(of: self)) {
     case "CDAKAllergy": return ["RxNorm"]
     case "CDAKCareGoal": return ["SNOMED-CT"]
     case "CDAKCondition": return ["SNOMED-CT"]
@@ -572,7 +593,7 @@ extension CDAKEntry {
       
       "statusCode_code": self.status != nil && self.status! == "resolved" ? Box("completed") : Box("active"),
 
-      "myType" : Box(String(self.dynamicType)),
+      "myType" : Box(String(describing: type(of: self))),
       "preferred_code_sets": Box(self.preferred_code_sets),
       "code_display": Box(code_display),
 
@@ -588,80 +609,80 @@ extension CDAKEntry {
     ]
   }
   
-  override public var mustacheBox: MustacheBox {
+  override open var mustacheBox: MustacheBox {
     return Box(boxedValues)
   }
 }
 
-extension CDAKEntry: CDAKJSONExportable {
+extension CDAKEntry {
   // MARK: - JSON Generation
   ///Dictionary for JSON data
   public var jsonDict: [String: AnyObject] {
     var dict: [String: AnyObject] = [:]
     
     if codes.count > 0 {
-      dict["codes"] = codes.codes.map({$0.jsonDict})
+      dict["codes"] = codes.codes.map({$0.jsonDict}) as AnyObject?
     }
     
     if let cda_identifier = cda_identifier {
-      dict["cda_identifier"] = cda_identifier.jsonDict
+      dict["cda_identifier"] = cda_identifier.jsonDict as AnyObject?
     }
     if values.count > 0 {
-      dict["values"] = values.map({$0.jsonDict})
+      dict["values"] = values.map({$0.jsonDict}) as AnyObject?
     }
     if references.count > 0 {
-      dict["references"] = references.map({$0.jsonDict})
+      dict["references"] = references.map({$0.jsonDict}) as AnyObject?
     }
     if provider_preference.count > 0 {
-      dict["provider_preference"] = provider_preference.map({$0.jsonDict})
+      dict["provider_preference"] = provider_preference.map({$0.jsonDict}) as AnyObject?
     }
     if patient_preference.count > 0 {
-      dict["patient_preference"] = patient_preference.map({$0.jsonDict})
+      dict["patient_preference"] = patient_preference.map({$0.jsonDict}) as AnyObject?
     }
     if let item_description = item_description {
-      dict["description"] = item_description
+      dict["description"] = item_description as AnyObject?
     }
     if let specifics = specifics {
-      dict["specifics"] = specifics
+      dict["specifics"] = specifics as AnyObject?
     }
     if let time = time {
-      dict["time"] = time
+      dict["time"] = time as AnyObject?
     }
     if let start_time = start_time {
-      dict["start_time"] = start_time
+      dict["start_time"] = start_time as AnyObject?
     }
     if let end_time = end_time {
-      dict["end_time"] = end_time
+      dict["end_time"] = end_time as AnyObject?
     }
     
     if status_code.count > 0 {
-      dict["status_code"] = status_code.codes.map({$0.jsonDict})
+      dict["status_code"] = status_code.codes.map({$0.jsonDict}) as AnyObject?
     }
-    dict["mood_code"] = mood_code
+    dict["mood_code"] = mood_code as AnyObject?
     
     if let negation_ind = negation_ind {
-      dict["negation_ind"] = negation_ind
+      dict["negation_ind"] = negation_ind as AnyObject?
     }
     
     if negation_reason.count > 0 {
-      dict["negation_reason"] = negation_reason.codes.map({$0.jsonDict})
+      dict["negation_reason"] = negation_reason.codes.map({$0.jsonDict}) as AnyObject?
     }
     
     if let oid = oid {
-      dict["oid"] = oid
+      dict["oid"] = oid as AnyObject?
     }
     if let reason = reason {
-      dict["reason"] = reason.jsonDict
+      dict["reason"] = reason.jsonDict as AnyObject?
     }
     if let comment = comment {
-      dict["comment"] = comment
+      dict["comment"] = comment as AnyObject?
     }
-    dict["version"] = version
+    dict["version"] = version as AnyObject?
     if let id = id {
-      dict["id"] = id
+      dict["id"] = id as AnyObject?
     }
-    dict["created_at"] = created_at.description
-    dict["updated_at"] = updated_at.description
+    dict["created_at"] = created_at.description as AnyObject?
+    dict["updated_at"] = updated_at.description as AnyObject?
     
     return dict
   }
